@@ -1,7 +1,6 @@
 package com.fiesta.controller.handler;
 
 import com.fiesta.controller.Controller;
-import com.fiesta.controller.component.TestController;
 
 public class HandlerMapping {
 	private static HandlerMapping handler = new HandlerMapping();
@@ -13,9 +12,7 @@ public class HandlerMapping {
 	public Controller createController(String command) {
 		Controller controller = null;
 
-		if(command.equals("test.do")) { //주석 표시
-			controller = new TestController();
-		}
+		// 작업 영역
 
 		return controller;
 	}
