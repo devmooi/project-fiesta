@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +8,6 @@
     <title>Insert title here</title>
 </head>
 <body>
-    <h2 align="center"> ======= Fruits All Item ======= </h2><p/>
-    <a href="test.do"><h3 align="center">Show All Fruit Item Using Factory Pattern</h3></a>
+    
 </body>
 </html> 

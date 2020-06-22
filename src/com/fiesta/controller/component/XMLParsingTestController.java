@@ -28,7 +28,7 @@ public class XMLParsingTestController implements Controller {
 
 	//단위테스트
 	public static void main(String[] args) throws SQLException, ParserConfigurationException, SAXException, IOException {
-		String url = "http://localhost:8888/fiesta_data.xml";
+		String url = "WebContent/resource/xml/fiesta_data.xml";
 
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
