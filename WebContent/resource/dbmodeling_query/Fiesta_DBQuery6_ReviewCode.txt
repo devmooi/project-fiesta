@@ -1,0 +1,2 @@
+ALTER TABLE `fiesta`.`review` 
+CHANGE COLUMN `review_code` `review_code` VARCHAR(45) NOT NULL ;

@@ -218,9 +218,34 @@ public class FiestaDaoImpl {
 		return null;
 	}
 
-	public ArrayList<Company> showAllCompany() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<Review> showAllCompany() throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs =null;
+		ArrayList<Review> list = new ArrayList<Review>();
+
+		try {
+			conn=getConnection();
+			StringBuffer query = new StringBuffer();
+			query.append("SELECT c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
+			query.append("FROM company c, review r ");
+			query.append("WHERE c.com_code = r.com_code ");
+			query.append("ORDER BY c.com_code DESC");
+			ps=conn.prepareStatement(query.toString());
+			//System.out.println(query.toString());
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				list.add(new Review(rs.getInt("r.review_score"),
+						rs.getString("r.review_desc"),
+						new Company(rs.getString("c.com_name"),
+								rs.getString("c.com_img"),
+								rs.getString("c.com_desc"))));
+			}
+		}finally {
+			closeAll(rs, ps, conn);
+		}
+
+		return list;
 	}
 
 	public ArrayList<Company> showAllCompanyByCategory(Comcategory category) throws SQLException {
@@ -346,9 +371,12 @@ public class FiestaDaoImpl {
 		//dao.insertService(new Service("회사1","설명1","img","버스"));		
 		//엄체코드를 자동으로 session에서 받고 돌려야할것...  단위테스트 업체코드에 default값 없어서 못함... ㅠㅅㅠ
 		
-		
 		//dao.deleteService(3);
 		System.out.println(dao.showAllService(1));
+		
+		
+		//제영 - 단위테스트
+		System.out.println(dao.showAllCompany());
 		
 		
 		//의근 - 단위테스트

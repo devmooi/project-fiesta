@@ -1,30 +1,36 @@
 package com.fiesta.model.vo;
 
 public class Review {
-	int reviewCode;
+	String reviewCode;
 	int reviewScore;
 	String reviewImg;
 	String reviewDesc;
-	int serviceCode;
-	int comCode;
-	String custId;
-	public Review() {
-		// TODO Auto-generated constructor stub
+	Service service;
+	Company company;
+	Customer customer;
+	
+	public Review() {}
+	public Review(int reviewScore, String reviewDesc, Company company) {
+		super();
+		this.reviewScore = reviewScore;
+		this.reviewDesc = reviewDesc;
+		this.company = company;
 	}
-	public Review(int reviewCode, int reviewScore, String reviewImg, String reviewDesc, int serviceCode, int comCode,
-			String custId) {
+	public Review(String reviewCode, int reviewScore, String reviewImg, String reviewDesc, Service service,
+			Company company, Customer customer) {
 		this.reviewCode = reviewCode;
 		this.reviewScore = reviewScore;
 		this.reviewImg = reviewImg;
 		this.reviewDesc = reviewDesc;
-		this.serviceCode = serviceCode;
-		this.comCode = comCode;
-		this.custId = custId;
+		this.service = service;
+		this.company = company;
+		this.customer = customer;
 	}
-	public int getReviewCode() {
+	
+	public String getReviewCode() {
 		return reviewCode;
 	}
-	public void setReviewCode(int reviewCode) {
+	public void setReviewCode(String reviewCode) {
 		this.reviewCode = reviewCode;
 	}
 	public int getReviewScore() {
@@ -45,30 +51,29 @@ public class Review {
 	public void setReviewDesc(String reviewDesc) {
 		this.reviewDesc = reviewDesc;
 	}
-	public int getServiceCode() {
-		return serviceCode;
+	public Service getService() {
+		return service;
 	}
-	public void setServiceCode(int serviceCode) {
-		this.serviceCode = serviceCode;
+	public void setService(Service service) {
+		this.service = service;
 	}
-	public int getComCode() {
-		return comCode;
+	public Company getCompany() {
+		return company;
 	}
-	public void setComCode(int comCode) {
-		this.comCode = comCode;
+	public void setCompany(Company company) {
+		this.company = company;
 	}
-	public String getCustId() {
-		return custId;
+	public Customer getCustomer() {
+		return customer;
 	}
-	public void setCustId(String custId) {
-		this.custId = custId;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
+	
 	@Override
 	public String toString() {
 		return "Review [reviewCode=" + reviewCode + ", reviewScore=" + reviewScore + ", reviewImg=" + reviewImg
-				+ ", reviewDesc=" + reviewDesc + ", serviceCode=" + serviceCode + ", comCode=" + comCode + ", custId="
-				+ custId + "]";
+				+ ", reviewDesc=" + reviewDesc + ", service=" + service + ", company=" + company + ", customer="
+				+ customer + "]";
 	}
-	
-	
 }

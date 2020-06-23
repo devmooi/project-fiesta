@@ -26,6 +26,8 @@ CREATE TABLE company(
     com_name VARCHAR(45) NOT NULL,
     com_tel VARCHAR(45),
     com_addr VARCHAR(45),
+    com_img VARCHAR(45),
+    com_desc VARCHAR(45),
     comCategory_code INT NOT NULL
 );
 ALTER TABLE company ADD constraint fk_company foreign key(comCategory_code) references comcategory(comCategory_code) on delete cascade;
@@ -79,7 +81,7 @@ ALTER TABLE orderdetail ADD constraint fk_orderdetail_order_code foreign key(ord
 
 -- review
 CREATE TABLE review(
-	review_code INT NOT NULL PRIMARY KEY,
+	review_code VARCHAR(45) NOT NULL PRIMARY KEY,
     review_score INT,
     review_img VARCHAR(45),
     review_desc VARCHAR(45) NOT NULL,
@@ -123,6 +125,7 @@ ALTER TABLE answer ADD constraint fk_answer_com_code foreign key(com_code) refer
 ALTER TABLE answer ADD constraint fk_answer_q_code foreign key(q_code) references question(q_code) on delete cascade;
 
 
+-- company, review 부분 수정 어디인지 확인하기
 -- INSERT 부분
 INSERT INTO comcategory(comCategory_code, comCategory_desc) VALUES(01, '연예기획사');
 INSERT INTO comcategory(comCategory_code, comCategory_desc) VALUES(02, '숙소');
@@ -134,3 +137,10 @@ INSERT INTO comcategory(comCategory_code, comCategory_desc) VALUES(07, '푸드�
 INSERT INTO comcategory(comCategory_code, comCategory_desc) VALUES(08, '의류');
 INSERT INTO comcategory(comCategory_code, comCategory_desc) VALUES(09, '현수막');
 INSERT INTO comcategory(comCategory_code, comCategory_desc) VALUES(10, '협찬');
+
+INSERT INTO company(com_pass, com_id, com_name, com_tel, com_addr, com_img, com_desc, comcategory_code) 
+VALUES('2222','house1','숙소1','02-1111-5964','가평군','./resource/img/house1.jpg','최대 300명 수용 숙소',02);
+INSERT INTO service(service_name, service_desc, service_img, service_tag, com_code)
+VALUES('300명 숙소','다양한 강당, 편안한 시설','./resource/img/house1.jpg','#숙소', 1);
+INSERT INTO customer(cust_id, cust_name, cust_pass, cust_tel, cust_email, cust_group)
+VALUES('java','java','1234','010-5043-5765','encore@gmail.com','한양대 사회과학대학 학생회');

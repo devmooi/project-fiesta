@@ -1,9 +1,7 @@
 package com.fiesta.controller.handler;
 
 import com.fiesta.controller.Controller;
-import com.fiesta.controller.component.ServiceAllShowController;
-import com.fiesta.controller.component.ServiceDeleteController;
-import com.fiesta.controller.component.ServiceRegisterController;
+import com.fiesta.controller.component.*;
 
 public class HandlerMapping {
 	private static HandlerMapping handler = new HandlerMapping();
@@ -28,6 +26,8 @@ public class HandlerMapping {
 			controller = new ServiceDeleteController();
 			System.out.println("ServiceDeleteController 생성됨");
 			
+		}else if(command.equals("companylist.do")) {
+			controller = new ShowAllComanyController();
 		}
 
 		return controller;

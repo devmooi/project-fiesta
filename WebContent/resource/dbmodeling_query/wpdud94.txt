@@ -1,0 +1,29 @@
+SELECT c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc FROM company c, review r WHERE c.com_code = r.com_code
+
+INSERT comcategory VALUES(04, '숙소');
+INSERT comcategory VALUES(02, '숙소');
+
+update comcategory set comCategory_desc = '버스' where comCategory_code=2;
+
+select * from comcategory;
+select * from company;
+select * from service;
+select * from customer;
+select * from review order by com_code desc;
+
+INSERT company(com_pass, com_id, com_name, com_tel, com_addr, com_img, com_desc, comcategory_code) 
+VALUES('2222','house1','숙소1','02-1111-5964','가평군','./resource/img/house1.jpg','최대 300명 수용 숙소',02);
+
+INSERT INTO `fiesta`.`service`(`service_name`,`service_desc`,`service_img`,`service_tag`,`service_count`,`com_code`)
+VALUES('300명 숙소','다양한 강당, 편안한 시설','./resource/img/house1.jpg','#숙소',0,4);
+
+INSERT INTO `fiesta`.`customer`(`cust_id`,`cust_name`,`cust_pass`,`cust_tel`,`cust_email`,`cust_group`)
+VALUES('java','java','1234','010-5043-5765','encore@gmail.com','한양대 사회과학대학 학생회');
+
+INSERT INTO `fiesta`.`review`(`review_code`,`review_score`,`review_img`,`review_desc`,`service_code`,`com_code`,`cust_id`)
+VALUES('003',2,'./resource/img/house1.jpg','나쁨',3,4,'java');
+
+
+UPDATE `fiesta`.`service`
+SET `service_img` ='./resource/img/bus1.jpg'
+WHERE `com_code` = 2;
