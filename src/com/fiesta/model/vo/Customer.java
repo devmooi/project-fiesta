@@ -7,9 +7,8 @@ public class Customer {
 	String custTel;
 	String custEmail;
 	String custGroup;
-	public Customer() {
-		// TODO Auto-generated constructor stub
-	}
+	
+	public Customer() {}
 	public Customer(String custId, String custName, String custPass, String custTel, String custEmail,
 			String custGroup) {
 		this.custId = custId;
@@ -19,6 +18,7 @@ public class Customer {
 		this.custEmail = custEmail;
 		this.custGroup = custGroup;
 	}
+	
 	public String getCustId() {
 		return custId;
 	}
@@ -55,11 +55,10 @@ public class Customer {
 	public void setCustGroup(String custGroup) {
 		this.custGroup = custGroup;
 	}
+	
 	@Override
 	public String toString() {
 		return "Customer [custId=" + custId + ", custName=" + custName + ", custPass=" + custPass + ", custTel="
 				+ custTel + ", custEmail=" + custEmail + ", custGroup=" + custGroup + "]";
 	}
-	
-	
 }

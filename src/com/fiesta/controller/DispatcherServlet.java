@@ -31,13 +31,9 @@ public class DispatcherServlet extends HttpServlet {
 
 	protected void doProcess(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String requestURI = request.getRequestURI();
-		System.out.println("requestURI :: " + requestURI);	
-		
-		String contextPath = request.getContextPath();
-		System.out.println("contextPat ::" + contextPath);	
-		
-		String command = requestURI.substring(contextPath.length()+9);
-		System.out.println("command :: " + command);  
+		String[] requestURIList = requestURI.split("/");
+		String command = requestURIList[requestURIList.length-1];
+		System.out.println("Command :: " + command);  
 
 		Controller controller = HandlerMapping.getInstance().createController(command);
 		ModelAndView mv = controller.handle(request, response);

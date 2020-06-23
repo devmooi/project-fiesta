@@ -3,13 +3,13 @@ package com.fiesta.model.vo;
 public class Comcategory {
 	int comCategoryCode;
 	String comCategoryDesc;
-	public Comcategory() {
-		// TODO Auto-generated constructor stub
-	}
+	
+	public Comcategory() {}
 	public Comcategory(int comCategoryCode, String comCategoryDesc) {
 		this.comCategoryCode = comCategoryCode;
 		this.comCategoryDesc = comCategoryDesc;
 	}
+	
 	public int getComCategoryCode() {
 		return comCategoryCode;
 	}
@@ -22,10 +22,9 @@ public class Comcategory {
 	public void setComCategoryDesc(String comCategoryDesc) {
 		this.comCategoryDesc = comCategoryDesc;
 	}
+	
 	@Override
 	public String toString() {
 		return "Comcategory [comCategoryCode=" + comCategoryCode + ", comCategoryDesc=" + comCategoryDesc + "]";
 	}
-	
-	
 }

@@ -21,7 +21,7 @@ import com.fiesta.model.vo.Service;
 import com.fiesta.model.vo.Wish;
 import com.fiesta.util.ServerInfo;
 
-public class FiestaDaoImpl implements FiestaDao{
+public class FiestaDaoImpl {
 	private DataSource ds;
 	
 	private static FiestaDaoImpl dao = new FiestaDaoImpl();
@@ -57,28 +57,120 @@ public class FiestaDaoImpl implements FiestaDao{
 	
 	//작업 영역
 	public void registerCustomer(Customer customer) throws SQLException {
-		// TODO Auto-generated method stub
-		
+		Connection conn = null;
+		PreparedStatement ps = null;
+		try {
+			conn = getConnection();
+			String query = "INSERT INTO customer (cust_id, cust_name, cust_pass, cust_tel, cust_email, cust_group) VALUES(?,?,?,?,?,?)";
+			ps = conn.prepareStatement(query);
+			System.out.println("ps completed in registerCustomer");
+			
+			ps.setString(1, customer.getCustId());
+			ps.setString(2, customer.getCustName());
+			ps.setString(3, customer.getCustPass());
+			ps.setString(4, customer.getCustTel());
+			ps.setString(5, customer.getCustEmail());
+			ps.setString(6, customer.getCustGroup());
+			System.out.println(ps.executeUpdate()+" row register success");
+			
+		} finally {
+			closeAll(ps, conn);
+		}
 	}
 
 	public Customer loginCustomer(String id, String pass) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Customer customer = null;
+		try {
+			conn = getConnection();
+			String query = "SELECT * FROM customer WHERE cust_id=? AND cust_pass=?";
+			ps = conn.prepareStatement(query);
+			System.out.println("ps completed in loginCustomer");
+
+			ps.setString(1, id);
+			ps.setString(2, pass);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				customer = new Customer(id,
+										pass,
+										rs.getString("cust_name"),
+										rs.getString("cust_tel"),
+										rs.getString("cust_email"),
+										rs.getString("cust_group"));
+				System.out.println(id+ " login success");
+				}
+		} finally {
+			closeAll(rs, ps, conn);
+		}
+		return customer; 
 	}
 
 	public void updateCustomer(Customer customer) throws SQLException {
-		// TODO Auto-generated method stub
-		
+		Connection conn = null;
+		PreparedStatement ps = null;
+		try {
+			conn = getConnection();
+			String query = "UPDATE customer SET cust_pass=?, cust_name=?, cust_tel=? cust_email=? cust_group=? WHERE cust_id=?";
+			ps = conn.prepareStatement(query);
+			System.out.println("ps completed in updateCustomer");
+			
+			ps.setString(1, customer.getCustPass()); 
+			ps.setString(2, customer.getCustName());
+			ps.setString(3, customer.getCustTel());
+			ps.setString(4, customer.getCustEmail());
+			ps.setString(5, customer.getCustGroup());
+			ps.setString(6, customer.getCustId());
+			System.out.println(ps.executeUpdate()+" row update success");
+		} finally {
+			closeAll(ps, conn);
+		}
 	}
 
 	public void deleteCustomer(String id, String pass) throws SQLException {
-		// TODO Auto-generated method stub
-		
+		Connection conn = null;
+		PreparedStatement ps = null;
+		try {
+			conn = getConnection();
+			String query = "DELETE FROM customer WHERE cust_id=? AND cust_pass=?";
+			ps = conn.prepareStatement(query);
+			System.out.println("ps completed in deleteCustomer");
+			
+			ps.setString(1, id);
+			ps.setString(2, pass);
+			System.out.println(ps.executeUpdate()+" row delete success");
+		} finally {
+			closeAll(ps, conn);
+		}
 	}
 
 	public Customer lookupCustomer(String id) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Customer customer = null;
+		try {
+			conn = getConnection();
+			String query = "SELECT * FROM customer WHERE cust_id=?";
+			ps = conn.prepareStatement(query);
+			System.out.println("ps completed in lookupCustomer");
+			
+			ps.setString(1, id);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				customer = new Customer(id,
+							rs.getString("cust_name"),
+							rs.getString("cust_pass"),
+							rs.getString("cust_tel"),
+							rs.getString("cust_email"),
+							rs.getString("cust_group"));
+				System.out.println(id+ " lookup success");
+			}
+		} finally {
+			closeAll(rs, ps, conn);
+		}
+		return customer;
 	}
 
 	public void insertCustorder(Custorder custorder) throws SQLException {
@@ -136,10 +228,6 @@ public class FiestaDaoImpl implements FiestaDao{
 		return null;
 	}
 
-	
-	
-	
-	
 	public void insertService(Service service) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -206,10 +294,6 @@ public class FiestaDaoImpl implements FiestaDao{
 		return list;
 	}
 
-	
-	
-	
-	
 	public void insertQuestion(Question question) throws SQLException {
 		// TODO Auto-generated method stub
 		
@@ -257,6 +341,7 @@ public class FiestaDaoImpl implements FiestaDao{
 	
 	//단위테스트
 	public static void main(String[] args) throws SQLException {
+		//하경 - 단위테스트
 		FiestaDaoImpl dao=FiestaDaoImpl.getInstance();
 		//dao.insertService(new Service("회사1","설명1","img","버스"));		
 		//엄체코드를 자동으로 session에서 받고 돌려야할것...  단위테스트 업체코드에 default값 없어서 못함... ㅠㅅㅠ
@@ -264,5 +349,26 @@ public class FiestaDaoImpl implements FiestaDao{
 		
 		//dao.deleteService(3);
 		System.out.println(dao.showAllService(1));
+		
+		
+		//의근 - 단위테스트
+		// register
+		// customer = new Customer("park", "박의근", "euigeun", "01088048331", "euigeun@gmail.com", "플레이데이터");
+		// FiestaDaoImpl.getInstance().registerCustomer(customer);
+		// FiestaDaoImpl.getInstance().registerCustomer(new Customer("lee", "이보람", "0107171293", "boram@gmail.com", "concat", "플레이데이터"));
+		
+		// login
+		// FiestaDaoImpl.getInstance().loginCustomer("park", "euigeun");
+		
+		
+		// update
+		// Customer customer = new Customer("park", "이보람", "euigeun", "01088048331", "euigeun@gmail.com", "플레이데이터");
+		// FiestaDaoImpl.getInstance().updateCustomer(new Customer("park", "이보람", "euigeun", "01088048331", "euigeun@gmail.com", "플레이데이터"));
+
+		// delete
+		// FiestaDaoImpl.getInstance().deleteCustomer("park", "euigeun");
+		
+		// lookup
+		// FiestaDaoImpl.getInstance().lookupCustomer("park");
 	}
 }
