@@ -1,0 +1,328 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema fiesta
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema fiesta
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `fiesta` DEFAULT CHARACTER SET utf8 ;
+USE `fiesta` ;
+
+-- -----------------------------------------------------
+-- Table `fiesta`.`comCategory`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fiesta`.`comCategory` (
+  `comCategory_code` INT NOT NULL,
+  `comCategory_desc` VARCHAR(45) NULL,
+  PRIMARY KEY (`comCategory_code`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `fiesta`.`company`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fiesta`.`company` (
+  `com_code` INT NOT NULL AUTO_INCREMENT,
+  `com_name` VARCHAR(45) NOT NULL,
+  `com_tel` VARCHAR(45) NULL,
+  `com_addr` VARCHAR(45) NULL,
+  `comCategory_comCategory_code` INT NOT NULL,
+  PRIMARY KEY (`com_code`),
+  INDEX `fk_company_comCategory_idx` (`comCategory_comCategory_code` ASC) VISIBLE,
+  CONSTRAINT `fk_company_comCategory`
+    FOREIGN KEY (`comCategory_comCategory_code`)
+    REFERENCES `fiesta`.`comCategory` (`comCategory_code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `fiesta`.`service`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fiesta`.`service` (
+  `service_code` INT NOT NULL AUTO_INCREMENT,
+  `service_name` VARCHAR(45) NULL,
+  `service_desc` VARCHAR(45) NULL,
+  `service_img` VARCHAR(45) NULL,
+  `service_tag` VARCHAR(45) NULL,
+  `service_count` INT NULL,
+  `company_com_code` INT NOT NULL,
+  PRIMARY KEY (`service_code`, `company_com_code`),
+  INDEX `fk_service_company1_idx` (`company_com_code` ASC) VISIBLE,
+  CONSTRAINT `fk_service_company1`
+    FOREIGN KEY (`company_com_code`)
+    REFERENCES `fiesta`.`company` (`com_code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `fiesta`.`customer`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fiesta`.`customer` (
+  `cust_id` VARCHAR(45) NOT NULL,
+  `cust_name` VARCHAR(45) NOT NULL,
+  `cust_pass` VARCHAR(45) NOT NULL,
+  `cust_tel` VARCHAR(45) NOT NULL,
+  `cust_email` VARCHAR(45) NOT NULL,
+  `cust_group` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`cust_id`))
+ENGINE = InnoDB
+COMMENT = '		';
+
+
+-- -----------------------------------------------------
+-- Table `fiesta`.`order`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fiesta`.`order` (
+  `order_code` INT NOT NULL AUTO_INCREMENT,
+  `order_sysdate` DATE NOT NULL,
+  `order_revdate` VARCHAR(45) NOT NULL,
+  `order_place` VARCHAR(45) NOT NULL,
+  `order_budget` INT NULL,
+  `order_require` VARCHAR(45) NULL,
+  `order_condition` VARCHAR(45) NOT NULL,
+  `customer_cust_id` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`order_code`),
+  INDEX `fk_order_customer1_idx` (`customer_cust_id` ASC) VISIBLE,
+  CONSTRAINT `fk_order_customer1`
+    FOREIGN KEY (`customer_cust_id`)
+    REFERENCES `fiesta`.`customer` (`cust_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `fiesta`.`orderDetail`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fiesta`.`orderDetail` (
+  `detail_code` INT NOT NULL AUTO_INCREMENT,
+  `detail_totalprice` INT NOT NULL,
+  `detail_desc` VARCHAR(45) NULL,
+  `service_service_code` INT NOT NULL,
+  `service_company_com_code` INT NOT NULL,
+  `order_order_code` INT NOT NULL,
+  PRIMARY KEY (`detail_code`),
+  INDEX `fk_orderDetail_service1_idx` (`service_service_code` ASC, `service_company_com_code` ASC) VISIBLE,
+  INDEX `fk_orderDetail_order1_idx` (`order_order_code` ASC) VISIBLE,
+  CONSTRAINT `fk_orderDetail_service1`
+    FOREIGN KEY (`service_service_code` , `service_company_com_code`)
+    REFERENCES `fiesta`.`service` (`service_code` , `company_com_code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_orderDetail_order1`
+    FOREIGN KEY (`order_order_code`)
+    REFERENCES `fiesta`.`order` (`order_code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `fiesta`.`review`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fiesta`.`review` (
+  `review_code` INT NOT NULL,
+  `review_score` INT NULL,
+  `review_img` VARCHAR(45) NULL,
+  `review_desc` VARCHAR(45) NOT NULL,
+  `service_service_code` INT NOT NULL,
+  `service_company_com_code` INT NOT NULL,
+  `customer_cust_id` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`review_code`),
+  INDEX `fk_review_service1_idx` (`service_service_code` ASC, `service_company_com_code` ASC) VISIBLE,
+  INDEX `fk_review_customer1_idx` (`customer_cust_id` ASC) VISIBLE,
+  CONSTRAINT `fk_review_service1`
+    FOREIGN KEY (`service_service_code` , `service_company_com_code`)
+    REFERENCES `fiesta`.`service` (`service_code` , `company_com_code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_review_customer1`
+    FOREIGN KEY (`customer_cust_id`)
+    REFERENCES `fiesta`.`customer` (`cust_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `fiesta`.`wish`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fiesta`.`wish` (
+  `wish_code` INT NOT NULL AUTO_INCREMENT,
+  `service_service_code` INT NOT NULL,
+  `service_company_com_code` INT NOT NULL,
+  `customer_cust_id` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`wish_code`),
+  INDEX `fk_wish_service1_idx` (`service_service_code` ASC, `service_company_com_code` ASC) VISIBLE,
+  INDEX `fk_wish_customer1_idx` (`customer_cust_id` ASC) VISIBLE,
+  CONSTRAINT `fk_wish_service1`
+    FOREIGN KEY (`service_service_code` , `service_company_com_code`)
+    REFERENCES `fiesta`.`service` (`service_code` , `company_com_code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_wish_customer1`
+    FOREIGN KEY (`customer_cust_id`)
+    REFERENCES `fiesta`.`customer` (`cust_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `fiesta`.`question`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fiesta`.`question` (
+  `q_code` INT NOT NULL AUTO_INCREMENT,
+  `q_date` DATE NOT NULL,
+  `q_desc` VARCHAR(45) NOT NULL,
+  `customer_cust_id` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`q_code`),
+  INDEX `fk_question_customer1_idx` (`customer_cust_id` ASC) VISIBLE,
+  CONSTRAINT `fk_question_customer1`
+    FOREIGN KEY (`customer_cust_id`)
+    REFERENCES `fiesta`.`customer` (`cust_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `fiesta`.`answer`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fiesta`.`answer` (
+  `a_code` INT NOT NULL AUTO_INCREMENT,
+  `a_date` DATE NOT NULL,
+  `a_desc` VARCHAR(45) NOT NULL,
+  `company_com_code` INT NOT NULL,
+  `question_q_code` INT NOT NULL,
+  PRIMARY KEY (`a_code`),
+  INDEX `fk_answer_company1_idx` (`company_com_code` ASC) VISIBLE,
+  INDEX `fk_answer_question1_idx` (`question_q_code` ASC) VISIBLE,
+  CONSTRAINT `fk_answer_company1`
+    FOREIGN KEY (`company_com_code`)
+    REFERENCES `fiesta`.`company` (`com_code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_answer_question1`
+    FOREIGN KEY (`question_q_code`)
+    REFERENCES `fiesta`.`question` (`q_code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+
+
+-- alter
+ALTER TABLE `fiesta`.`company` 
+DROP FOREIGN KEY `fk_company_comCategory`;
+ALTER TABLE `fiesta`.`company` 
+CHANGE COLUMN `comCategory_comCategory_code` `comCategory_code` INT NOT NULL ;
+ALTER TABLE `fiesta`.`company` 
+ADD CONSTRAINT `fk_company_comCategory`
+  FOREIGN KEY (`comCategory_code`)
+  REFERENCES `fiesta`.`comcategory` (`comCategory_code`);
+
+ALTER TABLE `fiesta`.`order` 
+RENAME TO  `fiesta`.`custorder` ;
+
+ALTER TABLE `fiesta`.`custorder` 
+DROP FOREIGN KEY `fk_order_customer1`;
+ALTER TABLE `fiesta`.`custorder` 
+CHANGE COLUMN `customer_cust_id` `cust_id` VARCHAR(45) NOT NULL ;
+ALTER TABLE `fiesta`.`custorder` 
+ADD CONSTRAINT `fk_order_customer1`
+  FOREIGN KEY (`cust_id`)
+  REFERENCES `fiesta`.`customer` (`cust_id`);
+
+ALTER TABLE `fiesta`.`orderdetail` 
+DROP FOREIGN KEY `fk_orderDetail_order1`,
+DROP FOREIGN KEY `fk_orderDetail_service1`;
+ALTER TABLE `fiesta`.`orderdetail` 
+CHANGE COLUMN `service_service_code` `service_code` INT NOT NULL ,
+CHANGE COLUMN `service_company_com_code` `com_code` INT NOT NULL ,
+CHANGE COLUMN `order_order_code` `order_code` INT NOT NULL ;
+ALTER TABLE `fiesta`.`orderdetail` 
+ADD CONSTRAINT `fk_orderDetail_order1`
+  FOREIGN KEY (`order_code`)
+  REFERENCES `fiesta`.`custorder` (`order_code`),
+ADD CONSTRAINT `fk_orderDetail_service1`
+  FOREIGN KEY (`service_code` , `com_code`)
+  REFERENCES `fiesta`.`service` (`service_code` , `company_com_code`);
+
+ALTER TABLE `fiesta`.`question` 
+DROP FOREIGN KEY `fk_question_customer1`;
+ALTER TABLE `fiesta`.`question` 
+CHANGE COLUMN `customer_cust_id` `cust_id` VARCHAR(45) NOT NULL ;
+ALTER TABLE `fiesta`.`question` 
+ADD CONSTRAINT `fk_question_customer1`
+  FOREIGN KEY (`cust_id`)
+  REFERENCES `fiesta`.`customer` (`cust_id`);
+
+ALTER TABLE `fiesta`.`review` 
+DROP FOREIGN KEY `fk_review_customer1`,
+DROP FOREIGN KEY `fk_review_service1`;
+ALTER TABLE `fiesta`.`review` 
+CHANGE COLUMN `service_service_code` `service_code` INT NOT NULL ,
+CHANGE COLUMN `service_company_com_code` `com_code` INT NOT NULL ,
+CHANGE COLUMN `customer_cust_id` `cust_id` VARCHAR(45) NOT NULL ;
+ALTER TABLE `fiesta`.`review` 
+ADD CONSTRAINT `fk_review_customer1`
+  FOREIGN KEY (`cust_id`)
+  REFERENCES `fiesta`.`customer` (`cust_id`),
+ADD CONSTRAINT `fk_review_service1`
+  FOREIGN KEY (`service_code` , `com_code`)
+  REFERENCES `fiesta`.`service` (`service_code` , `company_com_code`);
+
+ALTER TABLE `fiesta`.`service` 
+DROP FOREIGN KEY `fk_service_company1`;
+ALTER TABLE `fiesta`.`service` 
+CHANGE COLUMN `company_com_code` `com_code` INT NOT NULL ;
+ALTER TABLE `fiesta`.`service` 
+ADD CONSTRAINT `fk_service_company1`
+  FOREIGN KEY (`com_code`)
+  REFERENCES `fiesta`.`company` (`com_code`);
+
+ALTER TABLE `fiesta`.`wish` 
+DROP FOREIGN KEY `fk_wish_customer1`,
+DROP FOREIGN KEY `fk_wish_service1`;
+ALTER TABLE `fiesta`.`wish` 
+CHANGE COLUMN `service_service_code` `service_code` INT NOT NULL ,
+CHANGE COLUMN `service_company_com_code` `com_code` INT NOT NULL ,
+CHANGE COLUMN `customer_cust_id` `cust_id` VARCHAR(45) NOT NULL ;
+ALTER TABLE `fiesta`.`wish` 
+ADD CONSTRAINT `fk_wish_customer1`
+  FOREIGN KEY (`cust_id`)
+  REFERENCES `fiesta`.`customer` (`cust_id`),
+ADD CONSTRAINT `fk_wish_service1`
+  FOREIGN KEY (`service_code` , `com_code`)
+  REFERENCES `fiesta`.`service` (`service_code` , `com_code`);
+
+ALTER TABLE `fiesta`.`answer` 
+DROP FOREIGN KEY `fk_answer_company1`,
+DROP FOREIGN KEY `fk_answer_question1`;
+ALTER TABLE `fiesta`.`answer` 
+CHANGE COLUMN `company_com_code` `com_code` INT NOT NULL ,
+CHANGE COLUMN `question_q_code` `q_code` INT NOT NULL ;
+ALTER TABLE `fiesta`.`answer` 
+ADD CONSTRAINT `fk_answer_company1`
+  FOREIGN KEY (`com_code`)
+  REFERENCES `fiesta`.`company` (`com_code`),
+ADD CONSTRAINT `fk_answer_question1`
+  FOREIGN KEY (`q_code`)
+  REFERENCES `fiesta`.`question` (`q_code`);
+
