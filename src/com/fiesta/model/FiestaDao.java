@@ -55,9 +55,9 @@ public interface FiestaDao {
 	//서비스 등록
 	void insertService(Service service) throws SQLException;
 	//서비스 삭제
-	void deleteService(String code) throws SQLException;
+	void deleteService(int code) throws SQLException;
 	//서비스 회사별 모든 조회
-	ArrayList<Service> showAllService(String companycode) throws SQLException;
+	ArrayList<Service> showAllService(int companycode) throws SQLException;
 	
 	//하경
 	//고객 문의

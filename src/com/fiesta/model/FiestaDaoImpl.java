@@ -136,21 +136,80 @@ public class FiestaDaoImpl implements FiestaDao{
 		return null;
 	}
 
+	
+	
+	
+	
 	public void insertService(Service service) throws SQLException {
-		// TODO Auto-generated method stub
+		Connection conn = null;
+		PreparedStatement ps = null;
+		try{
+			conn=  getConnection();
+			String query = "INSERT INTO service(service_name, service_desc, service_img, service_tag) VALUES(?,?,?,?)";
+			ps = conn.prepareStatement(query);
+			System.out.println("PreparedStatement 생성됨...insertService");
+			
+			ps.setString(1, service.getServiceName());
+			ps.setString(2, service.getServiceDesc());
+			ps.setString(3, service.getServiceImg());
+			ps.setString(4, service.getServiceTag());
+			//ps.setInt(5, service.getComCode());
+			
+			System.out.println(ps.executeUpdate()+" row INSERT OK!!");
+		}finally{
+			closeAll(ps, conn);
+		}
 		
 	}
 
-	public void deleteService(String code) throws SQLException {
-		// TODO Auto-generated method stub
+	public void deleteService(int code) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		try{
+			conn=  getConnection();
+			String query = "DELETE FROM service WHERE service_code=?";
+			ps = conn.prepareStatement(query);
+			System.out.println("PreparedStatement 생성됨...insertService");
+			
+			ps.setInt(1, code);
+			
+			System.out.println(ps.executeUpdate()+" row delete OK!!");
+		}finally{
+			closeAll(ps, conn);
+		}
 		
 	}
 
-	public ArrayList<Service> showAllService(String companycode) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<Service> showAllService(int companycode) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		ArrayList<Service> list = new ArrayList<>();
+		try {
+			conn = getConnection();
+			String query = "SELECT * FROM service WHERE com_code=?";
+			ps = conn.prepareStatement(query);
+			System.out.println("PreparedStatement....showAllService..");
+					
+			ps.setInt(1, companycode);
+			
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				list.add(new Service(rs.getString("service_name"), 
+									  rs.getString("service_desc"), 
+									  rs.getString("service_img"), 
+									  rs.getString("service_tag")));
+			}
+		}finally {
+			closeAll(rs, ps, conn);
+		}
+		return list;
 	}
 
+	
+	
+	
+	
 	public void insertQuestion(Question question) throws SQLException {
 		// TODO Auto-generated method stub
 		
@@ -198,6 +257,12 @@ public class FiestaDaoImpl implements FiestaDao{
 	
 	//단위테스트
 	public static void main(String[] args) throws SQLException {
+		FiestaDaoImpl dao=FiestaDaoImpl.getInstance();
+		//dao.insertService(new Service("회사1","설명1","img","버스"));		
+		//엄체코드를 자동으로 session에서 받고 돌려야할것...  단위테스트 업체코드에 default값 없어서 못함... ㅠㅅㅠ
 		
+		
+		dao.deleteService(3);
+		//System.out.println(dao.showAllService(1));
 	}
 }

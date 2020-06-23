@@ -6,20 +6,24 @@ public class Service {
 	String serviceDesc;
 	String serviceImg;
 	String serviceTag;
-	int serviceCount;
 	int comCode;
 	public Service() {
 		// TODO Auto-generated constructor stub
 	}
 	public Service(int serviceCode, String serviceName, String serviceDesc, String serviceImg, String serviceTag,
-			int serviceCount, int comCode) {
+			int comCode) {
 		this.serviceCode = serviceCode;
 		this.serviceName = serviceName;
 		this.serviceDesc = serviceDesc;
 		this.serviceImg = serviceImg;
 		this.serviceTag = serviceTag;
-		this.serviceCount = serviceCount;
 		this.comCode = comCode;
+	}
+	public Service(String serviceName, String serviceDesc, String serviceImg, String serviceTag) {
+		this.serviceName = serviceName;
+		this.serviceDesc = serviceDesc;
+		this.serviceImg = serviceImg;
+		this.serviceTag = serviceTag;
 	}
 	public int getServiceCode() {
 		return serviceCode;
@@ -51,12 +55,7 @@ public class Service {
 	public void setServiceTag(String serviceTag) {
 		this.serviceTag = serviceTag;
 	}
-	public int getServiceCount() {
-		return serviceCount;
-	}
-	public void setServiceCount(int serviceCount) {
-		this.serviceCount = serviceCount;
-	}
+	
 	public int getComCode() {
 		return comCode;
 	}
@@ -66,8 +65,7 @@ public class Service {
 	@Override
 	public String toString() {
 		return "Service [serviceCode=" + serviceCode + ", serviceName=" + serviceName + ", serviceDesc=" + serviceDesc
-				+ ", serviceImg=" + serviceImg + ", serviceTag=" + serviceTag + ", serviceCount=" + serviceCount
-				+ ", comCode=" + comCode + "]";
+				+ ", serviceImg=" + serviceImg + ", serviceTag=" + serviceTag  + ", comCode=" + comCode + "]";
 	}
 	
 	
