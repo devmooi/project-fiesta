@@ -20,7 +20,7 @@ public class ServiceAllShowController implements Controller {
 
 		ArrayList<Service> list = FiestaDaoImpl.getInstance().showAllService(companycode);
 		request.setAttribute("list", list);
-		path = "ServiceAllResult.jsp";
+		path = "ServiceAllShowResult.jsp";
 		
 
 		return new ModelAndView(path);

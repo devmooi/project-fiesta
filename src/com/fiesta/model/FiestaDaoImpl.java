@@ -262,7 +262,7 @@ public class FiestaDaoImpl implements FiestaDao{
 		//엄체코드를 자동으로 session에서 받고 돌려야할것...  단위테스트 업체코드에 default값 없어서 못함... ㅠㅅㅠ
 		
 		
-		dao.deleteService(3);
-		//System.out.println(dao.showAllService(1));
+		//dao.deleteService(3);
+		System.out.println(dao.showAllService(1));
 	}
 }
