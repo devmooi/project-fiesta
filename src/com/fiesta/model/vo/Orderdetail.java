@@ -1,0 +1,66 @@
+package com.fiesta.model.vo;
+
+public class Orderdetail {
+	int detailCode;
+	int detailTotalprice;
+	String detailDesc;
+	int serviceCode;
+	int comCode;
+	int orderCode;
+	public Orderdetail() {
+		// TODO Auto-generated constructor stub
+	}
+	public Orderdetail(int detailCode, int detailTotalprice, String detailDesc, int serviceCode, int comCode,
+			int orderCode) {
+		this.detailCode = detailCode;
+		this.detailTotalprice = detailTotalprice;
+		this.detailDesc = detailDesc;
+		this.serviceCode = serviceCode;
+		this.comCode = comCode;
+		this.orderCode = orderCode;
+	}
+	public int getDetailCode() {
+		return detailCode;
+	}
+	public void setDetailCode(int detailCode) {
+		this.detailCode = detailCode;
+	}
+	public int getDetailTotalprice() {
+		return detailTotalprice;
+	}
+	public void setDetailTotalprice(int detailTotalprice) {
+		this.detailTotalprice = detailTotalprice;
+	}
+	public String getDetailDesc() {
+		return detailDesc;
+	}
+	public void setDetailDesc(String detailDesc) {
+		this.detailDesc = detailDesc;
+	}
+	public int getServiceCode() {
+		return serviceCode;
+	}
+	public void setServiceCode(int serviceCode) {
+		this.serviceCode = serviceCode;
+	}
+	public int getComCode() {
+		return comCode;
+	}
+	public void setComCode(int comCode) {
+		this.comCode = comCode;
+	}
+	public int getOrderCode() {
+		return orderCode;
+	}
+	public void setOrderCode(int orderCode) {
+		this.orderCode = orderCode;
+	}
+	@Override
+	public String toString() {
+		return "Orderdetail [detailCode=" + detailCode + ", detailTotalprice=" + detailTotalprice + ", detailDesc="
+				+ detailDesc + ", serviceCode=" + serviceCode + ", comCode=" + comCode + ", orderCode=" + orderCode
+				+ "]";
+	}
+	
+	
+}
