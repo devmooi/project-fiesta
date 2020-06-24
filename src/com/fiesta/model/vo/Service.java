@@ -7,12 +7,17 @@ public class Service {
 	String serviceImg;
 	String serviceTag;
 	int comCode;
-	public Service() {
-		// TODO Auto-generated constructor stub
-	}
+	public Service() {}
 	public Service(int serviceCode, String serviceName, String serviceDesc, String serviceImg, String serviceTag,
 			int comCode) {
 		this.serviceCode = serviceCode;
+		this.serviceName = serviceName;
+		this.serviceDesc = serviceDesc;
+		this.serviceImg = serviceImg;
+		this.serviceTag = serviceTag;
+		this.comCode = comCode;
+	}
+	public Service(String serviceName, String serviceDesc, String serviceImg, String serviceTag, int comCode) {
 		this.serviceName = serviceName;
 		this.serviceDesc = serviceDesc;
 		this.serviceImg = serviceImg;

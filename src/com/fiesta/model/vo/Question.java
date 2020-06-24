@@ -5,11 +5,15 @@ public class Question {
 	String qDate;
 	String qDesc;
 	String custId;
-	public Question() {
-		// TODO Auto-generated constructor stub
-	}
+	
 	public Question(int qCode, String qDate, String qDesc, String custId) {
 		this.qCode = qCode;
+		this.qDate = qDate;
+		this.qDesc = qDesc;
+		this.custId = custId;
+	}
+	
+	public Question(String qDate, String qDesc, String custId) {
 		this.qDate = qDate;
 		this.qDesc = qDesc;
 		this.custId = custId;
