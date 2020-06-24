@@ -8,6 +8,7 @@
 </head>
 <body>
 	고객 가입하기
+	<!-- 비동기 필수! 암호화는 선택 -->
 	<form action="customerRegister.do">
 		
 	</form>

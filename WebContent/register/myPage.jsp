@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<!-- 회원 정보 수정과 주문 내역 페이지를 나눌지.. 고민이 되고 있음.. -->
 	<h2>회원 정보 수정</h2>
 	<!-- 업체 / 고객 구분 :  c:if  사용  -->
 	<form action="updateCustomer.do">

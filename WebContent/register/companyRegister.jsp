@@ -8,6 +8,7 @@
 </head>
 <body>
  	업체 가입하기
+ 	<!-- 비동기 필수! 암호화는 선택 -->
 	<form action="companyRegister.do">
 		
 	</form>
