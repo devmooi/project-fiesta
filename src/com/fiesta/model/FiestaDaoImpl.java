@@ -11,16 +11,7 @@ import java.util.Calendar;
 
 import javax.sql.DataSource;
 
-import com.fiesta.model.vo.Answer;
-import com.fiesta.model.vo.Comcategory;
-import com.fiesta.model.vo.Company;
-import com.fiesta.model.vo.Customer;
-import com.fiesta.model.vo.Custorder;
-import com.fiesta.model.vo.Orderdetail;
-import com.fiesta.model.vo.Question;
-import com.fiesta.model.vo.Review;
-import com.fiesta.model.vo.Service;
-import com.fiesta.model.vo.Wish;
+import com.fiesta.model.vo.*;
 import com.fiesta.util.ServerInfo;
 
 public class FiestaDaoImpl {
@@ -90,7 +81,6 @@ public class FiestaDaoImpl {
 			String query = "SELECT * FROM customer WHERE cust_id=? AND cust_pass=?";
 			ps = conn.prepareStatement(query);
 			//System.out.println("ps completed in loginCustomer");
-
 			ps.setString(1, id);
 			ps.setString(2, pass);
 			rs = ps.executeQuery();
@@ -188,7 +178,7 @@ public class FiestaDaoImpl {
 			ps.setString(2, custorder.getOrderSysdate());
 			ps.setString(3, custorder.getOrderRevdate());
 			ps.setString(4, custorder.getOrderPlace());
-			ps.setInt(5, custorder.getOrderBudget());
+			ps.setString(5, custorder.getOrderBudget());
 			ps.setString(6, custorder.getOrderRequire());
 			//ps.setString(7, custorder.getOrderCondition());
 			//ps.setString(8, custorder.getCustId());
@@ -198,50 +188,53 @@ public class FiestaDaoImpl {
 		}		
 	}
 
+	//VO 수정으로 인한 변경
 	public void insertOrderdetail(Orderdetail orderdetail) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try {
 			conn = getConnection();
-			String query = "INSERT INTO orderdetail (detail_code, detail_totalprice, detail_desc, service_code, com_code, order_code) VALUES(?,?,?,?,?,?)";
+			String query = "INSERT INTO orderdetail (detail_totalprice, detail_desc, detail_condition, request_code, com_email) VALUES(?,?,?,?,?)";
 			ps = conn.prepareStatement(query);
 			//System.out.println("ps completed in insertOrderdetail");
 			
-			ps.setInt(1, orderdetail.getDetailCode());
-			ps.setInt(2, orderdetail.getDetailTotalprice());
-			ps.setString(3, orderdetail.getDetailDesc());
-			ps.setInt(4, orderdetail.getServiceCode());
-			ps.setInt(5, orderdetail.getComCode());
-			ps.setInt(6, orderdetail.getOrderCode());
+			ps.setInt(1, orderdetail.getDetailTotalprice());
+			ps.setString(2, orderdetail.getDetailDesc());
+			ps.setString(3, orderdetail.getDetailCondition());
+			ps.setInt(4, orderdetail.getRequestCode());
+			ps.setString(5, orderdetail.getComEmail());
 			System.out.println(ps.executeUpdate()+" row insert success");
 		} finally {
 			closeAll(ps, conn);
 		}				
 	}
 	
-	public ArrayList<Custorder> showAllCustorder(String id) throws SQLException {
+	//VO 수정으로 인한 변경
+	public ArrayList<Custorder> showAllCustorder(String custEmail) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		ArrayList<Custorder> list = new ArrayList<>();
 		try {
 			conn = getConnection();
-			String query = "SELECT * FROM custorder WHERE cust_id=?";
+			String query = "SELECT * FROM custorder WHERE cust_email=?";
 			ps = conn.prepareStatement(query);
 			//System.out.println("ps completed in showAllCustorder");
 			
-			ps.setString(1, id);
+			ps.setString(1, custEmail);
 			rs = ps.executeQuery();
+			
 			while(rs.next()) {
 				list.add(new Custorder(
 									   rs.getInt("order_code"),
 									   rs.getString("order_sysdate"),
 									   rs.getString("order_revdate"),
 									   rs.getString("order_place"),
-									   rs.getInt("order_budget"),
+									   rs.getString("order_budget"),
 									   rs.getString("order_require"),
-									   rs.getString("order_condition"),
-									   id));
+									   custEmail,
+									   rs.getInt("service_code"),
+									   rs.getString("com_email")));
 			//System.out.println(id+ " showallcustorder success");
 			}
 		} finally {
@@ -279,23 +272,24 @@ public class FiestaDaoImpl {
 		return list;
 	}
 
+	//VO 수정으로 인한 변경
 	public void registerCompany(Company company) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try {
 			conn = getConnection();
-			String query = "INSERT INTO company (com_code, com_pass, com_id, com_name, com_tel, com_addr, com_img, com_desc, comCategory_code) VALUES(?,?,?,?,?,?,?,?,?)";
+			String query = "INSERT INTO company(com_email, com_pass, com_name, com_tel, com_addr, com_img, com_desc, com_count, comCategory_code) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			ps = conn.prepareStatement(query);
 			//System.out.println("ps completed in registerCompany");
 			
-			ps.setInt(1, company.getComCode());
+			ps.setString(1, company.getComEmail());
 			ps.setString(2, company.getComPass());
-			ps.setString(3, company.getComId());
-			ps.setString(4, company.getComName());
-			ps.setString(5, company.getComTel());
-			ps.setString(6, company.getComAddr());
-			ps.setString(7, company.getComImg());
-			ps.setString(8, company.getComDesc());
+			ps.setString(3, company.getComName());
+			ps.setString(4, company.getComTel());
+			ps.setString(5, company.getComAddr());
+			ps.setString(6, company.getComImg());
+			ps.setString(7, company.getComDesc());
+			ps.setInt(8, company.getComCount());
 			ps.setInt(9, company.getComCategoryCode());
 			System.out.println(ps.executeUpdate()+" row register success");
 		} finally {
@@ -303,32 +297,34 @@ public class FiestaDaoImpl {
 		}
 	}		
 
-	public Company loginCompany(String id, String pass) throws SQLException {
+	//VO 수정으로 인한 변경
+	public Company loginCompany(String comEmail, String pass) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Company company = null;
 		try {
 			conn = getConnection();
-			String query = "SELECT * FROM company WHERE com_id=? AND com_pass=?";
+			String query = "SELECT * FROM company WHERE com_email=? AND com_pass=?";
 			ps = conn.prepareStatement(query);
 			//System.out.println("ps completed in loginCompany");
 
-			ps.setString(1, id);
+			ps.setString(1, comEmail);
 			ps.setString(2, pass);
 			rs = ps.executeQuery();
 			if(rs.next()) {
 				company = new Company(
-									  rs.getInt("com_code"),
+									  comEmail,
 									  pass,
-									  id,
 									  rs.getString("com_name"),
 									  rs.getString("com_tel"),
 									  rs.getString("com_addr"),
 									  rs.getString("com_img"),
 									  rs.getString("com_desc"),
+									  rs.getInt("com_count"),
 									  rs.getInt("comCategory_code"));
 			//System.out.println(id+ " login success");
+
 				}
 		} finally {
 			closeAll(rs, ps, conn);
@@ -336,24 +332,24 @@ public class FiestaDaoImpl {
 		return company; 
 	}
 
+	//VO 수정으로 인한 변경
 	public void updateCompany(Company company) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try {
 			conn = getConnection();
-			String query = "UPDATE company SET com_pass=?, com_id=?, com_name=?, com_tel=?, com_addr=?, com_img=?, com_desc=?, comCategory_code=? WHERE com_code=?";
+			String query = "UPDATE company SET com_pass=?, com_name=?, com_tel=?, com_addr=?, com_img=?, com_desc=?, comCategory_code=? WHERE com_email=?";
 			ps = conn.prepareStatement(query);
 			//System.out.println("ps completed in updateCompany");
 			
 			ps.setString(1, company.getComPass());
-			ps.setString(2, company.getComId());
-			ps.setString(3, company.getComName());
-			ps.setString(4, company.getComTel());
-			ps.setString(5, company.getComAddr());
-			ps.setString(6, company.getComImg());
-			ps.setString(7, company.getComDesc());
-			ps.setInt(8, company.getComCategoryCode());
-			ps.setInt(9, company.getComCode());
+			ps.setString(2, company.getComName());
+			ps.setString(3, company.getComTel());
+			ps.setString(4, company.getComAddr());
+			ps.setString(5, company.getComImg());
+			ps.setString(6, company.getComDesc());
+			ps.setInt(7, company.getComCategoryCode());
+			ps.setString(8, company.getComEmail());
 			
 			System.out.println(ps.executeUpdate()+" row update success");
 		} finally {
@@ -426,29 +422,30 @@ public class FiestaDaoImpl {
 		return list;
 	}
 
-	public Company lookupCompany(String id) throws SQLException {
+	//VO 변경으로 인한 수정
+	public Company lookupCompany(String comEmail) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Company company = null;
 		try {
 			conn = getConnection();
-			String query = "SELECT * FROM company WHERE com_id=?";
+			String query = "SELECT * FROM company WHERE com_email=?";
 			ps = conn.prepareStatement(query);
 			//System.out.println("ps completed in lookupCompany");
 			
-			ps.setString(1, id);
+			ps.setString(1, comEmail);
 			rs = ps.executeQuery();
 			if(rs.next()) {
 				company = new Company(
-									  rs.getInt("com_code"),
+									  comEmail,
 									  rs.getString("com_pass"),
-									  id,
 									  rs.getString("com_name"),
 									  rs.getString("com_tel"),
 									  rs.getString("com_addr"),
 									  rs.getString("com_img"),
 									  rs.getString("com_desc"),
+									  rs.getInt("com_count"),
 									  rs.getInt("comCategory_code"));
 			//System.out.println(id+ " lookup success");
 			}
@@ -776,12 +773,13 @@ public class FiestaDaoImpl {
 		return list;
 	}
 	
+	//VO 변경으로 인한 수정
 	public void insertService(Service service) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try{
 			conn=  getConnection();
-			String query = "INSERT INTO service(service_name, service_desc, service_img, service_tag, com_code) VALUES(?,?,?,?,?)";
+			String query = "INSERT INTO service(service_name, service_desc, service_img, service_tag, com_email) VALUES(?,?,?,?,?)";
 			ps = conn.prepareStatement(query);
 			System.out.println("PreparedStatement 생성됨...insertService");
 			
@@ -789,7 +787,7 @@ public class FiestaDaoImpl {
 			ps.setString(2, service.getServiceDesc());
 			ps.setString(3, service.getServiceImg());
 			ps.setString(4, service.getServiceTag());
-			ps.setInt(5, service.getComCode());
+			ps.setString(5, service.getComEmail());
 			
 			System.out.println(ps.executeUpdate()+" row INSERT OK!!");
 		}finally{

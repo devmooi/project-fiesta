@@ -4,3 +4,5 @@ CHANGE COLUMN `q_date` `q_date` DATETIME NOT NULL ;
 
 ALTER TABLE `fiesta`.`question` 
 CHANGE COLUMN `q_condition` `q_condition` VARCHAR(45) NULL DEFAULT '답변대기' ;
+
+=================================================================================== 완료

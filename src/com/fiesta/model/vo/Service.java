@@ -6,24 +6,24 @@ public class Service {
 	String serviceDesc;
 	String serviceImg;
 	String serviceTag;
-	int comCode;
+	String comEmail;
 	
 	public Service() {}
 	public Service(int serviceCode, String serviceName, String serviceDesc, String serviceImg, String serviceTag,
-			int comCode) {
+			String comEmail) {
 		this.serviceCode = serviceCode;
 		this.serviceName = serviceName;
 		this.serviceDesc = serviceDesc;
 		this.serviceImg = serviceImg;
 		this.serviceTag = serviceTag;
-		this.comCode = comCode;
+		this.comEmail = comEmail;
 	}
-	public Service(String serviceName, String serviceDesc, String serviceImg, String serviceTag, int comCode) {
+	public Service(String serviceName, String serviceDesc, String serviceImg, String serviceTag, String comEmail) {
 		this.serviceName = serviceName;
 		this.serviceDesc = serviceDesc;
 		this.serviceImg = serviceImg;
 		this.serviceTag = serviceTag;
-		this.comCode = comCode;
+		this.comEmail = comEmail;
 	}
 	public Service(String serviceName, String serviceDesc, String serviceImg, String serviceTag) {
 		this.serviceName = serviceName;
@@ -62,17 +62,17 @@ public class Service {
 	public void setServiceTag(String serviceTag) {
 		this.serviceTag = serviceTag;
 	}
-	
-	public int getComCode() {
-		return comCode;
+	public String getComEmail() {
+		return comEmail;
 	}
-	public void setComCode(int comCode) {
-		this.comCode = comCode;
+	public void setComEmail(String comEmail) {
+		this.comEmail = comEmail;
 	}
 	
 	@Override
 	public String toString() {
 		return "Service [serviceCode=" + serviceCode + ", serviceName=" + serviceName + ", serviceDesc=" + serviceDesc
-				+ ", serviceImg=" + serviceImg + ", serviceTag=" + serviceTag  + ", comCode=" + comCode + "]";
+				+ ", serviceImg=" + serviceImg + ", serviceTag=" + serviceTag + ", comEmail=" + comEmail + "]";
 	}
+
 }

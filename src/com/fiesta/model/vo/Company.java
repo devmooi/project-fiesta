@@ -1,14 +1,14 @@
 package com.fiesta.model.vo;
 
 public class Company {
-	int comCode;
+	String comEmail;
 	String comPass;
-	String comId;
 	String comName;
 	String comTel;
 	String comAddr;
 	String comImg;
 	String comDesc;
+	int comCount;
 	int comCategoryCode;
 	
 	public Company() {}
@@ -18,36 +18,30 @@ public class Company {
 		this.comImg = comimg;
 		this.comDesc = comdesc;
 	}
-	public Company(int comCode, String comPass, String comId, String comName, String comTel, String comAddr,
-			String comImg, String comDesc, int comCategoryCode) {
-		this.comCode = comCode;
+	public Company(String comEmail, String comPass, String comName, String comTel, String comAddr, String comImg,
+			String comDesc, int comCount, int comCategoryCode) {
+		this.comEmail = comEmail;
 		this.comPass = comPass;
-		this.comId = comId;
 		this.comName = comName;
 		this.comTel = comTel;
 		this.comAddr = comAddr;
 		this.comImg = comImg;
 		this.comDesc = comDesc;
+		this.comCount = comCount;
 		this.comCategoryCode = comCategoryCode;
 	}
 	
-	public int getComCode() {
-		return comCode;
+	public String getComEmail() {
+		return comEmail;
 	}
-	public void setComCode(int comCode) {
-		this.comCode = comCode;
+	public void setComEmail(String comEmail) {
+		this.comEmail = comEmail;
 	}
 	public String getComPass() {
 		return comPass;
 	}
 	public void setComPass(String comPass) {
 		this.comPass = comPass;
-	}
-	public String getComId() {
-		return comId;
-	}
-	public void setComId(String comId) {
-		this.comId = comId;
 	}
 	public String getComName() {
 		return comName;
@@ -79,6 +73,12 @@ public class Company {
 	public void setComDesc(String comDesc) {
 		this.comDesc = comDesc;
 	}
+	public int getComCount() {
+		return comCount;
+	}
+	public void setComCount(int comCount) {
+		this.comCount = comCount;
+	}
 	public int getComCategoryCode() {
 		return comCategoryCode;
 	}
@@ -88,8 +88,8 @@ public class Company {
 	
 	@Override
 	public String toString() {
-		return "Company [comCode=" + comCode + ", comPass=" + comPass + ", comId=" + comId + ", comName=" + comName
-				+ ", comTel=" + comTel + ", comAddr=" + comAddr + ", comImg=" + comImg + ", comDesc=" + comDesc
+		return "Company [comEmail=" + comEmail + ", comPass=" + comPass + ", comName=" + comName + ", comTel=" + comTel
+				+ ", comAddr=" + comAddr + ", comImg=" + comImg + ", comDesc=" + comDesc + ", comCount=" + comCount
 				+ ", comCategoryCode=" + comCategoryCode + "]";
-	}
+	}	
 }

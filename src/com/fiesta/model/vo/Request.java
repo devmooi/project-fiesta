@@ -1,0 +1,83 @@
+package com.fiesta.model.vo;
+
+public class Request {
+	int requestCode;
+	String requestSysdate;
+	String requestRevdate;
+	String requestPlace;
+	String requestBudget;
+	String requestRequire;
+	String requestFiesta;
+	String custEmail;
+	
+	public Request() {}
+	public Request(int requestCode, String requestSysdate, String requestRevdate, String requestPlace,
+			String requestBudget, String requestRequire, String requestFiesta, String custEmail) {
+		this.requestCode = requestCode;
+		this.requestSysdate = requestSysdate;
+		this.requestRevdate = requestRevdate;
+		this.requestPlace = requestPlace;
+		this.requestBudget = requestBudget;
+		this.requestRequire = requestRequire;
+		this.requestFiesta = requestFiesta;
+		this.custEmail = custEmail;
+	}
+	
+	public int getRequestCode() {
+		return requestCode;
+	}
+	public void setRequestCode(int requestCode) {
+		this.requestCode = requestCode;
+	}
+	public String getRequestSysdate() {
+		return requestSysdate;
+	}
+	public void setRequestSysdate(String requestSysdate) {
+		this.requestSysdate = requestSysdate;
+	}
+	public String getRequestRevdate() {
+		return requestRevdate;
+	}
+	public void setRequestRevdate(String requestRevdate) {
+		this.requestRevdate = requestRevdate;
+	}
+	public String getRequestPlace() {
+		return requestPlace;
+	}
+	public void setRequestPlace(String requestPlace) {
+		this.requestPlace = requestPlace;
+	}
+	public String getRequestBudget() {
+		return requestBudget;
+	}
+	public void setRequestBudget(String requestBudget) {
+		this.requestBudget = requestBudget;
+	}
+	public String getRequestRequire() {
+		return requestRequire;
+	}
+	public void setRequestRequire(String requestRequire) {
+		this.requestRequire = requestRequire;
+	}
+	public String getRequestFiesta() {
+		return requestFiesta;
+	}
+	public void setRequestFiesta(String requestFiesta) {
+		this.requestFiesta = requestFiesta;
+	}
+	public String getCustEmail() {
+		return custEmail;
+	}
+	public void setCustEmail(String custEmail) {
+		this.custEmail = custEmail;
+	}
+	
+	@Override
+	public String toString() {
+		return "Request [requestCode=" + requestCode + ", requestSysdate=" + requestSysdate + ", requestRevdate="
+				+ requestRevdate + ", requestPlace=" + requestPlace + ", requestBudget=" + requestBudget
+				+ ", requestRequire=" + requestRequire + ", requestFiesta=" + requestFiesta + ", custEmail=" + custEmail
+				+ "]";
+	}
+	
+}

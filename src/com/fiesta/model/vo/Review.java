@@ -5,9 +5,9 @@ public class Review {
 	int reviewScore;
 	String reviewImg;
 	String reviewDesc;
+	Customer customer;
 	Service service;
 	Company company;
-	Customer customer;
 	
 	public Review() {}
 	public Review(int reviewScore, String reviewDesc, Company company) {

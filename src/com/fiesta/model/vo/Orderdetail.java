@@ -5,64 +5,74 @@ public class Orderdetail {
 	int detailTotalprice;
 	String detailDesc;
 	String detailCondition;
-	int serviceCode;
-	int comCode;
-	int orderCode;
+	int requestCode;
+	String comEmail;
 	
 	public Orderdetail() {}
-	public Orderdetail(int detailCode, int detailTotalprice, String detailDesc, String detailCondition, int serviceCode,
-			int comCode, int orderCode) {
-		super();
+
+	public Orderdetail(int detailCode, int detailTotalprice, String detailDesc, String detailCondition, int requestCode,
+			String comEmail) {
 		this.detailCode = detailCode;
 		this.detailTotalprice = detailTotalprice;
 		this.detailDesc = detailDesc;
 		this.detailCondition = detailCondition;
-		this.serviceCode = serviceCode;
-		this.comCode = comCode;
-		this.orderCode = orderCode;
+		this.requestCode = requestCode;
+		this.comEmail = comEmail;
 	}
 
 	public int getDetailCode() {
 		return detailCode;
 	}
+
 	public void setDetailCode(int detailCode) {
 		this.detailCode = detailCode;
 	}
+
 	public int getDetailTotalprice() {
 		return detailTotalprice;
 	}
+
 	public void setDetailTotalprice(int detailTotalprice) {
 		this.detailTotalprice = detailTotalprice;
 	}
+
 	public String getDetailDesc() {
 		return detailDesc;
 	}
+
 	public void setDetailDesc(String detailDesc) {
 		this.detailDesc = detailDesc;
 	}
-	public int getServiceCode() {
-		return serviceCode;
+
+	public String getDetailCondition() {
+		return detailCondition;
 	}
-	public void setServiceCode(int serviceCode) {
-		this.serviceCode = serviceCode;
+
+	public void setDetailCondition(String detailCondition) {
+		this.detailCondition = detailCondition;
 	}
-	public int getComCode() {
-		return comCode;
+
+	public int getRequestCode() {
+		return requestCode;
 	}
-	public void setComCode(int comCode) {
-		this.comCode = comCode;
+
+	public void setRequestCode(int requestCode) {
+		this.requestCode = requestCode;
 	}
-	public int getOrderCode() {
-		return orderCode;
+
+	public String getComEmail() {
+		return comEmail;
 	}
-	public void setOrderCode(int orderCode) {
-		this.orderCode = orderCode;
+
+	public void setComEmail(String comEmail) {
+		this.comEmail = comEmail;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Orderdetail [detailCode=" + detailCode + ", detailTotalprice=" + detailTotalprice + ", detailDesc="
-				+ detailDesc + ", serviceCode=" + serviceCode + ", comCode=" + comCode + ", orderCode=" + orderCode
-				+ "]";
+				+ detailDesc + ", detailCondition=" + detailCondition + ", requestCode=" + requestCode + ", comEmail="
+				+ comEmail + "]";
 	}
+	
 }
