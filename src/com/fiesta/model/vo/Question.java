@@ -5,21 +5,25 @@ public class Question {
 	String qDate;
 	String qTitle;
 	String qDesc;
+	String qCondition;
 	String custEmail;
 	
 	public Question() {}
-	public Question(int qCode, String qDate, String qTitle, String qDesc, String custEmail) {
+	public Question(int qCode, String qDate, String qTitle, String qDesc, String qCondition, String custEmail) {
 		this.qCode = qCode;
 		this.qDate = qDate;
 		this.qTitle = qTitle;
 		this.qDesc = qDesc;
+		this.qCondition = qCondition;
 		this.custEmail = custEmail;
 	}
-	public Question(int qCode, String qDate, String qTitle, String qDesc) {
+	public Question(int qCode, String qDate, String qTitle, String qDesc, String qCondition) {
 		this.qCode = qCode;
 		this.qDate = qDate;
 		this.qTitle = qTitle;
 		this.qDesc = qDesc;
+		this.qCondition = qCondition;
+		
 	}
 
 	public int getqCode() {
@@ -62,10 +66,18 @@ public class Question {
 		this.custEmail = custEmail;
 	}
 
+	public String getqCondition() {
+		return qCondition;
+	}
+	public void setqCondition(String qCondition) {
+		this.qCondition = qCondition;
+	}
 	@Override
 	public String toString() {
 		return "Question [qCode=" + qCode + ", qDate=" + qDate + ", qTitle=" + qTitle + ", qDesc=" + qDesc
-				+ ", custEmail=" + custEmail + "]";
+				+ ", qCondition=" + qCondition + ", custEmail=" + custEmail + "]";
 	}
+
+	
 	
 }
