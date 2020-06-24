@@ -63,7 +63,7 @@ public class FiestaDaoImpl {
 			conn = getConnection();
 			String query = "INSERT INTO customer (cust_id, cust_name, cust_pass, cust_tel, cust_email, cust_group) VALUES(?,?,?,?,?,?)";
 			ps = conn.prepareStatement(query);
-			System.out.println("ps completed in registerCustomer");
+			//System.out.println("ps completed in registerCustomer");
 			
 			ps.setString(1, customer.getCustId());
 			ps.setString(2, customer.getCustName());
@@ -87,7 +87,7 @@ public class FiestaDaoImpl {
 			conn = getConnection();
 			String query = "SELECT * FROM customer WHERE cust_id=? AND cust_pass=?";
 			ps = conn.prepareStatement(query);
-			System.out.println("ps completed in loginCustomer");
+			//System.out.println("ps completed in loginCustomer");
 
 			ps.setString(1, id);
 			ps.setString(2, pass);
@@ -99,7 +99,7 @@ public class FiestaDaoImpl {
 										rs.getString("cust_tel"),
 										rs.getString("cust_email"),
 										rs.getString("cust_group"));
-				System.out.println(id+ " login success");
+			//System.out.println(id+ " login success");
 				}
 		} finally {
 			closeAll(rs, ps, conn);
@@ -112,9 +112,9 @@ public class FiestaDaoImpl {
 		PreparedStatement ps = null;
 		try {
 			conn = getConnection();
-			String query = "UPDATE customer SET cust_pass=?, cust_name=?, cust_tel=? cust_email=? cust_group=? WHERE cust_id=?";
+			String query = "UPDATE customer SET cust_pass=?, cust_name=?, cust_tel=?, cust_email=?, cust_group=? WHERE cust_id=?";
 			ps = conn.prepareStatement(query);
-			System.out.println("ps completed in updateCustomer");
+			//System.out.println("ps completed in updateCustomer");
 			
 			ps.setString(1, customer.getCustPass()); 
 			ps.setString(2, customer.getCustName());
@@ -135,7 +135,7 @@ public class FiestaDaoImpl {
 			conn = getConnection();
 			String query = "DELETE FROM customer WHERE cust_id=? AND cust_pass=?";
 			ps = conn.prepareStatement(query);
-			System.out.println("ps completed in deleteCustomer");
+			//System.out.println("ps completed in deleteCustomer");
 			
 			ps.setString(1, id);
 			ps.setString(2, pass);
@@ -154,7 +154,7 @@ public class FiestaDaoImpl {
 			conn = getConnection();
 			String query = "SELECT * FROM customer WHERE cust_id=?";
 			ps = conn.prepareStatement(query);
-			System.out.println("ps completed in lookupCustomer");
+			//System.out.println("ps completed in lookupCustomer");
 			
 			ps.setString(1, id);
 			rs = ps.executeQuery();
@@ -165,7 +165,7 @@ public class FiestaDaoImpl {
 							rs.getString("cust_tel"),
 							rs.getString("cust_email"),
 							rs.getString("cust_group"));
-				System.out.println(id+ " lookup success");
+			//System.out.println(id+ " lookup success");
 			}
 		} finally {
 			closeAll(rs, ps, conn);
@@ -174,48 +174,238 @@ public class FiestaDaoImpl {
 	}
 
 	public void insertCustorder(Custorder custorder) throws SQLException {
-		// TODO Auto-generated method stub
-		
+		Connection conn = null;
+		PreparedStatement ps = null;
+		try {
+			conn = getConnection();
+			String query = "INSERT INTO custorder (order_code, order_sysdate, order_revdate, order_place, order_budget, order_require, order_condition, cust_id) VALUES(?,?,?,?,?,?,?,?)";
+			ps = conn.prepareStatement(query);
+			//System.out.println("ps completed in insertCustorder");
+			
+			ps.setInt(1, custorder.getOrderCode());
+			ps.setString(2, custorder.getOrderSysdate());
+			ps.setString(3, custorder.getOrderRevdate());
+			ps.setString(4, custorder.getOrderPlace());
+			ps.setInt(5, custorder.getOrderBudget());
+			ps.setString(6, custorder.getOrderRequire());
+			ps.setString(7, custorder.getOrderCondition());
+			ps.setString(8, custorder.getCustId());
+			System.out.println(ps.executeUpdate()+" row insert success");
+		} finally {
+			closeAll(ps, conn);
+		}		
 	}
 
 	public void insertOrderdetail(Orderdetail orderdetail) throws SQLException {
-		// TODO Auto-generated method stub
-		
+		Connection conn = null;
+		PreparedStatement ps = null;
+		try {
+			conn = getConnection();
+			String query = "INSERT INTO orderdetail (detail_code, detail_totalprice, detail_desc, service_code, com_code, order_code) VALUES(?,?,?,?,?,?)";
+			ps = conn.prepareStatement(query);
+			//System.out.println("ps completed in insertOrderdetail");
+			
+			ps.setInt(1, orderdetail.getDetailCode());
+			ps.setInt(2, orderdetail.getDetailTotalprice());
+			ps.setString(3, orderdetail.getDetailDesc());
+			ps.setInt(4, orderdetail.getServiceCode());
+			ps.setInt(5, orderdetail.getComCode());
+			ps.setInt(6, orderdetail.getOrderCode());
+			System.out.println(ps.executeUpdate()+" row insert success");
+		} finally {
+			closeAll(ps, conn);
+		}				
 	}
-
+	
 	public ArrayList<Custorder> showAllCustorder(String id) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		ArrayList<Custorder> list = new ArrayList<>();
+		try {
+			conn = getConnection();
+			String query = "SELECT * FROM custorder WHERE cust_id=?";
+			ps = conn.prepareStatement(query);
+			//System.out.println("ps completed in showAllCustorder");
+			
+			ps.setString(1, id);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				list.add(new Custorder(
+									   rs.getInt("order_code"),
+									   rs.getString("order_sysdate"),
+									   rs.getString("order_revdate"),
+									   rs.getString("order_place"),
+									   rs.getInt("order_budget"),
+									   rs.getString("order_require"),
+									   rs.getString("order_condition"),
+									   id));
+			//System.out.println(id+ " showallcustorder success");
+			}
+		} finally {
+			closeAll(rs, ps, conn);
+		}
+		return list;
 	}
 
 	public ArrayList<Orderdetail> showAllOrderdetail(String id) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		ArrayList<Orderdetail> list = new ArrayList<>();
+		try {
+			conn = getConnection();
+			String query = "SELECT * FROM orderdetail WHERE order_code=?";
+			ps = conn.prepareStatement(query);
+			System.out.println("ps completed in showAllOrderdetail");
+			
+			ps.setString(1, id);
+			rs = ps.executeQuery();
+			/*while(rs.next()) {
+				list.add(new Orderdetail(
+									   rs.getInt("detail_code"),
+									   rs.getInt("detail_totalprice"),
+									   rs.getString("detail_desc"),
+									   rs.getInt("service_code"),
+									   rs.getInt("com_code")
+									   id));
+			System.out.println(id+ " showallorderdetail success");
+			}*/
+		} finally {
+			closeAll(rs, ps, conn);
+		}
+		return list;
 	}
 
 	public void registerCompany(Company company) throws SQLException {
-		// TODO Auto-generated method stub
-		
-	}
+		Connection conn = null;
+		PreparedStatement ps = null;
+		try {
+			conn = getConnection();
+			String query = "INSERT INTO company (com_code, com_pass, com_id, com_name, com_tel, com_addr, com_img, com_desc, comCategory_code) VALUES(?,?,?,?,?,?,?,?,?)";
+			ps = conn.prepareStatement(query);
+			//System.out.println("ps completed in registerCompany");
+			
+			ps.setInt(1, company.getComCode());
+			ps.setString(2, company.getComPass());
+			ps.setString(3, company.getComId());
+			ps.setString(4, company.getComName());
+			ps.setString(5, company.getComTel());
+			ps.setString(6, company.getComAddr());
+			ps.setString(7, company.getComImg());
+			ps.setString(8, company.getComDesc());
+			ps.setInt(9, company.getComCategoryCode());
+			System.out.println(ps.executeUpdate()+" row register success");
+		} finally {
+			closeAll(ps, conn);
+		}
+	}		
 
 	public Company loginCompany(String id, String pass) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Company company = null;
+		try {
+			conn = getConnection();
+			String query = "SELECT * FROM company WHERE com_id=? AND com_pass=?";
+			ps = conn.prepareStatement(query);
+			//System.out.println("ps completed in loginCompany");
+
+			ps.setString(1, id);
+			ps.setString(2, pass);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				company = new Company(
+									  rs.getInt("com_code"),
+									  pass,
+									  id,
+									  rs.getString("com_name"),
+									  rs.getString("com_tel"),
+									  rs.getString("com_addr"),
+									  rs.getString("com_img"),
+									  rs.getString("com_desc"),
+									  rs.getInt("comCategory_code"));
+			//System.out.println(id+ " login success");
+				}
+		} finally {
+			closeAll(rs, ps, conn);
+		}
+		return company; 
 	}
 
 	public void updateCompany(Company company) throws SQLException {
-		// TODO Auto-generated method stub
-		
+		Connection conn = null;
+		PreparedStatement ps = null;
+		try {
+			conn = getConnection();
+			String query = "UPDATE company SET com_pass=?, com_id=?, com_name=?, com_tel=?, com_addr=?, com_img=?, com_desc=?, comCategory_code=? WHERE com_code=?";
+			ps = conn.prepareStatement(query);
+			//System.out.println("ps completed in updateCompany");
+			
+			ps.setString(1, company.getComPass());
+			ps.setString(2, company.getComId());
+			ps.setString(3, company.getComName());
+			ps.setString(4, company.getComTel());
+			ps.setString(5, company.getComAddr());
+			ps.setString(6, company.getComImg());
+			ps.setString(7, company.getComDesc());
+			ps.setInt(8, company.getComCategoryCode());
+			ps.setInt(9, company.getComCode());
+			
+			System.out.println(ps.executeUpdate()+" row update success");
+		} finally {
+			closeAll(ps, conn);
+		}		
 	}
 
 	public void deleteCompany(String id, String pass) throws SQLException {
-		// TODO Auto-generated method stub
-		
+		Connection conn = null;
+		PreparedStatement ps = null;
+		try {
+			conn = getConnection();
+			String query = "DELETE FROM company WHERE com_id=? AND com_pass=?";
+			ps = conn.prepareStatement(query);
+			//System.out.println("ps completed in deleteCompany");
+			
+			ps.setString(1, id);
+			ps.setString(2, pass);
+			System.out.println(ps.executeUpdate()+" row delete success");
+		} finally {
+			closeAll(ps, conn);
+		}		
 	}
 
 	public Company lookupCompany(String id) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Company company = null;
+		try {
+			conn = getConnection();
+			String query = "SELECT * FROM company WHERE com_id=?";
+			ps = conn.prepareStatement(query);
+			//System.out.println("ps completed in lookupCompany");
+			
+			ps.setString(1, id);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				company = new Company(
+									  rs.getInt("com_code"),
+									  rs.getString("com_pass"),
+									  id,
+									  rs.getString("com_name"),
+									  rs.getString("com_tel"),
+									  rs.getString("com_addr"),
+									  rs.getString("com_img"),
+									  rs.getString("com_desc"),
+									  rs.getInt("comCategory_code"));
+			//System.out.println(id+ " lookup success");
+			}
+		} finally {
+			closeAll(rs, ps, conn);
+		}
+		return company;
 	}
 
 	public ArrayList<Review> showAllCompany() throws SQLException {
@@ -367,36 +557,62 @@ public class FiestaDaoImpl {
 	//단위테스트
 	public static void main(String[] args) throws SQLException {
 		//하경 - 단위테스트
-		FiestaDaoImpl dao=FiestaDaoImpl.getInstance();
+		//FiestaDaoImpl dao=FiestaDaoImpl.getInstance();
 		//dao.insertService(new Service("회사1","설명1","img","버스"));		
 		//엄체코드를 자동으로 session에서 받고 돌려야할것...  단위테스트 업체코드에 default값 없어서 못함... ㅠㅅㅠ
 		
 		//dao.deleteService(3);
-		System.out.println(dao.showAllService(1));
+		//System.out.println(dao.showAllService(1));
 		
 		
 		//제영 - 단위테스트
-		System.out.println(dao.showAllCompany());
+		//System.out.println(dao.showAllCompany());
 		
 		
 		//의근 - 단위테스트
-		// register
+		// customer register
 		// customer = new Customer("park", "박의근", "euigeun", "01088048331", "euigeun@gmail.com", "플레이데이터");
 		// FiestaDaoImpl.getInstance().registerCustomer(customer);
 		// FiestaDaoImpl.getInstance().registerCustomer(new Customer("lee", "이보람", "0107171293", "boram@gmail.com", "concat", "플레이데이터"));
 		
-		// login
-		// FiestaDaoImpl.getInstance().loginCustomer("park", "euigeun");
+		// customer login
+		// FiestaDaoImpl.getInstance().loginCustomer("java", "euigeun");
 		
-		
-		// update
-		// Customer customer = new Customer("park", "이보람", "euigeun", "01088048331", "euigeun@gmail.com", "플레이데이터");
-		// FiestaDaoImpl.getInstance().updateCustomer(new Customer("park", "이보람", "euigeun", "01088048331", "euigeun@gmail.com", "플레이데이터"));
+		// customer update
+		// Customer customer = new Customer("java", "이보람", "euigeun", "01088048331", "euigeun@gmail.com", "플레이데이터");
+		// FiestaDaoImpl.getInstance().updateCustomer(customer);
 
-		// delete
-		// FiestaDaoImpl.getInstance().deleteCustomer("park", "euigeun");
+		// customer delete
+		// FiestaDaoImpl.getInstance().deleteCustomer("java", "euigeun");
 		
-		// lookup
-		// FiestaDaoImpl.getInstance().lookupCustomer("park");
+		// customer lookup
+		// FiestaDaoImpl.getInstance().lookupCustomer("java");
+		
+		// company register
+		// FiestaDaoImpl.getInstance().registerCompany(new Company(24, "euigeun", "LGtop", "LG", "031498202", "남부", "-", "가전제품~~", 3));
+		
+		// company login
+		// FiestaDaoImpl.getInstance().loginCompany("house1", "2222");
+		
+		// company update
+		// FiestaDaoImpl.getInstance().updateCompany(new Company(22, "boram", "LGbottom", "LG", "031498202", "남부", "-", "가전제품~~", 3));
+		
+		// company delete
+		// FiestaDaoImpl.getInstance().deleteCompany("LGbottom", "boram");
+		
+		// company lookup
+		// FiestaDaoImpl.getInstance().lookupCompany("house1");
+		
+		// order insertcustorder 
+		// FiestaDaoImpl.getInstance().insertCustorder(new Custorder(11, "200619", "200710", "남부", 1000000, "우천시취소", "진행중", "java"));
+	
+		// order showAllCustorder
+		// FiestaDaoImpl.getInstance().showAllCustorder("java");
+		
+		// orderdetail insertorderdetail
+		// FiestaDaoImpl.getInstance().insertOrderdetail(new Orderdetail(11, 1000000, "우천시취소", 1, 1, 11));
+		
+		// 
+		
 	}
 }
