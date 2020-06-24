@@ -9,7 +9,6 @@ public class Question {
 	
 	public Question() {}
 	public Question(int qCode, String qDate, String qTitle, String qDesc, String custId) {
-		super();
 		this.qCode = qCode;
 		this.qDate = qDate;
 		this.qTitle = qTitle;

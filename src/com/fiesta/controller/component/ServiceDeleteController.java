@@ -18,7 +18,7 @@ public class ServiceDeleteController implements Controller {
 
 		FiestaDaoImpl.getInstance().deleteService(serviceCode);
 		
-		path = "ServiceAllShow.do"; 
+		path = "ServiceAllShow.do";  
 		
 		return new ModelAndView(path);
 	}

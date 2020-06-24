@@ -5,7 +5,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.sql.DataSource;
 
@@ -258,7 +260,7 @@ public class FiestaDaoImpl {
 		PreparedStatement ps = null;
 		try{
 			conn=  getConnection();
-			String query = "INSERT INTO service(service_name, service_desc, service_img, service_tag) VALUES(?,?,?,?)";
+			String query = "INSERT INTO service(service_name, service_desc, service_img, service_tag, com_code) VALUES(?,?,?,?,?)";
 			ps = conn.prepareStatement(query);
 			System.out.println("PreparedStatement 생성됨...insertService");
 			
@@ -266,7 +268,7 @@ public class FiestaDaoImpl {
 			ps.setString(2, service.getServiceDesc());
 			ps.setString(3, service.getServiceImg());
 			ps.setString(4, service.getServiceTag());
-			//ps.setInt(5, service.getComCode());
+			ps.setInt(5, service.getComCode());
 			
 			System.out.println(ps.executeUpdate()+" row INSERT OK!!");
 		}finally{
@@ -319,8 +321,30 @@ public class FiestaDaoImpl {
 		return list;
 	}
 
-	public void insertQuestion(Question question) throws SQLException {
-		// TODO Auto-generated method stub
+	public void insertQuestion(String desc, String custId) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		//현재시간 출력
+		SimpleDateFormat format = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
+		Calendar time = Calendar.getInstance();
+		String currTime = format.format(time.getTime());
+		//System.out.println(currTime); 확인용
+		
+		try{
+			conn=  getConnection();
+			String query = "INSERT INTO question(q_date, q_desc, cust_id) VALUES(?,?,?)";
+			ps = conn.prepareStatement(query);
+			System.out.println("PreparedStatement 생성됨...insertService");
+			
+			ps.setString(1, currTime);
+			ps.setString(2, desc);
+			ps.setString(3, custId);	//세션의 고객아이디 값 가져오기
+			
+			System.out.println(ps.executeUpdate()+" row INSERT OK!!");
+		}finally{
+			closeAll(ps, conn);
+		}
 		
 	}
 
@@ -368,15 +392,17 @@ public class FiestaDaoImpl {
 	public static void main(String[] args) throws SQLException {
 		//하경 - 단위테스트
 		FiestaDaoImpl dao=FiestaDaoImpl.getInstance();
-		//dao.insertService(new Service("회사1","설명1","img","버스"));		
+		//dao.insertService(new Service("플레이댄스팀","공연계일인자","img","#공연",1));		
 		//엄체코드를 자동으로 session에서 받고 돌려야할것...  단위테스트 업체코드에 default값 없어서 못함... ㅠㅅㅠ
 		
 		//dao.deleteService(3);
-		System.out.println(dao.showAllService(1));
+		//System.out.println(dao.showAllService(1));
+		
+		dao.insertQuestion("몇명이서 잘 수 있나요?", "java");
 		
 		
 		//제영 - 단위테스트
-		System.out.println(dao.showAllCompany());
+		//System.out.println(dao.showAllCompany());
 		
 		
 		//의근 - 단위테스트
