@@ -27,3 +27,16 @@ VALUES('003',2,'./resource/img/house1.jpg','나쁨',3,4,'java');
 UPDATE `fiesta`.`service`
 SET `service_img` ='./resource/img/bus1.jpg'
 WHERE `com_code` = 2;
+
+
+SELECT * FROM company;
+delete from service;
+
+SELECT cr.com_name, cr.com_desc, s.service_tag, cr.com_img, cr.review_score, cr.review_desc
+FROM service s,
+(SELECT c.com_code, c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc
+FROM company c LEFT OUTER JOIN review r
+ON c.com_code = r.com_code
+WHERE c.comCategory_code = 1) cr
+WHERE s.com_code=cr.com_code
+ORDER BY cr.com_code DESC;

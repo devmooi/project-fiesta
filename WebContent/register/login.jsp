@@ -60,7 +60,11 @@
 		</div>
 	</header>
 	<section>
+		<form action="login.do">
+			<p>비밀번호 찾기</p>
+			<a href="register.jsp">회원가입으로 이동</a>
+		</form>
 	</section>
-	로그인
+	
 </body>
 </html>

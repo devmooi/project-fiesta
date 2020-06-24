@@ -67,7 +67,7 @@ public class FiestaDaoImpl {
 			ps = conn.prepareStatement(query);
 			//System.out.println("ps completed in registerCustomer");
 			
-			ps.setString(1, customer.getCustId());
+			//ps.setString(1, customer.getCustId());
 			ps.setString(2, customer.getCustName());
 			ps.setString(3, customer.getCustPass());
 			ps.setString(4, customer.getCustTel());
@@ -85,7 +85,7 @@ public class FiestaDaoImpl {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Customer customer = null;
-		try {
+		/*try {
 			conn = getConnection();
 			String query = "SELECT * FROM customer WHERE cust_id=? AND cust_pass=?";
 			ps = conn.prepareStatement(query);
@@ -105,7 +105,7 @@ public class FiestaDaoImpl {
 				}
 		} finally {
 			closeAll(rs, ps, conn);
-		}
+		}*/
 		return customer; 
 	}
 
@@ -123,7 +123,7 @@ public class FiestaDaoImpl {
 			ps.setString(3, customer.getCustTel());
 			ps.setString(4, customer.getCustEmail());
 			ps.setString(5, customer.getCustGroup());
-			ps.setString(6, customer.getCustId());
+			//ps.setString(6, customer.getCustId());
 			System.out.println(ps.executeUpdate()+" row update success");
 		} finally {
 			closeAll(ps, conn);
@@ -152,7 +152,7 @@ public class FiestaDaoImpl {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Customer customer = null;
-		try {
+		/*try {
 			conn = getConnection();
 			String query = "SELECT * FROM customer WHERE cust_id=?";
 			ps = conn.prepareStatement(query);
@@ -171,7 +171,7 @@ public class FiestaDaoImpl {
 			}
 		} finally {
 			closeAll(rs, ps, conn);
-		}
+		}*/
 		return customer;
 	}
 
@@ -191,7 +191,7 @@ public class FiestaDaoImpl {
 			ps.setInt(5, custorder.getOrderBudget());
 			ps.setString(6, custorder.getOrderRequire());
 			//ps.setString(7, custorder.getOrderCondition());
-			ps.setString(8, custorder.getCustId());
+			//ps.setString(8, custorder.getCustId());
 			System.out.println(ps.executeUpdate()+" row insert success");
 		} finally {
 			closeAll(ps, conn);

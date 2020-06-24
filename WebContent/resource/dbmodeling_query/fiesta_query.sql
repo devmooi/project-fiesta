@@ -8,7 +8,7 @@ DROP TABLE company;
 DROP TABLE comcategory;
 DROP TABLE custorder; -- 고객 의뢰
 DROP TABLE question; -- 문의
-DROP TABLE customer;
+DROP TABLE customer; -- 고객
 
 
 -- 테이블 생성
@@ -45,26 +45,25 @@ ALTER TABLE service ADD constraint fk_service foreign key(com_code) references c
 
 -- customer
 CREATE TABLE customer(
-	cust_id VARCHAR(45) NOT NULL PRIMARY KEY,
+	cust_email VARCHAR(45) NOT NULL PRIMARY KEY,
     cust_name VARCHAR(45) NOT NULL,
     cust_pass VARCHAR(45) NOT NULL,
     cust_tel VARCHAR(45) NOT NULL,
-    cust_email VARCHAR(45) NOT NULL,
     cust_group VARCHAR(45) NOT NULL
 );
 
 -- custorder
 CREATE TABLE custorder(
 	order_code INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    order_sysdate DATE NOT NULL,
-    order_revdate VARCHAR(45) NOT NULL,
+    order_sysdate DATETIME NOT NULL,
+    order_revdate DATETIME NOT NULL,
     order_place VARCHAR(45) NOT NULL,
     order_budget INT,
     order_require VARCHAR(45),
     order_service VARCHAR(45),
-    cust_id VARCHAR(45) NOT NULL
+    cust_email VARCHAR(45) NOT NULL
 );
-ALTER TABLE custorder ADD constraint fk_custorder foreign key(cust_id) references customer(cust_id) on delete cascade;
+ALTER TABLE custorder ADD constraint fk_custorder foreign key(cust_email) references customer(cust_email) on delete cascade;
 
 -- orderdetail
 CREATE TABLE orderdetail(
@@ -88,37 +87,37 @@ CREATE TABLE review(
     review_desc VARCHAR(45) NOT NULL,
     service_code INT NOT NULL,
     com_code INT NOT NULL,
-    cust_id VARCHAR(45) NOT NULL
+    cust_email VARCHAR(45) NOT NULL
 );
 ALTER TABLE review ADD constraint fk_review_service_code foreign key(service_code) references service(service_code) on delete cascade;
 ALTER TABLE review ADD constraint fk_review_com_code foreign key(com_code) references company(com_code) on delete cascade;
-ALTER TABLE review ADD constraint fk_review_cust_id foreign key(cust_id) references customer(cust_id) on delete cascade;
+ALTER TABLE review ADD constraint fk_review_cust_email foreign key(cust_email) references customer(cust_email) on delete cascade;
 
 -- wish
 CREATE TABLE wish(
 	wish_code INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     service_code INT NOT NULL,
     com_code INT NOT NULL,
-    cust_id VARCHAR(45) NOT NULL
+    cust_email VARCHAR(45) NOT NULL
 );
 ALTER TABLE wish ADD constraint fk_wish_service_code foreign key(service_code) references service(service_code) on delete cascade;
 ALTER TABLE wish ADD constraint fk_wish_com_code foreign key(com_code) references company(com_code) on delete cascade;
-ALTER TABLE wish ADD constraint fk_wish_cust_id foreign key(cust_id) references customer(cust_id) on delete cascade;
+ALTER TABLE wish ADD constraint fk_wish_cust_email foreign key(cust_email) references customer(cust_email) on delete cascade;
 
 -- question
 CREATE TABLE question(
 	q_code INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    q_date DATE NOT NULL,
+    q_date DATETIME NOT NULL,
     q_title VARCHAR(45),
     q_desc VARCHAR(45),
-    cust_id VARCHAR(45)
+    cust_email VARCHAR(45)
 );
-ALTER TABLE question ADD constraint fk_question foreign key(cust_id) references customer(cust_id) on delete cascade;
+ALTER TABLE question ADD constraint fk_question foreign key(cust_email) references customer(cust_email) on delete cascade;
 
 -- answer
 CREATE TABLE answer(
 	a_code INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    a_date DATE NOT NULL,
+    a_date DATETIME NOT NULL,
     a_desc VARCHAR(45) NOT NULL,
     com_code INT NOT NULL,
     q_code INT NOT NULL
@@ -164,15 +163,3 @@ INSERT INTO customer(cust_id, cust_name, cust_pass, cust_tel, cust_email, cust_g
 VALUES('java','java','1234','010-5043-5765','encore@gmail.com','한양대 사회과학대학 학생회');
 INSERT INTO review(review_code, review_score, review_img, review_desc, service_code, com_code, cust_id)
 VALUES('001',4,null,'좋아요',1,1,'java');
-
-SELECT * FROM company;
-delete from service;
-
-SELECT cr.com_name, cr.com_desc, s.service_tag, cr.com_img, cr.review_score, cr.review_desc
-FROM service s,
-(SELECT c.com_code, c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc
-FROM company c LEFT OUTER JOIN review r
-ON c.com_code = r.com_code
-WHERE c.comCategory_code = 1) cr
-WHERE s.com_code=cr.com_code
-ORDER BY cr.com_code DESC;

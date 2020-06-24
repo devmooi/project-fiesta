@@ -5,15 +5,17 @@ public class Question {
 	String qDate;
 	String qTitle;
 	String qDesc;
-	String custId;
+	String custEmail;
 	
 	public Question() {}
-	public Question(int qCode, String qDate, String qTitle, String qDesc, String custId) {
+
+	public Question(int qCode, String qDate, String qTitle, String qDesc, String custEmail) {
+		super();
 		this.qCode = qCode;
 		this.qDate = qDate;
 		this.qTitle = qTitle;
 		this.qDesc = qDesc;
-		this.custId = custId;
+		this.custEmail = custEmail;
 	}
 
 	public int getqCode() {
@@ -48,18 +50,18 @@ public class Question {
 		this.qDesc = qDesc;
 	}
 
-	public String getCustId() {
-		return custId;
+	public String getCustEmail() {
+		return custEmail;
 	}
 
-	public void setCustId(String custId) {
-		this.custId = custId;
+	public void setCustEmail(String custEmail) {
+		this.custEmail = custEmail;
 	}
 
 	@Override
 	public String toString() {
-		return "Question [qCode=" + qCode + ", qDate=" + qDate + ", qTitle=" + qTitle + ", qDesc=" + qDesc + ", custId="
-				+ custId + "]";
+		return "Question [qCode=" + qCode + ", qDate=" + qDate + ", qTitle=" + qTitle + ", qDesc=" + qDesc
+				+ ", custEmail=" + custEmail + "]";
 	}
 	
 }

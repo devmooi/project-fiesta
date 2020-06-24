@@ -22,6 +22,7 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-	가입하기
+	<a href="companyRegister.jsp">업체 가입하기</a>
+	<a href="customerRegister.jsp">고객 가입하기</a>
 </body>
 </html>
