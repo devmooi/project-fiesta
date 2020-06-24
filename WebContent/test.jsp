@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<a href="companylist.do">companylist</a>
+<a href="ShowAllCompany.do">companylist</a>
 </body>
 </html> 

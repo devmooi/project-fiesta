@@ -213,9 +213,27 @@ public class FiestaDaoImpl {
 		
 	}
 
-	public Company lookupCompany(String id) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+	public Review lookupCompany(String searchBy, String searchContent) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs =null;
+		Review review = new Review();
+		
+		try {
+			conn=getConnection();
+			StringBuffer query = new StringBuffer();
+			query.append("SELECT c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
+			query.append("FROM company c LEFT OUTER JOIN review r ");
+			query.append("ON c.com_code = r.com_code ");
+			query.append("WHERE c.comCategory_code = ? ");
+			query.append("ORDER BY c.com_code DESC ");
+			
+			
+		}finally {
+			closeAll(rs, ps, conn);
+		}
+		
+		return review;
 	}
 
 	public ArrayList<Review> showAllCompany() throws SQLException {
@@ -228,8 +246,8 @@ public class FiestaDaoImpl {
 			conn=getConnection();
 			StringBuffer query = new StringBuffer();
 			query.append("SELECT c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
-			query.append("FROM company c, review r ");
-			query.append("WHERE c.com_code = r.com_code ");
+			query.append("FROM company c LEFT OUTER JOIN review r ");
+			query.append("ON c.com_code = r.com_code ");
 			query.append("ORDER BY c.com_code DESC");
 			ps=conn.prepareStatement(query.toString());
 			//System.out.println(query.toString());
@@ -248,9 +266,37 @@ public class FiestaDaoImpl {
 		return list;
 	}
 
-	public ArrayList<Company> showAllCompanyByCategory(Comcategory category) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<Review> showAllCompanyByCategory(int category) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs =null;
+		ArrayList<Review> list = new ArrayList<Review>();
+		
+		try {
+			conn=getConnection();
+			StringBuffer query = new StringBuffer();
+			query.append("SELECT c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
+			query.append("FROM company c LEFT OUTER JOIN review r ");
+			query.append("ON c.com_code = r.com_code ");
+			query.append("WHERE c.comCategory_code = ? ");
+			query.append("ORDER BY c.com_code DESC ");
+			
+			ps=conn.prepareStatement(query.toString());
+			ps.setInt(1, category);
+			
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				list.add(new Review(rs.getInt("r.review_score"),
+						rs.getString("r.review_desc"),
+						new Company(rs.getString("c.com_name"),
+								rs.getString("c.com_img"),
+								rs.getString("c.com_desc"))));
+			}
+		}finally {
+			closeAll(rs, ps, conn);
+		}
+		
+		return list;
 	}
 
 	public void insertService(Service service) throws SQLException {
