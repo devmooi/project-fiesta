@@ -52,13 +52,13 @@ CREATE TABLE customer(
     cust_group VARCHAR(45) NOT NULL
 );
 
--- custorder
+-- custorder : budget -- NOT NULL
 CREATE TABLE custorder(
 	order_code INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     order_sysdate DATETIME NOT NULL,
-    order_revdate DATETIME NOT NULL,
+    order_revdate VARCHAR(45) NOT NULL,
     order_place VARCHAR(45) NOT NULL,
-    order_budget INT,
+    order_budget VARCHAR(45) NOT NULL,
     order_require VARCHAR(45),
     order_service VARCHAR(45),
     cust_email VARCHAR(45) NOT NULL
@@ -104,12 +104,13 @@ ALTER TABLE wish ADD constraint fk_wish_service_code foreign key(service_code) r
 ALTER TABLE wish ADD constraint fk_wish_com_code foreign key(com_code) references company(com_code) on delete cascade;
 ALTER TABLE wish ADD constraint fk_wish_cust_email foreign key(cust_email) references customer(cust_email) on delete cascade;
 
--- question
+-- question :  q_condition 추가 -- vo, exerd 변경
 CREATE TABLE question(
 	q_code INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     q_date DATETIME NOT NULL,
     q_title VARCHAR(45),
     q_desc VARCHAR(45),
+    q_condition VARCHAR(45),
     cust_email VARCHAR(45)
 );
 ALTER TABLE question ADD constraint fk_question foreign key(cust_email) references customer(cust_email) on delete cascade;
