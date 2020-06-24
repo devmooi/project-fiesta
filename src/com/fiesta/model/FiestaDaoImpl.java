@@ -214,30 +214,103 @@ public class FiestaDaoImpl {
 		// TODO Auto-generated method stub
 		
 	}
-
-	public Review lookupCompany(String searchBy, String searchContent) throws SQLException {
+	
+	public ArrayList<Review> lookupCompany(String searchBy, String searchContent) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs =null;
-		Review review = new Review();
+		ArrayList<Review> list = new ArrayList<Review>();
 		
 		try {
 			conn=getConnection();
 			StringBuffer query = new StringBuffer();
 			query.append("SELECT c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
-			query.append("FROM company c LEFT OUTER JOIN review r ");
+			query.append("FROM company c ");
+			query.append("LEFT OUTER JOIN review r ");
 			query.append("ON c.com_code = r.com_code ");
-			query.append("WHERE c.comCategory_code = ? ");
-			query.append("ORDER BY c.com_code DESC ");
-			
-			
+			query.append("LEFT OUTER JOIN service s ");
+			query.append("ON c.com_code = s.com_code ");
+			if(searchBy.equals("태그")) {
+				query.append("WHERE s.service_tag LIKE ? ");
+				query.append("ORDER BY c.com_code DESC ");
+				ps=conn.prepareStatement(query.toString());
+				ps.setString(1, "%"+searchContent+"%");
+			}else if(searchBy.equals("회사명")) {
+				query.append("WHERE c.com_name LIKE ? ");
+				query.append("ORDER BY c.com_code DESC ");
+				ps=conn.prepareStatement(query.toString());
+				ps.setString(1, "%"+searchContent+"%");
+			}else {
+				query.append("WHERE (s.service_tag LIKE ? ");
+				query.append("OR c.com_name LIKE ?) ");
+				query.append("ORDER BY c.com_code DESC ");
+				ps=conn.prepareStatement(query.toString());
+				ps.setString(1, "%"+searchContent+"%");
+				ps.setString(2, "%"+searchContent+"%");
+			}
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				list.add(new Review(rs.getInt("r.review_score"),
+						rs.getString("r.review_desc"),
+						new Company(rs.getString("c.com_name"),
+								rs.getString("c.com_img"),
+								rs.getString("c.com_desc"))));
+			}
 		}finally {
 			closeAll(rs, ps, conn);
 		}
-		
-		return review;
+		return list;
 	}
-
+	
+	public ArrayList<Review> lookupCompany(int category, String searchBy, String searchContent) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs =null;
+		ArrayList<Review> list = new ArrayList<Review>();
+		
+		try {
+			conn=getConnection();
+			StringBuffer query = new StringBuffer();
+			query.append("SELECT c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
+			query.append("FROM company c ");
+			query.append("LEFT OUTER JOIN review r ");
+			query.append("ON c.com_code = r.com_code ");
+			query.append("LEFT OUTER JOIN service s ");
+			query.append("ON c.com_code = s.com_code ");
+			query.append("WHERE c.comCategory_code = ? ");
+			if(searchBy.equals("태그")) {
+				query.append("AND s.service_tag LIKE ? ");
+				query.append("ORDER BY c.com_code DESC ");
+				ps=conn.prepareStatement(query.toString());
+				ps.setString(2, "%"+searchContent+"%");
+			}else if(searchBy.equals("회사명")) {
+				query.append("AND c.com_name LIKE ? ");
+				query.append("ORDER BY c.com_code DESC ");
+				ps=conn.prepareStatement(query.toString());
+				ps.setString(2, "%"+searchContent+"%");
+			}else {
+				query.append("AND (s.service_tag LIKE ? ");
+				query.append("OR c.com_name LIKE ?) ");
+				query.append("ORDER BY c.com_code DESC ");
+				ps=conn.prepareStatement(query.toString());
+				ps.setString(2, "%"+searchContent+"%");
+				ps.setString(3, "%"+searchContent+"%");
+			}
+			ps.setInt(1, category);
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				list.add(new Review(rs.getInt("r.review_score"),
+						rs.getString("r.review_desc"),
+						new Company(rs.getString("c.com_name"),
+								rs.getString("c.com_img"),
+								rs.getString("c.com_desc"))));
+			}
+		}finally {
+			closeAll(rs, ps, conn);
+		}
+		return list;
+	}
+	
 	public ArrayList<Review> showAllCompany() throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -300,7 +373,213 @@ public class FiestaDaoImpl {
 		
 		return list;
 	}
+	
+	public ArrayList<Review> sortCompany(String sortBy) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs =null;
+		ArrayList<Review> list = new ArrayList<Review>();
+		
+		try {
+			conn=getConnection();
+			String query2="";
+			if(sortBy.equals("최신순")) {
+				query2="ORDER BY c.com_code DESC";
+			}/*else if(sortBy.equals("조회순")) {
+				query2="GROUP BY c.com_code ORDER BY COUNT(c.com_count) ASC";
+			}*/else if(sortBy.equals("평점순")) {
+				query2="GROUP BY r.review_code ORDER BY AVG(r.review_score) ASC";
+			}else {
+				query2="GROUP BY r.review_code ORDER BY COUNT(r.review_code) ASC";
+			}
 
+			StringBuffer query = new StringBuffer();
+			query.append("SELECT c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
+			query.append("FROM company c ");
+			query.append("LEFT OUTER JOIN review r ");
+			query.append("ON c.com_code = r.com_code ");
+			query.append("LEFT OUTER JOIN service s ");
+			query.append("ON c.com_code = s.com_code ");
+			query.append(query2);
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				list.add(new Review(rs.getInt("r.review_score"),
+						rs.getString("r.review_desc"),
+						new Company(rs.getString("c.com_name"),
+								rs.getString("c.com_img"),
+								rs.getString("c.com_desc"))));
+			}
+		}finally {
+			closeAll(rs, ps, conn);
+		}
+		
+		return list;
+	}
+	
+	public ArrayList<Review> sortCompany(int category, String sortBy) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs =null;
+		ArrayList<Review> list = new ArrayList<Review>();
+		
+		try {
+			conn=getConnection();
+			String query2="";
+			if(sortBy.equals("최신순")) {
+				query2="ORDER BY c.com_code DESC";
+			}/*else if(sortBy.equals("조회순")) {
+				query2="GROUP BY c.com_code ORDER BY COUNT(c.com_count) ASC";
+			}*/else if(sortBy.equals("평점순")) {
+				query2="GROUP BY r.review_code ORDER BY AVG(r.review_score) ASC";
+			}else {
+				query2="GROUP BY r.review_code ORDER BY COUNT(r.review_code) ASC";
+			}
+
+			StringBuffer query = new StringBuffer();
+			query.append("SELECT c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
+			query.append("FROM company c ");
+			query.append("LEFT OUTER JOIN review r ");
+			query.append("ON c.com_code = r.com_code ");
+			query.append("LEFT OUTER JOIN service s ");
+			query.append("ON c.com_code = s.com_code ");
+			query.append("WHERE c.comCategory_code = ? ");
+			query.append(query2);
+			ps.setInt(1, category);
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				list.add(new Review(rs.getInt("r.review_score"),
+						rs.getString("r.review_desc"),
+						new Company(rs.getString("c.com_name"),
+								rs.getString("c.com_img"),
+								rs.getString("c.com_desc"))));
+			}
+		}finally {
+			closeAll(rs, ps, conn);
+		}
+		
+		return list;
+	}
+	
+	public ArrayList<Review> sortCompany(String searchBy, String searchContent, String sortBy) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs =null;
+		ArrayList<Review> list = new ArrayList<Review>();
+		
+		try {
+			conn=getConnection();
+			String query2="";
+			if(sortBy.equals("최신순")) {
+				query2="ORDER BY c.com_code DESC";
+			}/*else if(sortBy.equals("조회순")) {
+				query2="GROUP BY c.com_code ORDER BY COUNT(c.com_count) ASC";
+			}*/else if(sortBy.equals("평점순")) {
+				query2="ORDER BY r.review_code ORDER BY AVG(r.review_score) ASC";
+			}else {
+				query2="ORDER BY r.review_code ORDER BY COUNT(r.review_code) ASC";
+			}
+
+			StringBuffer query = new StringBuffer();
+			query.append("SELECT c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
+			query.append("FROM company c ");
+			query.append("LEFT OUTER JOIN review r ");
+			query.append("ON c.com_code = r.com_code ");
+			query.append("LEFT OUTER JOIN service s ");
+			query.append("ON c.com_code = s.com_code ");
+			if(searchBy.equals("태그")) {
+				query.append("AND s.service_tag LIKE ? ");
+				query.append(query2);
+				ps=conn.prepareStatement(query.toString());
+				ps.setString(1, "%"+searchContent+"%");
+			}else if(searchBy.equals("회사명")) {
+				query.append("AND c.com_name LIKE ? ");
+				query.append("query2");
+				ps=conn.prepareStatement(query.toString());
+				ps.setString(1, "%"+searchContent+"%");
+			}else {
+				query.append("AND (s.service_tag LIKE ? ");
+				query.append("OR c.com_name LIKE ? ");
+				query.append("query2");
+				ps=conn.prepareStatement(query.toString());
+				ps.setString(1, "%"+searchContent+"%");
+				ps.setString(2, "%"+searchContent+"%");
+			}
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				list.add(new Review(rs.getInt("r.review_score"),
+						rs.getString("r.review_desc"),
+						new Company(rs.getString("c.com_name"),
+								rs.getString("c.com_img"),
+								rs.getString("c.com_desc"))));
+			}
+		}finally {
+			closeAll(rs, ps, conn);
+		}
+		
+		return list;
+	}
+	
+	public ArrayList<Review> sortCompany(int category, String searchBy, String searchContent, String sortBy) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs =null;
+		ArrayList<Review> list = new ArrayList<Review>();
+		
+		try {
+			conn=getConnection();
+			String query2="";
+			if(sortBy.equals("최신순")) {
+				query2="ORDER BY c.com_code DESC";
+			}/*else if(sortBy.equals("조회순")) {
+				query2="GROUP BY c.com_code ORDER BY COUNT(c.com_count) ASC";
+			}*/else if(sortBy.equals("평점순")) {
+				query2="ORDER BY r.review_code ORDER BY AVG(r.review_score) ASC";
+			}else {
+				query2="ORDER BY r.review_code ORDER BY COUNT(r.review_code) ASC";
+			}
+
+			StringBuffer query = new StringBuffer();
+			query.append("SELECT c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
+			query.append("FROM company c ");
+			query.append("LEFT OUTER JOIN review r ");
+			query.append("ON c.com_code = r.com_code ");
+			query.append("LEFT OUTER JOIN service s ");
+			query.append("ON c.com_code = s.com_code ");
+			query.append("WHERE c.comCategory_code = ? ");
+			if(searchBy.equals("태그")) {
+				query.append("AND s.service_tag LIKE ? ");
+				query.append(query2);
+				ps=conn.prepareStatement(query.toString());
+				ps.setString(2, "%"+searchContent+"%");
+			}else if(searchBy.equals("회사명")) {
+				query.append("AND c.com_name LIKE ? ");
+				query.append("query2");
+				ps=conn.prepareStatement(query.toString());
+				ps.setString(2, "%"+searchContent+"%");
+			}else {
+				query.append("AND (s.service_tag LIKE ? ");
+				query.append("OR c.com_name LIKE ? ");
+				query.append("query2");
+				ps=conn.prepareStatement(query.toString());
+				ps.setString(2, "%"+searchContent+"%");
+				ps.setString(3, "%"+searchContent+"%");
+			}
+			ps.setInt(1, category);
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				list.add(new Review(rs.getInt("r.review_score"),
+						rs.getString("r.review_desc"),
+						new Company(rs.getString("c.com_name"),
+								rs.getString("c.com_img"),
+								rs.getString("c.com_desc"))));
+			}
+		}finally {
+			closeAll(rs, ps, conn);
+		}
+		
+		return list;
+	}
+	
 	public void insertService(Service service) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;

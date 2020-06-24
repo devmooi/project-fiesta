@@ -11,23 +11,46 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script>
     $(function() {
+    	var category = 0;
+    	var searchBy ="";
+    	var searchContent ="";
+    	var arr = {};
+    	$('button[name=showAll]').click(function() {
+    		window.location.href="ShowAllCompany.do";
+    	});//button[name=showAll] click
 		$('button[name=category]').click(function() {
-			var category = $(this).val();
-			if(category=="0") window.location.href="ShowAllCompany.do";
-			else window.location.href="ShowAllCompanyByCategory.do?category="+category;
+			category = $(this).val();
+			window.location.href="ShowAllCompanyByCategory.do?category="+category;
 		});//button[name=category] click
 		
 		$('button[name=search]').click(function() {
-			var searchBy = $('#searchBy').val();
-			var searchContent = $('#searchContent').val();
+			arr = $(this).val().split(',');
+			category = arr[0];
+			searchBy = $('#searchBy').val();
+			searchContent = $('#searchContent').val();
+			window.location.href="lookupCompany.do?searchBy="+searchBy
+					+"&&searchContent="+searchContent
+					+"&&category="+category;
 			
 		});//button[name=search] click
+		
+		$('#sortBy').change(function() {
+			arr = $('button[name=search]').val().split(',');
+			category = arr[0];
+			searchBy = arr[1];
+			searchContent = arr[2];
+			alert(category+", "+searchBy+", "+searchContent);
+			window.location.href="SortCompany.do?searchBy="+searchBy
+			+"&&searchContent="+searchContent
+			+"&&category="+category
+			+"&&sortBy="+sortBy;
+		}); //sortby change
 	});//ready
     </script>
 
 </head>
 <body>
-	<button value="0" name="category">전체</button>
+	<button value="0" name="showAll">전체</button>
 	<button value="1" name="category">연예기획사</button>
 	<button value="2" name="category">숙소</button>
 	<button value="3" name="category">주류/렌탈</button>
@@ -43,13 +66,13 @@
 		<option>전체</option>
 		<option>회사명</option>
 		<option>태그</option>
-		<option>업체분류</option>
 	</select>
 	<input type="text" name="searchContent" id="searchContent">
-	<button value="search" name="search">검색</button>
+	<button name="search" value="${category},${searchBy},${searchContent}">검색</button>
 	<br>
-<select>
+<select id="sortBy">
 	<option>최신순</option>
+	<!-- <option>조회순</option>-->
 	<option>평점순</option>
 	<option>리뷰순</option>
 </select>

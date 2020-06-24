@@ -160,19 +160,9 @@ INSERT INTO service(service_name, service_desc, service_img, service_tag, com_co
 VALUES('MC','경험 많은 MC','./resource/img/house1.jpg','#섭외#MC', 2);
 INSERT INTO service(service_name, service_desc, service_img, service_tag, com_code)
 VALUES('연예인','경험 많은 연예인','./resource/img/house1.jpg','#섭외#연예인', 7);
+INSERT INTO service(service_name, service_desc, service_img, service_tag, com_code)
+VALUES('45인승버스','안락한 45인승 리무진 버스','./resource/img/house1.jpg','#버스#45인승', 4);
 INSERT INTO customer(cust_id, cust_name, cust_pass, cust_tel, cust_email, cust_group)
 VALUES('java','java','1234','010-5043-5765','encore@gmail.com','한양대 사회과학대학 학생회');
 INSERT INTO review(review_code, review_score, review_img, review_desc, service_code, com_code, cust_id)
 VALUES('001',4,null,'좋아요',1,1,'java');
-
-SELECT * FROM company;
-delete from service;
-
-SELECT cr.com_name, cr.com_desc, s.service_tag, cr.com_img, cr.review_score, cr.review_desc
-FROM service s,
-(SELECT c.com_code, c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc
-FROM company c LEFT OUTER JOIN review r
-ON c.com_code = r.com_code
-WHERE c.comCategory_code = 1) cr
-WHERE s.com_code=cr.com_code
-ORDER BY cr.com_code DESC;
