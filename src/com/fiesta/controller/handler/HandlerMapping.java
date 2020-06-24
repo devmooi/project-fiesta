@@ -26,8 +26,12 @@ public class HandlerMapping {
 			controller = new ServiceDeleteController();
 			System.out.println("ServiceDeleteController 생성됨");
 			
-		}else if(command.equals("companylist.do")) {
+		}else if(command.equals("ShowAllCompany.do")) {
 			controller = new ShowAllComanyController();
+			System.out.println("ShowAllComanyController 생성됨");
+		}else if(command.equals("ShowAllCompanyByCategory.do")) {
+			controller = new ShowAllCompanyByCategory();
+			System.out.println("ShowAllCompanyListByCategory 생성됨");
 		}
 
 		return controller;

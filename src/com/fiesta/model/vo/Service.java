@@ -7,6 +7,7 @@ public class Service {
 	String serviceImg;
 	String serviceTag;
 	int comCode;
+	
 	public Service() {}
 	public Service(int serviceCode, String serviceName, String serviceDesc, String serviceImg, String serviceTag,
 			int comCode) {
@@ -30,6 +31,7 @@ public class Service {
 		this.serviceImg = serviceImg;
 		this.serviceTag = serviceTag;
 	}
+	
 	public int getServiceCode() {
 		return serviceCode;
 	}
@@ -67,11 +69,10 @@ public class Service {
 	public void setComCode(int comCode) {
 		this.comCode = comCode;
 	}
+	
 	@Override
 	public String toString() {
 		return "Service [serviceCode=" + serviceCode + ", serviceName=" + serviceName + ", serviceDesc=" + serviceDesc
 				+ ", serviceImg=" + serviceImg + ", serviceTag=" + serviceTag  + ", comCode=" + comCode + "]";
 	}
-	
-	
 }

@@ -4,37 +4,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-<head>
     <meta charset="UTF-8">
     <title>Company List</title>
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+    $(function() {
+		$('button[name=category]').click(function() {
+			var category = $(this).val();
+			if(category=="0") window.location.href="ShowAllCompany.do";
+			else window.location.href="ShowAllCompanyByCategory.do?category="+category;
+		});//button[name=category] click
+		
+		$('button[name=search]').click(function() {
+			var searchBy = $('#searchBy').val();
+			var searchContent = $('#searchContent').val();
+			
+		});//button[name=search] click
+	});//ready
+    </script>
 
 </head>
-</head>
 <body>
-<form action="#">
-	<button value="1">연예기획사</button>
-	<button value="2">숙소</button>
-	<button value="3">주류/렌탈</button>
-	<button value="4">버스</button>
-	<button value="5">음향조명</button>
-	<button value="6">보험회사</button>
-	<button value="7">푸드트럭</button>
-	<button value="8">의류</button>
-	<button value="9">현수막</button>
-	<button value="10">협찬</button>
+	<button value="0" name="category">전체</button>
+	<button value="1" name="category">연예기획사</button>
+	<button value="2" name="category">숙소</button>
+	<button value="3" name="category">주류/렌탈</button>
+	<button value="4" name="category">버스</button>
+	<button value="5" name="category">음향조명</button>
+	<button value="6" name="category">보험회사</button>
+	<button value="7" name="category">푸드트럭</button>
+	<button value="8" name="category">의류</button>
+	<button value="9" name="category">현수막</button>
+	<button value="10" name="category">협찬</button>
 	<hr>
-	<select name="searchby" id="searchby">
-		<option>분류</option>
+	<select name="searchBy" id="searchBy">
+		<option>전체</option>
 		<option>회사명</option>
-		<option>주소</option>
-		<option>전화번호</option>
+		<option>태그</option>
+		<option>업체분류</option>
 	</select>
 	<input type="text" name="searchContent" id="searchContent">
-	<input type="submit" value="검색">
-</form>
+	<button value="search" name="search">검색</button>
+	<br>
 <select>
 	<option>최신순</option>
 	<option>평점순</option>

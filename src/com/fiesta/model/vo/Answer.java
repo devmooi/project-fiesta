@@ -6,9 +6,8 @@ public class Answer {
 	String aDesc;
 	int comCode;
 	int qCode;
-	public Answer() {
-		// TODO Auto-generated constructor stub
-	}
+	
+	public Answer() {}
 	public Answer(int aCode, String aDate, String aDesc, int comCode, int qCode) {
 		this.aCode = aCode;
 		this.aDate = aDate;
@@ -16,6 +15,7 @@ public class Answer {
 		this.comCode = comCode;
 		this.qCode = qCode;
 	}
+	
 	public int getaCode() {
 		return aCode;
 	}
@@ -46,11 +46,11 @@ public class Answer {
 	public void setqCode(int qCode) {
 		this.qCode = qCode;
 	}
+	
 	@Override
 	public String toString() {
 		return "Answer [aCode=" + aCode + ", aDate=" + aDate + ", aDesc=" + aDesc + ", comCode=" + comCode + ", qCode="
 				+ qCode + "]";
 	}
-	
 	
 }

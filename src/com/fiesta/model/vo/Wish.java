@@ -7,7 +7,6 @@ public class Wish {
 	String custId;
 	
 	public Wish() {}
-
 	public Wish(int wishCode, int serviceCode, int comCode, String custId) {
 		super();
 		this.wishCode = wishCode;
@@ -19,31 +18,24 @@ public class Wish {
 	public int getWishCode() {
 		return wishCode;
 	}
-
 	public void setWishCode(int wishCode) {
 		this.wishCode = wishCode;
 	}
-
 	public int getServiceCode() {
 		return serviceCode;
 	}
-
 	public void setServiceCode(int serviceCode) {
 		this.serviceCode = serviceCode;
 	}
-
 	public int getComCode() {
 		return comCode;
 	}
-
 	public void setComCode(int comCode) {
 		this.comCode = comCode;
 	}
-
 	public String getCustId() {
 		return custId;
 	}
-
 	public void setCustId(String custId) {
 		this.custId = custId;
 	}
@@ -53,6 +45,4 @@ public class Wish {
 		return "Wish [wishCode=" + wishCode + ", serviceCode=" + serviceCode + ", comCode=" + comCode + ", custId="
 				+ custId + "]";
 	}
-	
-	
 }
