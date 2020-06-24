@@ -4,21 +4,24 @@ public class Orderdetail {
 	int detailCode;
 	int detailTotalprice;
 	String detailDesc;
+	String detailCondition;
 	int serviceCode;
 	int comCode;
 	int orderCode;
-	public Orderdetail() {
-		// TODO Auto-generated constructor stub
-	}
-	public Orderdetail(int detailCode, int detailTotalprice, String detailDesc, int serviceCode, int comCode,
-			int orderCode) {
+	
+	public Orderdetail() {}
+	public Orderdetail(int detailCode, int detailTotalprice, String detailDesc, String detailCondition, int serviceCode,
+			int comCode, int orderCode) {
+		super();
 		this.detailCode = detailCode;
 		this.detailTotalprice = detailTotalprice;
 		this.detailDesc = detailDesc;
+		this.detailCondition = detailCondition;
 		this.serviceCode = serviceCode;
 		this.comCode = comCode;
 		this.orderCode = orderCode;
 	}
+
 	public int getDetailCode() {
 		return detailCode;
 	}
@@ -55,12 +58,11 @@ public class Orderdetail {
 	public void setOrderCode(int orderCode) {
 		this.orderCode = orderCode;
 	}
+	
 	@Override
 	public String toString() {
 		return "Orderdetail [detailCode=" + detailCode + ", detailTotalprice=" + detailTotalprice + ", detailDesc="
 				+ detailDesc + ", serviceCode=" + serviceCode + ", comCode=" + comCode + ", orderCode=" + orderCode
 				+ "]";
 	}
-	
-	
 }

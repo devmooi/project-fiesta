@@ -1,13 +1,13 @@
 -- 테이블 전체 삭제
 DROP TABLE wish;
 DROP TABLE review;
-DROP TABLE orderdetail;
+DROP TABLE orderdetail; -- 고객 의뢰 detail
 DROP TABLE service;
-DROP TABLE answer;
+DROP TABLE answer; -- 문의 내역
 DROP TABLE company;
 DROP TABLE comcategory;
-DROP TABLE custorder;
-DROP TABLE question;
+DROP TABLE custorder; -- 고객 의뢰
+DROP TABLE question; -- 문의
 DROP TABLE customer;
 
 
@@ -61,7 +61,7 @@ CREATE TABLE custorder(
     order_place VARCHAR(45) NOT NULL,
     order_budget INT,
     order_require VARCHAR(45),
-    order_condition VARCHAR(45) NOT NULL,
+    order_service VARCHAR(45),
     cust_id VARCHAR(45) NOT NULL
 );
 ALTER TABLE custorder ADD constraint fk_custorder foreign key(cust_id) references customer(cust_id) on delete cascade;
@@ -71,6 +71,7 @@ CREATE TABLE orderdetail(
 	detail_code INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     detail_totalprice INT NOT NULL,
     detail_desc VARCHAR(45),
+    detail_condition VARCHAR(45) NOT NULL,
     service_code INT NOT NULL,
     com_code INT NOT NULL,
     order_code INT NOT NULL
@@ -108,6 +109,7 @@ ALTER TABLE wish ADD constraint fk_wish_cust_id foreign key(cust_id) references 
 CREATE TABLE question(
 	q_code INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     q_date DATE NOT NULL,
+    q_title VARCHAR(45),
     q_desc VARCHAR(45),
     cust_id VARCHAR(45)
 );

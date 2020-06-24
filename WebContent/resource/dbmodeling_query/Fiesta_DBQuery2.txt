@@ -1,6 +1,0 @@
-ALTER TABLE `fiesta`.`company` 
-ADD COLUMN `com_pass` VARCHAR(45) NOT NULL AFTER `com_code`,
-ADD COLUMN `com_id` VARCHAR(45) NOT NULL AFTER `com_pass`;
-
-ALTER TABLE `fiesta`.`service` 
-DROP COLUMN `service_count`;

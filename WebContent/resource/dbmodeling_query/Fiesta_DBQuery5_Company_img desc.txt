@@ -1,5 +1,0 @@
-ALTER TABLE `fiesta`.`company` 
-ADD COLUMN `com_img` VARCHAR(45) NULL AFTER `com_addr`,
-ADD COLUMN `com_desc` VARCHAR(45) NULL AFTER `com_img`,
-ADD UNIQUE INDEX `com_pass_UNIQUE` (`com_pass` ASC) VISIBLE;
-;
