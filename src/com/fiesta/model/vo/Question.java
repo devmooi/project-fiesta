@@ -8,14 +8,18 @@ public class Question {
 	String custEmail;
 	
 	public Question() {}
-
 	public Question(int qCode, String qDate, String qTitle, String qDesc, String custEmail) {
-		super();
 		this.qCode = qCode;
 		this.qDate = qDate;
 		this.qTitle = qTitle;
 		this.qDesc = qDesc;
 		this.custEmail = custEmail;
+	}
+	public Question(int qCode, String qDate, String qTitle, String qDesc) {
+		this.qCode = qCode;
+		this.qDate = qDate;
+		this.qTitle = qTitle;
+		this.qDesc = qDesc;
 	}
 
 	public int getqCode() {

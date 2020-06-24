@@ -17,7 +17,7 @@
 	int serviceCount;
 	int comCode;
  -->
-<form action="serviceRegister.do" name="registerForm" >
+<form action="serviceRegister.do" name="registerForm" method="post">
 서비스 이름 : <input type="text" name="serviceName" required="required"><br><br>
 서비스 설명 : <input type="password" name="serviceDesc" required="required"><br><br>
 서비스 사진 : <input type="text" name="serviceImg" required="required"><br><br>

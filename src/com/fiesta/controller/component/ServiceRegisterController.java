@@ -22,11 +22,9 @@ public class ServiceRegisterController implements Controller {
 		Service service  = new Service(serviceName, serviceDesc, serviceImg, serviceTag, 1);
 
 		FiestaDaoImpl.getInstance().insertService(service);
-		
-		path = "ServiceRegisterResult.jsp";
-			
 
-		return new ModelAndView(path);
+
+		return new ModelAndView("serviceRegisterResult.jsp");
 	}
 
 }
