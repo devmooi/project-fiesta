@@ -321,7 +321,7 @@ public class FiestaDaoImpl {
 		return list;
 	}
 
-	public void insertQuestion(String desc, String custId) throws SQLException {
+	public void insertQuestion(String title, String desc, String custId) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		
@@ -333,13 +333,14 @@ public class FiestaDaoImpl {
 		
 		try{
 			conn=  getConnection();
-			String query = "INSERT INTO question(q_date, q_desc, cust_id) VALUES(?,?,?)";
+			String query = "INSERT INTO question(q_date, q_title, q_desc, cust_id) VALUES(?,?,?,?)";
 			ps = conn.prepareStatement(query);
-			System.out.println("PreparedStatement 생성됨...insertService");
+			System.out.println("PreparedStatement 생성됨...insertQuestion");
 			
 			ps.setString(1, currTime);
-			ps.setString(2, desc);
-			ps.setString(3, custId);	//세션의 고객아이디 값 가져오기
+			ps.setString(2, title);
+			ps.setString(3, desc);
+			ps.setString(4, custId);	//세션의 고객아이디 값 가져오기
 			
 			System.out.println(ps.executeUpdate()+" row INSERT OK!!");
 		}finally{
@@ -349,8 +350,29 @@ public class FiestaDaoImpl {
 	}
 
 	public ArrayList<Question> showAllQuestion(String id) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		ArrayList<Question> list = new ArrayList<>();
+		try {
+			conn = getConnection();
+			String query = "SELECT q_code, q_title, q_desc, q_date FROM service WHERE cust_id=?";
+			ps = conn.prepareStatement(query);
+			System.out.println("PreparedStatement....showAllQuestion..");
+					
+			ps.setString(1, id);
+			
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				list.add(new Question(rs.getInt("q_code"), 
+									  rs.getString("q_title"), 
+									  rs.getString("q_desc").substring(0, 15)+"...", 
+									  rs.getString("q_date")));
+			}
+		}finally {
+			closeAll(rs, ps, conn);
+		}
+		return list;
 	}
 
 	public void insertAnswer(Answer answer) throws SQLException {
@@ -398,7 +420,8 @@ public class FiestaDaoImpl {
 		//dao.deleteService(3);
 		//System.out.println(dao.showAllService(1));
 		
-		dao.insertQuestion("몇명이서 잘 수 있나요?", "java");
+		dao.insertQuestion("숙박문의","몇명이서 잘 수 있나요?", "java");
+		dao.showAllQuestion("java");
 		
 		
 		//제영 - 단위테스트

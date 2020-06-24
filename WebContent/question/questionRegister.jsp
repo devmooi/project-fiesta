@@ -9,7 +9,8 @@
 <body>
 <h2>문의하기</h2>
 <form action="questionRegister.do" name="registerForm" >
-문의내용 : <input type="text" name="serviceDesc" required="required"><br><br>
+문의제목 : <input type="text" name="qTitle" required="required"><br><br>
+문의내용 : <input type="text" name="qDesc" required="required"><br><br>
 <input type="submit" value="문의 등록">
 </form>
 </body>

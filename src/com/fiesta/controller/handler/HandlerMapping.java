@@ -1,7 +1,11 @@
 package com.fiesta.controller.handler;
 
 import com.fiesta.controller.Controller;
-import com.fiesta.controller.component.*;
+import com.fiesta.controller.component.QuestionRegisterController;
+import com.fiesta.controller.component.ServiceAllShowController;
+import com.fiesta.controller.component.ServiceDeleteController;
+import com.fiesta.controller.component.ServiceRegisterController;
+import com.fiesta.controller.component.ShowAllComanyController;
 
 public class HandlerMapping {
 	private static HandlerMapping handler = new HandlerMapping();
@@ -28,6 +32,10 @@ public class HandlerMapping {
 			
 		}else if(command.equals("companylist.do")) {
 			controller = new ShowAllComanyController();
+			
+		}else if(command.equals("questionRegister.do")) {
+			controller = new QuestionRegisterController();
+			System.out.println("QuestionRegisterController 생성됨");
 		}
 
 		return controller;

@@ -7,13 +7,19 @@ public class Question {
 	String qDesc;
 	String custId;
 	
-	public Question() {}
 	public Question(int qCode, String qDate, String qTitle, String qDesc, String custId) {
 		this.qCode = qCode;
 		this.qDate = qDate;
 		this.qTitle = qTitle;
 		this.qDesc = qDesc;
 		this.custId = custId;
+	}
+	
+	public Question(int qCode, String qDate, String qTitle, String qDesc) {
+		this.qCode = qCode;
+		this.qDate = qDate;
+		this.qTitle = qTitle;
+		this.qDesc = qDesc;
 	}
 
 	public int getqCode() {
