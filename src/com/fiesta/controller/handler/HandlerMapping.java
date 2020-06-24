@@ -31,8 +31,8 @@ public class HandlerMapping {
 			System.out.println("ShowAllComanyController 생성됨");
 			
 		}else if(command.equals("ShowAllCompanyByCategory.do")) {
-			controller = new ShowAllCompanyByCategory();
-			System.out.println("ShowAllCompanyListByCategory 생성됨");	
+			controller = new ShowAllCompanyByCategoryController();
+			System.out.println("ShowAllCompanyListByCategoryController 생성됨");
 			
 		}else if(command.equals("questionRegister.do")) {
 			controller = new QuestionRegisterController();
@@ -41,6 +41,14 @@ public class HandlerMapping {
 		}else if(command.equals("questionAllShow.do")) {
 			controller = new questionAllShowController();
 			System.out.println("questionAllShowController 생성됨");
+			
+		}else if(command.equals("lookupCompany.do")) {
+			controller = new lookupCompanyController();
+			System.out.println("lookupCompanyController 생성됨");
+			
+		}else if(command.equals("SortCompany.do")) {
+			controller = new SortCompanyController();
+			System.out.println("SortCompanyController 생성됨");
 		}
 
 		return controller;

@@ -10,8 +10,8 @@ import com.fiesta.controller.ModelAndView;
 import com.fiesta.model.FiestaDaoImpl;
 import com.fiesta.model.vo.Review;
 
-public class ShowAllCompanyByCategory implements Controller{
-	public ShowAllCompanyByCategory() {};
+public class ShowAllCompanyByCategoryController implements Controller{
+	public ShowAllCompanyByCategoryController() {};
 	@Override
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		int category = Integer.parseInt(request.getParameter("category"));
@@ -20,6 +20,7 @@ public class ShowAllCompanyByCategory implements Controller{
 		list = FiestaDaoImpl.getInstance().showAllCompanyByCategory(category);
 		
 		request.setAttribute("list", list);
+		request.setAttribute("category", category);
 
 		return new ModelAndView("./company/companylist.jsp");
 	}
