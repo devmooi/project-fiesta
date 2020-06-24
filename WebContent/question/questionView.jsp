@@ -7,8 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-${qTitle}
-${qDesc}
-<a href="questionAllShow.do">나의 문의내역들 보기</a>
+
 </body>
 </html>

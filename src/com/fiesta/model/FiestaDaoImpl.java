@@ -582,6 +582,7 @@ public class FiestaDaoImpl {
 			ps.setString(2, title);
 			ps.setString(3, desc);
 			ps.setString(4, custId);	//세션의 고객아이디 값 가져오기
+			//condition 상태값 default값이 '답변대기'여야 함.
 			
 			System.out.println(ps.executeUpdate()+" row INSERT OK!!");
 		}finally{
@@ -595,9 +596,11 @@ public class FiestaDaoImpl {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		ArrayList<Question> list = new ArrayList<>();
+		
+		String qDesc= "";
 		try {
 			conn = getConnection();
-			String query = "SELECT q_code, q_title, q_desc, q_date FROM service WHERE cust_id=?";
+			String query = "SELECT q_code, q_title, q_desc, q_date, q_condition FROM question WHERE cust_id=?";
 			ps = conn.prepareStatement(query);
 			System.out.println("PreparedStatement....showAllQuestion..");
 					
@@ -605,10 +608,17 @@ public class FiestaDaoImpl {
 			
 			rs = ps.executeQuery();
 			while(rs.next()) {
+				//내용에 문장자르기~~~
+				if(rs.getString("q_desc").length()>15) {
+					qDesc = rs.getString("q_desc").substring(0, 15)+"...";
+				}else {
+					qDesc = rs.getString("q_desc");
+				}
 				list.add(new Question(rs.getInt("q_code"), 
 									  rs.getString("q_title"), 
-									  rs.getString("q_desc").substring(0, 15)+"...", 
-									  rs.getString("q_date")));
+									  qDesc, 
+									  rs.getString("q_date"),
+									  rs.getString("q_condition")));
 			}
 		}finally {
 			closeAll(rs, ps, conn);
@@ -654,7 +664,7 @@ public class FiestaDaoImpl {
 	//단위테스트
 	public static void main(String[] args) throws SQLException {
 		//하경 - 단위테스트
-		//FiestaDaoImpl dao=FiestaDaoImpl.getInstance();
+		FiestaDaoImpl dao=FiestaDaoImpl.getInstance();
 		//dao.insertService(new Service("회사1","설명1","img","버스"));		
 		
 		//엄체코드를 자동으로 session에서 받고 돌려야할것...  단위테스트 업체코드에 default값 없어서 못함... ㅠㅅㅠ
@@ -663,7 +673,8 @@ public class FiestaDaoImpl {
 		//System.out.println(dao.showAllService(1));
 		
 		//dao.insertQuestion("숙박문의","몇명이서 잘 수 있나요?", "java");
-		//dao.showAllQuestion("java");
+		dao.insertQuestion("공연문의","이거슨 문장 잘라지는지 테스트하기 위한 문의사항입니담 키키키키킼", "java");
+		//System.out.println(dao.showAllQuestion("java"));
 		
 		//제영 - 단위테스트
 		//System.out.println(dao.showAllCompany());
