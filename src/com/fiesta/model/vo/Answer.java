@@ -65,6 +65,14 @@ public class Answer {
 		this.qCode = qCode;
 	}
 
+	public String getComName() {
+		return comName;
+	}
+
+	public void setComName(String comName) {
+		this.comName = comName;
+	}
+
 	@Override
 	public String toString() {
 		return "Answer [aCode=" + aCode + ", aDate=" + aDate + ", aDesc=" + aDesc + ", comEmail=" + comEmail

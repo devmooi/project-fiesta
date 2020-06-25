@@ -840,7 +840,7 @@ public class FiestaDaoImpl {
 		return list;
 	}
 
-	public void insertQuestion(String title, String desc, String custId) throws SQLException {
+	public void insertQuestion(String title, String desc, String custEmail) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		
@@ -852,14 +852,14 @@ public class FiestaDaoImpl {
 		
 		try{
 			conn=  getConnection();
-			String query = "INSERT INTO question(q_date, q_title, q_desc, cust_id) VALUES(?,?,?,?)";
+			String query = "INSERT INTO question(q_date, q_title, q_desc, cust_email) VALUES(?,?,?,?)";
 			ps = conn.prepareStatement(query);
 			System.out.println("PreparedStatement 생성됨...insertQuestion");
 			
 			ps.setString(1, currTime);
 			ps.setString(2, title);
 			ps.setString(3, desc);
-			ps.setString(4, custId);	//세션의 고객아이디 값 가져오기
+			ps.setString(4, custEmail);	//세션의 고객아이디 값 가져오기
 			//condition 상태값 default값이 '답변대기'여야 함.
 			
 			System.out.println(ps.executeUpdate()+" row INSERT OK!!");
@@ -914,7 +914,7 @@ public class FiestaDaoImpl {
 		try {
 			conn = getConnection();
 
-			String query = "select q_code, q_title, q_desc, q_date from question q, answer a where a.q_code = ?";
+			String query = "select q_code, q_title, q_desc, q_date from question where q_code = ?";
 			ps = conn.prepareStatement(query);
 			System.out.println("PreparedStatement....showQuestion..");
 					
@@ -922,10 +922,10 @@ public class FiestaDaoImpl {
 			
 			rs = ps.executeQuery();
 			if(rs.next()) {
-					question = new Question(rs.getInt("q.q_code"), 
-							  rs.getString("q.q_title"),
-							  rs.getString("q.q_desc"),
-							  rs.getString("q.q_date"));
+					question = new Question(qCode, 
+							  rs.getString("q_title"),
+							  rs.getString("q_desc"),
+							  rs.getString("q_date"));
 			}
 		}finally {
 			closeAll(rs, ps, conn);
@@ -952,7 +952,7 @@ public class FiestaDaoImpl {
 		try {
 			conn = getConnection();
 			//select q.q_code, q.q_title, q.q_desc, q.q_date, a.a_code, a.a_desc, a.a_date from question q, answer a where a.q_code = ?;
-			String query = "select a.a_desc, a.a_date, c.com_name from question q, answer a company c where a.q_code = ? and c.com_code = a.com_code";
+			String query = "select a.a_desc, a.a_date, c.com_name from question q, answer a, company c where a.q_code = ? and c.com_code = a.com_code";
 			ps = conn.prepareStatement(query);
 			System.out.println("PreparedStatement....showAnswer..");
 					
@@ -962,9 +962,9 @@ public class FiestaDaoImpl {
 			if(rs.next()) {
 				Company com = new Company();
 				com.setComName(rs.getString("c.com_name"));
-					answer = new Answer(rs.getString("a.a_desc"), 
-							  rs.getString("a.a_date"),
-							  com.getComName());
+				answer = new Answer(rs.getString("a.a_desc"), 
+						  rs.getString("a.a_date"), 
+						  com.getComName());
 
 			}
 		}finally {
@@ -1015,6 +1015,7 @@ public class FiestaDaoImpl {
 		//System.out.println(dao.showAllQuestion("java"));
 		
 		System.out.println(dao.showQuestion(1));
+		System.out.println(dao.showAnswer(1));
 		
 		//제영 - 단위테스트
 		//System.out.println(dao.showAllCompany());
