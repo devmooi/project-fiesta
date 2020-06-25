@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.fiesta.controller.Controller;
 import com.fiesta.controller.ModelAndView;
 import com.fiesta.model.FiestaDaoImpl;
+import com.fiesta.model.dao.CompanyDaoImpl;
 import com.fiesta.model.vo.Service;
 
 public class ServiceAllShowController implements Controller {
@@ -18,7 +19,7 @@ public class ServiceAllShowController implements Controller {
 		String companycode = request.getParameter("companycode");
 		String path = "";
 
-		ArrayList<Service> list = FiestaDaoImpl.getInstance().showAllService(companycode);
+		ArrayList<Service> list = CompanyDaoImpl.getInstance().showAllService(companycode);
 		request.setAttribute("list", list);
 		path = "./company/serviceAllShowResult.jsp";
 		

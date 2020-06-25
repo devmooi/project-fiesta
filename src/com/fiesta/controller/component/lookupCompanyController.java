@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.fiesta.controller.Controller;
 import com.fiesta.controller.ModelAndView;
 import com.fiesta.model.FiestaDaoImpl;
+import com.fiesta.model.dao.CompanyDaoImpl;
 import com.fiesta.model.vo.Review;
 
 public class lookupCompanyController implements Controller{
@@ -24,9 +25,9 @@ public class lookupCompanyController implements Controller{
 		
 		if(category!=-1) {
 			category = Integer.parseInt(request.getParameter("category"));
-			list = FiestaDaoImpl.getInstance().lookupCompany(category, searchBy, searchContent);
+			list = CompanyDaoImpl.getInstance().lookupCompany(category, searchBy, searchContent);
 		}else {
-			list = FiestaDaoImpl.getInstance().lookupCompany(searchBy, searchContent);
+			list = CompanyDaoImpl.getInstance().lookupCompany(searchBy, searchContent);
 		}
 		request.setAttribute("list", list);
 		request.setAttribute("category", category);

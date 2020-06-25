@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.fiesta.controller.Controller;
 import com.fiesta.controller.ModelAndView;
 import com.fiesta.model.FiestaDaoImpl;
+import com.fiesta.model.dao.CompanyDaoImpl;
 import com.fiesta.model.vo.Review;
 
 public class SortCompanyController implements Controller{
@@ -21,15 +22,15 @@ public class SortCompanyController implements Controller{
 		String sortBy = request.getParameter("sortBy");
 		
 		if(request.getParameter("category").equals("")&&searchContent.equals("")) {
-			list = FiestaDaoImpl.getInstance().sortCompany(sortBy);
+			list = CompanyDaoImpl.getInstance().sortCompany(sortBy);
 		}else if(!request.getParameter("category").equals("")&&searchContent.equals("")) {
 			category=Integer.parseInt(request.getParameter("category"));
-			list = FiestaDaoImpl.getInstance().sortCompany(category, sortBy);
+			list = CompanyDaoImpl.getInstance().sortCompany(category, sortBy);
 		}else if(request.getParameter("category").equals("")&&!searchContent.equals("")) {
-			list = FiestaDaoImpl.getInstance().sortCompany(searchBy, searchContent, sortBy);
+			list = CompanyDaoImpl.getInstance().sortCompany(searchBy, searchContent, sortBy);
 		}else {
 			category=Integer.parseInt(request.getParameter("category"));
-			list = FiestaDaoImpl.getInstance().sortCompany(category, searchBy, searchContent, sortBy);
+			list = CompanyDaoImpl.getInstance().sortCompany(category, searchBy, searchContent, sortBy);
 		}
 		
 		request.setAttribute("list", list);

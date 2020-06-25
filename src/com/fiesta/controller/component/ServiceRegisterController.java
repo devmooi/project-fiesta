@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.fiesta.controller.Controller;
 import com.fiesta.controller.ModelAndView;
 import com.fiesta.model.FiestaDaoImpl;
+import com.fiesta.model.dao.CompanyDaoImpl;
 import com.fiesta.model.vo.Service;
 
 public class ServiceRegisterController implements Controller {
@@ -22,7 +23,7 @@ public class ServiceRegisterController implements Controller {
 		//Service VO 변경으로 인해 수정
 		Service service  = new Service(serviceName, serviceDesc, serviceImg, serviceTag, 1);
 
-		FiestaDaoImpl.getInstance().insertService(service);
+		CompanyDaoImpl.getInstance().insertService(service);
 
 
 		return new ModelAndView("serviceRegisterResult.jsp");

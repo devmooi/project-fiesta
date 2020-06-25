@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.fiesta.controller.Controller;
 import com.fiesta.controller.ModelAndView;
 import com.fiesta.model.FiestaDaoImpl;
+import com.fiesta.model.dao.CompanyDaoImpl;
 import com.fiesta.model.vo.Review;
 
 public class ShowAllCompanyByCategoryController implements Controller{
@@ -17,7 +18,7 @@ public class ShowAllCompanyByCategoryController implements Controller{
 		int category = Integer.parseInt(request.getParameter("category"));
 		ArrayList<Review> list = new ArrayList<>();
 	
-		list = FiestaDaoImpl.getInstance().showAllCompanyByCategory(category);
+		list = CompanyDaoImpl.getInstance().showAllCompanyByCategory(category);
 		
 		request.setAttribute("list", list);
 		request.setAttribute("category", category);

@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.fiesta.controller.Controller;
 import com.fiesta.controller.ModelAndView;
 import com.fiesta.model.FiestaDaoImpl;
+import com.fiesta.model.dao.CompanyDaoImpl;
 import com.fiesta.model.vo.Service;
 
 public class ServiceDeleteController implements Controller {
@@ -16,7 +17,7 @@ public class ServiceDeleteController implements Controller {
 		
 		String path = "";
 
-		FiestaDaoImpl.getInstance().deleteService(serviceCode);
+		CompanyDaoImpl.getInstance().deleteService(serviceCode);
 		
 		path = "ServiceAllShow.do";  
 		

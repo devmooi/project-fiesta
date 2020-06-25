@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.fiesta.controller.Controller;
 import com.fiesta.controller.ModelAndView;
 import com.fiesta.model.FiestaDaoImpl;
+import com.fiesta.model.dao.QuestionDaoImpl;
 
 public class QuestionRegisterController implements Controller{
 
@@ -16,7 +17,7 @@ public class QuestionRegisterController implements Controller{
 		
 		String path = "";
 
-		FiestaDaoImpl.getInstance().insertQuestion(qTitle, qDesc, "java" );
+		QuestionDaoImpl.getInstance().insertQuestion(qTitle, qDesc, "java" );
 		
 		request.setAttribute("qTitle", qTitle);
 		request.setAttribute("qDesc", qDesc);

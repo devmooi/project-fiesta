@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.fiesta.controller.Controller;
 import com.fiesta.controller.ModelAndView;
 import com.fiesta.model.FiestaDaoImpl;
+import com.fiesta.model.dao.QuestionDaoImpl;
 import com.fiesta.model.vo.Answer;
 import com.fiesta.model.vo.Question;
 
@@ -17,9 +18,9 @@ public class QuestionViewController implements Controller {
 		
 		String path = "";
 
-		Question qDetail = FiestaDaoImpl.getInstance().showQuestion(qCode);
+		Question qDetail = QuestionDaoImpl.getInstance().showQuestion(qCode);
 		
-		Answer aDetail = FiestaDaoImpl.getInstance().showAnswer(qCode);
+		Answer aDetail = QuestionDaoImpl.getInstance().showAnswer(qCode);
 		
 		request.setAttribute("qDetail", qDetail);
 		

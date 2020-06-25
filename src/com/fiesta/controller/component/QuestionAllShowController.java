@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.fiesta.controller.Controller;
 import com.fiesta.controller.ModelAndView;
 import com.fiesta.model.FiestaDaoImpl;
+import com.fiesta.model.dao.QuestionDaoImpl;
 import com.fiesta.model.vo.Question;
 import com.fiesta.model.vo.Service;
 
@@ -19,7 +20,7 @@ public class QuestionAllShowController implements Controller {
 		//세션에서 Id 값 받아온다.
 		String path = "";
 
-		ArrayList<Question> list = FiestaDaoImpl.getInstance().showAllQuestion("encore@gmail.com");
+		ArrayList<Question> list = QuestionDaoImpl.getInstance().showAllQuestion("encore@gmail.com");
 		request.setAttribute("list", list);
 		
 		path = "questionAllShow.jsp";
