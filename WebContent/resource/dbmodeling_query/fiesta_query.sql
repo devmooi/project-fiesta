@@ -147,9 +147,11 @@ CREATE TABLE question(
     q_title VARCHAR(45),
     q_desc VARCHAR(45),
     q_condition VARCHAR(45) DEFAULT '답변대기',
-    cust_email VARCHAR(45) NOT NULL
+    cust_email VARCHAR(45) NOT NULL,
+    com_code INT NOT NULL
 );
-ALTER TABLE question ADD constraint fk_question foreign key(cust_email) references customer(cust_email) on delete cascade;
+ALTER TABLE question ADD constraint fk_question_customer foreign key(cust_email) references customer(cust_email) on delete cascade;
+ALTER TABLE question ADD constraint fk_question_company foreign key(com_code) references company(com_code) on delete cascade;
 
 -- answer
 CREATE TABLE answer(
@@ -157,10 +159,12 @@ CREATE TABLE answer(
     a_date DATETIME NOT NULL,
     a_desc VARCHAR(45) NOT NULL,
     com_code INT NOT NULL,
-    q_code INT NOT NULL
+    q_code INT NOT NULL,
+    cust_email VARCHAR(45) NOT NULL
 );
 ALTER TABLE answer ADD constraint fk_answer_company foreign key(com_code) references company(com_code) on delete cascade;
 ALTER TABLE answer ADD constraint fk_answer_question foreign key(q_code) references question(q_code) on delete cascade;
+ALTER TABLE answer ADD constraint fk_answer_customer foreign key(cust_email) references customer(cust_email) on delete cascade;
 
 -- INSERT 부분
 INSERT INTO comcategory(comCategory_code, comCategory_desc) VALUES(01, '연예기획사');
@@ -204,7 +208,7 @@ VALUES('encore@gmail.com','java','1234','010-5043-5765','한양대 사회과학�
 INSERT INTO review(review_code, review_score, review_img, review_desc, review_date, cust_email, service_code, com_code)
 VALUES('001', 4, null, '좋아요', sysdate(), 'encore@gmail.com', 1, 1);
 
-INSERT INTO question(q_date, q_title, q_desc, cust_email)
-VALUES(sysdate(), '숙박문의', '몇명이서 잘 수 있나요?', 'encore@gmail.com');
-INSERT INTO question(q_date, q_title, q_desc, cust_email)
-VALUES(sysdate(), '공연문의', '이거슨 문장 잘라지는지 테스트하기 위한 문의사항입니담 키키키키킼', 'encore@gmail.com');
+INSERT INTO question(q_date, q_title, q_desc, cust_email, com_code)
+VALUES(sysdate(), '숙박문의', '몇명이서 잘 수 있나요?', 'encore@gmail.com', 1);
+INSERT INTO question(q_date, q_title, q_desc, cust_email, com_code)
+VALUES(sysdate(), '공연문의', '이거슨 문장 잘라지는지 테스트하기 위한 문의사항입니담 키키키키킼', 'encore@gmail.com', 1);
