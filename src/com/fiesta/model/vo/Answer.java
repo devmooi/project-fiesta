@@ -6,16 +6,23 @@ public class Answer {
 	String aDesc;
 	int comCode;
 	int qCode;
+	String custEmail;
+	
 	String comName;
 	
 	public Answer() {}
-	public Answer(int aCode, String aDate, String aDesc, int comCode, int qCode) {
+	
+	public Answer(int aCode, String aDate, String aDesc, int comCode, int qCode, String custEmail, String comName) {
+		super();
 		this.aCode = aCode;
 		this.aDate = aDate;
 		this.aDesc = aDesc;
 		this.comCode = comCode;
 		this.qCode = qCode;
+		this.custEmail = custEmail;
+		this.comName = comName;
 	}
+
 	public Answer(String aDate, String aDesc, String comName) {
 		super();
 		this.aDate = aDate;
@@ -52,17 +59,28 @@ public class Answer {
 	public void setqCode(int qCode) {
 		this.qCode = qCode;
 	}
+	
+	public String getCustEmail() {
+		return custEmail;
+	}
+
+	public void setCustEmail(String custEmail) {
+		this.custEmail = custEmail;
+	}
+
 	public String getComName() {
 		return comName;
 	}
 	public void setComName(String comName) {
 		this.comName = comName;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Answer [aCode=" + aCode + ", aDate=" + aDate + ", aDesc=" + aDesc + ", comCode=" + comCode + ", qCode="
-				+ qCode + ", comName=" + comName + "]";
+				+ qCode + ", custEmail=" + custEmail + ", comName=" + comName + "]";
 	}
+	
+	
 
 }

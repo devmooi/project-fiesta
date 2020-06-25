@@ -2,6 +2,7 @@ package com.fiesta.model.vo;
 
 public class Question {
 	int qCode;
+	int comCode;
 	String qDate;
 	String qTitle;
 	String qDesc;
@@ -9,14 +10,20 @@ public class Question {
 	String custEmail;
 	
 	public Question() {}
-	public Question(int qCode, String qDate, String qTitle, String qDesc, String qCondition, String custEmail) {
+	
+	
+	public Question(int qCode, int comCode, String qDate, String qTitle, String qDesc, String qCondition,
+			String custEmail) {
+		super();
 		this.qCode = qCode;
+		this.comCode = comCode;
 		this.qDate = qDate;
 		this.qTitle = qTitle;
 		this.qDesc = qDesc;
 		this.qCondition = qCondition;
 		this.custEmail = custEmail;
 	}
+
 	public Question(int qCode, String qDate, String qTitle, String qDesc, String qCondition) {
 		this.qCode = qCode;
 		this.qDate = qDate;
@@ -40,6 +47,14 @@ public class Question {
 
 	public void setqCode(int qCode) {
 		this.qCode = qCode;
+	}
+
+	public int getComCode() {
+		return comCode;
+	}
+	
+	public void setComCode(int comCode) {
+		this.comCode = comCode;
 	}
 
 	public String getqDate() {
@@ -80,11 +95,15 @@ public class Question {
 	public void setqCondition(String qCondition) {
 		this.qCondition = qCondition;
 	}
+
+
 	@Override
 	public String toString() {
-		return "Question [qCode=" + qCode + ", qDate=" + qDate + ", qTitle=" + qTitle + ", qDesc=" + qDesc
-				+ ", qCondition=" + qCondition + ", custEmail=" + custEmail + "]";
+		return "Question [qCode=" + qCode + ", comCode=" + comCode + ", qDate=" + qDate + ", qTitle=" + qTitle
+				+ ", qDesc=" + qDesc + ", qCondition=" + qCondition + ", custEmail=" + custEmail + "]";
 	}
+
+	
 
 	
 	
