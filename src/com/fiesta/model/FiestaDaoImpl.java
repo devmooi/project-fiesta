@@ -927,8 +927,14 @@ public class FiestaDaoImpl {
 	}
 
 	public void insertReview(Review review) throws SQLException {
-		// TODO Auto-generated method stub
+		Connection conn = null;
+		PreparedStatement ps = null;
 		
+		try {
+			
+		}finally {
+			closeAll(ps, conn);
+		}
 	}
 
 	public ArrayList<Review> showAllReview(String id) throws SQLException {

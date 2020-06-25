@@ -8,6 +8,13 @@
 <title>Insert title here</title>
 <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript">
+    $(function() {
+		$('button[name=reviewInsert]').click(function() {
+			window.location.href="./review/insertReview.jsp";
+		});//button[name=reviewInsert] click
+	});//ready
+    </script>
     
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
@@ -34,5 +41,21 @@
 	</c:forEach>
 </table>
 <a href="ServiceDelete.do?serviceCode=4">삭제</a>
+<p></p>
+<hr>
+<div id="review">
+	<div id="reviewInsert">
+	<button name="reviewInsert">리뷰하기</button>
+	</div>
+	<div id="reviewScore">
+	평점 : 
+	</div>
+	<hr>
+	<div id="reviewContent">
+	이름 평점 일시 리뷰개수<br>
+	사진<br>
+	리뷰 내용
+	</div>
+</div>
 </body>
 </html>
