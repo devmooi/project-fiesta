@@ -4,26 +4,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    
-    <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    
-    <!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-	<!-- Optional theme -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css">
-	<!-- Latest compiled and minified JavaScript -->
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<style>
+	    .question {
+	        display: block;
+	        color: black;
+	        margin: auto;
+	        width: 1080px;
+	        box-sizing: border-box;
+	    }
+	    .question:hover {
+	        color: red;
+	    }
+	    .question span {
+	        display: inline-block;
+	    }
+	    .question span:nth-child(1) {
+	        width: 15%;
+	    }
+	    .question span:nth-child(2) {
+	        width: 15%;
+	    }
+	    .question span:nth-child(3) {
+	        width: 30%;
+	    }
+	    .question span:nth-child(4) {
+	        width: 20%;
+	    }
+	</style>
 </head>
 <body>
 <h3 align="center">나의 문의내역들</h3><p>
-<table border="2" width="350" bgcolor="yellow" align="center">
+<%-- <table border="2" width="350" bgcolor="yellow" align="center">
 	<c:forEach items="${list}" var="question">
 		<tr onClick = "questionView.do?id="+${question.qCode}>
 			<td>${question.qCode}</td>
@@ -33,7 +46,16 @@
 			<td>${question.qCondition}</td>
 		</tr>
 	</c:forEach>
-</table>
+</table> --%>
+<c:forEach items="${list}" var="question">
+	<a href="questionView.do?id=${question.qCode}" class="question">
+	    <span>${question.qCode}</span>
+	    <span>${question.qDate}</span>
+	    <span>${question.qTitle}</span>
+	    <span>${question.qDesc}</span>
+	    <span>${question.qCondition}</span>
+	</a>
+</c:forEach>
 <a href="AnswerRegister.do">답변하기</a>
 </body>
 </html>

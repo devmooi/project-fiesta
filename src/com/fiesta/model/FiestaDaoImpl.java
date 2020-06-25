@@ -869,7 +869,7 @@ public class FiestaDaoImpl {
 		
 	}
 
-	public ArrayList<Question> showAllQuestion(String id) throws SQLException {
+	public ArrayList<Question> showAllQuestion(String custEmail) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -878,11 +878,11 @@ public class FiestaDaoImpl {
 		String qDesc= "";
 		try {
 			conn = getConnection();
-			String query = "SELECT q_code, q_title, q_desc, q_date, q_condition FROM question WHERE cust_id=?";
+			String query = "SELECT q_code, q_title, q_desc, q_date, q_condition FROM question WHERE cust_email=?";
 			ps = conn.prepareStatement(query);
 			System.out.println("PreparedStatement....showAllQuestion..");
 					
-			ps.setString(1, id);
+			ps.setString(1, custEmail);
 			
 			rs = ps.executeQuery();
 			while(rs.next()) {

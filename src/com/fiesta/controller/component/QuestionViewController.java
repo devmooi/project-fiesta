@@ -12,6 +12,7 @@ public class QuestionViewController implements Controller {
 	@Override
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String qTitle = request.getParameter("qTitle");
+		String qDesc = request.getParameter("qDesc");
 		
 		String path = "";
 

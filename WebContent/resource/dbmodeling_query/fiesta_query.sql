@@ -182,3 +182,8 @@ VALUES('encore@gmail.com','java','1234','010-5043-5765','한양대 사회과학�
 
 INSERT INTO review(review_code, review_score, review_img, review_desc, cust_email, service_code, com_email)
 VALUES('001', 4, null, '좋아요', 'encore@gmail.com', 1, 'ent1@gmail.com');
+
+INSERT INTO question(q_date, q_title, q_desc, cust_email)
+VALUES(sysdate(), '숙박문의', '몇명이서 잘 수 있나요?', 'encore@gmail.com');
+INSERT INTO question(q_date, q_title, q_desc, cust_email)
+VALUES(sysdate(), '공연문의', '이거슨 문장 잘라지는지 테스트하기 위한 문의사항입니담 키키키키킼', 'encore@gmail.com');

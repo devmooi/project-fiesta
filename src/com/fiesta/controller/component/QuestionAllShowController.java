@@ -19,7 +19,7 @@ public class QuestionAllShowController implements Controller {
 		//세션에서 Id 값 받아온다.
 		String path = "";
 
-		ArrayList<Question> list = FiestaDaoImpl.getInstance().showAllQuestion("java");
+		ArrayList<Question> list = FiestaDaoImpl.getInstance().showAllQuestion("encore@gmail.com");
 		request.setAttribute("list", list);
 		
 		path = "questionAllShow.jsp";
