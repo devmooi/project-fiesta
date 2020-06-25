@@ -8,14 +8,14 @@
 </head>
 <body>
 <h3>문의내역</h3>
-{$qDetail.qCode}
-{$qDetail.qDate}
-{$qDetail.qTitle}
-{$qDetail.qDesc}
+문의번호 : ${qDetail.qCode} <br>
+문의 날짜 : ${qDetail.qDate} <br>
+문의 제목 : ${qDetail.qTitle} <br>
+문의 내용 : ${qDetail.qDesc} <br>
 <h3>답변내역</h3>
-{$aDetail.aDate}
-{$aDetail.aDesc}
-{$aDetail.comName}
+답변 날짜 : ${aDetail.aDate}<br>
+답변 내용: ${aDetail.aDesc}<br>
+답변회사이름 : ${aDetail.comName}<br>
 
 </body>
 </html>

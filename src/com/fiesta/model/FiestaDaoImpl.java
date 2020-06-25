@@ -1031,10 +1031,11 @@ public class FiestaDaoImpl {
 		
 		//dao.insertQuestion("숙박문의","몇명이서 잘 수 있나요?", "java");
 		//dao.insertQuestion("공연문의","이거슨 문장 잘라지는지 테스트하기 위한 문의사항입니담 키키키키킼", "java");
+		dao.insertQuestion("버스문의","이거는 답변 없는 문의를 보는 테스트", "encore@gmail.com");
 		//System.out.println(dao.showAllQuestion("java"));
 		
-		System.out.println(dao.showQuestion(1));
-		System.out.println(dao.showAnswer(1));
+		//System.out.println(dao.showQuestion(1));
+		//System.out.println(dao.showAnswer(1));
 		
 		//제영 - 단위테스트
 		//System.out.println(dao.showAllCompany());
