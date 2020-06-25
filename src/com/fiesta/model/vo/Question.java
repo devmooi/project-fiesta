@@ -9,6 +9,8 @@ public class Question {
 	String qCondition;
 	String custEmail;
 	
+	String comName;
+	
 	public Question() {}
 	
 	
@@ -23,13 +25,14 @@ public class Question {
 		this.qCondition = qCondition;
 		this.custEmail = custEmail;
 	}
-
-	public Question(int qCode, String qDate, String qTitle, String qDesc, String qCondition) {
+	
+	public Question(int qCode, String qDate, String qTitle, String qDesc, String qCondition, String comName) {
 		this.qCode = qCode;
 		this.qDate = qDate;
 		this.qTitle = qTitle;
 		this.qDesc = qDesc;
 		this.qCondition = qCondition;
+		this.comName = comName;
 		
 	}
 	

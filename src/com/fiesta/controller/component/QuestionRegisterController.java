@@ -11,13 +11,15 @@ public class QuestionRegisterController implements Controller{
 
 	@Override
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		int comCode = Integer.parseInt(request.getParameter("comCode"));
 		String qTitle = request.getParameter("qTitle");
 		String qDesc = request.getParameter("qDesc");
 		
 		String path = "";
 
-		FiestaDaoImpl.getInstance().insertQuestion(qTitle, qDesc, "java" );
+		FiestaDaoImpl.getInstance().insertQuestion(comCode, qTitle, qDesc, "java" );
 		
+		request.setAttribute("comCode", comCode);
 		request.setAttribute("qTitle", qTitle);
 		request.setAttribute("qDesc", qDesc);
 		
