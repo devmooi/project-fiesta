@@ -56,6 +56,6 @@
 	    <span>${question.qCondition}</span>
 	</a>
 </c:forEach>
-<a href="AnswerRegister.do">답변하기</a>
+<a href="answerRegister.do">답변하기</a>
 </body>
 </html>
