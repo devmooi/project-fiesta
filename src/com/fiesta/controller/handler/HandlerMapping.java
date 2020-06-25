@@ -39,8 +39,12 @@ public class HandlerMapping {
 			System.out.println("QuestionRegisterController 생성됨");
 			
 		}else if(command.equals("questionAllShow.do")) {
-			controller = new questionAllShowController();
-			System.out.println("questionAllShowController 생성됨");
+			controller = new QuestionAllShowController();
+			System.out.println("QuestionAllShowController 생성됨");
+			
+		}else if(command.equals("questionView.do")) {
+			controller = new QuestionViewController();
+			System.out.println("QuestionViewController 생성됨");
 			
 		}else if(command.equals("lookupCompany.do")) {
 			controller = new lookupCompanyController();

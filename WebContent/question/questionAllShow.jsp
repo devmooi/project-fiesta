@@ -25,7 +25,7 @@
 <h3 align="center">나의 문의내역들</h3><p>
 <table border="2" width="350" bgcolor="yellow" align="center">
 	<c:forEach items="${list}" var="question">
-		<tr onClick = "questionView.do">
+		<tr onClick = "questionView.do?id="+${question.qCode}>
 			<td>${question.qCode}</td>
 			<td>${question.qDate}</td>
 			<td>${question.qTitle}</td>

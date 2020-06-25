@@ -903,6 +903,42 @@ public class FiestaDaoImpl {
 		}
 		return list;
 	}
+	
+	//하나조회하는거 추가
+/*	public Question showQuestion(String id) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Question question = null;
+		
+		String qDesc= "";
+		try {
+			conn = getConnection();
+			String query = "SELECT q_code, q_title, q_desc, q_date, q_condition FROM question WHERE cust_id=?";
+			ps = conn.prepareStatement(query);
+			System.out.println("PreparedStatement....showAllQuestion..");
+					
+			ps.setString(1, id);
+			
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				//내용에 문장자르기~~~
+				if(rs.getString("q_desc").length()>15) {
+					qDesc = rs.getString("q_desc").substring(0, 15)+"...";
+				}else {
+					qDesc = rs.getString("q_desc");
+				}
+				list.add(new Question(rs.getInt("q_code"), 
+									  rs.getString("q_title"), 
+									  qDesc, 
+									  rs.getString("q_date"),
+									  rs.getString("q_condition")));
+			}
+		}finally {
+			closeAll(rs, ps, conn);
+		}
+		return question;
+	}*/
 
 	public void insertAnswer(Answer answer) throws SQLException {
 		// TODO Auto-generated method stub

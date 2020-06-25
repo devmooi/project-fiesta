@@ -1,29 +1,27 @@
 package com.fiesta.controller.component;
 
-import java.util.ArrayList;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fiesta.controller.Controller;
 import com.fiesta.controller.ModelAndView;
 import com.fiesta.model.FiestaDaoImpl;
-import com.fiesta.model.vo.Question;
-import com.fiesta.model.vo.Service;
 
-public class questionAllShowController implements Controller {
+public class QuestionViewController implements Controller {
 
 	@Override
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String qTitle = request.getParameter("qTitle");
 		
-		//세션에서 Id 값 받아온다.
 		String path = "";
 
-		ArrayList<Question> list = FiestaDaoImpl.getInstance().showAllQuestion("java");
-		request.setAttribute("list", list);
+		FiestaDaoImpl.getInstance().insertQuestion(qTitle, qDesc, "java" );
 		
-		path = "questionAllShow.jsp";
+		request.setAttribute("qTitle", qTitle);
+		request.setAttribute("qDesc", qDesc);
 		
+		path = "questionRegisterResult.jsp";
+			
 
 		return new ModelAndView(path);
 	}
