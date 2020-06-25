@@ -25,6 +25,14 @@ public class Question {
 		this.qCondition = qCondition;
 		
 	}
+	
+	public Question(int qCode, String qDate, String qTitle, String qDesc) {
+		this.qCode = qCode;
+		this.qDate = qDate;
+		this.qTitle = qTitle;
+		this.qDesc = qDesc;
+		
+	}
 
 	public int getqCode() {
 		return qCode;

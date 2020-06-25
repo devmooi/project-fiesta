@@ -5,23 +5,20 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fiesta.controller.Controller;
 import com.fiesta.controller.ModelAndView;
-import com.fiesta.model.FiestaDaoImpl;
 
 public class QuestionViewController implements Controller {
 
 	@Override
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String qTitle = request.getParameter("qTitle");
-		String qDesc = request.getParameter("qDesc");
+		String qCode = request.getParameter("qCode");
 		
 		String path = "";
 
-		FiestaDaoImpl.getInstance().insertQuestion(qTitle, qDesc, "java" );
+		//Question qDetail = FiestaDaoImpl.getInstance(). showQuestion(qCode);
 		
-		request.setAttribute("qTitle", qTitle);
-		request.setAttribute("qDesc", qDesc);
+		//request.setAttribute("qDetail", qDetail);
 		
-		path = "questionRegisterResult.jsp";
+		path = "questionView.jsp";
 			
 
 		return new ModelAndView(path);
