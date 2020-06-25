@@ -17,31 +17,31 @@ public interface FiestaDao {
 	//회원 등록
 	void registerCustomer(Customer customer) throws SQLException;
 	//회원 로그인
-	Customer loginCustomer(String id, String pass) throws SQLException; 
+	Customer loginCustomer(String custEmail, String pass) throws SQLException; 
 	//회원 정보 수정
 	void updateCustomer(Customer customer) throws SQLException;
 	//회원 탈퇴
-	void deleteCustomer(String id, String pass) throws SQLException;
+	void deleteCustomer(String custEmail, String pass) throws SQLException;
 	//회원 정보 조회
-	Customer lookupCustomer(String id) throws SQLException;
+	Customer lookupCustomer(String custEmail) throws SQLException;
 	
 	//고객 의뢰
 	void insertCustorder(Custorder custorder) throws SQLException;
 	//고객 의뢰 확정
 	void insertOrderdetail(Orderdetail orderdetail) throws SQLException;
 	//고객 의뢰한 모든 내용 조회
-	ArrayList<Custorder> showAllCustorder(String id) throws SQLException;
+	ArrayList<Custorder> showAllCustorder(String custEmail) throws SQLException;
 	//고객 의뢰 확정 내용 조회
-	ArrayList<Orderdetail> showAllOrderdetail(String id) throws SQLException; 
+	ArrayList<Orderdetail> showAllOrderdetail(String requestCode) throws SQLException; 
 	
 	//회사 등록
 	void registerCompany(Company company) throws SQLException;
 	//회사 로그인
-	Company loginCompany(String id, String pass) throws SQLException;
+	Company loginCompany(String comEmail, String pass) throws SQLException;
 	//회사 정보 수정
 	void updateCompany(Company company) throws SQLException;
 	//회사 탈퇴
-	void deleteCompany(String id, String pass) throws SQLException;
+	void deleteCompany(String comEmail, String pass) throws SQLException;
 	
 	//제영
 	//회사 정보 조회
