@@ -53,6 +53,9 @@ public class HandlerMapping {
 		}else if(command.equals("SortCompany.do")) {
 			controller = new SortCompanyController();
 			System.out.println("SortCompanyController 생성됨");
+		}else if(command.equals("InsertReview.do")) {
+			controller = new InsertReviewController();
+			System.out.println("InsertReviewController 생성됨");
 		}
 
 		return controller;

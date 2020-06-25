@@ -15,14 +15,19 @@ public class lookupCompanyController implements Controller{
 	@Override
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		int category=-1;
+		if(!request.getParameter("category").equals("")) {
+			category = Integer.parseInt(request.getParameter("category"));
+		}
 		String searchBy = request.getParameter("searchBy");
 		String searchContent = request.getParameter("searchContent");
 		ArrayList<Review> list = new ArrayList<>();
-		if(!request.getParameter("category").equals("")) {
+		
+		if(category!=-1) {
 			category = Integer.parseInt(request.getParameter("category"));
 			list = FiestaDaoImpl.getInstance().lookupCompany(category, searchBy, searchContent);
+		}else {
+			list = FiestaDaoImpl.getInstance().lookupCompany(searchBy, searchContent);
 		}
-		list = FiestaDaoImpl.getInstance().lookupCompany(searchBy, searchContent);
 		request.setAttribute("list", list);
 		request.setAttribute("category", category);
 		request.setAttribute("searchBy", searchBy);

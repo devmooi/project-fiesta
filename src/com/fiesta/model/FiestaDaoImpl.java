@@ -375,7 +375,7 @@ public class FiestaDaoImpl {
 		}		
 	}
 	
-
+	//카테고리를 설정 안 하고 검색할 때
 	public ArrayList<Review> lookupCompany(String searchBy, String searchContent) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -385,26 +385,26 @@ public class FiestaDaoImpl {
 		try {
 			conn=getConnection();
 			StringBuffer query = new StringBuffer();
-			query.append("SELECT c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
+			query.append("SELECT c.com_email, sc.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
 			query.append("FROM company c ");
 			query.append("LEFT OUTER JOIN review r ");
-			query.append("ON c.com_code = r.com_code ");
+			query.append("ON c.com_email = r.com_email ");
 			query.append("LEFT OUTER JOIN service s ");
-			query.append("ON c.com_code = s.com_code ");
+			query.append("ON c.com_email = s.com_email ");
 			if(searchBy.equals("태그")) {
 				query.append("WHERE s.service_tag LIKE ? ");
-				query.append("ORDER BY c.com_code DESC ");
+				//query.append("ORDER BY c.com_code DESC ");
 				ps=conn.prepareStatement(query.toString());
 				ps.setString(1, "%"+searchContent+"%");
 			}else if(searchBy.equals("회사명")) {
 				query.append("WHERE c.com_name LIKE ? ");
-				query.append("ORDER BY c.com_code DESC ");
+				//query.append("ORDER BY c.com_code DESC ");
 				ps=conn.prepareStatement(query.toString());
 				ps.setString(1, "%"+searchContent+"%");
 			}else {
 				query.append("WHERE (s.service_tag LIKE ? ");
 				query.append("OR c.com_name LIKE ?) ");
-				query.append("ORDER BY c.com_code DESC ");
+				//query.append("ORDER BY c.com_code DESC ");
 				ps=conn.prepareStatement(query.toString());
 				ps.setString(1, "%"+searchContent+"%");
 				ps.setString(2, "%"+searchContent+"%");
@@ -413,7 +413,8 @@ public class FiestaDaoImpl {
 			while(rs.next()) {
 				list.add(new Review(rs.getInt("r.review_score"),
 						rs.getString("r.review_desc"),
-						new Company(rs.getString("c.com_name"),
+						new Company(rs.getString("c.com_email"),
+								rs.getString("c.com_name"),
 								rs.getString("c.com_img"),
 								rs.getString("c.com_desc"))));
 			}
@@ -466,37 +467,42 @@ public class FiestaDaoImpl {
 		try {
 			conn=getConnection();
 			StringBuffer query = new StringBuffer();
-			query.append("SELECT c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
+			query.append("SELECT c.com_email, c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
 			query.append("FROM company c ");
 			query.append("LEFT OUTER JOIN review r ");
-			query.append("ON c.com_code = r.com_code ");
+			query.append("ON c.com_email = r.com_email ");
 			query.append("LEFT OUTER JOIN service s ");
-			query.append("ON c.com_code = s.com_code ");
-			query.append("WHERE c.comCategory_code = ? ");
+			query.append("ON c.com_email = s.com_email ");
 			if(searchBy.equals("태그")) {
+				query.append("WHERE c.comCategory_code = ? ");
 				query.append("AND s.service_tag LIKE ? ");
-				query.append("ORDER BY c.com_code DESC ");
+				//query.append("ORDER BY c.com_code DESC ");
 				ps=conn.prepareStatement(query.toString());
+				ps.setInt(1, category);
 				ps.setString(2, "%"+searchContent+"%");
 			}else if(searchBy.equals("회사명")) {
+				query.append("WHERE c.comCategory_code = ? ");
 				query.append("AND c.com_name LIKE ? ");
-				query.append("ORDER BY c.com_code DESC ");
+				//query.append("ORDER BY c.com_code DESC ");
 				ps=conn.prepareStatement(query.toString());
+				ps.setInt(1, category);
 				ps.setString(2, "%"+searchContent+"%");
 			}else {
+				query.append("WHERE c.comCategory_code = ? ");
 				query.append("AND (s.service_tag LIKE ? ");
 				query.append("OR c.com_name LIKE ?) ");
-				query.append("ORDER BY c.com_code DESC ");
+				//query.append("ORDER BY c.com_code DESC ");
 				ps=conn.prepareStatement(query.toString());
+				ps.setInt(1, category);
 				ps.setString(2, "%"+searchContent+"%");
 				ps.setString(3, "%"+searchContent+"%");
 			}
-			ps.setInt(1, category);
 			rs=ps.executeQuery();
 			while(rs.next()) {
 				list.add(new Review(rs.getInt("r.review_score"),
 						rs.getString("r.review_desc"),
-						new Company(rs.getString("c.com_name"),
+						new Company(rs.getString("c.com_email"),
+								rs.getString("c.com_name"),
 								rs.getString("c.com_img"),
 								rs.getString("c.com_desc"))));
 			}
@@ -515,17 +521,18 @@ public class FiestaDaoImpl {
 		try {
 			conn=getConnection();
 			StringBuffer query = new StringBuffer();
-			query.append("SELECT c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
+			query.append("SELECT c.com_email, c.com_email, c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
 			query.append("FROM company c LEFT OUTER JOIN review r ");
-			query.append("ON c.com_code = r.com_code ");
-			query.append("ORDER BY c.com_code DESC");
+			query.append("ON c.com_email = r.com_email ");
+			//query.append("ORDER BY c.com_code DESC");
 			ps=conn.prepareStatement(query.toString());
 			//System.out.println(query.toString());
 			rs=ps.executeQuery();
 			while(rs.next()) {
 				list.add(new Review(rs.getInt("r.review_score"),
 						rs.getString("r.review_desc"),
-						new Company(rs.getString("c.com_name"),
+						new Company(rs.getString("c.com_email"),
+								rs.getString("c.com_name"),
 								rs.getString("c.com_img"),
 								rs.getString("c.com_desc"))));
 			}
@@ -545,11 +552,11 @@ public class FiestaDaoImpl {
 		try {
 			conn=getConnection();
 			StringBuffer query = new StringBuffer();
-			query.append("SELECT c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
+			query.append("SELECT c.com_email, c.com_email, c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
 			query.append("FROM company c LEFT OUTER JOIN review r ");
-			query.append("ON c.com_code = r.com_code ");
+			query.append("ON c.com_email = r.com_email ");
 			query.append("WHERE c.comCategory_code = ? ");
-			query.append("ORDER BY c.com_code DESC ");
+			//query.append("ORDER BY c.com_code DESC ");
 			
 			ps=conn.prepareStatement(query.toString());
 			ps.setInt(1, category);
@@ -558,7 +565,8 @@ public class FiestaDaoImpl {
 			while(rs.next()) {
 				list.add(new Review(rs.getInt("r.review_score"),
 						rs.getString("r.review_desc"),
-						new Company(rs.getString("c.com_name"),
+						new Company(rs.getString("c.com_email"),
+								rs.getString("c.com_name"),
 								rs.getString("c.com_img"),
 								rs.getString("c.com_desc"))));
 			}
@@ -578,31 +586,32 @@ public class FiestaDaoImpl {
 		try {
 			conn=getConnection();
 			String query2="";
-			if(sortBy.equals("최신순")) {
+			/*if(sortBy.equals("최신순")) {
 				query2="ORDER BY c.com_code DESC";
-			}/*else if(sortBy.equals("조회순")) {
+			}else if(sortBy.equals("조회순")) {
 				query2="GROUP BY c.com_code ORDER BY COUNT(c.com_count) ASC";
-			}*/else if(sortBy.equals("평점순")) {
+			}else*/ if(sortBy.equals("평점순")) {
 				query2="GROUP BY r.review_code ORDER BY AVG(r.review_score) ASC";
 			}else {
 				query2="GROUP BY r.review_code ORDER BY COUNT(r.review_code) ASC";
 			}
 
 			StringBuffer query = new StringBuffer();
-			query.append("SELECT c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
+			query.append("SELECT c.com_email, c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
 			query.append("FROM company c ");
 			query.append("LEFT OUTER JOIN review r ");
-			query.append("ON c.com_code = r.com_code ");
+			query.append("ON c.com_email = r.com_email ");
 			query.append("LEFT OUTER JOIN service s ");
-			query.append("ON c.com_code = s.com_code ");
+			query.append("ON c.com_email = s.com_email ");
 			query.append(query2);
 			rs=ps.executeQuery();
 			while(rs.next()) {
 				list.add(new Review(rs.getInt("r.review_score"),
 						rs.getString("r.review_desc"),
-						new Company(rs.getString("c.com_name"),
+						new Company(rs.getString("c.com_email"),
+								rs.getString("c.com_name"),
 								rs.getString("c.com_img"),
-								rs.getString("c.com_desc"))));
+								rs.getString("c.com_desc"))));;
 			}
 		}finally {
 			closeAll(rs, ps, conn);
@@ -620,23 +629,23 @@ public class FiestaDaoImpl {
 		try {
 			conn=getConnection();
 			String query2="";
-			if(sortBy.equals("최신순")) {
+			/*if(sortBy.equals("최신순")) {
 				query2="ORDER BY c.com_code DESC";
-			}/*else if(sortBy.equals("조회순")) {
+			}else if(sortBy.equals("조회순")) {
 				query2="GROUP BY c.com_code ORDER BY COUNT(c.com_count) ASC";
-			}*/else if(sortBy.equals("평점순")) {
+			}else */if(sortBy.equals("평점순")) {
 				query2="GROUP BY r.review_code ORDER BY AVG(r.review_score) ASC";
 			}else {
 				query2="GROUP BY r.review_code ORDER BY COUNT(r.review_code) ASC";
 			}
 
 			StringBuffer query = new StringBuffer();
-			query.append("SELECT c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
+			query.append("SELECT c.com_email, c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
 			query.append("FROM company c ");
 			query.append("LEFT OUTER JOIN review r ");
-			query.append("ON c.com_code = r.com_code ");
+			query.append("ON c.com_email = r.com_email ");
 			query.append("LEFT OUTER JOIN service s ");
-			query.append("ON c.com_code = s.com_code ");
+			query.append("ON c.com_email = s.com_email ");
 			query.append("WHERE c.comCategory_code = ? ");
 			query.append(query2);
 			ps.setInt(1, category);
@@ -644,7 +653,8 @@ public class FiestaDaoImpl {
 			while(rs.next()) {
 				list.add(new Review(rs.getInt("r.review_score"),
 						rs.getString("r.review_desc"),
-						new Company(rs.getString("c.com_name"),
+						new Company(rs.getString("c.com_email"),
+								rs.getString("c.com_name"),
 								rs.getString("c.com_img"),
 								rs.getString("c.com_desc"))));
 			}
@@ -664,23 +674,23 @@ public class FiestaDaoImpl {
 		try {
 			conn=getConnection();
 			String query2="";
-			if(sortBy.equals("최신순")) {
+			/*if(sortBy.equals("최신순")) {
 				query2="ORDER BY c.com_code DESC";
-			}/*else if(sortBy.equals("조회순")) {
+			}else if(sortBy.equals("조회순")) {
 				query2="GROUP BY c.com_code ORDER BY COUNT(c.com_count) ASC";
-			}*/else if(sortBy.equals("평점순")) {
+			}else*/ if(sortBy.equals("평점순")) {
 				query2="ORDER BY r.review_code ORDER BY AVG(r.review_score) ASC";
 			}else {
 				query2="ORDER BY r.review_code ORDER BY COUNT(r.review_code) ASC";
 			}
 
 			StringBuffer query = new StringBuffer();
-			query.append("SELECT c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
+			query.append("SELECT c.com_email, c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
 			query.append("FROM company c ");
 			query.append("LEFT OUTER JOIN review r ");
-			query.append("ON c.com_code = r.com_code ");
+			query.append("ON c.com_email = r.com_email ");
 			query.append("LEFT OUTER JOIN service s ");
-			query.append("ON c.com_code = s.com_code ");
+			query.append("ON c.com_email = s.com_email ");
 			if(searchBy.equals("태그")) {
 				query.append("AND s.service_tag LIKE ? ");
 				query.append(query2);
@@ -703,7 +713,8 @@ public class FiestaDaoImpl {
 			while(rs.next()) {
 				list.add(new Review(rs.getInt("r.review_score"),
 						rs.getString("r.review_desc"),
-						new Company(rs.getString("c.com_name"),
+						new Company(rs.getString("c.com_email"),
+								rs.getString("c.com_name"),
 								rs.getString("c.com_img"),
 								rs.getString("c.com_desc"))));
 			}
@@ -723,23 +734,23 @@ public class FiestaDaoImpl {
 		try {
 			conn=getConnection();
 			String query2="";
-			if(sortBy.equals("최신순")) {
+			/*if(sortBy.equals("최신순")) {
 				query2="ORDER BY c.com_code DESC";
-			}/*else if(sortBy.equals("조회순")) {
+			}else if(sortBy.equals("조회순")) {
 				query2="GROUP BY c.com_code ORDER BY COUNT(c.com_count) ASC";
-			}*/else if(sortBy.equals("평점순")) {
+			}else*/ if(sortBy.equals("평점순")) {
 				query2="ORDER BY r.review_code ORDER BY AVG(r.review_score) ASC";
 			}else {
 				query2="ORDER BY r.review_code ORDER BY COUNT(r.review_code) ASC";
 			}
 
 			StringBuffer query = new StringBuffer();
-			query.append("SELECT c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
+			query.append("SELECT c.com_email, c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
 			query.append("FROM company c ");
 			query.append("LEFT OUTER JOIN review r ");
-			query.append("ON c.com_code = r.com_code ");
+			query.append("ON c.com_email = r.com_email ");
 			query.append("LEFT OUTER JOIN service s ");
-			query.append("ON c.com_code = s.com_code ");
+			query.append("ON c.com_email = s.com_email ");
 			query.append("WHERE c.comCategory_code = ? ");
 			if(searchBy.equals("태그")) {
 				query.append("AND s.service_tag LIKE ? ");
@@ -764,7 +775,8 @@ public class FiestaDaoImpl {
 			while(rs.next()) {
 				list.add(new Review(rs.getInt("r.review_score"),
 						rs.getString("r.review_desc"),
-						new Company(rs.getString("c.com_name"),
+						new Company(rs.getString("c.com_email"),
+								rs.getString("c.com_name"),
 								rs.getString("c.com_img"),
 								rs.getString("c.com_desc"))));
 			}
@@ -816,18 +828,18 @@ public class FiestaDaoImpl {
 		
 	}
 
-	public ArrayList<Service> showAllService(int companycode) throws SQLException {
+	public ArrayList<Service> showAllService(String companycode) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		ArrayList<Service> list = new ArrayList<>();
 		try {
 			conn = getConnection();
-			String query = "SELECT * FROM service WHERE com_code=?";
+			String query = "SELECT * FROM service WHERE com_email=?";
 			ps = conn.prepareStatement(query);
 			System.out.println("PreparedStatement....showAllService..");
 					
-			ps.setInt(1, companycode);
+			ps.setString(1, companycode);
 			
 			rs = ps.executeQuery();
 			while(rs.next()) {
@@ -978,8 +990,14 @@ public class FiestaDaoImpl {
 	
 	
 	public void insertReview(Review review) throws SQLException {
-		// TODO Auto-generated method stub
+		Connection conn = null;
+		PreparedStatement ps = null;
 		
+		try {
+			
+		}finally {
+			closeAll(ps, conn);
+		}
 	}
 
 	public ArrayList<Review> showAllReview(String id) throws SQLException {
