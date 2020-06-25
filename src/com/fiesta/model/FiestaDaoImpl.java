@@ -948,9 +948,69 @@ public class FiestaDaoImpl {
 		}
 		return question;
 	}
+	
+	//회사입장에서 자기한테 들어온 문의만 보기
+/*	public ArrayList<Question> showAllQuestionByCompany(int comCode) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		ArrayList<Question> list = new ArrayList<>();
+		
+		String qDesc= "";
+		try {
+			conn = getConnection();
+			String query = "SELECT q_code, q_title, q_desc, q_date, q_condition FROM question WHERE cust_email=?";
+			ps = conn.prepareStatement(query);
+			System.out.println("PreparedStatement....showAllQuestion..");
+					
+			ps.setString(1, custEmail);
+			
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				//내용에 문장자르기~~~
+				if(rs.getString("q_desc").length()>15) {
+					qDesc = rs.getString("q_desc").substring(0, 15)+"...";
+				}else {
+					qDesc = rs.getString("q_desc");
+				}
+				list.add(new Question(rs.getInt("q_code"), 
+									  rs.getString("q_title"), 
+									  qDesc, 
+									  rs.getString("q_date"),
+									  rs.getString("q_condition")));
+			}
+		}finally {
+			closeAll(rs, ps, conn);
+		}
+		return list;
+	}*/
 
-	public void insertAnswer(Answer answer) throws SQLException {
-		// TODO Auto-generated method stub
+	public void insertAnswer(int qCode, Answer answer, String custEmail) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		//현재시간 출력
+		SimpleDateFormat format = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
+		Calendar time = Calendar.getInstance();
+		String currTime = format.format(time.getTime());
+		//System.out.println(currTime); 확인용
+		
+		try{
+			conn=  getConnection();
+			String query = "INSERT INTO answer(a_date, a_desc, cust_email) VALUES(?,?,?,?)";
+			ps = conn.prepareStatement(query);
+			System.out.println("PreparedStatement 생성됨...insertAnswer");
+			
+			ps.setString(1, currTime);
+			ps.setString(2, answer.getaDesc());
+			ps.setInt(3, answer.getComCode());
+			ps.setString(4, custEmail);	//세션의 고객아이디 값 가져오기
+			//condition 상태값 default값이 '답변대기'여야 함.
+			
+			System.out.println(ps.executeUpdate()+" row INSERT OK!!");
+		}finally{
+			closeAll(ps, conn);
+		}
 		
 	}
 
@@ -1033,10 +1093,11 @@ public class FiestaDaoImpl {
 		
 		//dao.insertQuestion("숙박문의","몇명이서 잘 수 있나요?", "java");
 		//dao.insertQuestion("공연문의","이거슨 문장 잘라지는지 테스트하기 위한 문의사항입니담 키키키키킼", "java");
+		//dao.insertQuestion("버스문의","이거는 답변 없는 문의를 보는 테스트", "encore@gmail.com");
 		//System.out.println(dao.showAllQuestion("java"));
 		
-		System.out.println(dao.showQuestion(1));
-		System.out.println(dao.showAnswer(1));
+		//System.out.println(dao.showQuestion(1));
+		//System.out.println(dao.showAnswer(1));
 		
 		//제영 - 단위테스트
 		//System.out.println(dao.showAllCompany());

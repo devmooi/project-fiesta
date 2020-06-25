@@ -46,6 +46,11 @@ public class HandlerMapping {
 			controller = new QuestionViewController();
 			System.out.println("QuestionViewController 생성됨");
 			
+				
+		}else if(command.equals("answerRegister.do")) {
+			controller = new AnswerRegisterController();
+			System.out.println("AnswerRegisterController 생성됨");
+			
 		}else if(command.equals("lookupCompany.do")) {
 			controller = new lookupCompanyController();
 			System.out.println("lookupCompanyController 생성됨");

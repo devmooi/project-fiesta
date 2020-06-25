@@ -48,7 +48,7 @@
 	</c:forEach>
 </table> --%>
 <c:forEach items="${list}" var="question">
-	<a href="questionView.do?id=${question.qCode}" class="question">
+	<a href="questionView.do?qCode=${question.qCode}" class="question">
 	    <span>${question.qCode}</span>
 	    <span>${question.qDate}</span>
 	    <span>${question.qTitle}</span>
@@ -56,6 +56,6 @@
 	    <span>${question.qCondition}</span>
 	</a>
 </c:forEach>
-<a href="AnswerRegister.do">답변하기</a>
+<a href="answerRegister.do">답변하기</a>
 </body>
 </html>
