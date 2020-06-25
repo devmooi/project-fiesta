@@ -61,6 +61,8 @@ public class HandlerMapping {
 		}else if(command.equals("InsertReview.do")) {
 			controller = new InsertReviewController();
 			System.out.println("InsertReviewController 생성됨");
+		}else if(command.equals("fileUploadTest.do")) {
+			controller = new FileUploadTestController();
 		}
 
 		return controller;

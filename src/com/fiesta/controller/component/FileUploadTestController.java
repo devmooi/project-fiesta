@@ -29,7 +29,7 @@ public class FileUploadTestController implements Controller {
 			for(FileItem item : items) {
 				if(item.isFormField()) {
 					System.out.println("파라미터 명 : " + item.getFieldName());
-					System.out.println("파라미터 값 : " + item.getString());
+					System.out.println("파라미터 값 : " + item.getString("utf-8"));
 				}else {
 					System.out.println("파라미터 명 : " + item.getFieldName());
 					System.out.println("파일 명 : " + item.getName());
