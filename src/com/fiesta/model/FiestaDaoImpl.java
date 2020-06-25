@@ -905,7 +905,7 @@ public class FiestaDaoImpl {
 	}
 	
 	//하나조회하는거 추가
-/*	public Question showQuestion(String id) throws SQLException {
+	public Question showQuestion(String qCode) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -914,31 +914,34 @@ public class FiestaDaoImpl {
 		String qDesc= "";
 		try {
 			conn = getConnection();
+			//select q.q_code, q.q_title, q.q_desc, q.q_date, a.a_code, a.a_desc, a.a_date from question q, answer a where a.q_code = ?;
 			String query = "SELECT q_code, q_title, q_desc, q_date, q_condition FROM question WHERE cust_id=?";
 			ps = conn.prepareStatement(query);
-			System.out.println("PreparedStatement....showAllQuestion..");
+			System.out.println("PreparedStatement....showQuestion..");
 					
-			ps.setString(1, id);
+			ps.setString(1, qCode);
 			
 			rs = ps.executeQuery();
-			while(rs.next()) {
-				//내용에 문장자르기~~~
-				if(rs.getString("q_desc").length()>15) {
-					qDesc = rs.getString("q_desc").substring(0, 15)+"...";
+			if(rs.next()) {
+				if(rs.getString("a.a_code")==null) {
+					question = new Question(rs.getInt("q.q_code"), 
+							  rs.getString("q.q_title"),
+							  rs.getString("q.q_desc"),
+							  rs.getString("q.q_date"));
 				}else {
 					qDesc = rs.getString("q_desc");
 				}
-				list.add(new Question(rs.getInt("q_code"), 
+				question = new Question(rs.getInt("q_code"), 
 									  rs.getString("q_title"), 
 									  qDesc, 
 									  rs.getString("q_date"),
-									  rs.getString("q_condition")));
+									  rs.getString("q_condition"));
 			}
 		}finally {
 			closeAll(rs, ps, conn);
 		}
 		return question;
-	}*/
+	}
 
 	public void insertAnswer(Answer answer) throws SQLException {
 		// TODO Auto-generated method stub

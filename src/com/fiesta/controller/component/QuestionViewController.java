@@ -11,16 +11,16 @@ public class QuestionViewController implements Controller {
 
 	@Override
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String qTitle = request.getParameter("qTitle");
+		String qTitle = request.getParameter("qCode");
 		
 		String path = "";
 
-		FiestaDaoImpl.getInstance().insertQuestion(qTitle, qDesc, "java" );
+		FiestaDaoImpl.getInstance().insertQuestion(qCode);
 		
 		request.setAttribute("qTitle", qTitle);
 		request.setAttribute("qDesc", qDesc);
 		
-		path = "questionRegisterResult.jsp";
+		path = "questionView.jsp";
 			
 
 		return new ModelAndView(path);
