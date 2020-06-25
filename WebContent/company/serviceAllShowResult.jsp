@@ -14,6 +14,7 @@
 			window.location.href="./review/insertReview.jsp";
 		});//button[name=reviewInsert] click
 	});//ready
+	alert(${})
     </script>
     
     <!-- Compiled and minified CSS -->
