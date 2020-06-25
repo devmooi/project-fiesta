@@ -50,7 +50,7 @@ public class QuestionDaoImpl {
 	}
 	
 	//작업 영역
-	public void insertQuestion(String title, String desc, String custEmail) throws SQLException {
+	public void insertQuestion(int comCode, String title, String desc, String custEmail) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		
@@ -62,7 +62,7 @@ public class QuestionDaoImpl {
 		
 		try{
 			conn=  getConnection();
-			String query = "INSERT INTO question(q_date, q_title, q_desc, cust_email) VALUES(?,?,?,?)";
+			String query = "INSERT INTO question(q_date, q_title, q_desc, cust_email, com_code) VALUES(?,?,?,?,?)";
 			ps = conn.prepareStatement(query);
 			System.out.println("PreparedStatement 생성됨...insertQuestion");
 			
@@ -70,6 +70,7 @@ public class QuestionDaoImpl {
 			ps.setString(2, title);
 			ps.setString(3, desc);
 			ps.setString(4, custEmail);	//세션의 고객아이디 값 가져오기
+			ps.setInt(5, comCode); //기업코드값 가져오기
 			//condition 상태값 default값이 '답변대기'여야 함.
 			
 			System.out.println(ps.executeUpdate()+" row INSERT OK!!");
@@ -79,6 +80,7 @@ public class QuestionDaoImpl {
 		
 	}
 
+	//고객의 질문들보기
 	public ArrayList<Question> showAllQuestion(String custEmail) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -88,7 +90,10 @@ public class QuestionDaoImpl {
 		String qDesc= "";
 		try {
 			conn = getConnection();
-			String query = "SELECT q_code, q_title, q_desc, q_date, q_condition FROM question WHERE cust_email=?";
+
+			String query = "SELECT q.q_code, q.q_title, q.q_desc, q.q_date, q_condition, c.com_name"
+					+ "FROM question q, company c"
+					+ "WHERE q.com_code = c.com_code and cust_email=?";
 			ps = conn.prepareStatement(query);
 			System.out.println("PreparedStatement....showAllQuestion..");
 					
@@ -97,16 +102,19 @@ public class QuestionDaoImpl {
 			rs = ps.executeQuery();
 			while(rs.next()) {
 				//내용에 문장자르기~~~
-				if(rs.getString("q_desc").length()>15) {
-					qDesc = rs.getString("q_desc").substring(0, 15)+"...";
+				if(rs.getString("q.q_desc").length()>15) {
+					qDesc = rs.getString("q.q_desc").substring(0, 15)+"...";
 				}else {
-					qDesc = rs.getString("q_desc");
+					qDesc = rs.getString("q.q_desc");
 				}
-				list.add(new Question(rs.getInt("q_code"), 
-									  rs.getString("q_title"), 
+				Company com = new Company();
+				com.setComName("c.com_name");
+				list.add(new Question(rs.getInt("q.q_code"), 
+									  rs.getString("q.q_title"), 
 									  qDesc, 
-									  rs.getString("q_date"),
-									  rs.getString("q_condition")));
+									  rs.getString("q.q_date"),
+									  rs.getString("q.q_condition"),
+									  com.getComName()));
 			}
 		}finally {
 			closeAll(rs, ps, conn);
@@ -124,7 +132,9 @@ public class QuestionDaoImpl {
 		try {
 			conn = getConnection();
 
-			String query = "select q_code, q_title, q_desc, q_date from question where q_code = ?";
+			String query = "select q.q_code, q.q_title, q.q_desc, q.q_date, c.com_name "
+					+ "from question q,  company c"
+					+ "where q.com_code = c.com_code and q.q_code=?";
 			ps = conn.prepareStatement(query);
 			System.out.println("PreparedStatement....showQuestion..");
 					
@@ -144,20 +154,22 @@ public class QuestionDaoImpl {
 	}
 	
 	//회사입장에서 자기한테 들어온 문의만 보기
-/*	public ArrayList<Question> showAllQuestionByCompany(int comCode) throws SQLException {
+	public ArrayList<Question> showAllQuestionByCompany(int comCode) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		ArrayList<Question> list = new ArrayList<>();
+		Question question = new Question();
 		
 		String qDesc= "";
 		try {
 			conn = getConnection();
-			String query = "SELECT q_code, q_title, q_desc, q_date, q_condition FROM question WHERE cust_email=?";
+
+			String query = "SELECT q_code, q_title, q_desc, q_date, q_condition, cust_email FROM question WHERE com_code=?";
 			ps = conn.prepareStatement(query);
-			System.out.println("PreparedStatement....showAllQuestion..");
+			System.out.println("PreparedStatement....showAllQuestionByCompany..");
 					
-			ps.setString(1, custEmail);
+			ps.setInt(1, comCode);
 			
 			rs = ps.executeQuery();
 			while(rs.next()) {
@@ -167,19 +179,27 @@ public class QuestionDaoImpl {
 				}else {
 					qDesc = rs.getString("q_desc");
 				}
-				list.add(new Question(rs.getInt("q_code"), 
+				/*list.add(new Question(rs.getInt("q_code"), 
 									  rs.getString("q_title"), 
 									  qDesc, 
 									  rs.getString("q_date"),
-									  rs.getString("q_condition")));
+									  rs.getString("q_condition"),
+									  rs.getString("cust_email")));*/
+				question.setqCode(rs.getInt("q_code"));
+				question.setqTitle(rs.getString("q_title"));
+				question.setqDesc(qDesc);
+				question.setqDate(rs.getString("q_date"));
+				question.setqCondition(rs.getString("q_condition"));
+				question.setCustEmail(rs.getString("cust_email"));
+				list.add(question);
 			}
 		}finally {
 			closeAll(rs, ps, conn);
 		}
 		return list;
-	}*/
-	
-	public void insertAnswer(int qCode, Answer answer, String custEmail) throws SQLException {
+	}
+
+	public void insertAnswer(int qCode, Answer answer) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		
@@ -191,15 +211,17 @@ public class QuestionDaoImpl {
 		
 		try{
 			conn=  getConnection();
-			String query = "INSERT INTO answer(a_date, a_desc, cust_email) VALUES(?,?,?,?)";
+			String query = "INSERT INTO answer(a_date, a_desc, com_code, q_code, cust_email) VALUES(?,?,?,?,?)";
 			ps = conn.prepareStatement(query);
 			System.out.println("PreparedStatement 생성됨...insertAnswer");
 			
 			ps.setString(1, currTime);
 			ps.setString(2, answer.getaDesc());
 			ps.setInt(3, answer.getComCode());
-			ps.setString(4, custEmail);	//세션의 고객아이디 값 가져오기
-			//condition 상태값 default값이 '답변대기'여야 함.
+			ps.setInt(4, answer.getqCode());	//세션의 업체코드 가져오기
+			ps.setString(5, answer.getCustEmail());
+			
+			// 답변대기를 답변완료로 바꾸기, 이메일로 보내기
 			
 			System.out.println(ps.executeUpdate()+" row INSERT OK!!");
 		}finally{
