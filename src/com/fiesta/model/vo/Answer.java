@@ -6,7 +6,6 @@ public class Answer {
 	String aDesc;
 	int comCode;
 	int qCode;
-	
 	String comName;
 	
 	public Answer() {}
@@ -17,12 +16,12 @@ public class Answer {
 		this.comCode = comCode;
 		this.qCode = qCode;
 	}
-	public Answer(String aDate, String aDesc, int comCode) {
+	public Answer(String aDate, String aDesc, String comName) {
+		super();
 		this.aDate = aDate;
 		this.aDesc = aDesc;
-		this.comCode = comCode;
+		this.comName = comName;
 	}
-	
 	public int getaCode() {
 		return aCode;
 	}
@@ -52,6 +51,18 @@ public class Answer {
 	}
 	public void setqCode(int qCode) {
 		this.qCode = qCode;
+	}
+	public String getComName() {
+		return comName;
+	}
+	public void setComName(String comName) {
+		this.comName = comName;
+	}
+	
+	@Override
+	public String toString() {
+		return "Answer [aCode=" + aCode + ", aDate=" + aDate + ", aDesc=" + aDesc + ", comCode=" + comCode + ", qCode="
+				+ qCode + ", comName=" + comName + "]";
 	}
 
 }

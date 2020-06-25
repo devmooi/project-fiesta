@@ -7,24 +7,15 @@
 <title>Insert title here</title>
 </head>
 <body>
-		this.qCode = qCode;
-		this.qDate = qDate;
-		this.qTitle = qTitle;
-		this.qDesc = qDesc;
-		Answer answer = new Answer();
-		answer.setaCode(aCode);
-		answer.setaDesc(aDesc);
-		answer.setaDesc(aDate);
 <h3>문의내역</h3>
 {$qDetail.qCode}
 {$qDetail.qDate}
 {$qDetail.qTitle}
 {$qDetail.qDesc}
 <h3>답변내역</h3>
-{$qDetail.qCode}
-{$qDetail.qDate}
-{$qDetail.qTitle}
-{$qDetail.qDesc}
+{$aDetail.aDate}
+{$aDetail.aDesc}
+{$aDetail.comName}
 
 </body>
 </html>
