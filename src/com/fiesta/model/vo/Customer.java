@@ -8,6 +8,13 @@ public class Customer {
 	String custGroup;
 	
 	public Customer() {}
+	
+	public Customer(String custEmail, String custName, String custPass) {
+		super();
+		this.custEmail = custEmail;
+		this.custName = custName;
+		this.custPass = custPass;
+	}
 
 	public Customer(String custEmail, String custName, String custPass, String custTel, String custGroup) {
 		super();

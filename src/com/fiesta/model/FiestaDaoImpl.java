@@ -54,82 +54,81 @@ public class FiestaDaoImpl {
 		PreparedStatement ps = null;
 		try {
 			conn = getConnection();
-			String query = "INSERT INTO customer (cust_id, cust_name, cust_pass, cust_tel, cust_email, cust_group) VALUES(?,?,?,?,?,?)";
+			String query = "INSERT INTO customer (cust_name, cust_pass, cust_tel, cust_email, cust_group) VALUES(?,?,?,?,?)";
 			ps = conn.prepareStatement(query);
 			//System.out.println("ps completed in registerCustomer");
 			
-			//ps.setString(1, customer.getCustId());
-			ps.setString(2, customer.getCustName());
-			ps.setString(3, customer.getCustPass());
-			ps.setString(4, customer.getCustTel());
-			ps.setString(5, customer.getCustEmail());
-			ps.setString(6, customer.getCustGroup());
+			ps.setString(1, customer.getCustName());
+			ps.setString(2, customer.getCustPass());
+			ps.setString(3, customer.getCustTel());
+			ps.setString(4, customer.getCustEmail());
+			ps.setString(5, customer.getCustGroup());
 			System.out.println(ps.executeUpdate()+" row register success");
-			
 		} finally {
 			closeAll(ps, conn);
 		}
 	}
 
-	public Customer loginCustomer(String id, String pass) throws SQLException {
+	//VO 수정으로 인한 변경
+	public Customer loginCustomer(String custEmail, String pass) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Customer customer = null;
-		/*try {
+		try {
 			conn = getConnection();
-			String query = "SELECT * FROM customer WHERE cust_id=? AND cust_pass=?";
+			String query = "SELECT * FROM customer WHERE cust_email=? AND cust_pass=?";
 			ps = conn.prepareStatement(query);
-			//System.out.println("ps completed in loginCustomer");
-			ps.setString(1, id);
+			System.out.println("ps completed in loginCustomer");
+			ps.setString(1, custEmail);
 			ps.setString(2, pass);
 			rs = ps.executeQuery();
 			if(rs.next()) {
-				customer = new Customer(id,
+				customer = new Customer(custEmail,
 										pass,
 										rs.getString("cust_name"),
 										rs.getString("cust_tel"),
-										rs.getString("cust_email"),
 										rs.getString("cust_group"));
-			//System.out.println(id+ " login success");
+			System.out.println(custEmail+ " login success");
 				}
 		} finally {
 			closeAll(rs, ps, conn);
-		}*/
+		}
 		return customer; 
 	}
 
+	//VO 수정으로 인한 변경
 	public void updateCustomer(Customer customer) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try {
 			conn = getConnection();
-			String query = "UPDATE customer SET cust_pass=?, cust_name=?, cust_tel=?, cust_email=?, cust_group=? WHERE cust_id=?";
+			String query = "UPDATE customer SET cust_pass=?, cust_name=?, cust_tel=?, cust_group=? WHERE cust_email=?";
 			ps = conn.prepareStatement(query);
 			//System.out.println("ps completed in updateCustomer");
 			
 			ps.setString(1, customer.getCustPass()); 
 			ps.setString(2, customer.getCustName());
 			ps.setString(3, customer.getCustTel());
-			ps.setString(4, customer.getCustEmail());
-			ps.setString(5, customer.getCustGroup());
-			//ps.setString(6, customer.getCustId());
+			ps.setString(4, customer.getCustGroup());
+			ps.setString(5, customer.getCustEmail());
 			System.out.println(ps.executeUpdate()+" row update success");
 		} finally {
 			closeAll(ps, conn);
 		}
 	}
-
-	public void deleteCustomer(String id, String pass) throws SQLException {
+	
+	//VO 수정으로 인한 변경
+	public void deleteCustomer(String custEmail, String pass) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try {
 			conn = getConnection();
-			String query = "DELETE FROM customer WHERE cust_id=? AND cust_pass=?";
+			String query = "DELETE FROM customer WHERE cust_email=? AND cust_pass=?";
 			ps = conn.prepareStatement(query);
 			//System.out.println("ps completed in deleteCustomer");
 			
-			ps.setString(1, id);
+			ps.setString(1, custEmail);
 			ps.setString(2, pass);
 			System.out.println(ps.executeUpdate()+" row delete success");
 		} finally {
@@ -137,51 +136,69 @@ public class FiestaDaoImpl {
 		}
 	}
 
-	public Customer lookupCustomer(String id) throws SQLException {
+	//VO 수정으로 인한 변경
+	public Customer lookupCustomer(String custEmail) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Customer customer = null;
-		/*try {
+		try {
 			conn = getConnection();
-			String query = "SELECT * FROM customer WHERE cust_id=?";
+			String query = "SELECT * FROM customer WHERE cust_email=?";
 			ps = conn.prepareStatement(query);
 			//System.out.println("ps completed in lookupCustomer");
 			
-			ps.setString(1, id);
+			ps.setString(1, custEmail);
 			rs = ps.executeQuery();
 			if(rs.next()) {
-				customer = new Customer(id,
+				customer = new Customer(custEmail,
 							rs.getString("cust_name"),
 							rs.getString("cust_pass"),
 							rs.getString("cust_tel"),
-							rs.getString("cust_email"),
 							rs.getString("cust_group"));
 			//System.out.println(id+ " lookup success");
 			}
 		} finally {
 			closeAll(rs, ps, conn);
-		}*/
+		}
 		return customer;
 	}
-
+	
+	public boolean emailExist(String custEmail) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			conn = getConnection();
+			String query = "SELECT cust_email FROM customer WHERE cust_email=?";
+			ps = conn.prepareStatement(query);
+			
+			ps.setString(1, custEmail);
+			rs = ps.executeQuery();
+			return rs.next();
+		} finally {
+			closeAll(rs, ps, conn);
+		}
+	}
+	
+	//VO 수정으로 인한 변경
 	public void insertCustorder(Custorder custorder) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try {
 			conn = getConnection();
-			String query = "INSERT INTO custorder (order_code, order_sysdate, order_revdate, order_place, order_budget, order_require, order_condition, cust_id) VALUES(?,?,?,?,?,?,?,?)";
+			String query = "INSERT INTO custorder (order_sysdate, order_revdate, order_place, order_budget, order_require, cust_email, service_code, com_code) VALUES(?,?,?,?,?,?,?,?,?)";
 			ps = conn.prepareStatement(query);
 			//System.out.println("ps completed in insertCustorder");
 			
-			ps.setInt(1, custorder.getOrderCode());
-			ps.setString(2, custorder.getOrderSysdate());
-			ps.setString(3, custorder.getOrderRevdate());
-			ps.setString(4, custorder.getOrderPlace());
-			ps.setString(5, custorder.getOrderBudget());
-			ps.setString(6, custorder.getOrderRequire());
-			//ps.setString(7, custorder.getOrderCondition());
-			//ps.setString(8, custorder.getCustId());
+			ps.setString(1, custorder.getOrderSysdate());
+			ps.setString(2, custorder.getOrderRevdate());
+			ps.setString(3, custorder.getOrderPlace());
+			ps.setString(4, custorder.getOrderBudget());
+			ps.setString(5, custorder.getOrderRequire());
+			ps.setString(6, custorder.getCustEmail());
+			ps.setInt(7, custorder.getServiceCode());
+			ps.setInt(8, custorder.getComCode());
 			System.out.println(ps.executeUpdate()+" row insert success");
 		} finally {
 			closeAll(ps, conn);
@@ -243,19 +260,23 @@ public class FiestaDaoImpl {
 		}
 		return list;
 	}
-
-	public ArrayList<Orderdetail> showAllOrderdetail(String id) throws SQLException {
+	
+	
+	
+	
+	//foreign key...?
+	public ArrayList<Orderdetail> showAllOrderdetail(String requestCode) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		ArrayList<Orderdetail> list = new ArrayList<>();
 		try {
 			conn = getConnection();
-			String query = "SELECT * FROM orderdetail WHERE order_code=?";
+			String query = "SELECT * FROM orderdetail WHERE order_require=?";
 			ps = conn.prepareStatement(query);
 			System.out.println("ps completed in showAllOrderdetail");
 			
-			ps.setString(1, id);
+			ps.setString(1, requestCode);
 			rs = ps.executeQuery();
 			/*while(rs.next()) {
 				list.add(new Orderdetail(
@@ -273,6 +294,11 @@ public class FiestaDaoImpl {
 		return list;
 	}
 
+	
+	
+	
+	
+	
 	//VO 수정으로 인한 변경
 	public void registerCompany(Company company) throws SQLException {
 		Connection conn = null;
@@ -358,7 +384,8 @@ public class FiestaDaoImpl {
 		}		
 	}
 
-	public void deleteCompany(String id, String pass) throws SQLException {
+	//VO 수정으로 인한 변경
+	public void deleteCompany(String comEmail, String pass) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try {
@@ -367,7 +394,7 @@ public class FiestaDaoImpl {
 			ps = conn.prepareStatement(query);
 			//System.out.println("ps completed in deleteCompany");
 			
-			ps.setString(1, id);
+			ps.setString(1, comEmail);
 			ps.setString(2, pass);
 			System.out.println(ps.executeUpdate()+" row delete success");
 		} finally {
@@ -1107,7 +1134,7 @@ public class FiestaDaoImpl {
 	//단위테스트
 	public static void main(String[] args) throws SQLException {
 		//하경 - 단위테스트
-		FiestaDaoImpl dao=FiestaDaoImpl.getInstance();
+		//FiestaDaoImpl dao=FiestaDaoImpl.getInstance();
 		//dao.insertService(new Service("회사1","설명1","img","버스"));		
 		
 		//엄체코드를 자동으로 session에서 받고 돌려야할것...  단위테스트 업체코드에 default값 없어서 못함... ㅠㅅㅠ
@@ -1134,7 +1161,7 @@ public class FiestaDaoImpl {
 		// FiestaDaoImpl.getInstance().registerCustomer(new Customer("lee", "이보람", "0107171293", "boram@gmail.com", "concat", "플레이데이터"));
 		
 		// customer login
-		// FiestaDaoImpl.getInstance().loginCustomer("java", "euigeun");
+		FiestaDaoImpl.getInstance().loginCustomer("park.eui.geun@gmail.com", "12341234");
 		
 		// customer update
 		// Customer customer = new Customer("java", "이보람", "euigeun", "01088048331", "euigeun@gmail.com", "플레이데이터");

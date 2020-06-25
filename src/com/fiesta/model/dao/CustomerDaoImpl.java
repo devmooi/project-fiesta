@@ -47,29 +47,31 @@ public class CustomerDaoImpl {
 	}
 	
 	//작업 영역
+	//VO 수정으로 인한 변경
 	public void insertCustorder(Custorder custorder) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try {
 			conn = getConnection();
-			String query = "INSERT INTO custorder (order_code, order_sysdate, order_revdate, order_place, order_budget, order_require, order_condition, cust_id) VALUES(?,?,?,?,?,?,?,?)";
+			String query = "INSERT INTO custorder (order_sysdate, order_revdate, order_place, order_budget, order_require, cust_email, service_code, com_code) VALUES(?,?,?,?,?,?,?,?,?)";
 			ps = conn.prepareStatement(query);
 			//System.out.println("ps completed in insertCustorder");
 			
-			ps.setInt(1, custorder.getOrderCode());
-			ps.setString(2, custorder.getOrderSysdate());
-			ps.setString(3, custorder.getOrderRevdate());
-			ps.setString(4, custorder.getOrderPlace());
-			ps.setString(5, custorder.getOrderBudget());
-			ps.setString(6, custorder.getOrderRequire());
-			//ps.setString(7, custorder.getOrderCondition());
-			//ps.setString(8, custorder.getCustId());
+			ps.setString(1, custorder.getOrderSysdate());
+			ps.setString(2, custorder.getOrderRevdate());
+			ps.setString(3, custorder.getOrderPlace());
+			ps.setString(4, custorder.getOrderBudget());
+			ps.setString(5, custorder.getOrderRequire());
+			ps.setString(6, custorder.getCustEmail());
+			ps.setInt(7, custorder.getServiceCode());
+			ps.setInt(8, custorder.getComCode());
 			System.out.println(ps.executeUpdate()+" row insert success");
 		} finally {
 			closeAll(ps, conn);
 		}		
 	}
-	
+
+	//VO 수정으로 인한 변경
 	public void insertOrderdetail(Orderdetail orderdetail) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -90,6 +92,7 @@ public class CustomerDaoImpl {
 		}				
 	}
 	
+	//VO 수정으로 인한 변경
 	public ArrayList<Custorder> showAllCustorder(String custEmail) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -124,18 +127,22 @@ public class CustomerDaoImpl {
 		return list;
 	}
 	
-	public ArrayList<Orderdetail> showAllOrderdetail(String id) throws SQLException {
+	
+	
+	
+	//foreign key...?
+	public ArrayList<Orderdetail> showAllOrderdetail(String requestCode) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		ArrayList<Orderdetail> list = new ArrayList<>();
 		try {
 			conn = getConnection();
-			String query = "SELECT * FROM orderdetail WHERE order_code=?";
+			String query = "SELECT * FROM orderdetail WHERE order_require=?";
 			ps = conn.prepareStatement(query);
 			System.out.println("ps completed in showAllOrderdetail");
 			
-			ps.setString(1, id);
+			ps.setString(1, requestCode);
 			rs = ps.executeQuery();
 			/*while(rs.next()) {
 				list.add(new Orderdetail(
