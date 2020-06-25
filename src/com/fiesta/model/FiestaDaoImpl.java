@@ -79,7 +79,7 @@ public class FiestaDaoImpl {
 			conn = getConnection();
 			String query = "SELECT * FROM customer WHERE cust_email=? AND cust_pass=?";
 			ps = conn.prepareStatement(query);
-			//System.out.println("ps completed in loginCustomer");
+			System.out.println("ps completed in loginCustomer");
 			ps.setString(1, custEmail);
 			ps.setString(2, pass);
 			rs = ps.executeQuery();
@@ -89,7 +89,7 @@ public class FiestaDaoImpl {
 										rs.getString("cust_name"),
 										rs.getString("cust_tel"),
 										rs.getString("cust_group"));
-			//System.out.println(id+ " login success");
+			System.out.println(custEmail+ " login success");
 				}
 		} finally {
 			closeAll(rs, ps, conn);
@@ -162,6 +162,23 @@ public class FiestaDaoImpl {
 			closeAll(rs, ps, conn);
 		}
 		return customer;
+	}
+	
+	public boolean emailExist(String custEmail) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			conn = getConnection();
+			String query = "SELECT cust_email FROM customer WHERE cust_email=?";
+			ps = conn.prepareStatement(query);
+			
+			ps.setString(1, custEmail);
+			rs = ps.executeQuery();
+			return rs.next();
+		} finally {
+			closeAll(rs, ps, conn);
+		}
 	}
 	
 	//VO 수정으로 인한 변경
@@ -975,7 +992,7 @@ public class FiestaDaoImpl {
 		// FiestaDaoImpl.getInstance().registerCustomer(new Customer("lee", "이보람", "0107171293", "boram@gmail.com", "concat", "플레이데이터"));
 		
 		// customer login
-		// FiestaDaoImpl.getInstance().loginCustomer("java", "euigeun");
+		FiestaDaoImpl.getInstance().loginCustomer("park.eui.geun@gmail.com", "12341234");
 		
 		// customer update
 		// Customer customer = new Customer("java", "이보람", "euigeun", "01088048331", "euigeun@gmail.com", "플레이데이터");

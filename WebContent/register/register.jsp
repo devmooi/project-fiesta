@@ -7,6 +7,8 @@
 	<title>Insert title here</title>
 </head>
 <body>
+
+<!-- 	check하게 해서 넘겨버릴까  -->	
 	<a href="companyRegister.jsp">업체 가입하기</a>
 	<a href="customerRegister.jsp">고객 가입하기</a>
 </body>
