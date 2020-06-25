@@ -4,25 +4,51 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<title>header</title>
-	
-	<!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    
-    <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    
-    <!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-	<!-- Optional theme -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css">
-	<!-- Latest compiled and minified JavaScript -->
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+	<style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            position: fixed;
+            background: white;
+            overflow: hidden;
+            width: 100%;
+            border-bottom: 1px solid black;
+        }
+        h1 {
+            font-family: 'Pacifico', cursive;
+            float: left;
+            margin-left: 20px;
+            margin-top: 5px;
+        }
+        nav {
+            float: right;
+            line-height: 70px;
+            margin-right: 20px;
+        }
+        nav a {
+            margin-right: 10px;
+            text-decoration: none;
+            color: black;
+        }
+        nav a:hover {
+            color: blue;
+        }
+        section {
+            padding-top:70px;
+        }
+    </style>
 </head>
 <body>
-	header
+	<header>
+        <h1>Fiesta</h1>
+        <nav>
+            <a href="register/register.jsp">회원가입</a>
+            <a href="companylist.do">업체 찾기</a>
+            <a href="register/login.jsp">로그인</a>
+        </nav>
+    </header>
 </body>
 </html>

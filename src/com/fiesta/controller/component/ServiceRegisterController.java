@@ -20,7 +20,7 @@ public class ServiceRegisterController implements Controller {
 		String path = "";
 
 		//Service VO 변경으로 인해 수정
-		Service service  = new Service(serviceName, serviceDesc, serviceImg, serviceTag, "ent1@gmail.com");
+		Service service  = new Service(serviceName, serviceDesc, serviceImg, serviceTag, 1);
 
 		FiestaDaoImpl.getInstance().insertService(service);
 

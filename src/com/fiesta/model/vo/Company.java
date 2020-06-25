@@ -1,6 +1,7 @@
 package com.fiesta.model.vo;
 
 public class Company {
+	int comCode;
 	String comEmail;
 	String comPass;
 	String comName;
@@ -13,13 +14,13 @@ public class Company {
 	
 	public Company() {}
 	public Company(String comName, String comimg, String comdesc) {
-		super();
 		this.comName = comName;
 		this.comImg = comimg;
 		this.comDesc = comdesc;
 	}
-	public Company(String comEmail, String comPass, String comName, String comTel, String comAddr, String comImg,
-			String comDesc, int comCount, int comCategoryCode) {
+	public Company(int comCode, String comEmail, String comPass, String comName, String comTel, String comAddr,
+			String comImg, String comDesc, int comCount, int comCategoryCode) {
+		this.comCode = comCode;
 		this.comEmail = comEmail;
 		this.comPass = comPass;
 		this.comName = comName;
@@ -31,6 +32,12 @@ public class Company {
 		this.comCategoryCode = comCategoryCode;
 	}
 	
+	public int getComCode() {
+		return comCode;
+	}
+	public void setComCode(int comCode) {
+		this.comCode = comCode;
+	}
 	public String getComEmail() {
 		return comEmail;
 	}
@@ -88,8 +95,9 @@ public class Company {
 	
 	@Override
 	public String toString() {
-		return "Company [comEmail=" + comEmail + ", comPass=" + comPass + ", comName=" + comName + ", comTel=" + comTel
-				+ ", comAddr=" + comAddr + ", comImg=" + comImg + ", comDesc=" + comDesc + ", comCount=" + comCount
-				+ ", comCategoryCode=" + comCategoryCode + "]";
-	}	
+		return "Company [comCode=" + comCode + ", comEmail=" + comEmail + ", comPass=" + comPass + ", comName="
+				+ comName + ", comTel=" + comTel + ", comAddr=" + comAddr + ", comImg=" + comImg + ", comDesc="
+				+ comDesc + ", comCount=" + comCount + ", comCategoryCode=" + comCategoryCode + "]";
+	}
+	
 }

@@ -5,26 +5,27 @@ public class Review {
 	int reviewScore;
 	String reviewImg;
 	String reviewDesc;
+	String reviewDate;
 	Customer customer;
 	Service service;
 	Company company;
 	
 	public Review() {}
 	public Review(int reviewScore, String reviewDesc, Company company) {
-		super();
 		this.reviewScore = reviewScore;
 		this.reviewDesc = reviewDesc;
 		this.company = company;
 	}
-	public Review(String reviewCode, int reviewScore, String reviewImg, String reviewDesc, Service service,
-			Company company, Customer customer) {
+	public Review(String reviewCode, int reviewScore, String reviewImg, String reviewDesc, String reviewDate,
+			Customer customer, Service service, Company company) {
 		this.reviewCode = reviewCode;
 		this.reviewScore = reviewScore;
 		this.reviewImg = reviewImg;
 		this.reviewDesc = reviewDesc;
+		this.reviewDate = reviewDate;
+		this.customer = customer;
 		this.service = service;
 		this.company = company;
-		this.customer = customer;
 	}
 	
 	public String getReviewCode() {
@@ -51,6 +52,18 @@ public class Review {
 	public void setReviewDesc(String reviewDesc) {
 		this.reviewDesc = reviewDesc;
 	}
+	public String getReviewDate() {
+		return reviewDate;
+	}
+	public void setReviewDate(String reviewDate) {
+		this.reviewDate = reviewDate;
+	}
+	public Customer getCustomer() {
+		return customer;
+	}
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
 	public Service getService() {
 		return service;
 	}
@@ -63,17 +76,12 @@ public class Review {
 	public void setCompany(Company company) {
 		this.company = company;
 	}
-	public Customer getCustomer() {
-		return customer;
-	}
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
 	
 	@Override
 	public String toString() {
 		return "Review [reviewCode=" + reviewCode + ", reviewScore=" + reviewScore + ", reviewImg=" + reviewImg
-				+ ", reviewDesc=" + reviewDesc + ", service=" + service + ", company=" + company + ", customer="
-				+ customer + "]";
+				+ ", reviewDesc=" + reviewDesc + ", reviewDate=" + reviewDate + ", customer=" + customer + ", service="
+				+ service + ", company=" + company + "]";
 	}
+	
 }

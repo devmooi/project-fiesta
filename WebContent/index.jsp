@@ -5,15 +5,15 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Insert title here</title>
+    <title>Fiesta</title>
+    <link href="resource/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
 </head>
 <body>
 	<c:import url="header.jsp" charEncoding="UTF-8"></c:import>
 	
-	<a href="register/register.jsp">회원가입</a>
-	<a href="companylist.do">업체 찾기</a>
-	<a href="register/login.jsp">로그인</a>
-	
-	<a href="customer/test.jsp">고객의뢰 테스트</a>
+	<section>
+		<a href="customer/test.jsp">고객의뢰 테스트</a>
+    </section>
+ 
 </body>
 </html> 

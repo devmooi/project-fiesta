@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+	고객 의뢰 테스트 페이지
 	<form action="customerRequest.do">
 		<!-- 고객 의뢰 관련 요청 모두 다.. 테스트 하는 곳 -->
 	</form>

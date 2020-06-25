@@ -194,7 +194,7 @@ public class FiestaDaoImpl {
 		PreparedStatement ps = null;
 		try {
 			conn = getConnection();
-			String query = "INSERT INTO orderdetail (detail_totalprice, detail_desc, detail_condition, request_code, com_email) VALUES(?,?,?,?,?)";
+			String query = "INSERT INTO orderdetail (detail_totalprice, detail_desc, detail_condition, request_code, com_code) VALUES(?,?,?,?,?)";
 			ps = conn.prepareStatement(query);
 			//System.out.println("ps completed in insertOrderdetail");
 			
@@ -202,7 +202,7 @@ public class FiestaDaoImpl {
 			ps.setString(2, orderdetail.getDetailDesc());
 			ps.setString(3, orderdetail.getDetailCondition());
 			ps.setInt(4, orderdetail.getRequestCode());
-			ps.setString(5, orderdetail.getComEmail());
+			ps.setInt(5, orderdetail.getComCode());
 			System.out.println(ps.executeUpdate()+" row insert success");
 		} finally {
 			closeAll(ps, conn);
@@ -232,9 +232,10 @@ public class FiestaDaoImpl {
 									   rs.getString("order_place"),
 									   rs.getString("order_budget"),
 									   rs.getString("order_require"),
+									   rs.getString("order_condition"),
 									   custEmail,
 									   rs.getInt("service_code"),
-									   rs.getString("com_email")));
+									   rs.getInt("com_code")));
 			//System.out.println(id+ " showallcustorder success");
 			}
 		} finally {
@@ -314,6 +315,7 @@ public class FiestaDaoImpl {
 			rs = ps.executeQuery();
 			if(rs.next()) {
 				company = new Company(
+									  rs.getInt("com_code"),
 									  comEmail,
 									  pass,
 									  rs.getString("com_name"),
@@ -322,9 +324,8 @@ public class FiestaDaoImpl {
 									  rs.getString("com_img"),
 									  rs.getString("com_desc"),
 									  rs.getInt("com_count"),
-									  rs.getInt("comCategory_code"));
+									  rs.getInt("comCategory_code"));  
 			//System.out.println(id+ " login success");
-
 				}
 		} finally {
 			closeAll(rs, ps, conn);
@@ -438,15 +439,16 @@ public class FiestaDaoImpl {
 			rs = ps.executeQuery();
 			if(rs.next()) {
 				company = new Company(
-									  comEmail,
-									  rs.getString("com_pass"),
-									  rs.getString("com_name"),
-									  rs.getString("com_tel"),
-									  rs.getString("com_addr"),
-									  rs.getString("com_img"),
-									  rs.getString("com_desc"),
-									  rs.getInt("com_count"),
-									  rs.getInt("comCategory_code"));
+										  rs.getInt("com_code"),
+										  comEmail,
+										  rs.getString("com_pass"),
+										  rs.getString("com_name"),
+										  rs.getString("com_tel"),
+										  rs.getString("com_addr"),
+										  rs.getString("com_img"),
+										  rs.getString("com_desc"),
+										  rs.getInt("com_count"),
+										  rs.getInt("comCategory_code"));  
 			//System.out.println(id+ " lookup success");
 			}
 		} finally {
@@ -779,7 +781,7 @@ public class FiestaDaoImpl {
 		PreparedStatement ps = null;
 		try{
 			conn=  getConnection();
-			String query = "INSERT INTO service(service_name, service_desc, service_img, service_tag, com_email) VALUES(?,?,?,?,?)";
+			String query = "INSERT INTO service(service_name, service_desc, service_img, service_tag, com_code) VALUES(?,?,?,?,?)";
 			ps = conn.prepareStatement(query);
 			System.out.println("PreparedStatement 생성됨...insertService");
 			
@@ -787,7 +789,7 @@ public class FiestaDaoImpl {
 			ps.setString(2, service.getServiceDesc());
 			ps.setString(3, service.getServiceImg());
 			ps.setString(4, service.getServiceTag());
-			ps.setString(5, service.getComEmail());
+			ps.setInt(5, service.getComCode());
 			
 			System.out.println(ps.executeUpdate()+" row INSERT OK!!");
 		}finally{
