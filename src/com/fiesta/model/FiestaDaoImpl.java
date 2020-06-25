@@ -905,17 +905,16 @@ public class FiestaDaoImpl {
 	}
 	
 	//하나조회하는거 추가
-	public Question showQuestion(String qCode) throws SQLException {
+/*	public Question showQuestion(String qCode) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Question question = null;
 		
-		String qDesc= "";
 		try {
 			conn = getConnection();
 			//select q.q_code, q.q_title, q.q_desc, q.q_date, a.a_code, a.a_desc, a.a_date from question q, answer a where a.q_code = ?;
-			String query = "SELECT q_code, q_title, q_desc, q_date, q_condition FROM question WHERE cust_id=?";
+			String query = "select q_code, q_title, q_desc, q_date from question q, answer a where a.q_code = ?";
 			ps = conn.prepareStatement(query);
 			System.out.println("PreparedStatement....showQuestion..");
 					
@@ -929,19 +928,20 @@ public class FiestaDaoImpl {
 							  rs.getString("q.q_desc"),
 							  rs.getString("q.q_date"));
 				}else {
-					qDesc = rs.getString("q_desc");
+					question = new Question(rs.getInt("q.q_code"), 
+							  rs.getString("q.q_title"),
+							  rs.getString("q.q_desc"),
+							  rs.getString("q.q_date"),
+							  rs.getInt("a.a_code"),
+							  rs.getString("a.a_desc"),
+							  rs.getString("a.a_date"));
 				}
-				question = new Question(rs.getInt("q_code"), 
-									  rs.getString("q_title"), 
-									  qDesc, 
-									  rs.getString("q_date"),
-									  rs.getString("q_condition"));
 			}
 		}finally {
 			closeAll(rs, ps, conn);
 		}
 		return question;
-	}
+	}*/
 
 	public void insertAnswer(Answer answer) throws SQLException {
 		// TODO Auto-generated method stub
@@ -953,6 +953,46 @@ public class FiestaDaoImpl {
 		return null;
 	}
 
+/*	public Question showAnswer(String qCode) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Question question = null;
+		
+		try {
+			conn = getConnection();
+			//select q.q_code, q.q_title, q.q_desc, q.q_date, a.a_code, a.a_desc, a.a_date from question q, answer a where a.q_code = ?;
+			String query = "select q.q_code, q.q_title, q.q_desc, q.q_date, a.a_code, a.a_desc, a.a_date"
+					+ "from question q, answer a where a.q_code = ?";
+			ps = conn.prepareStatement(query);
+			System.out.println("PreparedStatement....showQuestion..");
+					
+			ps.setString(1, qCode);
+			
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				if(rs.getString("a.a_code")==null) {
+					question = new Question(rs.getInt("q.q_code"), 
+							  rs.getString("q.q_title"),
+							  rs.getString("q.q_desc"),
+							  rs.getString("q.q_date"));
+				}else {
+					question = new Question(rs.getInt("q.q_code"), 
+							  rs.getString("q.q_title"),
+							  rs.getString("q.q_desc"),
+							  rs.getString("q.q_date"),
+							  rs.getInt("a.a_code"),
+							  rs.getString("a.a_desc"),
+							  rs.getString("a.a_date"));
+				}
+			}
+		}finally {
+			closeAll(rs, ps, conn);
+		}
+		return question;
+	}*/
+	
+	
 	public void insertReview(Review review) throws SQLException {
 		// TODO Auto-generated method stub
 		
