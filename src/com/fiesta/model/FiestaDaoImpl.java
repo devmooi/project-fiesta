@@ -951,7 +951,7 @@ public class FiestaDaoImpl {
 		//System.out.println(dao.showAllService(1));
 		
 		//dao.insertQuestion("숙박문의","몇명이서 잘 수 있나요?", "java");
-		dao.insertQuestion("공연문의","이거슨 문장 잘라지는지 테스트하기 위한 문의사항입니담 키키키키킼", "java");
+		//dao.insertQuestion("공연문의","이거슨 문장 잘라지는지 테스트하기 위한 문의사항입니담 키키키키킼", "java");
 		//System.out.println(dao.showAllQuestion("java"));
 		
 		//제영 - 단위테스트
@@ -1000,8 +1000,5 @@ public class FiestaDaoImpl {
 		
 		// orderdetail insertorderdetail
 		// FiestaDaoImpl.getInstance().insertOrderdetail(new Orderdetail(11, 1000000, "우천시취소", 1, 1, 11));
-		
-		// 
-		
 	}
 }
