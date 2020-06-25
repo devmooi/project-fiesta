@@ -15,12 +15,12 @@ public class ServiceAllShowController implements Controller {
 	@Override
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		int companycode = Integer.parseInt(request.getParameter("companycode"));
+		String companycode = request.getParameter("companycode");
 		String path = "";
 
 		ArrayList<Service> list = FiestaDaoImpl.getInstance().showAllService(companycode);
 		request.setAttribute("list", list);
-		path = "serviceAllShowResult.jsp";
+		path = "./company/serviceAllShowResult.jsp";
 		
 
 		return new ModelAndView(path);

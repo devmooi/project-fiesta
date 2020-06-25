@@ -12,8 +12,9 @@ public class Company {
 	int comCategoryCode;
 	
 	public Company() {}
-	public Company(String comName, String comimg, String comdesc) {
+	public Company(String comEmail, String comName, String comimg, String comdesc) {
 		super();
+		this.comEmail=comEmail;
 		this.comName = comName;
 		this.comImg = comimg;
 		this.comDesc = comdesc;

@@ -384,7 +384,7 @@ public class FiestaDaoImpl {
 		try {
 			conn=getConnection();
 			StringBuffer query = new StringBuffer();
-			query.append("SELECT c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
+			query.append("SELECT c.com_email, sc.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
 			query.append("FROM company c ");
 			query.append("LEFT OUTER JOIN review r ");
 			query.append("ON c.com_email = r.com_email ");
@@ -412,7 +412,8 @@ public class FiestaDaoImpl {
 			while(rs.next()) {
 				list.add(new Review(rs.getInt("r.review_score"),
 						rs.getString("r.review_desc"),
-						new Company(rs.getString("c.com_name"),
+						new Company(rs.getString("c.com_email"),
+								rs.getString("c.com_name"),
 								rs.getString("c.com_img"),
 								rs.getString("c.com_desc"))));
 			}
@@ -464,7 +465,7 @@ public class FiestaDaoImpl {
 		try {
 			conn=getConnection();
 			StringBuffer query = new StringBuffer();
-			query.append("SELECT c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
+			query.append("SELECT c.com_email, c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
 			query.append("FROM company c ");
 			query.append("LEFT OUTER JOIN review r ");
 			query.append("ON c.com_email = r.com_email ");
@@ -498,7 +499,8 @@ public class FiestaDaoImpl {
 			while(rs.next()) {
 				list.add(new Review(rs.getInt("r.review_score"),
 						rs.getString("r.review_desc"),
-						new Company(rs.getString("c.com_name"),
+						new Company(rs.getString("c.com_email"),
+								rs.getString("c.com_name"),
 								rs.getString("c.com_img"),
 								rs.getString("c.com_desc"))));
 			}
@@ -517,7 +519,7 @@ public class FiestaDaoImpl {
 		try {
 			conn=getConnection();
 			StringBuffer query = new StringBuffer();
-			query.append("SELECT c.com_email, c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
+			query.append("SELECT c.com_email, c.com_email, c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
 			query.append("FROM company c LEFT OUTER JOIN review r ");
 			query.append("ON c.com_email = r.com_email ");
 			//query.append("ORDER BY c.com_code DESC");
@@ -527,7 +529,8 @@ public class FiestaDaoImpl {
 			while(rs.next()) {
 				list.add(new Review(rs.getInt("r.review_score"),
 						rs.getString("r.review_desc"),
-						new Company(rs.getString("c.com_name"),
+						new Company(rs.getString("c.com_email"),
+								rs.getString("c.com_name"),
 								rs.getString("c.com_img"),
 								rs.getString("c.com_desc"))));
 			}
@@ -547,7 +550,7 @@ public class FiestaDaoImpl {
 		try {
 			conn=getConnection();
 			StringBuffer query = new StringBuffer();
-			query.append("SELECT c.com_email, c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
+			query.append("SELECT c.com_email, c.com_email, c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
 			query.append("FROM company c LEFT OUTER JOIN review r ");
 			query.append("ON c.com_email = r.com_email ");
 			query.append("WHERE c.comCategory_code = ? ");
@@ -560,7 +563,8 @@ public class FiestaDaoImpl {
 			while(rs.next()) {
 				list.add(new Review(rs.getInt("r.review_score"),
 						rs.getString("r.review_desc"),
-						new Company(rs.getString("c.com_name"),
+						new Company(rs.getString("c.com_email"),
+								rs.getString("c.com_name"),
 								rs.getString("c.com_img"),
 								rs.getString("c.com_desc"))));
 			}
@@ -591,7 +595,7 @@ public class FiestaDaoImpl {
 			}
 
 			StringBuffer query = new StringBuffer();
-			query.append("SELECT c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
+			query.append("SELECT c.com_email, c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
 			query.append("FROM company c ");
 			query.append("LEFT OUTER JOIN review r ");
 			query.append("ON c.com_email = r.com_email ");
@@ -602,9 +606,10 @@ public class FiestaDaoImpl {
 			while(rs.next()) {
 				list.add(new Review(rs.getInt("r.review_score"),
 						rs.getString("r.review_desc"),
-						new Company(rs.getString("c.com_name"),
+						new Company(rs.getString("c.com_email"),
+								rs.getString("c.com_name"),
 								rs.getString("c.com_img"),
-								rs.getString("c.com_desc"))));
+								rs.getString("c.com_desc"))));;
 			}
 		}finally {
 			closeAll(rs, ps, conn);
@@ -633,7 +638,7 @@ public class FiestaDaoImpl {
 			}
 
 			StringBuffer query = new StringBuffer();
-			query.append("SELECT c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
+			query.append("SELECT c.com_email, c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
 			query.append("FROM company c ");
 			query.append("LEFT OUTER JOIN review r ");
 			query.append("ON c.com_email = r.com_email ");
@@ -646,7 +651,8 @@ public class FiestaDaoImpl {
 			while(rs.next()) {
 				list.add(new Review(rs.getInt("r.review_score"),
 						rs.getString("r.review_desc"),
-						new Company(rs.getString("c.com_name"),
+						new Company(rs.getString("c.com_email"),
+								rs.getString("c.com_name"),
 								rs.getString("c.com_img"),
 								rs.getString("c.com_desc"))));
 			}
@@ -677,7 +683,7 @@ public class FiestaDaoImpl {
 			}
 
 			StringBuffer query = new StringBuffer();
-			query.append("SELECT c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
+			query.append("SELECT c.com_email, c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
 			query.append("FROM company c ");
 			query.append("LEFT OUTER JOIN review r ");
 			query.append("ON c.com_email = r.com_email ");
@@ -705,7 +711,8 @@ public class FiestaDaoImpl {
 			while(rs.next()) {
 				list.add(new Review(rs.getInt("r.review_score"),
 						rs.getString("r.review_desc"),
-						new Company(rs.getString("c.com_name"),
+						new Company(rs.getString("c.com_email"),
+								rs.getString("c.com_name"),
 								rs.getString("c.com_img"),
 								rs.getString("c.com_desc"))));
 			}
@@ -736,7 +743,7 @@ public class FiestaDaoImpl {
 			}
 
 			StringBuffer query = new StringBuffer();
-			query.append("SELECT c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
+			query.append("SELECT c.com_email, c.com_name, c.com_desc, c.com_img, r.review_score, r.review_desc ");
 			query.append("FROM company c ");
 			query.append("LEFT OUTER JOIN review r ");
 			query.append("ON c.com_email = r.com_email ");
@@ -766,7 +773,8 @@ public class FiestaDaoImpl {
 			while(rs.next()) {
 				list.add(new Review(rs.getInt("r.review_score"),
 						rs.getString("r.review_desc"),
-						new Company(rs.getString("c.com_name"),
+						new Company(rs.getString("c.com_email"),
+								rs.getString("c.com_name"),
 								rs.getString("c.com_img"),
 								rs.getString("c.com_desc"))));
 			}
@@ -818,18 +826,18 @@ public class FiestaDaoImpl {
 		
 	}
 
-	public ArrayList<Service> showAllService(int companycode) throws SQLException {
+	public ArrayList<Service> showAllService(String companycode) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		ArrayList<Service> list = new ArrayList<>();
 		try {
 			conn = getConnection();
-			String query = "SELECT * FROM service WHERE com_code=?";
+			String query = "SELECT * FROM service WHERE com_email=?";
 			ps = conn.prepareStatement(query);
 			System.out.println("PreparedStatement....showAllService..");
 					
-			ps.setInt(1, companycode);
+			ps.setString(1, companycode);
 			
 			rs = ps.executeQuery();
 			while(rs.next()) {
