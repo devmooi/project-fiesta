@@ -181,4 +181,5 @@ INSERT INTO customer(cust_email, cust_name, cust_pass, cust_tel, cust_group)
 VALUES('encore@gmail.com','java','1234','010-5043-5765','한양대 사회과학대학 학생회');
 
 INSERT INTO review(review_code, review_score, review_img, review_desc, cust_email, service_code, com_email)
+
 VALUES('001', 4, null, '좋아요', 'encore@gmail.com', 1, 'ent1@gmail.com');
