@@ -907,7 +907,7 @@ public class FiestaDaoImpl {
 	}
 	
 	//하나조회하는거 추가
-/*	public Question showQuestion(String qCode) throws SQLException {
+	public Question showQuestion(int qCode) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -915,35 +915,25 @@ public class FiestaDaoImpl {
 		
 		try {
 			conn = getConnection();
-			//select q.q_code, q.q_title, q.q_desc, q.q_date, a.a_code, a.a_desc, a.a_date from question q, answer a where a.q_code = ?;
+
 			String query = "select q_code, q_title, q_desc, q_date from question q, answer a where a.q_code = ?";
 			ps = conn.prepareStatement(query);
 			System.out.println("PreparedStatement....showQuestion..");
 					
-			ps.setString(1, qCode);
+			ps.setInt(1, qCode);
 			
 			rs = ps.executeQuery();
 			if(rs.next()) {
-				if(rs.getString("a.a_code")==null) {
 					question = new Question(rs.getInt("q.q_code"), 
 							  rs.getString("q.q_title"),
 							  rs.getString("q.q_desc"),
 							  rs.getString("q.q_date"));
-				}else {
-					question = new Question(rs.getInt("q.q_code"), 
-							  rs.getString("q.q_title"),
-							  rs.getString("q.q_desc"),
-							  rs.getString("q.q_date"),
-							  rs.getInt("a.a_code"),
-							  rs.getString("a.a_desc"),
-							  rs.getString("a.a_date"));
-				}
 			}
 		}finally {
 			closeAll(rs, ps, conn);
 		}
 		return question;
-	}*/
+	}
 
 	public void insertAnswer(Answer answer) throws SQLException {
 		// TODO Auto-generated method stub
@@ -955,44 +945,36 @@ public class FiestaDaoImpl {
 		return null;
 	}
 
-/*	public Question showAnswer(String qCode) throws SQLException {
+	public Answer showAnswer(int qCode) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		Question question = null;
+		Answer answer = null;
 		
 		try {
 			conn = getConnection();
 			//select q.q_code, q.q_title, q.q_desc, q.q_date, a.a_code, a.a_desc, a.a_date from question q, answer a where a.q_code = ?;
-			String query = "select q.q_code, q.q_title, q.q_desc, q.q_date, a.a_code, a.a_desc, a.a_date"
-					+ "from question q, answer a where a.q_code = ?";
+			String query = "select a.a_desc, a.a_date, c.com_name from question q, answer a company c where a.q_code = ? and c.com_code = a.com_code";
 			ps = conn.prepareStatement(query);
-			System.out.println("PreparedStatement....showQuestion..");
+			System.out.println("PreparedStatement....showAnswer..");
 					
-			ps.setString(1, qCode);
+			ps.setInt(1, qCode);
 			
 			rs = ps.executeQuery();
 			if(rs.next()) {
-				if(rs.getString("a.a_code")==null) {
-					question = new Question(rs.getInt("q.q_code"), 
-							  rs.getString("q.q_title"),
-							  rs.getString("q.q_desc"),
-							  rs.getString("q.q_date"));
-				}else {
-					question = new Question(rs.getInt("q.q_code"), 
-							  rs.getString("q.q_title"),
-							  rs.getString("q.q_desc"),
-							  rs.getString("q.q_date"),
-							  rs.getInt("a.a_code"),
-							  rs.getString("a.a_desc"),
-							  rs.getString("a.a_date"));
-				}
+				Company com = new Company();
+				com.setComName(rs.getString("c.com_name"));
+					answer = new Answer(
+								rs.getString("a.a_date"),
+								rs.getString("a.a_desc"), 
+							  	com.getComCode());
+
 			}
 		}finally {
 			closeAll(rs, ps, conn);
 		}
-		return question;
-	}*/
+		return answer;
+	}
 	
 	
 	public void insertReview(Review review) throws SQLException {
@@ -1034,6 +1016,8 @@ public class FiestaDaoImpl {
 		//dao.insertQuestion("숙박문의","몇명이서 잘 수 있나요?", "java");
 		//dao.insertQuestion("공연문의","이거슨 문장 잘라지는지 테스트하기 위한 문의사항입니담 키키키키킼", "java");
 		//System.out.println(dao.showAllQuestion("java"));
+		
+		System.out.println(dao.showQuestion(1));
 		
 		//제영 - 단위테스트
 		//System.out.println(dao.showAllCompany());

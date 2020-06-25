@@ -7,6 +7,8 @@ public class Answer {
 	int comCode;
 	int qCode;
 	
+	String comName;
+	
 	public Answer() {}
 	public Answer(int aCode, String aDate, String aDesc, int comCode, int qCode) {
 		this.aCode = aCode;
@@ -15,6 +17,12 @@ public class Answer {
 		this.comCode = comCode;
 		this.qCode = qCode;
 	}
+	public Answer(String aDate, String aDesc, int comCode) {
+		this.aDate = aDate;
+		this.aDesc = aDesc;
+		this.comCode = comCode;
+	}
+	
 	public int getaCode() {
 		return aCode;
 	}
@@ -46,5 +54,4 @@ public class Answer {
 		this.qCode = qCode;
 	}
 
-	
 }
