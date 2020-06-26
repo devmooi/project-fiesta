@@ -82,8 +82,8 @@ public class RegisterDaoImpl {
 			rs = ps.executeQuery();
 			if(rs.next()) {
 				customer = new Customer(custEmail,
-										pass,
 										rs.getString("cust_name"),
+										pass,
 										rs.getString("cust_tel"),
 										rs.getString("cust_group"));
 			System.out.println(custEmail+ " login success");

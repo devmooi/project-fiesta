@@ -7,7 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-	보낸 요청 목록
 	추천 서비스
+	${customer.custEmail}
+	<a href="myPage.jsp"> 마이페이지 </a>
 </body>
 </html>

@@ -29,6 +29,9 @@ $(function() {
 	}); // click	
 }); // ready	
 </script>
+<style>
+
+</style>
 </head>
 <body>
 	<h1>Fiesta에 오신 것을 환영합니다.</h1>

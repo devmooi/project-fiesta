@@ -32,8 +32,7 @@ public class LoginController implements Controller {
 
 				if(customer != null) {
 					session.setAttribute("customer", customer);
-				} else {
-					out.print(flag);
+					flag = true;
 				}
 			} else if (pick.equals("company")) {
 				Company company = RegisterDaoImpl.getInstance().loginCompany(email, pass);
@@ -41,10 +40,10 @@ public class LoginController implements Controller {
 
 					if(company != null) {
 						session.setAttribute("company", company);
-					} else {
-						out.print(flag);
-					}	
+						flag = true;
+					}
 			}
+			out.print(flag);
 			
 		} catch (SQLException e) {
 			
