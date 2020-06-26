@@ -191,7 +191,9 @@ public class QuestionDaoImpl {
 				question.setqDate(rs.getString("q_date"));
 				question.setqCondition(rs.getString("q_condition"));
 				question.setCustEmail(rs.getString("cust_email"));
+				System.out.println("위" + rs.getInt("q_code"));
 				list.add(question);
+				System.out.println("아래" + rs.getInt("q_code"));
 			}
 		}finally {
 			closeAll(rs, ps, conn);
@@ -229,10 +231,26 @@ public class QuestionDaoImpl {
 		}
 		
 	}
-
-	public ArrayList<Answer> showAllAnswer(String id) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+	
+	//답변상태 바꾸기
+	public void changeQnaCondition(int qCode) throws SQLException{
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		try{
+			conn=  getConnection();
+			String query = "Update question set q_condition='답변완료' WHERE q_code=?";
+			ps = conn.prepareStatement(query);
+			System.out.println("PreparedStatement 생성됨...changeQnaCondition");
+			
+			ps.setInt(1, qCode);  
+			
+			// 답변대기를 답변완료로 바꾸기, 이메일로 보내기
+			
+			System.out.println(ps.executeUpdate()+" row update OK!!");
+		}finally{
+			closeAll(ps, conn);
+		}
 	}
 
 	public Answer showAnswer(int qCode) throws SQLException {
@@ -268,5 +286,13 @@ public class QuestionDaoImpl {
 	public static void main(String[] args) throws SQLException {
 		QuestionDaoImpl dao = QuestionDaoImpl.getInstance();
 		
+		//dao.insertQuestion("숙박문의","몇명이서 잘 수 있나요?", "java");
+		//dao.insertQuestion("공연문의","이거슨 문장 잘라지는지 테스트하기 위한 문의사항입니담 키키키키킼", "java");
+		//dao.insertQuestion(1,"버스문의","이거는 답변 없는 문의를 보는 테스트", "encore@gmail.com");
+		//System.out.println(dao.showAllQuestion("java"));
+		
+		System.out.println(dao.showAllQuestionByCompany(1));
+		//System.out.println(dao.showQuestion(1));
+		//System.out.println(dao.showAnswer(1));
 	}
 }
