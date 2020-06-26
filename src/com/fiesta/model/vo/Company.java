@@ -19,6 +19,18 @@ public class Company {
 		this.comImg = comimg;
 		this.comDesc = comdesc;
 	}
+	
+	public Company(String comEmail, String comPass, String comName, String comTel, String comAddr,
+			String comImg, String comDesc) {
+		this.comEmail = comEmail;
+		this.comPass = comPass;
+		this.comName = comName;
+		this.comTel = comTel;
+		this.comAddr = comAddr;
+		this.comImg = comImg;
+		this.comDesc = comDesc;
+	}
+	
 	public Company(int comCode, String comEmail, String comPass, String comName, String comTel, String comAddr,
 			String comImg, String comDesc, int comCount, int comCategoryCode) {
 		this.comCode = comCode;

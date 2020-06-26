@@ -8,10 +8,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fiesta.controller.Controller;
 import com.fiesta.controller.ModelAndView;
-import com.fiesta.model.FiestaDaoImpl;
 import com.fiesta.model.dao.RegisterDaoImpl;
 
-public class EmailExistController implements Controller {
+public class ComEmailExistController implements Controller {
 
 	@Override
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -19,7 +18,7 @@ public class EmailExistController implements Controller {
 		boolean flag = false;
 		PrintWriter out = response.getWriter();
 		try {
-			flag = RegisterDaoImpl.getInstance().emailExist(email);
+			flag = RegisterDaoImpl.getInstance().comEmailExist(email);
 			out.print(flag);
 		} catch (SQLException e) {
 			

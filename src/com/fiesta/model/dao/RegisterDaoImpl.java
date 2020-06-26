@@ -161,7 +161,7 @@ public class RegisterDaoImpl {
 		return customer;
 	}
 	
-	public boolean emailExist(String custEmail) throws SQLException {
+	public boolean custEmailExist(String custEmail) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -171,6 +171,23 @@ public class RegisterDaoImpl {
 			ps = conn.prepareStatement(query);
 			
 			ps.setString(1, custEmail);
+			rs = ps.executeQuery();
+			return rs.next();
+		} finally {
+			closeAll(rs, ps, conn);
+		}
+	}
+	
+	public boolean comEmailExist(String comEmail) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			conn = getConnection();
+			String query = "SELECT com_email FROM company WHERE com_email=?";
+			ps = conn.prepareStatement(query);
+			
+			ps.setString(1, comEmail);
 			rs = ps.executeQuery();
 			return rs.next();
 		} finally {
