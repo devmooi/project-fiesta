@@ -13,11 +13,12 @@ public class Company {
 	int comCategoryCode;
 	
 	public Company() {}
-	public Company(String comEmail, String comName, String comimg, String comdesc) {
-		this.comEmail=comEmail;
+	public Company(int comCode, String comName, String comimg, String comdesc, int comCount) {
+		this.comCode=comCode;
 		this.comName = comName;
 		this.comImg = comimg;
 		this.comDesc = comdesc;
+		this.comCount = comCount;
 	}
 	public Company(int comCode, String comEmail, String comPass, String comName, String comTel, String comAddr,
 			String comImg, String comDesc, int comCount, int comCategoryCode) {

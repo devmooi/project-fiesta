@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fiesta.controller.Controller;
 import com.fiesta.controller.ModelAndView;
-import com.fiesta.model.FiestaDaoImpl;
 import com.fiesta.model.dao.CompanyDaoImpl;
 import com.fiesta.model.vo.Review;
 
@@ -16,20 +15,25 @@ public class SortCompanyController implements Controller{
 	@Override
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		int category=-1;
+		if(!request.getParameter("category").equals("")) {
+			category = Integer.parseInt(request.getParameter("category"));
+		}
 		String searchBy = request.getParameter("searchBy");
 		String searchContent = request.getParameter("searchContent");
 		ArrayList<Review> list = new ArrayList<>();
 		String sortBy = request.getParameter("sortBy");
-		
-		if(request.getParameter("category").equals("")&&searchContent.equals("")) {
+		System.out.println("category : "+category+", searchBy : "+searchBy+", searchContent"+searchContent);
+		if(category==-1&&searchContent.equals("")) {
+			System.out.println(1);
 			list = CompanyDaoImpl.getInstance().sortCompany(sortBy);
-		}else if(!request.getParameter("category").equals("")&&searchContent.equals("")) {
-			category=Integer.parseInt(request.getParameter("category"));
+		}else if(category!=-1&&searchContent.equals("")) {
+			System.out.println(2);
 			list = CompanyDaoImpl.getInstance().sortCompany(category, sortBy);
-		}else if(request.getParameter("category").equals("")&&!searchContent.equals("")) {
+		}else if(category==-1&&!searchContent.equals("")) {
+			System.out.println(3);
 			list = CompanyDaoImpl.getInstance().sortCompany(searchBy, searchContent, sortBy);
 		}else {
-			category=Integer.parseInt(request.getParameter("category"));
+			System.out.println(4);
 			list = CompanyDaoImpl.getInstance().sortCompany(category, searchBy, searchContent, sortBy);
 		}
 		

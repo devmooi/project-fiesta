@@ -9,15 +9,18 @@ public class Review {
 	Customer customer;
 	Service service;
 	Company company;
+	float avgReviewScore;
+	int countDesc;
 	
 	public Review() {}
-	public Review(int reviewScore, String reviewDesc, Company company) {
-		this.reviewScore = reviewScore;
-		this.reviewDesc = reviewDesc;
+	public Review(float avgReviewScore, int countDesc, Company company) {
+		this.avgReviewScore = avgReviewScore;
+		this.countDesc = countDesc;
 		this.company = company;
 	}
 	public Review(String reviewCode, int reviewScore, String reviewImg, String reviewDesc, String reviewDate,
-			Customer customer, Service service, Company company) {
+			Customer customer, Service service, Company company, float avgReviewScore, int countDesc) {
+		super();
 		this.reviewCode = reviewCode;
 		this.reviewScore = reviewScore;
 		this.reviewImg = reviewImg;
@@ -26,8 +29,9 @@ public class Review {
 		this.customer = customer;
 		this.service = service;
 		this.company = company;
+		this.avgReviewScore = avgReviewScore;
+		this.countDesc = countDesc;
 	}
-	
 	public String getReviewCode() {
 		return reviewCode;
 	}
@@ -76,12 +80,24 @@ public class Review {
 	public void setCompany(Company company) {
 		this.company = company;
 	}
-	
+	public float getAvgReviewScore() {
+		return avgReviewScore;
+	}
+	public void setAvgReviewScore(float avgReviewScore) {
+		this.avgReviewScore = avgReviewScore;
+	}
+	public int getCountDesc() {
+		return countDesc;
+	}
+	public void setCountDesc(int countDesc) {
+		this.countDesc = countDesc;
+	}
 	@Override
 	public String toString() {
 		return "Review [reviewCode=" + reviewCode + ", reviewScore=" + reviewScore + ", reviewImg=" + reviewImg
 				+ ", reviewDesc=" + reviewDesc + ", reviewDate=" + reviewDate + ", customer=" + customer + ", service="
-				+ service + ", company=" + company + "]";
+				+ service + ", company=" + company + ", avgReviewScore=" + avgReviewScore + ", countDesc=" + countDesc
+				+ "]";
 	}
 	
 }
