@@ -74,16 +74,17 @@ public class HandlerMapping {
 			System.out.println("CompanyRegisterController 생성됨");
 
 		}else if(command.equals("custEmailExist.do")) {
-			controller = new CustEmailExistController();
-			System.out.println("CustEmailExistController 생성됨");
+			controller = new CustomerEmailExistController();
+			System.out.println("CustomerEmailExistController 생성됨");
+			
+		}else if(command.equals("comEmailExist.do")) {
+			controller = new CompanyEmailExistController();
+			System.out.println("CompanyEmailExistController 생성됨");
 			
 		}else if(command.equals("login.do")) {
 			controller = new LoginController();
 			System.out.println("LoginController 생성됨");
 			
-		}else if(command.equals("comEmailExist.do")) {
-			controller = new ComEmailExistController();
-			System.out.println("ComEmailExistController 생성됨");
 		}
 		return controller;
 	}

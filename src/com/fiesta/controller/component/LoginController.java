@@ -9,8 +9,8 @@ import javax.servlet.http.HttpSession;
 
 import com.fiesta.controller.Controller;
 import com.fiesta.controller.ModelAndView;
-import com.fiesta.model.FiestaDaoImpl;
 import com.fiesta.model.dao.RegisterDaoImpl;
+import com.fiesta.model.vo.Company;
 import com.fiesta.model.vo.Customer;
 
 public class LoginController implements Controller {
@@ -19,11 +19,14 @@ public class LoginController implements Controller {
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String email = request.getParameter("email");
 		String pass = request.getParameter("pass");
+		String pick = request.getParameter("pick");
+		
 		boolean flag = false;
 		PrintWriter out = response.getWriter();
 
 		
 		try {
+			if(pick.equals("customer")) { // 지렸다 하경님
 			Customer customer = RegisterDaoImpl.getInstance().loginCustomer(email, pass);
 			HttpSession session = request.getSession();
 
@@ -32,6 +35,17 @@ public class LoginController implements Controller {
 				} else {
 					out.print(flag);
 				}
+			} else if (pick.equals("company")) {
+				Company company = RegisterDaoImpl.getInstance().loginCompany(email, pass);
+				HttpSession session = request.getSession();
+
+					if(company != null) {
+						session.setAttribute("company", company);
+					} else {
+						out.print(flag);
+					}	
+			}
+			
 		} catch (SQLException e) {
 			
 		}
