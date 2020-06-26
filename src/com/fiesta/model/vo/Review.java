@@ -18,6 +18,18 @@ public class Review {
 		this.countDesc = countDesc;
 		this.company = company;
 	}
+	
+	public Review(String reviewCode, int reviewScore, String reviewImg, String reviewDesc, Customer customer,
+			Service service, Company company) {
+		super();
+		this.reviewCode=reviewCode;
+		this.reviewScore = reviewScore;
+		this.reviewImg = reviewImg;
+		this.reviewDesc = reviewDesc;
+		this.customer = customer;
+		this.service = service;
+		this.company = company;
+	}
 	public Review(String reviewCode, int reviewScore, String reviewImg, String reviewDesc, String reviewDate,
 			Customer customer, Service service, Company company, float avgReviewScore, int countDesc) {
 		super();

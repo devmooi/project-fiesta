@@ -11,6 +11,9 @@ import com.fiesta.model.dao.CompanyDaoImpl;
 import com.fiesta.model.dao.QuestionDaoImpl;
 import com.fiesta.model.vo.Answer;
 import com.fiesta.model.vo.Question;
+
+import com.fiesta.model.dao.ReviewDaoImpl;
+import com.fiesta.model.vo.Review;
 import com.fiesta.model.vo.Service;
 
 public class ServiceAllShowController implements Controller {
@@ -50,8 +53,12 @@ public class ServiceAllShowController implements Controller {
 		request.setAttribute("answerList", answerList);
 		
 		path = "serviceAllShowResult.jsp";
-		
 
+		ArrayList<Review> list2 = ReviewDaoImpl.getInstance().showAllReview(companycode);
+		request.setAttribute("list2", list2);
+		request.setAttribute("companycode", companycode);
+		path = "./company/serviceAllShowResult.jsp";
+		
 		return new ModelAndView(path);
 	}
 

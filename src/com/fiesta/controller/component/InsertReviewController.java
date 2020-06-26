@@ -1,22 +1,91 @@
 package com.fiesta.controller.component;
 
+import java.io.File;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import com.fiesta.controller.Controller;
 import com.fiesta.controller.ModelAndView;
+import com.fiesta.model.dao.ReviewDaoImpl;
+import com.fiesta.model.vo.Company;
+import com.fiesta.model.vo.Customer;
+import com.fiesta.model.vo.Review;
+import com.fiesta.model.vo.Service;
 
 public class InsertReviewController implements Controller {
 
 	@Override
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String path = "review_fail.jsp";
+		File attachesDir = new File(request.getSession().getServletContext().getRealPath("/resource/file_upload"));
+		ReviewDaoImpl dao = ReviewDaoImpl.getInstance();
+		HttpSession session = request.getSession();
 		
-		int reviewScore = Integer.parseInt(request.getParameter("reviewScore"));
-		String reviewImg = request.getParameter("reviewImg");
-		String reviewDesc = request.getParameter("reviewDesc");
+		DiskFileItemFactory fileItemFactory = new DiskFileItemFactory();
+		fileItemFactory.setRepository(attachesDir);
+		fileItemFactory.setSizeThreshold(1024 * 1024);
+		ServletFileUpload fileUpload = new ServletFileUpload(fileItemFactory);
 		
-		return new ModelAndView(path);
+		int comCode=0;
+		String[] arr = {};
+		int serviceCode= 0;
+		String reviewCode="";
+		int reviewScore = 0;
+		String reviewDesc="";
+		String reviewImg = "./resource/file_upload/";
+		try {
+			List<FileItem> items = fileUpload.parseRequest(request);
+			for(FileItem item : items) {
+				if(item.isFormField()) {
+					System.out.println("파라미터 명 : " + item.getFieldName());
+					System.out.println("파라미터 값 : " + item.getString("utf-8"));
+					if(item.getFieldName().equals("reviewScore")) {
+						reviewScore =  Integer.parseInt(item.getString("utf-8"));
+					}else if(item.getFieldName().equals("comCode")){
+						comCode =  Integer.parseInt(item.getString("utf-8"));
+					}else if(item.getFieldName().equals("serviceName")){
+						arr =  item.getString("utf-8").split(",");
+						serviceCode = Integer.parseInt(arr[0]);
+					}else if(item.getFieldName().equals("reviewDesc")){
+						reviewDesc =  item.getString("utf-8");
+					}
+				}else {
+					System.out.println("파라미터 명 : " + item.getFieldName());
+					System.out.println("파일 명 : " + item.getName());
+					System.out.println("파일 크기 : " + item.getSize());
+					if(item.getSize() > 0) {
+						String separator = File.separator;
+						int index = item.getName().lastIndexOf(separator);
+						String fileName = item.getName().substring(index + 1);
+						File uploadFile = new File(attachesDir + separator + fileName);
+						item.write(uploadFile);
+						reviewImg+=item.getName();
+					}
+				}
+			}
+		}catch(Exception e) {
+			System.out.println("FileUploadTestController :: " + e);
+		}
+		reviewCode=comCode+"-"+serviceCode+"-"+"1";
+		if(!dao.isReview(comCode, serviceCode).equals("false")) {
+			String[] arr2 = dao.isReview(comCode, serviceCode).split("-");
+			arr2[2]=String.valueOf(Integer.parseInt(arr2[2])+1);
+			reviewCode=arr2[0]+"-"+arr2[1]+"-"+arr2[2];
+		}
+		System.out.println(reviewCode);
+		Customer cust = new Customer();
+		cust.setCustEmail("encore@gmail.com");
+		Review review = new Review(reviewCode, reviewScore, reviewImg, reviewDesc,
+				cust, new Service(serviceCode), new Company(comCode));
+		//new Customer(session.getAttribute("customer").getEmail()
+		dao.insertReview(review);
+		return new ModelAndView("ServiceAllShow.do?companycode="+comCode);
 	}
 
 }

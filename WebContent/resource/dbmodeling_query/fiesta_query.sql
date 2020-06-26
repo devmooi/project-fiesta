@@ -196,7 +196,7 @@ VALUES('300명 숙소', '다양한 강당, 편안한 시설', './resource/img/ho
 INSERT INTO service(service_name, service_desc, service_img, service_tag, com_code)
 VALUES('MC', '경험 많은 MC', './resource/img/house1.jpg', '#섭외#MC', 2);
 INSERT INTO service(service_name, service_desc, service_img, service_tag, com_code)
-VALUES('연예인', '경험 많은 연예인', './resource/img/house1.jpg', '#섭외#연예인', 7);
+VALUES('여행자보험', '싸고 넓은 보장', './resource/img/house1.jpg', '#보험#여행자보험', 7);
 INSERT INTO service(service_name, service_desc, service_img, service_tag, com_code)
 VALUES('45인승버스', '안락한 45인승 리무진 버스', './resource/img/house1.jpg', '#버스#45인승', 4);
 
@@ -204,8 +204,7 @@ INSERT INTO customer(cust_email, cust_name, cust_pass, cust_tel, cust_group)
 VALUES('encore@gmail.com','java','1234','010-5043-5765','한양대 사회과학대학 학생회');
 
 INSERT INTO review(review_code, review_score, review_img, review_desc, review_date, cust_email, service_code, com_code)
-VALUES('001', 4, null, '좋아요', sysdate(), 'encore@gmail.com', 1, 1);
-
+VALUES('1-1-1', 4, './resource/file_upload/Fiesta_DBModeling_WorkBench.PNG', '좋아요', sysdate(), 'encore@gmail.com', 1, 1);
 INSERT INTO question(q_date, q_title, q_desc, cust_email, com_code)
 VALUES(sysdate(), '숙박문의', '몇명이서 잘 수 있나요?', 'encore@gmail.com', 1);
 INSERT INTO question(q_date, q_title, q_desc, cust_email, com_code)

@@ -11,7 +11,7 @@
     <script type="text/javascript">
     $(function() {
 		$('button[name=reviewInsert]').click(function() {
-			window.location.href="./review/insertReview.jsp";
+			window.location.href="ShowService.do?companycode="+$('input[type=hidden]').val();
 		});//button[name=reviewInsert] click
 	});//ready
     </script>
@@ -83,16 +83,21 @@
 <div id="review">
 	<div id="reviewInsert">
 	<button name="reviewInsert">리뷰하기</button>
+	<input type="hidden" name="companycode" value="${companycode}">
 	</div>
 	<div id="reviewScore">
 	평점 : 
+	<span>리뷰개수</span>
 	</div>
 	<hr>
+	<c:forEach items="${list2}" var="review">
 	<div id="reviewContent">
-	이름 평점 일시 리뷰개수<br>
-	사진<br>
-	리뷰 내용
+	<span>이름 : ${review.customer.custName}, </span><span>만족도 : ${review.reviewScore}, </span><span>일시 : ${review.reviewDate}</span><br>
+	<span><img src= "${review.reviewImg}" width=100 height=100></span><br>
+	<span>내용 : ${review.reviewDesc}</span><br>
 	</div>
+	<br>
+	</c:forEach>
 </div>
 <hr>
 <!-- 문의/답변하기 -->

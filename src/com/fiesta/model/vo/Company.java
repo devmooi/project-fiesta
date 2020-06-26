@@ -13,6 +13,18 @@ public class Company {
 	int comCategoryCode;
 	
 	public Company() {}
+	
+	public Company(int comCode) {
+		super();
+		this.comCode = comCode;
+	}
+	
+	public Company(int comCode, String comName) {
+		super();
+		this.comCode = comCode;
+		this.comName = comName;
+	}
+
 	public Company(int comCode, String comName, String comimg, String comdesc, int comCount) {
 		this.comCode=comCode;
 		this.comName = comName;
