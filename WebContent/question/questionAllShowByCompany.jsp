@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<a href="questionAllShowByCom.do">우리회사에 들어온 문의보기</a>
+<!-- 임시로 데이터값 1 -->
+<a href="questionAllShowByCom.do?comCode=1">우리회사에 들어온 문의보기</a>
 </body>
 </html>

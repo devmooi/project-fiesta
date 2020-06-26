@@ -131,9 +131,9 @@ public class QuestionDaoImpl {
 		
 		try {
 			conn = getConnection();
-
+			
 			String query = "select q.q_code, q.q_title, q.q_desc, q.q_date, c.com_name "
-					+ "from question q,  company c"
+					+ "from question q, company c "
 					+ "where q.com_code = c.com_code and q.q_code=?";
 			ps = conn.prepareStatement(query);
 			System.out.println("PreparedStatement....showQuestion..");
@@ -143,9 +143,9 @@ public class QuestionDaoImpl {
 			rs = ps.executeQuery();
 			if(rs.next()) {
 					question = new Question(qCode, 
-							  rs.getString("q_title"),
-							  rs.getString("q_desc"),
-							  rs.getString("q_date"));
+							  rs.getString("q.q_title"),
+							  rs.getString("q.q_desc"),
+							  rs.getString("q.q_date"));
 			}
 		}finally {
 			closeAll(rs, ps, conn);
@@ -200,7 +200,7 @@ public class QuestionDaoImpl {
 		return list;
 	}
 
-	public void insertAnswer(int qCode, Answer answer) throws SQLException {
+	public void insertAnswer(int qCode, String aDesc, int comCode) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		
@@ -217,10 +217,10 @@ public class QuestionDaoImpl {
 			System.out.println("PreparedStatement 생성됨...insertAnswer");
 			
 			ps.setString(1, currTime);
-			ps.setString(2, answer.getaDesc());
-			ps.setInt(3, answer.getComCode());
-			ps.setInt(4, answer.getqCode());	//세션의 업체코드 가져오기
-			ps.setString(5, answer.getCustEmail());
+			ps.setString(2, aDesc);
+			ps.setInt(3, showQuestion(qCode).getComCode()); 
+			ps.setInt(4, qCode);	
+			ps.setString(5, showQuestion(qCode).getCustEmail());
 			
 			// 답변대기를 답변완료로 바꾸기, 이메일로 보내기
 			
@@ -230,6 +230,8 @@ public class QuestionDaoImpl {
 		}
 		
 	}
+	
+	//문의 찾기
 	
 	//답변상태 바꾸기
 	public void changeQnaCondition(int qCode) throws SQLException{
@@ -287,7 +289,9 @@ public class QuestionDaoImpl {
 		
 		//dao.insertQuestion("숙박문의","몇명이서 잘 수 있나요?", "java");
 		//dao.insertQuestion("공연문의","이거슨 문장 잘라지는지 테스트하기 위한 문의사항입니담 키키키키킼", "java");
-		//dao.insertQuestion(1,"버스문의","이거는 답변 없는 문의를 보는 테스트", "encore@gmail.com");
+		//dao.insertQuestion(4,"버스문의","이거는 답변 없는 문의를 보는 테스트", "encore@gmail.com");
+		//dao.insertQuestion(1,"공연문의","테스트용이다1", "encore@gmail.com");
+		//dao.insertQuestion(1,"공연문의","이것도 테스트용이지롱1", "encore@gmail.com");
 		//System.out.println(dao.showAllQuestion("java"));
 		
 		System.out.println(dao.showAllQuestionByCompany(1));

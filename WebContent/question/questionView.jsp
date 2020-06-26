@@ -12,6 +12,9 @@
 문의 날짜 : ${qDetail.qDate} <br>
 문의 제목 : ${qDetail.qTitle} <br>
 문의 내용 : ${qDetail.qDesc} <br>
+<a href="answerRegister.jsp?qCode=${qDetail.qCode}">답변하기</a>
+<br><br>
+
 <h3>답변내역</h3>
 답변 날짜 : ${aDetail.aDate}<br>
 답변 내용: ${aDetail.aDesc}<br>

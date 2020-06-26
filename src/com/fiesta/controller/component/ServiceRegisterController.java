@@ -26,7 +26,7 @@ public class ServiceRegisterController implements Controller {
 		CompanyDaoImpl.getInstance().insertService(service);
 
 
-		return new ModelAndView("serviceRegisterResult.jsp");
+		return new ModelAndView("ServiceAllShow.do");
 	}
 
 }

@@ -15,26 +15,57 @@
 		});//button[name=reviewInsert] click
 	});//ready
     </script>
-    
+
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script type="text/javascript">
+   
+	
+    $(function() {
+		$('button[name=reviewInsert]').click(function() {
+			window.location.href="./review/insertReview.jsp";
+		});//button[name=reviewInsert] click
+		
+		$('.collapsible').collapsible();
+		
+		/* $('.collapsible').collapsible(function() {
+			var qCode = $('#qCode').val();
+			if (email.length == 0) {
+				$('#emailCheckView').html("이메일을 입력해주세요.");
+				return;
+			} 
+			$.ajax({
+				type:'post',
+				url:'answerView.do',
+				data:$('#registerFrm').serialize(),
+				
+				success:function(result) {
+					if(result=='true')
+						$('#emailCheckView').html("이미 사용중인  이메일입니다.");
+					else
+						$('#emailCheckView').html("사용 가능한 이메일입니다.");
+				}
+			}); // email ajax
+		}); // email keyup */
+		
+		//$('.answer').;
+		
+	});//ready
+
+    </script>
     
-    <!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-	<!-- Optional theme -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css">
-	<!-- Latest compiled and minified JavaScript -->
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    
 </head>
 <body>
 <!-- 업체 마이페이지로도 사용할 수 있음 -->
 <!-- 업체 1개에 대한 정보가 들어옴 / 찜하기 -->
+<h3>업체소개</h3>
 
 <h3 align="center">서비스</h3><p>
 <table border="2" width="350" bgcolor="yellow" align="center">
-	<c:forEach items="${list}" var="service">
+	<c:forEach items="${serviceList}" var="service">
 		<tr>
 			<td>${service.serviceName}</td>
 			<td>${service.serviceImg}</td>
@@ -63,10 +94,129 @@
 	리뷰 내용
 	</div>
 </div>
-
 <hr>
 <!-- 문의/답변하기 -->
 <!-- 고객 문의, 업체 답변 -->
+
+<%-- <!-- 문의내역 -->
+ <ul class="collapsible">
+ <c:forEach items="${questionList}" var="question">
+    <li>
+      <div class="collapsible-header">	<span>${question.qCode}</span> 
+									    <span>${question.qDate}</span> 
+									    <span>${question.qTitle}</span> 
+									    <span>${question.qDesc}</span> 
+									    <span>${question.qCondition}</span> </div>
+									    
+		<c:set var="loop_flag" value="false" />
+		<c:forEach items="${answerList}"  var="answer">
+		<c:if test="${not loop_flag }">
+			<c:if test="${answer.aCode != null}" >
+	      		<div class="collapsible-body"><span>${answer.aDesc}</span>
+	      										<span>${answer.aDate}</span></div>
+	      		<c:set var="loop_flag" value="true" />
+      		</c:if>
+      		
+      		 <c:if test="${empty answer.aDesc}">
+      			<div class="collapsible-body"><span>답변대기중입니다</span></div>
+      			<c:set var="loop_flag" value="true" />
+     	 	</c:if>
+      	</c:if>
+      	
+      	
+
+		</c:forEach>
+    </li>
+</c:forEach> 
+</ul>
+ --%>
+
+
+<!-- 문의내역 -->
+ <ul class="collapsible">
+ <c:forEach items="${questionList}" var="question">
+    <li>
+      <div class="collapsible-header">	<span>${question.qCode}</span> 
+									    <span>${question.qDate}</span> 
+									    <span>${question.qTitle}</span> 
+									    <span>${question.qDesc}</span> 
+									    <span>${question.qCondition}</span> </div>
+									    
+		<c:set var="loop_flag" value="false" />
+		<c:forEach items="${answerList}"  var="answer">
+		<c:if test="${not loop_flag }">
+			<c:if test="${question.qCondition eq '답변완료'}" >
+	      		<div class="collapsible-body"><span>${answer.aDesc}</span>
+	      										<span>${answer.aDate}</span></div>
+	      		<c:set var="loop_flag" value="true" />
+      		</c:if>
+      		
+      		 <c:if test="${question.qCondition eq '답변대기'}">
+      			<div class="collapsible-body"><span>답변대기중입니다</span></div>
+      			<c:set var="loop_flag" value="true" />
+     	 	</c:if>
+      	</c:if>
+
+
+		</c:forEach>
+    </li>
+</c:forEach> 
+</ul>
+
+
+<%-- <!-- 문의내역 -->
+ <ul class="collapsible">
+ <c:forEach items="${questionList}" var="question">
+    <li>
+      <div class="collapsible-header">	<span>${question.qCode}</span> 
+									    <span>${question.qDate}</span> 
+									    <span>${question.qTitle}</span> 
+									    <span>${question.qDesc}</span> 
+									    <span>${question.qCondition}</span> </div>
+									    
+		<c:set var="loop_flag" value="false" />
+		
+		    		
+      		 <c:when test="${question.qCondition eq '답변대기'}">
+      			<div class="collapsible-body"><span>답변대기중입니다</span></div>
+      			<c:set var="loop_flag" value="true" />
+     	 	</c:when>
+     	 	<c:otherwise>
+     	 		<c:forEach items="${answerList}"  var="answer">
+     	 		<c:if test="${not loop_flag }">  
+     	 		<div class="collapsible-body"><span>${answer.aDesc}</span>
+	      										<span>${answer.aDate}</span></div>
+	      		<c:set var="loop_flag" value="true" />
+	      		</c:if>
+	      		</c:forEach>
+     	 	</c:otherwise>
+    </li>
+</c:forEach> 
+</ul>
+ --%>
+
+<%-- <!-- 문의내역 -->
+ <ul class="collapsible">
+ <c:forEach items="${questionList}" var="question">
+    <li>
+      <div class="collapsible-header">	<span>${question.qCode}</span> 
+									    <span>${question.qDate}</span> 
+									    <span>${question.qTitle}</span> 
+									    <span>${question.qDesc}</span> 
+									    <span>${question.qCondition}</span> </div>
+
+     	<c:forEach items="${answerList}"  var="answer">
+     		<c:when test="${answer.aCode != null}">
+      			<div class="collapsible-body"><span>${answer.aDesc}</span>
+      											<span>${answer.aDate}</span></div>
+      		</c:when>
+      			<c:otherwise>
+      				<div class="collapsible-body"><span>답변대기중입니다</span></div>
+				</c:otherwise>
+		</c:forEach>
+    </li>
+</c:forEach> 
+</ul> --%>
 
 </body>
 </html>

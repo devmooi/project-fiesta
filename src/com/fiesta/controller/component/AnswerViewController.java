@@ -1,30 +1,34 @@
 package com.fiesta.controller.component;
 
-import java.util.ArrayList;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fiesta.controller.Controller;
 import com.fiesta.controller.ModelAndView;
 import com.fiesta.model.dao.QuestionDaoImpl;
+import com.fiesta.model.vo.Answer;
 import com.fiesta.model.vo.Question;
 
-public class QuestionAllShowByComController implements Controller {
+public class AnswerViewController implements Controller {
 
 	@Override
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-		int comCode = Integer.parseInt(request.getParameter("comCode"));
+		int qCode = Integer.parseInt(request.getParameter("qCode"));
 		
 		String path = "";
 
-		//세션에서 업체코드값 받아온다. 지금은 임시데이터 1
-		ArrayList<Question> list = QuestionDaoImpl.getInstance().showAllQuestionByCompany(comCode);
-		request.setAttribute("list", list);
+		Question qDetail = QuestionDaoImpl.getInstance().showQuestion(qCode);
 		
-		path = "questionAllShow.jsp";
+		Answer aDetail = QuestionDaoImpl.getInstance().showAnswer(qCode);
 		
+		request.setAttribute("qDetail", qDetail);
+		
+		if(aDetail != null) {
+			request.setAttribute("aDetail", aDetail);
+		}
+		
+		path = "questionView.jsp";
+			
 
 		return new ModelAndView(path);
 	}

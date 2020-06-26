@@ -17,10 +17,11 @@ public class QuestionAllShowController implements Controller {
 	@Override
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
+		String custEmail = request.getParameter("custEmail");
 		String path = "";
 
 		//세션에서 Id 값 받아온다.
-		ArrayList<Question> list = QuestionDaoImpl.getInstance().showAllQuestion("encore@gmail.com");
+		ArrayList<Question> list = QuestionDaoImpl.getInstance().showAllQuestion(custEmail);
 		request.setAttribute("list", list);
 		
 		path = "questionAllShow.jsp";
