@@ -11,21 +11,23 @@ public class QuestionRegisterController implements Controller{
 
 	@Override
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		int comCode = Integer.parseInt(request.getParameter("comCode"));
+		String comCode = request.getParameter("companycode");
+		int companycode = Integer.parseInt(comCode);
+		System.out.println(companycode);
 		String qTitle = request.getParameter("qTitle");
 		String qDesc = request.getParameter("qDesc");
-		
+		String custEmail = "encore@gmail.com";   //나중에 세션값에서 받아오기
 		String path = "";
 
-		QuestionDaoImpl.getInstance().insertQuestion(comCode, qTitle, qDesc, "java" );
+		QuestionDaoImpl.getInstance().insertQuestion(companycode, qTitle, qDesc, custEmail);
 		
-		request.setAttribute("comCode", comCode);
+/*		request.setAttribute("comCode", comCode);
 		request.setAttribute("qTitle", qTitle);
 		request.setAttribute("qDesc", qDesc);
+		*/
 		
-		path = "questionRegisterResult.jsp";
-			
-
+		path = "ServiceAllShow.do?companycode="+comCode;
+		
 		return new ModelAndView(path);
 	}
 

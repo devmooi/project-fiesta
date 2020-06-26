@@ -82,6 +82,7 @@
 <!-- 고객 문의, 업체 답변 -->
 
 <!-- 문의내역 -->
+<h4>문의내역</h4>
  <ul class="collapsible">
  <c:forEach items="${questionList}" var="question">
     <li>
@@ -108,8 +109,32 @@
 </c:forEach> 
 </ul>
 
+<br><br>
+
+<hr>
+<br>
+
+<!-- 문의하기   >>> 나중에 탭으로 할것 -->  
+<h4>문의하기</h4>
+<form action="questionRegister.do?" name="registerForm" >
+<input type="hidden" name="companycode" value="${companycode}">
+문의제목 : <input type="text" name="qTitle" required="required"><br><br>
+문의내용 : <input type="text" name="qDesc" required="required"><br><br>
+<input type="submit" value="문의 등록">
+</form>
+<br><br>
+<!-- 문의하기 등록은 바로 되는데 그페이지에서 새로고침 할때마다 계속 생김....ㅠㅅㅠ -->
 
 
+<!-- 아직 미완성...  -->
+<h4>답변하기</h4>
+<form action="answerRegister.do" name="registerForm" >
+<input type="hidden" name="qCode" value="${qDetail.qCode}">
+답변내용 : <input type="text" name="aDesc" required="required"><br><br>
+<input type="submit" value="답변 등록">
+</form>
+
+<br><br>
 
 </body>
 </html>
