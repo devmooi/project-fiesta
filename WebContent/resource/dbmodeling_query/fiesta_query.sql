@@ -6,10 +6,10 @@ DROP TABLE custorderdetail;
 DROP TABLE custorder; -- 고객 주문
 DROP TABLE service; -- 서비스
 DROP TABLE answer; -- 문의 내역
+DROP TABLE question; -- 문의
 DROP TABLE company; -- 업체
 DROP TABLE comcategory; -- 업체 분류
 DROP TABLE request; -- 고객 의뢰
-DROP TABLE question; -- 문의
 DROP TABLE customer; -- 고객
 
 
@@ -118,7 +118,7 @@ ALTER TABLE orderdetail ADD constraint fk_orderdetail_company foreign key(com_co
 CREATE TABLE review(
 	review_code VARCHAR(45) NOT NULL PRIMARY KEY,
     review_score INT,
-    review_img VARCHAR(45),
+    review_img VARCHAR(150),
     review_desc VARCHAR(45) NOT NULL,
     review_date DATETIME NOT NULL,
     cust_email VARCHAR(45) NOT NULL,
@@ -133,11 +133,9 @@ ALTER TABLE review ADD constraint fk_review_company foreign key(com_code) refere
 CREATE TABLE wish(
 	wish_code INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	cust_email VARCHAR(45) NOT NULL,
-    service_code INT NOT NULL,
     com_code INT NOT NULL
 );
 ALTER TABLE wish ADD constraint fk_wish_customer foreign key(cust_email) references customer(cust_email) on delete cascade;
-ALTER TABLE wish ADD constraint fk_wish_service foreign key(service_code) references service(service_code) on delete cascade;
 ALTER TABLE wish ADD constraint fk_wish_company foreign key(com_code) references company(com_code) on delete cascade;
 
 -- question

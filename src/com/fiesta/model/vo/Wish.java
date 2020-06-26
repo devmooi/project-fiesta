@@ -3,15 +3,12 @@ package com.fiesta.model.vo;
 public class Wish {
 	int wishCode;
 	String custEmail;
-	int serviceCode;
 	int comCode;
 	
 	public Wish() {}
-	public Wish(int wishCode, String custEmail, int serviceCode, int comCode) {
-		super();
+	public Wish(int wishCode, String custEmail, int comCode) {
 		this.wishCode = wishCode;
 		this.custEmail = custEmail;
-		this.serviceCode = serviceCode;
 		this.comCode = comCode;
 	}
 	
@@ -27,12 +24,6 @@ public class Wish {
 	public void setCustEmail(String custEmail) {
 		this.custEmail = custEmail;
 	}
-	public int getServiceCode() {
-		return serviceCode;
-	}
-	public void setServiceCode(int serviceCode) {
-		this.serviceCode = serviceCode;
-	}
 	public int getComCode() {
 		return comCode;
 	}
@@ -42,8 +33,7 @@ public class Wish {
 	
 	@Override
 	public String toString() {
-		return "Wish [wishCode=" + wishCode + ", custEmail=" + custEmail + ", serviceCode=" + serviceCode + ", comCode="
-				+ comCode + "]";
+		return "Wish [wishCode=" + wishCode + ", custEmail=" + custEmail + ", comCode=" + comCode + "]";
 	}
-
+	
 }

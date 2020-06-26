@@ -29,6 +29,9 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
+<!-- 업체 마이페이지로도 사용할 수 있음 -->
+<!-- 업체 1개에 대한 정보가 들어옴 / 찜하기 -->
+
 <h3 align="center">서비스</h3><p>
 <table border="2" width="350" bgcolor="yellow" align="center">
 	<c:forEach items="${list}" var="service">
@@ -43,6 +46,9 @@
 <a href="ServiceDelete.do?serviceCode=4">삭제</a>
 <p></p>
 <hr>
+<!-- 리뷰 / 문의 : 탭 방식 -->
+<!-- 리뷰에 대한 답은 해당 고객만 -->
+<!-- 나중에 '리뷰하기'는 마이페이지로 이동 -->
 <div id="review">
 	<div id="reviewInsert">
 	<button name="reviewInsert">리뷰하기</button>
@@ -57,5 +63,10 @@
 	리뷰 내용
 	</div>
 </div>
+
+<hr>
+<!-- 문의/답변하기 -->
+<!-- 고객 문의, 업체 답변 -->
+
 </body>
 </html>

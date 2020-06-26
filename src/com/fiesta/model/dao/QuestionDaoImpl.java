@@ -159,7 +159,7 @@ public class QuestionDaoImpl {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		ArrayList<Question> list = new ArrayList<>();
-		Question question = new Question();
+		Question question = null;
 		
 		String qDesc= "";
 		try {
@@ -185,15 +185,14 @@ public class QuestionDaoImpl {
 									  rs.getString("q_date"),
 									  rs.getString("q_condition"),
 									  rs.getString("cust_email")));*/
+				question = new Question();
 				question.setqCode(rs.getInt("q_code"));
 				question.setqTitle(rs.getString("q_title"));
 				question.setqDesc(qDesc);
 				question.setqDate(rs.getString("q_date"));
 				question.setqCondition(rs.getString("q_condition"));
 				question.setCustEmail(rs.getString("cust_email"));
-				System.out.println("위" + rs.getInt("q_code"));
 				list.add(question);
-				System.out.println("아래" + rs.getInt("q_code"));
 			}
 		}finally {
 			closeAll(rs, ps, conn);
