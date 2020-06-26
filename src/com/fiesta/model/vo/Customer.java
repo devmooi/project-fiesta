@@ -9,6 +9,13 @@ public class Customer {
 	
 	public Customer() {}
 	
+	
+	
+	public Customer(String custEmail) {
+		super();
+		this.custEmail = custEmail;
+	}
+
 	public Customer(String custEmail, String custName, String custPass) {
 		super();
 		this.custEmail = custEmail;

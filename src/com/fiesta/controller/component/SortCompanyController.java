@@ -22,18 +22,13 @@ public class SortCompanyController implements Controller{
 		String searchContent = request.getParameter("searchContent");
 		ArrayList<Review> list = new ArrayList<>();
 		String sortBy = request.getParameter("sortBy");
-		System.out.println("category : "+category+", searchBy : "+searchBy+", searchContent"+searchContent);
 		if(category==-1&&searchContent.equals("")) {
-			System.out.println(1);
 			list = CompanyDaoImpl.getInstance().sortCompany(sortBy);
 		}else if(category!=-1&&searchContent.equals("")) {
-			System.out.println(2);
 			list = CompanyDaoImpl.getInstance().sortCompany(category, sortBy);
 		}else if(category==-1&&!searchContent.equals("")) {
-			System.out.println(3);
 			list = CompanyDaoImpl.getInstance().sortCompany(searchBy, searchContent, sortBy);
 		}else {
-			System.out.println(4);
 			list = CompanyDaoImpl.getInstance().sortCompany(category, searchBy, searchContent, sortBy);
 		}
 		

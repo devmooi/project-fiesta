@@ -539,7 +539,7 @@ public class CompanyDaoImpl {
 		ArrayList<Service> list = new ArrayList<>();
 		try {
 			conn = getConnection();
-			String query = "SELECT * FROM service WHERE com_email=?";
+			String query = "SELECT * FROM service WHERE com_code=?";
 			ps = conn.prepareStatement(query);
 			System.out.println("PreparedStatement....showAllService..");
 					
