@@ -499,7 +499,7 @@ public class CompanyDaoImpl {
 		
 	}
 
-	public ArrayList<Service> showAllService(String companycode) throws SQLException {
+	public ArrayList<Service> showAllService(int companycode) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -510,7 +510,7 @@ public class CompanyDaoImpl {
 			ps = conn.prepareStatement(query);
 			System.out.println("PreparedStatement....showAllService..");
 					
-			ps.setString(1, companycode);
+			ps.setInt(1, companycode);
 			
 			rs = ps.executeQuery();
 			while(rs.next()) {

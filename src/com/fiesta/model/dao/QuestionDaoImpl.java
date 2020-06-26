@@ -292,6 +292,8 @@ public class QuestionDaoImpl {
 		//dao.insertQuestion("숙박문의","몇명이서 잘 수 있나요?", "java");
 		//dao.insertQuestion("공연문의","이거슨 문장 잘라지는지 테스트하기 위한 문의사항입니담 키키키키킼", "java");
 		//dao.insertQuestion(4,"버스문의","이거는 답변 없는 문의를 보는 테스트", "encore@gmail.com");
+		//dao.insertQuestion(1,"공연문의","테스트용이다1", "encore@gmail.com");
+		//dao.insertQuestion(1,"공연문의","이것도 테스트용이지롱1", "encore@gmail.com");
 		//System.out.println(dao.showAllQuestion("java"));
 		
 		System.out.println(dao.showAllQuestionByCompany(1));

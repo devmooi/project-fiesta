@@ -79,7 +79,7 @@
 <br>
 	<span>이미지</span><span>회사명</span><span>설명</span><span>평점</span><span>리뷰</span><br>
 	<c:forEach items="${list}" var="review">
-	<a href="ServiceAllShow.do?companycode=${review.company.comEmail}">
+	<a href="ServiceAllShow.do?companycode=${review.company.comCode}">
 	<span><img src = "${review.company.comImg}" width="100" height="100"></span>
 	<span>${review.company.comName}</span>
 	<span>${review.company.comDesc}</span>
