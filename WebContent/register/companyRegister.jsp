@@ -55,9 +55,16 @@
 			<span id="passCheckView"></span>
 		전화번호<br><input type="text" name="tel" id="tel"><br>
 			<span id="telCheckView"></span>
-		
+		주소 <br><input type="text" name="addr" id="addr"><br>
+			<span id="addrCheckView"></span>	
+		단체명<br><input type="text" name="group" id="group"><br>
+			<span id="groupCheckView"></span>
+		업체상세정보<br><input type="text" name="group" id="group"><br>
+			<span id="groupCheckView"></span>	
 		단체명<br><input type="text" name="group" id="group"><br>
 			<span id="groupCheckView"></span>	
+		단체명<br><input type="text" name="group" id="group"><br>
+			<span id="groupCheckView"></span>			
 			<br><br>
 		<input type="submit" value="회원가입" id="registerBtn">
 	</form>

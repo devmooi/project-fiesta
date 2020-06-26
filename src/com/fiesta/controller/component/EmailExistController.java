@@ -17,7 +17,6 @@ public class EmailExistController implements Controller {
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String email = request.getParameter("email");
 		boolean flag = false;
-		// String path = "customerRegister.jsp";
 		PrintWriter out = response.getWriter();
 		try {
 			flag = RegisterDaoImpl.getInstance().emailExist(email);
@@ -25,7 +24,6 @@ public class EmailExistController implements Controller {
 		} catch (SQLException e) {
 			
 		}
-		//request.setAttribute("flag", flag); 이것도 필요 없는거다 ok! 이해완료!!
 		return null;
 	}
 

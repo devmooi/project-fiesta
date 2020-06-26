@@ -1,5 +1,6 @@
 package com.fiesta.controller.component;
 
+import java.io.PrintWriter;
 import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,19 +19,23 @@ public class LoginController implements Controller {
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String email = request.getParameter("email");
 		String pass = request.getParameter("pass");
-		String path = "loginResult.jsp";
+		boolean flag = false;
+		PrintWriter out = response.getWriter();
+
 		
 		try {
 			Customer customer = RegisterDaoImpl.getInstance().loginCustomer(email, pass);
 			HttpSession session = request.getSession();
-			
+
 				if(customer != null) {
 					session.setAttribute("customer", customer);
+				} else {
+					out.print(flag);
 				}
 		} catch (SQLException e) {
 			
 		}
-		return new ModelAndView(path);
+		return null;
 	}
 
 }

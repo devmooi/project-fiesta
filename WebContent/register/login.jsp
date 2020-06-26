@@ -15,15 +15,16 @@
 			$.ajax({
 				type:'post',
 				url:'login.do',
-				data:$('#registerFrm').serialize(),
+				data:$('#loginFrm').serialize(),
 				
 				success:function(result) {
-					if(result=='true')
-						$('#emailCheckView').html("이미 사용중인  이메일입니다.");
-					else
-						$('#emailCheckView').html("사용 가능한 이메일입니다.");
+					if(result=='false') {
+						alert("로그인에 실패하였습니다. 이메일이나 비밀번호가 올바르게 입력되었는지 확인 후 다시 시도하십시오.");
+					} else {
+						location.href="loginResult.jsp"; // 이거였다 와..! 김미경 짱이다!!
+					}
 				}
-			}); // email ajax
+			}); // ajax
 		}); // click
 	}); // ready
 </script>
