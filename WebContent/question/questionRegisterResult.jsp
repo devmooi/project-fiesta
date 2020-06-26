@@ -9,6 +9,6 @@
 <body>
 ${qTitle}
 ${qDesc}
-<a href="questionAllShow.do">나의 문의내역들 보기</a>
+<a href="questionAllShow.do?custEmail=encore@gmail.com">나의 문의내역들 보기</a>
 </body>
 </html>

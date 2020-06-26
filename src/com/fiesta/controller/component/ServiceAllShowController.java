@@ -21,7 +21,7 @@ public class ServiceAllShowController implements Controller {
 
 		ArrayList<Service> list = CompanyDaoImpl.getInstance().showAllService(companycode);
 		request.setAttribute("list", list);
-		path = "./company/serviceAllShowResult.jsp";
+		path = "serviceAllShowResult.jsp";
 		
 
 		return new ModelAndView(path);
