@@ -57,7 +57,6 @@ public class ServiceAllShowController implements Controller {
 		ArrayList<Review> list2 = ReviewDaoImpl.getInstance().showAllReview(companycode);
 		request.setAttribute("list2", list2);
 		request.setAttribute("companycode", companycode);
-		path = "./company/serviceAllShowResult.jsp";
 		
 		return new ModelAndView(path);
 	}

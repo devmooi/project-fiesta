@@ -29,6 +29,14 @@ public class Answer {
 		this.aDesc = aDesc;
 		this.comName = comName;
 	}
+	
+	public Answer(int qCode, String aDate, String aDesc) {
+		super();
+		this.qCode = qCode;
+		this.aDate = aDate;
+		this.aDesc = aDesc;
+	}
+	
 	public int getaCode() {
 		return aCode;
 	}

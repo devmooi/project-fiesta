@@ -271,11 +271,14 @@ public class QuestionDaoImpl {
 			
 			rs = ps.executeQuery();
 			if(rs.next()) {
-				Company com = new Company();
-				com.setComName(rs.getString("c.com_name"));
-				answer = new Answer(rs.getString("a.a_desc"), 
-						  rs.getString("a.a_date"), 
-						  com.getComName());
+				//Company com = new Company();
+				//com.setComName(rs.getString("c.com_name"));
+				answer = new Answer(
+						qCode,
+						rs.getString("a.a_desc"), 
+						  rs.getString("a.a_date")
+						  //com.getComName()
+						  );
 			}
 		}finally {
 			closeAll(rs, ps, conn);
