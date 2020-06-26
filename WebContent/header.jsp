@@ -4,51 +4,100 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-	<style>
-        * {
-            margin: 0;
-            padding: 0;
+	<!-- jQuery -->
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	
+	<!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    
+    <!-- Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Pacifico&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Nanum Gothic', sans-serif;
         }
         header {
             position: fixed;
-            background: white;
-            overflow: hidden;
             width: 100%;
-            border-bottom: 1px solid black;
+            background: white;
+            border-bottom: 1px solid #ddd;
         }
-        h1 {
-            font-family: 'Pacifico', cursive;
+        header h1 {
+            margin: 10px 25px;
             float: left;
-            margin-left: 20px;
-            margin-top: 5px;
         }
-        nav {
+        header h1 a {
+            color: #009688;
+            font-family: 'Pacifico', cursive;
+            font-size: 3rem;
+        }
+        header ul {
             float: right;
-            line-height: 70px;
             margin-right: 20px;
         }
-        nav a {
-            margin-right: 10px;
-            text-decoration: none;
+        header ul li {
+            float: left;
+            height: 100%;
+            display: block;
+        }
+        header ul li a {
+            margin-right: 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
             color: black;
+            display: block;
+            padding: 15px;
         }
-        nav a:hover {
-            color: blue;
+        header ul li a:hover {
+            color: #009688;
         }
+        /* section */
         section {
-            padding-top:70px;
+            padding-top: 92px;
+        }
+
+        /* responsive */
+        @media (max-width: 538px) {
+            header h1 {
+                margin: 0;
+                width: 100%;
+                text-align: center;
+            }
+            header ul {
+                margin: 0;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+            }
+            header ul li a {
+                font-size: 1rem;
+            }
+            section {
+                padding-top: 125px;
+            }
         }
     </style>
 </head>
 <body>
-	<header>
-        <h1>Fiesta</h1>
-        <nav>
-            <a href="register/register.jsp">회원가입</a>
-            <a href="ShowAllCompany.do">업체 찾기</a>
-            <a href="register/login.jsp">로그인</a>
-        </nav>
+    <header>
+        <h1><a href="http://localhost:8888/Fiesta">Fiesta</a></h1>
+
+        <!-- 비회원, 고객 로그인, 업체 로그인 상황에 따라 달라짐 -->
+        <ul>
+            <li><a href="register/register.jsp">회원가입</a></li>
+            <li><a href="ShowAllCompany.do">업체 찾기</a></li>
+            <li><a href="register/login.jsp">로그인</a></li>
+            <!-- 로그인 했을 때 : 회원가입과 로그인이 사라지고 -->
+            <!-- 고객이 로그인 했을 때 -->
+            <!-- <li><a href="#">마이페이지</a></li> -->
+            <!-- 업체가 로그인 했을 때 -->
+            <!-- <li><a href="#">업체 정보</a></li> -->
+        </ul>
     </header>
 </body>
 </html>
