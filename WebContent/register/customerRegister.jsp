@@ -23,7 +23,7 @@
 			} 
 			$.ajax({
 				type:'post',
-				url:'emailExist.do',
+				url:'custEmailExist.do',
 				data:$('#registerFrm').serialize(),
 				
 				success:function(result) {

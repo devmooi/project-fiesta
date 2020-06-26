@@ -11,7 +11,7 @@
 		$('#name').keyup(function() {
 			var name = $('#name').val();
 			if (name.length == 0) {
-				$('#nameCheckView').html("이름을 입력해주세요.");
+				$('#nameCheckView').html("업체명을 입력해주세요.");
 				return;
 			} 
 		}); // name keyup
@@ -23,7 +23,7 @@
 			} 
 			$.ajax({
 				type:'post',
-				url:'emailExist.do',
+				url:'comEmailExist.do',
 				data:$('#registerFrm').serialize(),
 				
 				success:function(result) {
@@ -55,9 +55,12 @@
 			<span id="passCheckView"></span>
 		전화번호<br><input type="text" name="tel" id="tel"><br>
 			<span id="telCheckView"></span>
-		
-		단체명<br><input type="text" name="group" id="group"><br>
-			<span id="groupCheckView"></span>	
+		주소 <br><input type="text" name="addr" id="addr"><br>
+			<span id="addrCheckView"></span>	
+		업체로고등록<br><input type="text" name="img" id="img"><br>
+			<span id="imgCheckView"></span>
+		업체상세정보<br><input type="text" name="desc" id="desc"><br>
+			<span id="descCheckView"></span>	
 			<br><br>
 		<input type="submit" value="회원가입" id="registerBtn">
 	</form>

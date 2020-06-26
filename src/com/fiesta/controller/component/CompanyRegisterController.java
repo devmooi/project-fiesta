@@ -7,14 +7,32 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fiesta.controller.Controller;
 import com.fiesta.controller.ModelAndView;
-import com.fiesta.model.FiestaDaoImpl;
-import com.fiesta.model.vo.Customer;
+import com.fiesta.model.dao.RegisterDaoImpl;
+import com.fiesta.model.vo.Company;
 
 public class CompanyRegisterController implements Controller {
 
 	@Override
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		return null;
+		String email = request.getParameter("email");
+		String name = request.getParameter("name");
+		String pass = request.getParameter("pass");
+		String tel = request.getParameter("tel");
+		String addr = request.getParameter("addr");
+		String img = request.getParameter("img");
+		String desc = request.getParameter("desc");
+
+		String path = "../index.jsp";
+		
+		Company company = new Company(email, name, pass, tel, addr, img, desc);
+		try {
+			RegisterDaoImpl.getInstance().registerCompany(company);
+			
+		} catch (SQLException e) {
+			
+		}
+		return new ModelAndView(path);
+	
 	}
 }
 
