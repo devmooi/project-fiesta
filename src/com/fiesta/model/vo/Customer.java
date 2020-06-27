@@ -10,7 +10,6 @@ public class Customer {
 	public Customer() {}
 	
 	
-	
 	public Customer(String custEmail) {
 		super();
 		this.custEmail = custEmail;

@@ -106,8 +106,10 @@ $(function() {
 	단체명  <input type="text" name="group" id="group" value="${customer.custGroup}" placeholder="${customer.custGroup}"><br>
 		<span id="groupCheckView"></span><br>	
 	<input type="button" id="updateBtn" value="회원정보수정">
-		<span id="updateCheckView"></span>	
+	<span id="updateCheckView"></span>	
 	</form>
+	
+	
 
 	
 

@@ -10,7 +10,7 @@ import com.fiesta.controller.ModelAndView;
 import com.fiesta.model.dao.RegisterDaoImpl;
 import com.fiesta.model.vo.Customer;
 
-public class UpdateCustommerController implements Controller {
+public class UpdateCustomerController implements Controller {
 
 	@Override
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -22,9 +22,8 @@ public class UpdateCustommerController implements Controller {
 		
 		Customer customer = new Customer(email, name, pass, tel, group);
 		try {
-			// 바뀐게 있다면~ 하는 가정법 문장 안에 넣고 싶다. 아래 business logic을. 음..
 			RegisterDaoImpl.getInstance().updateCustomer(customer);
-			
+			// 여기서.. 각각 수정의 요청이 들어오는 걸 처리하는 로직 못하나.
 		} catch (SQLException e) {
 			
 		}

@@ -115,6 +115,27 @@ public class RegisterDaoImpl {
 		}
 	}
 	
+	// 각각 수정버튼을 위해 필요한 business logic이라고 생각했음
+	// 그런데, 생성자가.. 인자값 1개짜리는 1개만 존재할 수 있나보다..?
+	/*public void updateCustomerName(Customer customer) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		try {
+			conn = getConnection();
+			String query = "UPDATE customer SET cust_name=? WHERE cust_email=?";
+			ps = conn.prepareStatement(query);
+			//System.out.println("ps completed in updateCustomer");
+			
+			ps.setString(1, customer.getCustName());
+			ps.setString(2, customer.getCustEmail());
+			System.out.println(ps.executeUpdate()+" row update success");
+		} finally {
+			closeAll(ps, conn);
+		}
+	}*/
+	
+	
+	
 	//VO 수정으로 인한 변경
 	public void deleteCustomer(String custEmail, String pass) throws SQLException {
 		Connection conn = null;
