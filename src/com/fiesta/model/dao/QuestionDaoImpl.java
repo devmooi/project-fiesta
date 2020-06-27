@@ -143,9 +143,9 @@ public class QuestionDaoImpl {
 			rs = ps.executeQuery();
 			if(rs.next()) {
 					question = new Question(qCode, 
+							  rs.getString("q.q_date"),
 							  rs.getString("q.q_title"),
 							  rs.getString("q.q_desc"),
-							  rs.getString("q.q_date"),
 							  rs.getString("q.cust_email"));
 			}
 		}finally {

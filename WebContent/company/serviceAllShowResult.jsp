@@ -49,6 +49,13 @@
       		display: none;
     	}
     
+    	.qdetail{
+    		background-color: #FAF4C0;
+    	}
+    	
+    	.adetail{
+    		background-color: #D4F4FA;
+    	}
     </style>
     
 </head>
@@ -107,18 +114,24 @@
 									    <span>${question.qTitle}</span> 
 									    <span>${question.qDesc}</span> 
 									    <span>${question.qCondition}</span> </div>
+									
+			<c:forEach items="${questionDetail}"  var="qDetail">
+			<c:if test="${qDetail.qCode == question.qCode}" >						    
+			<div class="collapsible-body qdetail"><h6>문의내용</h6><span>${qDetail.qDesc}</span></div>
+			</c:if>
+			</c:forEach>
 
 			<c:if test="${question.qCondition eq '답변완료'}" >
 			<c:forEach items="${answerList}"  var="answer">
 				<c:if test="${answer.qCode == question.qCode}" >
-	      		<div class="collapsible-body"><span>${answer.aDesc}</span>
+	      		<div class="collapsible-body adetail"><h6>답변내용</h6><span>${answer.aDesc}</span>
 	      										<span>${answer.aDate}</span></div>
 	      		</c:if>
 	      	</c:forEach>
       		</c:if>
 	
 		<c:if test="${question.qCondition eq '답변대기'}">
-      		<div class="collapsible-body"><span>답변대기중입니다</span>
+      		<div class="collapsible-body" class="adetail"><span>답변대기중입니다</span>
       		<button class = "answerBtn" onclick = "aOpenClose()">답변하기</button><br>
       		<div id = "answerForm">
 				<h4>답변하기</h4>
@@ -150,7 +163,8 @@
 <input type="submit" value="문의 등록">
 </form>
 <br><br>
-<!-- 문의하기 등록은 바로 되는데 그페이지에서 새로고침 할때마다 계속 생김....ㅠㅅㅠ -->
+<!-- 문의하기 등록은 바로 되는데 그페이지에서 새로고침 할때마다 계속 생김....ㅠㅅㅠ  
+일단 탭으로 하면 바뀔수도 있으니 놔두기... 아니면 ajax이용해야할지듀...-->
 
 
 <!-- 아직 미완성... 위로갈것같음  -->
