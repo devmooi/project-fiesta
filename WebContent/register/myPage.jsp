@@ -5,9 +5,17 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+	input[type="radio"] {display:none;}
+	input[type="radio"]:checked + label {background:#aaa;color:#000;}
+	
+	.contents {display:none;}
+	input[id="order"]:checked ~ .order {display:block;}
+	input[id="request"]:checked ~ .request {display:block;}
+	
+</style>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
-
 $(function() {
 	// 각 입력창에 update'하고자' 입력한 값들은, register와 똑같은 정제가 필요
 	// 수정 key를 누르면, 새로운 값을 입력하는 란이 나오고 ====> 이걸 구현해야하는데 음...
@@ -109,20 +117,25 @@ $(function() {
 	<span id="updateCheckView"></span>	
 	</form>
 	
+	<a href="customerDelete.jsp">계정삭제</a>
 	
-
+	<!--<form action="updateCompany.do">
+	</form> -->
 	
-
-
-
-
 	
 	<h2>주문 내역</h2>
 	<!-- attribute 저장한 내용을 뿌려주는... 모달로 뿌리는 것도 추가.. 어떤 컬럼을 보여줄건지 -->
+	<div class="tab_content">
+		<input type="radio" name="type" id="order" checked>
+		<label for="order"> 고객 주문 내역 </label>
+		<input type="radio" name="type" id="request">
+		<label for="request"> 고객 의뢰 내역 </label>		
+		<div class="contents order"> 고객 주문 내역 내용</div>
+		<div class="contents request"> 고객 의뢰 내역 내용</div>
+	</div>
 	
 	<!-- 리뷰하기.. -->
 	
-<!--<form action="updateCompany.do">
-	</form> -->
+
 </body>
 </html>

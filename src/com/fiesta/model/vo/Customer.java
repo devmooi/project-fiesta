@@ -14,7 +14,7 @@ public class Customer {
 		super();
 		this.custEmail = custEmail;
 	}
-
+	
 	public Customer(String custEmail, String custName, String custPass) {
 		super();
 		this.custEmail = custEmail;

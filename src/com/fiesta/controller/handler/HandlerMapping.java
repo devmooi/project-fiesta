@@ -7,6 +7,7 @@ import com.fiesta.controller.component.CompanyEmailExistController;
 import com.fiesta.controller.component.CompanyRegisterController;
 import com.fiesta.controller.component.CustomerEmailExistController;
 import com.fiesta.controller.component.CustomerRegisterController;
+import com.fiesta.controller.component.DeleteCustomerController;
 import com.fiesta.controller.component.FileUploadTestController;
 import com.fiesta.controller.component.InsertReviewController;
 import com.fiesta.controller.component.LoginController;
@@ -118,12 +119,15 @@ public class HandlerMapping {
 			controller = new ShowServiceController();
 			System.out.println("ShowServiceController 생성됨");
 			
-			
-			
 		}else if(command.equals("updateCustomer.do")) {
 			controller = new UpdateCustomerController();
 			System.out.println("UpdateCustomerController 생성됨");
+			
+		}else if(command.equals("deleteCustomer.do")) {
+			controller = new DeleteCustomerController();
+			System.out.println("DeleteCustomerController 생성됨");
 		}
+		
 		return controller;
 	}
 }
