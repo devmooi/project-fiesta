@@ -29,7 +29,7 @@ CREATE TABLE company(
     com_tel VARCHAR(45),
     com_addr VARCHAR(150),
     com_img VARCHAR(150),
-    com_desc VARCHAR(45),
+    com_desc VARCHAR(150),
     com_count INT,
     comCategory_code INT NOT NULL
 );

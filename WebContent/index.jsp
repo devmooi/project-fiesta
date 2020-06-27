@@ -12,10 +12,6 @@
 	String[] categoryIcon = {"supervisor_account", "hotel", "local_bar", "directions_bus", "headset", 
 			                 "business_center", "local_dining", "accessibility", "image_aspect_ratio", "attach_money"};
 	request.setAttribute("categoryIcon", categoryIcon);
-	
-	ArrayList<Company> company = new ArrayList<>();
-	company = CompanyDaoImpl.getInstance().showMainCompanyByCategory(comCategory.get(0).getComCategoryCode());
-	request.setAttribute("company", company);
 %>  	
 <!DOCTYPE html>
 <html>
@@ -151,24 +147,32 @@
         </div>    
     </section>
     
+    
     <!-- 카테고리별 업체 리스트 간략하게 보여주기 -->
     <section id="comCategoryByCompany">
-        <c:forEach items="${comCategory}" var="category">
-            <h3>${category.comCategoryDesc}</h3>
-            <a class="addList" href="#">더 많은 업체 보기 ></a>
-            <div class="companyList">
-                <!-- comCategory=1 인 경우 -->
-                <c:forEach begin="0" end="2" var="cnt">
-                    <a href="ServiceAllShow.do?companycode=${company[cnt].comCode}" class="company">
-                        <div>
-                            <img src="${company[cnt].comImg}">
-                        </div>
-                        <h4>${company[cnt].comName}</h4>
-                        <p>${company[cnt].comDesc}</p>
-                    </a>
-                </c:forEach>
-            </div>
-        </c:forEach>
+    	<%
+    		for(int i=0; i<comCategory.size(); i++) {
+    			ArrayList<Company> company = new ArrayList<>();
+    			company = CompanyDaoImpl.getInstance().showMainCompanyByCategory(comCategory.get(i).getComCategoryCode());
+    			request.setAttribute("company", company);
+    	%>
+    		<h3><%=comCategory.get(i).getComCategoryDesc() %></h3>
+    		<a class="addList" href="ShowAllCompanyByCategory.do?category=<%=comCategory.get(i).getComCategoryCode()%>">더 많은 업체 보기 ></a>
+    		<div class="companyList">
+    			<!-- 카테고리별로 업체 3개 -->
+    			<c:forEach begin="0" end="2" var="cnt">
+    				<a href="ServiceAllShow.do?companycode=${company[cnt].comCode}" class="company">
+    					<div>
+    						<img src="${company[cnt].comImg}">
+    					</div>
+    					<h4>${company[cnt].comName}</h4>
+    					<p>${company[cnt].comDesc}</p>
+    				</a>
+    			</c:forEach>
+    		</div>
+    	<%
+    		}
+    	%>
     </section>
 
     <!-- Footer : 만들고 나서 header처럼 분리하기 -->
