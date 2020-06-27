@@ -36,11 +36,12 @@ public class Question {
 		
 	}
 	
-	public Question(int qCode, String qDate, String qTitle, String qDesc) {
+	public Question(int qCode, String qDate, String qTitle, String qDesc, String custEmail) {
 		this.qCode = qCode;
 		this.qDate = qDate;
 		this.qTitle = qTitle;
 		this.qDesc = qDesc;
+		this.custEmail = custEmail;
 		
 	}
 

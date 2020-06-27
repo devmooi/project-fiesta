@@ -29,11 +29,27 @@
 		});//button[name=reviewInsert] click
 		
 		$('.collapsible').collapsible();
-		
+
 	});//ready
+	
+	function aOpenClose() {
+	      if ( $('#answerForm').css('display') == 'none' ) {
+	        $('#answerForm').show();
+	        /*  $('#answerForm').text('박스 닫기')*/
+	      } else {
+	        $('#answerForm').hide();
+	        /*$('#answerForm').text('박스 열기')*/
+	      }
+	}
 
     </script>
     
+    <style type="text/css">
+        #answerForm {
+      		display: none;
+    	}
+    
+    </style>
     
 </head>
 <body>
@@ -102,8 +118,19 @@
       		</c:if>
 	
 		<c:if test="${question.qCondition eq '답변대기'}">
-      		<div class="collapsible-body"><span>답변대기중입니다</span></div>
-      		<c:set var="loop_flag" value="true" />
+      		<div class="collapsible-body"><span>답변대기중입니다</span>
+      		<button class = "answerBtn" onclick = "aOpenClose()">답변하기</button><br>
+      		<div id = "answerForm">
+				<h4>답변하기</h4>
+				<form action="answerRegister.do?" name="registerForm" >
+				<input type="hidden" name="companycode" value="${companycode}">
+				<input type="hidden" name="qCode" value="${question.qCode}">
+				답변내용 : <input type="text" name="aDesc" required="required"><br><br>
+				<input type="submit" value="답변 등록">
+				</form>
+			</div>
+      		</div>
+      		
      	</c:if>
     </li>
 </c:forEach> 
@@ -126,14 +153,15 @@
 <!-- 문의하기 등록은 바로 되는데 그페이지에서 새로고침 할때마다 계속 생김....ㅠㅅㅠ -->
 
 
-<!-- 아직 미완성...  -->
+<!-- 아직 미완성... 위로갈것같음  -->
+<%-- <div id = answerForm>
 <h4>답변하기</h4>
 <form action="answerRegister.do" name="registerForm" >
 <input type="hidden" name="qCode" value="${qDetail.qCode}">
 답변내용 : <input type="text" name="aDesc" required="required"><br><br>
 <input type="submit" value="답변 등록">
 </form>
-
+</div> --%>
 <br><br>
 
 </body>

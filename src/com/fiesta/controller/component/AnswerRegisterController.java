@@ -16,16 +16,17 @@ public class AnswerRegisterController implements Controller {
 		System.out.println(qCode);
 		String aDesc = request.getParameter("aDesc");
 		System.out.println(aDesc);
-		int comCode = 1; //세션에서 받아오기
+		int companycode = Integer.parseInt(request.getParameter("companycode"));	//나중에 세션에서 받아오는게 더 나을지두...
+		//int comCode = 1; //세션에서 받아오기
 		
 
 		String path = "";
 
-		QuestionDaoImpl.getInstance().insertAnswer(qCode, aDesc, comCode);
+		QuestionDaoImpl.getInstance().insertAnswer(qCode, aDesc, companycode);
 		
-		request.setAttribute("aDesc", aDesc);
+		//request.setAttribute("aDesc", aDesc);
 		
-		path = "questionView.do";
+		path = "ServiceAllShow.do";
 			
 
 		return new ModelAndView(path);

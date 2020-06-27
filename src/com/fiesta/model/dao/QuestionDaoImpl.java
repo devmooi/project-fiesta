@@ -132,7 +132,7 @@ public class QuestionDaoImpl {
 		try {
 			conn = getConnection();
 			
-			String query = "select q.q_code, q.q_title, q.q_desc, q.q_date, c.com_name "
+			String query = "select q.q_code, q.q_title, q.q_desc, q.q_date, q.cust_email, c.com_name "
 					+ "from question q, company c "
 					+ "where q.com_code = c.com_code and q.q_code=?";
 			ps = conn.prepareStatement(query);
@@ -145,7 +145,8 @@ public class QuestionDaoImpl {
 					question = new Question(qCode, 
 							  rs.getString("q.q_title"),
 							  rs.getString("q.q_desc"),
-							  rs.getString("q.q_date"));
+							  rs.getString("q.q_date"),
+							  rs.getString("q.cust_email"));
 			}
 		}finally {
 			closeAll(rs, ps, conn);
@@ -218,11 +219,12 @@ public class QuestionDaoImpl {
 			
 			ps.setString(1, currTime);
 			ps.setString(2, aDesc);
-			ps.setInt(3, showQuestion(qCode).getComCode()); 
+			ps.setInt(3, comCode); 
 			ps.setInt(4, qCode);	
 			ps.setString(5, showQuestion(qCode).getCustEmail());
 			
 			// 답변대기를 답변완료로 바꾸기, 이메일로 보내기
+			changeQnaCondition(qCode);
 			
 			System.out.println(ps.executeUpdate()+" row INSERT OK!!");
 		}finally{
