@@ -49,11 +49,12 @@ public class CompanyDaoImpl {
 	}
 	
 	//작업 영역
+	//메인에서 사용한 DAO
 	public ArrayList<Comcategory> showAllComcategory() throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		ArrayList<Comcategory> list = new ArrayList<Comcategory>();
+		ArrayList<Comcategory> list = new ArrayList<>();
 		
 		try {
 			conn = getConnection();
@@ -69,6 +70,33 @@ public class CompanyDaoImpl {
 		
 		return list;
 	}
+	
+	public ArrayList<Company> showMainCompanyByCategory(int comCategory) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		ArrayList<Company> list = new ArrayList<>();
+		
+		try {
+			conn = getConnection();
+			String query = "SELECT com_code, com_name, com_img, com_desc FROM company WHERE comCategory_code=?";
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, comCategory);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				Company company = new Company();
+				company.setComCode(rs.getInt("com_code"));
+				company.setComName(rs.getString("com_name"));
+				company.setComImg(rs.getString("com_img"));
+				company.setComDesc(rs.getString("com_desc"));
+				list.add(company);
+			}
+		}finally {
+			closeAll(rs, ps, conn);
+		}
+		return list;
+	}
+	// 메인에서 사용한 DAO 끝!
 	
 	public Company lookupCompany(String comEmail) throws SQLException {
 		Connection conn = null;

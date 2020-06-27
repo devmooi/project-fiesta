@@ -1,6 +1,7 @@
 package com.fiesta.parsing;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -12,9 +13,12 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.fiesta.model.dao.RegisterDaoImpl;
+import com.fiesta.model.vo.Company;
+
 public class EntertainmentXMLParsing {
 
-	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
+	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException, SQLException {
 		String url = "WebContent/resource/data/03_08_02_P_대중문화예술기획업_1592853097711.xml";
 
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -35,21 +39,24 @@ public class EntertainmentXMLParsing {
 				Element eElement = (Element)nNode;
 
 				String siteTel = getTagValue("siteTel", eElement);
-				String siteWhlAddr = getTagValue("siteWhlAddr", eElement);
 				String rdnWhlAddr = getTagValue("rdnWhlAddr", eElement);
-				String rdnPostNo = getTagValue("rdnPostNo", eElement);
 				String bplcNm = getTagValue("bplcNm", eElement);
-				String culPhyedCobNm = getTagValue("culPhyedCobNm", eElement); //전부 다 대중문화예술기획업
-				String culWrkrSeNm = getTagValue("culWrkrSeNm", eElement); //전부 다 유통관련업
 				String mnfacTreArtclCn = getTagValue("mnfacTreArtclCn", eElement);
+				
+				Company company = new Company();
+				company.setComTel(siteTel);
+				company.setComAddr(rdnWhlAddr);
+				company.setComCategoryCode(1);
+				company.setComDesc(mnfacTreArtclCn);
+				if(temp%3==0) company.setComImg("resource/img/entertainment1.jpg");
+				else if(temp%3==1) company.setComImg("resource/img/entertainment2.jpg");
+				else if(temp%3==2) company.setComImg("resource/img/entertainment3.jpg");
+				company.setComName(bplcNm);
+				RegisterDaoImpl.getInstance().registerCompany(company);
 
 				System.out.println("소재지전화 :: " + siteTel);
-				System.out.println("소재지전체주소 :: " + siteWhlAddr);
 				System.out.println("도로명전체주소 :: " + rdnWhlAddr);
-				System.out.println("도로명우편번호 :: " + rdnPostNo);
 				System.out.println("사업장명 :: " + bplcNm);
-				System.out.println("문화체육업종명 :: " + culPhyedCobNm);
-				System.out.println("문화사업자구분명 :: " + culWrkrSeNm);
 				System.out.println("제작취급품목내용 :: " + mnfacTreArtclCn);
 				System.out.println("==========================================");
 			}

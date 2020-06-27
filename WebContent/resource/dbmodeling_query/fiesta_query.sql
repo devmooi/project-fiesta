@@ -27,8 +27,8 @@ CREATE TABLE company(
     com_pass VARCHAR(45),
     com_name VARCHAR(45) NOT NULL,
     com_tel VARCHAR(45),
-    com_addr VARCHAR(45),
-    com_img VARCHAR(45),
+    com_addr VARCHAR(150),
+    com_img VARCHAR(150),
     com_desc VARCHAR(45),
     com_count INT,
     comCategory_code INT NOT NULL

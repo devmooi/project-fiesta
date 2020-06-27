@@ -52,7 +52,7 @@
             font-weight: bold;
             color: black;
             display: block;
-            padding: 15px;
+            padding: 15px 10px;
         }
         header ul li a:hover {
             color: #009688;

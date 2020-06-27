@@ -219,7 +219,6 @@ public class RegisterDaoImpl {
 		}
 	}		
 
-	//VO 수정으로 인한 변경
 	public Company loginCompany(String comEmail, String pass) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
