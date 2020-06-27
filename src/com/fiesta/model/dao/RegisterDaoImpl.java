@@ -153,7 +153,7 @@ public class RegisterDaoImpl {
 							rs.getString("cust_pass"),
 							rs.getString("cust_tel"),
 							rs.getString("cust_group"));
-			//System.out.println(id+ " lookup success");
+			System.out.println(custEmail+ " lookup success");
 			}
 		} finally {
 			closeAll(rs, ps, conn);
@@ -300,6 +300,5 @@ public class RegisterDaoImpl {
 	//단위테스트
 	public static void main(String[] args) throws SQLException {
 		RegisterDaoImpl dao = RegisterDaoImpl.getInstance();
-		
 	}
 }

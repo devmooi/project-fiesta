@@ -45,9 +45,9 @@
 	<header>
         <h1>Fiesta</h1>
         <nav>
-            <a href="register/register.jsp">회원가입</a>
+            <a href="register.jsp">회원가입</a>
             <a href="ShowAllCompany.do">업체 찾기</a>
-            <a href="register/login.jsp">로그인</a>
+            <a href="login.jsp">로그인</a>
         </nav>
     </header>
 </body>
