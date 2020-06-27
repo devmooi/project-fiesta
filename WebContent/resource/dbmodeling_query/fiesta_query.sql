@@ -175,37 +175,3 @@ INSERT INTO comcategory(comCategory_code, comCategory_desc) VALUES(07, '푸드�
 INSERT INTO comcategory(comCategory_code, comCategory_desc) VALUES(08, '의류');
 INSERT INTO comcategory(comCategory_code, comCategory_desc) VALUES(09, '현수막');
 INSERT INTO comcategory(comCategory_code, comCategory_desc) VALUES(10, '협찬');
-
-INSERT INTO company(com_email, com_pass, com_name, com_tel, com_addr, com_img, com_desc, com_count, comCategory_code)
-VALUES('ent1@gmail.com', '1111', '연예1', '02-1111-2222', '강남구', null, '국내 최대 연예기획사', 0, 01);
-INSERT INTO company(com_email, com_pass, com_name, com_tel, com_addr, com_img, com_desc, com_count, comCategory_code)
-VALUES('ent2@gmail.com', '1121', '연예2', '02-1111-2222', '강남구', null, '국내 2최대 연예기획사', 0, 01);
-INSERT INTO company(com_email, com_pass, com_name, com_tel, com_addr, com_img, com_desc, com_count, comCategory_code)
-VALUES('house1@gmail.com', '2222', '숙소1', '02-1111-5964', '가평군', './resource/img/house1.jpg', '최대 300명 수용 숙소', 0, 02);
-INSERT INTO company(com_email, com_pass, com_name, com_tel, com_addr, com_img, com_desc, com_count, comCategory_code)
-VALUES('rent1@gmail.com', '3333', '렌탈1', '02-1111-3333', '서초구', null, '국내 최대 렌탈업체', 0, 03);
-INSERT INTO company(com_email, com_pass, com_name, com_tel, com_addr, com_img, com_desc, com_count, comCategory_code)
-VALUES('bus1@gmail.com', '4444', '버스1', '02-1111-4444', '서초구', null, '국내 최대 버스업체', 0, 04);
-INSERT INTO company(com_email, com_pass, com_name, com_tel, com_addr, com_img, com_desc, com_count, comCategory_code)
-VALUES('music1@gmail.com', '5555', '음향1', '02-1111-5555', '서초구', null, '국내 최대 음향업체', 0, 05);
-INSERT INTO company(com_email, com_pass, com_name, com_tel, com_addr, com_img, com_desc, com_count, comCategory_code)
-VALUES('bohum1@gmail.com', '6666', '보험1', '02-1111-6666', '서초구', null, '국내 최대 보험업체', 0, 06);
-
-INSERT INTO service(service_name, service_desc, service_img, service_tag, com_code)
-VALUES('300명 숙소', '다양한 강당, 편안한 시설', './resource/img/house1.jpg', '#숙소', 1);
-INSERT INTO service(service_name, service_desc, service_img, service_tag, com_code)
-VALUES('MC', '경험 많은 MC', './resource/img/house1.jpg', '#섭외#MC', 2);
-INSERT INTO service(service_name, service_desc, service_img, service_tag, com_code)
-VALUES('여행자보험', '싸고 넓은 보장', './resource/img/house1.jpg', '#보험#여행자보험', 7);
-INSERT INTO service(service_name, service_desc, service_img, service_tag, com_code)
-VALUES('45인승버스', '안락한 45인승 리무진 버스', './resource/img/house1.jpg', '#버스#45인승', 4);
-
-INSERT INTO customer(cust_email, cust_name, cust_pass, cust_tel, cust_group)
-VALUES('encore@gmail.com','java','1234','010-5043-5765','한양대 사회과학대학 학생회');
-
-INSERT INTO review(review_code, review_score, review_img, review_desc, review_date, cust_email, service_code, com_code)
-VALUES('1-1-1', 4, './resource/file_upload/Fiesta_DBModeling_WorkBench.PNG', '좋아요', sysdate(), 'encore@gmail.com', 1, 1);
-INSERT INTO question(q_date, q_title, q_desc, cust_email, com_code)
-VALUES(sysdate(), '숙박문의', '몇명이서 잘 수 있나요?', 'encore@gmail.com', 1);
-INSERT INTO question(q_date, q_title, q_desc, cust_email, com_code)
-VALUES(sysdate(), '공연문의', '이거슨 문장 잘라지는지 테스트하기 위한 문의사항입니담 키키키키킼', 'encore@gmail.com', 1);

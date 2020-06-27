@@ -26,6 +26,7 @@
             width: 100%;
             background: white;
             border-bottom: 1px solid #ddd;
+            z-index: 999;
         }
         header h1 {
             margin: 10px 25px;

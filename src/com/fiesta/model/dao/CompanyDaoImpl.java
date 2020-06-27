@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import javax.sql.DataSource;
 
+import com.fiesta.model.vo.Comcategory;
 import com.fiesta.model.vo.Company;
 import com.fiesta.model.vo.Review;
 import com.fiesta.model.vo.Service;
@@ -48,6 +49,27 @@ public class CompanyDaoImpl {
 	}
 	
 	//작업 영역
+	public ArrayList<Comcategory> showAllComcategory() throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		ArrayList<Comcategory> list = new ArrayList<Comcategory>();
+		
+		try {
+			conn = getConnection();
+			String query = "SELECT * FROM comcategory";
+			ps = conn.prepareStatement(query);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				list.add(new Comcategory(rs.getInt("comCategory_code"), rs.getString("comCategory_desc")));
+			}
+		} finally {
+			closeAll(rs, ps, conn);
+		}
+		
+		return list;
+	}
+	
 	public Company lookupCompany(String comEmail) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -563,6 +585,9 @@ public class CompanyDaoImpl {
 	//단위테스트
 	public static void main(String[] args) throws SQLException {
 		CompanyDaoImpl dao = CompanyDaoImpl.getInstance();
-		
+		ArrayList<Comcategory> list = dao.showAllComcategory();
+		for(Comcategory category : list) {
+			System.out.println(category.getComCategoryCode());
+		}
 	}
 }
