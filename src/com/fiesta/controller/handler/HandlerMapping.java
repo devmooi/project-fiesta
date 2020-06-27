@@ -11,6 +11,7 @@ import com.fiesta.controller.component.DeleteCustomerController;
 import com.fiesta.controller.component.FileUploadTestController;
 import com.fiesta.controller.component.InsertReviewController;
 import com.fiesta.controller.component.LoginController;
+import com.fiesta.controller.component.LogoutController;
 import com.fiesta.controller.component.QuestionAllShowByComController;
 import com.fiesta.controller.component.QuestionAllShowController;
 import com.fiesta.controller.component.QuestionRegisterController;
@@ -126,7 +127,12 @@ public class HandlerMapping {
 		}else if(command.equals("deleteCustomer.do")) {
 			controller = new DeleteCustomerController();
 			System.out.println("DeleteCustomerController 생성됨");
+			
+		}else if(command.equals("logout.do")) {
+			controller = new LogoutController();
+			System.out.println("LogoutController 생성됨");
 		}
+		
 		
 		return controller;
 	}

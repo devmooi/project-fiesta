@@ -10,5 +10,6 @@
 	추천 서비스
 	${customer.custEmail}
 	<a href="myPage.jsp"> 마이페이지 </a>
+	<a href="logout.do">로그아웃(기능 테스트를 위해 임시로 이곳에)</a>
 </body>
 </html>

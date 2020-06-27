@@ -15,6 +15,12 @@ public class Customer {
 		this.custEmail = custEmail;
 	}
 	
+	public Customer(String custEmail, String custPass) {
+		super();
+		this.custEmail = custEmail;
+		this.custPass = custPass;
+	}
+	
 	public Customer(String custEmail, String custName, String custPass) {
 		super();
 		this.custEmail = custEmail;

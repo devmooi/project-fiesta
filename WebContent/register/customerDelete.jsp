@@ -7,19 +7,20 @@
 <title>Insert title here</title>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
-/* $(function() {
+$(function() {
 	$('#deleteBtn').click(function(){
 		$.ajax({
 			type:'post',
 			url:'deleteCustomer.do',
-			data:$('#deleteFrm').serialize(),
+			data:'email=${customer.custEmail}&&pass=${customer.custPass}',
 			
 			success:function(result) {
-				alert(result);
+				alert("정상적으로 계정삭제되었습니다.");
+				location.href="../index.jsp";
 			}
 		}); // ajax
 	}); // click
-}); // ready */
+}); // ready
 
 </script>
 </head>
