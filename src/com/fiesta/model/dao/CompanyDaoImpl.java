@@ -61,13 +61,13 @@ public class CompanyDaoImpl {
 			String query = "SELECT * FROM comcategory";
 			ps = conn.prepareStatement(query);
 			rs = ps.executeQuery();
+			System.out.println(rs.next());
 			while(rs.next()) {
 				list.add(new Comcategory(rs.getInt("comCategory_code"), rs.getString("comCategory_desc")));
 			}
 		} finally {
 			closeAll(rs, ps, conn);
 		}
-		
 		return list;
 	}
 	
@@ -613,9 +613,9 @@ public class CompanyDaoImpl {
 	//단위테스트
 	public static void main(String[] args) throws SQLException {
 		CompanyDaoImpl dao = CompanyDaoImpl.getInstance();
-		ArrayList<Comcategory> list = dao.showAllComcategory();
-		for(Comcategory category : list) {
-			System.out.println(category.getComCategoryCode());
+		ArrayList<Service> list = dao.showAllService(1);
+		for(Service service : list) {
+			System.out.println(service.getComCode());
 		}
 	}
 }
