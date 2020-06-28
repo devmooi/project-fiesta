@@ -29,6 +29,22 @@
 		});//button[name=reviewInsert] click
 		
 		$('.collapsible').collapsible();
+		
+		$('#wishBtn').click(function() {
+			var comCode = ${companycode};
+			
+			
+			$.ajax({
+				type:'post',
+				url:'wishRegister.do',
+				data:"comCode="+comCode,
+				
+				success:function(result) {
+						alert(comCode);
+						alert("찜하기 성공");
+				}
+			}); // ajax
+		}); // click
 
 	});//ready
 	
@@ -63,6 +79,9 @@
 <!-- 업체 마이페이지로도 사용할 수 있음 -->
 <!-- 업체 1개에 대한 정보가 들어옴 / 찜하기 -->
 <h3>업체소개</h3>
+
+<button id = "wishBtn">찜하기</button>
+<input type="hidden" name="companycode" value="${companycode}">
 
 <h3 align="center">서비스</h3><p>
 <table border="2" width="350" bgcolor="yellow" align="center">
