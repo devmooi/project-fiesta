@@ -169,9 +169,16 @@ INSERT INTO comcategory(comCategory_code, comCategory_desc) VALUES(01, '연예�
 INSERT INTO comcategory(comCategory_code, comCategory_desc) VALUES(02, '숙소');
 INSERT INTO comcategory(comCategory_code, comCategory_desc) VALUES(03, '주류/렌탈');
 INSERT INTO comcategory(comCategory_code, comCategory_desc) VALUES(04, '버스');
-INSERT INTO comcategory(comCategory_code, comCategory_desc) VALUES(05, '음향조명');
+INSERT INTO comcategory(comCategory_code, comCategory_desc) VALUES(05, '음향/조명');
 INSERT INTO comcategory(comCategory_code, comCategory_desc) VALUES(06, '보험회사');
 INSERT INTO comcategory(comCategory_code, comCategory_desc) VALUES(07, '푸드트럭');
 INSERT INTO comcategory(comCategory_code, comCategory_desc) VALUES(08, '의류');
 INSERT INTO comcategory(comCategory_code, comCategory_desc) VALUES(09, '현수막');
 INSERT INTO comcategory(comCategory_code, comCategory_desc) VALUES(10, '협찬');
+
+INSERT INTO company(com_name, com_tel, com_img, com_desc, comCategory_code)
+VALUES('행복을 만드는 샘푸드', '010-4556-8302', 'resource/img/drink1.jpg', '주류 이외 생수, 과자, 통조림, 컵라면, 일회용품 등 제공', 3);
+INSERT INTO company(com_name, com_tel, com_addr, com_img, com_desc, comCategory_code)
+VALUES('한음기획', '02-6080-7727', '경기 수원시 팔달구 인계로124번길 43 대흥빌딩', 'resource/img/drink2.jpg', '행사기획, 기업마케팅, 행사장비 렌탈 전문 기업', 3);
+INSERT INTO company(com_name, com_tel, com_addr, com_img, com_desc, comCategory_code)
+VALUES('㈜ 정 유통', '010-3271-2491', '서울 성동구 마장로31길 33', 'resource/img/drink3.jpg', '행사기획, 기업마케팅, 행사장비 렌탈 전문 기업', 3);

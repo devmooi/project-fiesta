@@ -17,6 +17,9 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Pacifico&display=swap" rel="stylesheet">
 
+	<!-- Fontawesome Icons -->
+    <script src="https://kit.fontawesome.com/064e5458ec.js" crossorigin="anonymous"></script>
+    
     <style>
         body {
             font-family: 'Nanum Gothic', sans-serif;

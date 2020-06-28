@@ -21,7 +21,7 @@
     <link href="resource/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- <meta http-equiv="refresh" content="10"> -->
-
+    
     <style>
         #requestFiesta {
             background-image: url('https://source.unsplash.com/collection/10914958/1600x900');
@@ -122,6 +122,28 @@
         		width: auto;
         	}
         }
+        @media (max-width: 1080px) {
+            #comCategoryByCompany {
+                width: auto;
+            }
+            #comCategoryByCompany h3 {
+                margin-left: 20px;
+            }
+            #comCategoryByCompany .addList {
+                margin-right: 20px;
+            }
+            #comCategoryByCompany .companyList{
+                display: block;
+                margin: 20px;
+                margin-bottom: 70px;
+            }
+            #comCategoryByCompany .companyList .company {
+                margin-bottom: 40px;
+            }
+            #comCategoryByCompany .companyList .company div {
+                height: 260px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -129,7 +151,7 @@
     <c:import url="header.jsp" charEncoding="UTF-8"></c:import>
     
     <!-- 항상 section에서 시작 -->
-    <!-- 고객 의뢰 -->
+    <!-- 고객 의뢰 : 고객으로 로그인 했을 때만 이동, 나머지는 a 링크 막아버리기 -->
 	<section id="requestFiesta"> 
         <div class="blackBox"></div>
         <div class="contentBox">
@@ -137,6 +159,7 @@
                 <h2>딱! 맞는 업체를 소개해드립니다</h2>
                 <div class="comCategoryList">
 	                <c:forEach items="${comCategory}" var="category" varStatus="status">
+                        <!-- 고객으로 로그인 했을 때만 이부분 링크 주소, 비회원인 경우 가입 페이지로, 업체인 경우 막아버리고 알람 띄우기 -->
 	                	<a href="request.do?requestFiesta=${category.comCategoryCode}">
 	                		<i class="medium material-icons">${categoryIcon[status.index]}</i>
 	                    	<p>${category.comCategoryDesc}</p>
@@ -175,6 +198,7 @@
     	%>
     </section>
 
-    <!-- Footer : 만들고 나서 header처럼 분리하기 -->
+	<!-- footer import -->
+    <c:import url="footer.jsp" charEncoding="UTF-8"></c:import>
 </body>
 </html> 

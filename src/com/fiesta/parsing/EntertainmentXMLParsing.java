@@ -52,6 +52,7 @@ public class EntertainmentXMLParsing {
 				else if(temp%3==1) company.setComImg("resource/img/entertainment2.jpg");
 				else if(temp%3==2) company.setComImg("resource/img/entertainment3.jpg");
 				company.setComName(bplcNm);
+				
 				RegisterDaoImpl.getInstance().registerCompany(company);
 
 				System.out.println("소재지전화 :: " + siteTel);
