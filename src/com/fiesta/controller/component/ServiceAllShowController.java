@@ -54,10 +54,26 @@ public class ServiceAllShowController implements Controller {
 		
 		path = "serviceAllShowResult.jsp";
 
+		//리뷰 출력
 		ArrayList<Review> list2 = ReviewDaoImpl.getInstance().showAllReview(companycode);
 		request.setAttribute("list2", list2);
 		request.setAttribute("companycode", companycode);
 		path = "./company/serviceAllShowResult.jsp";
+		
+		//리뷰수와 평점 출력
+		Review review = ReviewDaoImpl.getInstance().showReview(companycode);
+		float avg = review.getAvgReviewScore()-1;
+		ArrayList<String> list3 = new ArrayList<>();
+		while(avg>0) {
+			list3.add("resource/img/star.png");
+			avg--;
+			if(avg<1) {
+				list3.add("resource/img/halfstar.png");
+				avg=0;
+			}
+		}
+		request.setAttribute("review", review);
+		request.setAttribute("list3", list3);
 		
 		return new ModelAndView(path);
 	}

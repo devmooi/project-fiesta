@@ -96,6 +96,9 @@ public class HandlerMapping {
 		}else if(command.equals("ShowService.do")) {
 			controller = new ShowServiceController();
 			System.out.println("ShowServiceController 생성됨");
+		}else if(command.equals("ShowReivew.do")) {
+			controller = new ShowReviewController();
+			System.out.println("ShowReviewController 생성됨");
 		}
 		return controller;
 	}

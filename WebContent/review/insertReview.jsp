@@ -30,6 +30,7 @@ $(function() {
 <div id="wrap">
 	<div id="comDesc">
 	<input type="hidden" name="comCode" value="${list[0].company.comCode}">
+	<input type="hidden" name="type" value="1">
 	업체명 : 
 	<input type="text" name="comName" readonly="readonly" value="${list[0].company.comName}"><br>
 	<select name="serviceName" required="required">

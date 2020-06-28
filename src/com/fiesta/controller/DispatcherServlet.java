@@ -34,10 +34,10 @@ public class DispatcherServlet extends HttpServlet {
 		String[] requestURIList = requestURI.split("/");
 		String command = requestURIList[requestURIList.length-1];
 		System.out.println("Command :: " + command);  
-
+		
 		Controller controller = HandlerMapping.getInstance().createController(command);
 		ModelAndView mv = controller.handle(request, response);
-
+		
 		if(mv!=null) {
 			if(mv.isRedirect()) response.sendRedirect(mv.getPath());
 			else request.getRequestDispatcher(mv.getPath()).forward(request, response);
