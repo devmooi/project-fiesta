@@ -63,7 +63,7 @@ $(function() {
 		}); // ajax
 	}); // click
 	
-	/* $('#showAllCustOrder').click(function() {
+	$('#showAllCustOrder').click(function() {
 		$.ajax({
 			type:'post',
 			url:'showAllCustOrder.do',
@@ -73,7 +73,7 @@ $(function() {
 			// "" 넘기니까 일단 동작. ok.
 			
 			success:function(result) {
-				$('#showAllCustOrderView').html(result);				
+				$('#showAllCustOrderView').html(result);		
 			}
 		}); // ajax
 	}); // click
@@ -86,10 +86,10 @@ $(function() {
 			
 			
 			success:function(result) {
-				$('#showAllCustRequestView').html(result);				
+				$('#showAllCustRequestView').html(result);	
 			}
 		}); // ajax
-	}); // click */
+	}); // click  
 }); // ready
 </script>
 </head>
@@ -120,22 +120,49 @@ $(function() {
 	
 	아니 근데, 그 함수를 호출해서, return값을 결국 여기에, 같은 페이지에 뿌려야하는거니까, 비동기가 맞지 않나?
 	html 상에서 함수를 호출한다 해도, return은 어디로 될지 모르는거잖아? 음..-->
-	<div class="tab_content">
+	 <div class="tab_content">
 		<input type="radio" name="type" id="order" checked>
-		<label for="order" id="showAllCustOrder"> 주문 내역 </label>
-			<span id="showAllCustOrderView"></span>
+		<label for="order" id="showAllCustOrder"> 주문 내역 
+			location.href='showAllCustOrder.do';
+		</label>
 			
 		<input type="radio" name="type" id="request">
-		<label for="request" id="showAllCustRequest"> 의뢰 내역 </label>		
-			<span id="showAllCustRequestView"></span>
+		<label for="request" id="showAllCustRequest"> 의뢰 내역 
+			<span id="showAllCustRequestView"></span><br>
+		</label>	
 				
-		<!-- <div class="contents order" id="showAllCustOrderDetail"> 주문 내역 내용</div><br>
-				주문 내용
-		<div class="contents request" id="showAllCustRequestDetail"> 의뢰 내역 내용</div><br>
-				의뢰 내용 -->
+		 <div class="contents order" id="showAllCustOrderDetail"> 
+		 	주문 내역 내용
+			주문 내용
+		</div><br>
+		<div class="contents request" id="showAllCustRequestDetail"> 
+			의뢰 내역 내용
+			의뢰 내용 
+		</div><br>		
 	</div>
+ 
+ 
+ 
+ 
+	<!-- 아예 버튼으로 만들어버릴 생각을..   
+	  근데 이렇게 해도, 한쪽이 눌렸을 때 한쪽이 사라지는 것은 구현 못함. 음.............
 	
-	
+		<input type="button" value="주문 내역" name="showAllCustOrder" id="showAllCustOrder"><br>
+		<span id="showAllCustOrderView"></span><br>
+		<input type="button" value="의뢰 내역" name="showAllCustRequest" id="showAllCustRequest">
+		<span id="showAllCustRequestView"></span><br>
+	-->
+		
+				
+		<!--  <div class="contents order" id="showAllCustOrderDetail"> 
+		 	주문 내역 내용
+			주문 내용
+		</div><br>
+		<div class="contents request" id="showAllCustRequestDetail"> 
+			의뢰 내역 내용
+			의뢰 내용 
+		</div><br>		 -->
+		
 	<!-- 리뷰하기.. -->
 	
 
