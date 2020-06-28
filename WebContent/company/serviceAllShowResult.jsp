@@ -4,224 +4,122 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<!-- jQuery -->
+	<meta charset="UTF-8">
+	<title>Fiesta - 업체 상세페이지</title>
+    <link href="../Fiesta/resource/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    
+	<!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script type="text/javascript">
-    $(function() {
-		$('button[name=reviewInsert]').click(function() {
-			window.location.href="ShowService.do?companycode="+$('input[type=hidden]').val();
-		});//button[name=reviewInsert] click
-	});//ready
-    </script>
+	    $(function() {
+			$('button[name=reviewInsert]').click(function() {
+				window.location.href="ShowService.do?companycode="+$('input[type=hidden]').val();
+			});//button[name=reviewInsert] click
+		});//ready
 
-    <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script type="text/javascript">
-   
-	
-    $(function() {
-		$('button[name=reviewInsert]').click(function() {
-			window.location.href="./review/insertReview.jsp";
-		});//button[name=reviewInsert] click
-		
-		$('.collapsible').collapsible();
-		
-		/* $('.collapsible').collapsible(function() {
-			var qCode = $('#qCode').val();
-			if (email.length == 0) {
-				$('#emailCheckView').html("이메일을 입력해주세요.");
-				return;
-			} 
-			$.ajax({
-				type:'post',
-				url:'answerView.do',
-				data:$('#registerFrm').serialize(),
-				
-				success:function(result) {
-					if(result=='true')
-						$('#emailCheckView').html("이미 사용중인  이메일입니다.");
-					else
-						$('#emailCheckView').html("사용 가능한 이메일입니다.");
-				}
-			}); // email ajax
-		}); // email keyup */
-		
-		//$('.answer').;
-		
-	});//ready
+	    $(function() {
+			$('button[name=reviewInsert]').click(function() {
+				window.location.href="./review/insertReview.jsp";
+			});//button[name=reviewInsert] click
+			
+			$('.collapsible').collapsible();
+			
+			/* $('.collapsible').collapsible(function() {
+				var qCode = $('#qCode').val();
+				if (email.length == 0) {
+					$('#emailCheckView').html("이메일을 입력해주세요.");
+					return;
+				} 
+				$.ajax({
+					type:'post',
+					url:'answerView.do',
+					data:$('#registerFrm').serialize(),
+					
+					success:function(result) {
+						if(result=='true')
+							$('#emailCheckView').html("이미 사용중인  이메일입니다.");
+						else
+							$('#emailCheckView').html("사용 가능한 이메일입니다.");
+					}
+				}); // email ajax
+			}); // email keyup */
+			
+			//$('.answer').;
+			
+		});//ready
 
-    </script>
-    
-    
+		$(document).ready(function(){
+			$('.tabs').tabs();
+		});
+	</script>
+	<style>
+		section {
+			width: 1080px;
+			margin: auto;
+		}
+		section h2 {
+			font-size: 2rem;
+			font-weight: bold;
+		}
+		section h3 {
+			font-size: 1.5rem;
+			font-weight: bold;
+		}
+		section a {
+			display: block;
+		}
+	</style>
 </head>
 <body>
-<!-- 업체 마이페이지로도 사용할 수 있음 -->
-<!-- 업체 1개에 대한 정보가 들어옴 / 찜하기 -->
-<h3>업체소개</h3>
+	<!-- header import -->
+    <c:import url="http://localhost:8888/Fiesta/header.jsp" charEncoding="UTF-8"></c:import>
+    
+	<!-- 항상 section에서 시작 -->
+	<section>
+		<!-- 업체 1개에 대한 정보 / 찜하기 : 업체가 들어왔을시 수정, 삭제 가능 -->
+		<h2>업체명</h2>
+		<p>업체 정보</p>
 
-<h3 align="center">서비스</h3><p>
-<table border="2" width="350" bgcolor="yellow" align="center">
-	<c:forEach items="${serviceList}" var="service">
-		<tr>
-			<td>${service.serviceName}</td>
-			<td>${service.serviceImg}</td>
-			<td>${service.serviceDesc}</td>
-			<td>${service.serviceTag}</td>
-		</tr>
-	</c:forEach>
-</table>
-<a href="ServiceDelete.do?serviceCode=4">삭제</a>
-<p></p>
-<hr>
-<!-- 리뷰 / 문의 : 탭 방식 -->
-<!-- 리뷰에 대한 답은 해당 고객만 -->
-<!-- 나중에 '리뷰하기'는 마이페이지로 이동 -->
-<div id="review">
-	<div id="reviewInsert">
-	<button name="reviewInsert">리뷰하기</button>
-	<input type="hidden" name="companycode" value="${companycode}">
-	</div>
-	<div id="reviewScore">
-	평점 : 
-	<span>리뷰개수</span>
-	</div>
-	<hr>
-	<c:forEach items="${list2}" var="review">
-	<div id="reviewContent">
-	<span>이름 : ${review.customer.custName}, </span><span>만족도 : ${review.reviewScore}, </span><span>일시 : ${review.reviewDate}</span><br>
-	<span><img src= "${review.reviewImg}" width=100 height=100></span><br>
-	<span>내용 : ${review.reviewDesc}</span><br>
-	</div>
-	<br>
-	</c:forEach>
-</div>
-<hr>
-<!-- 문의/답변하기 -->
-<!-- 고객 문의, 업체 답변 -->
-
-<%-- <!-- 문의내역 -->
- <ul class="collapsible">
- <c:forEach items="${questionList}" var="question">
-    <li>
-      <div class="collapsible-header">	<span>${question.qCode}</span> 
-									    <span>${question.qDate}</span> 
-									    <span>${question.qTitle}</span> 
-									    <span>${question.qDesc}</span> 
-									    <span>${question.qCondition}</span> </div>
-									    
-		<c:set var="loop_flag" value="false" />
-		<c:forEach items="${answerList}"  var="answer">
-		<c:if test="${not loop_flag }">
-			<c:if test="${answer.aCode != null}" >
-	      		<div class="collapsible-body"><span>${answer.aDesc}</span>
-	      										<span>${answer.aDate}</span></div>
-	      		<c:set var="loop_flag" value="true" />
-      		</c:if>
-      		
-      		 <c:if test="${empty answer.aDesc}">
-      			<div class="collapsible-body"><span>답변대기중입니다</span></div>
-      			<c:set var="loop_flag" value="true" />
-     	 	</c:if>
-      	</c:if>
-      	
-      	
-
+		<h3>제공 서비스</h3>
+		<c:forEach items="${serviceList}" var="service">
+			<a href="#">
+				<p>${service.serviceName}</p>
+				<p>${service.serviceImg}</p>
+				<p>${service.serviceDesc}</p>
+				<p>${service.serviceTag}</p>
+			</a>
 		</c:forEach>
-    </li>
-</c:forEach> 
-</ul>
- --%>
+		<a href="ServiceDelete.do?serviceCode=4">삭제</a>
 
+		<!-- 리뷰에 대한 답은 해당 고객만 : 나중에 '리뷰하기'는 마이페이지로 이동 -->
+		<h3>리뷰</h3>
+		<div id="review">
+			<div id="reviewInsert">
+			<button name="reviewInsert">리뷰하기</button>
+			<input type="hidden" name="companycode" value="${companycode}">
+			</div>
+			<div id="reviewScore">
+			평점 : 
+			<span>리뷰개수</span>
+			</div>
+			<hr>
+			<c:forEach items="${list2}" var="review">
+			<div id="reviewContent">
+			<span>이름 : ${review.customer.custName}, </span><span>만족도 : ${review.reviewScore}, </span><span>일시 : ${review.reviewDate}</span><br>
+			<span><img src= "${review.reviewImg}" width=100 height=100></span><br>
+			<span>내용 : ${review.reviewDesc}</span><br>
+			</div>
+			<br>
+			</c:forEach>
+		</div>
 
-<!-- 문의내역 -->
- <ul class="collapsible">
- <c:forEach items="${questionList}" var="question">
-    <li>
-      <div class="collapsible-header">	<span>${question.qCode}</span> 
-									    <span>${question.qDate}</span> 
-									    <span>${question.qTitle}</span> 
-									    <span>${question.qDesc}</span> 
-									    <span>${question.qCondition}</span> </div>
-									    
-		<c:set var="loop_flag" value="false" />
-		<c:forEach items="${answerList}"  var="answer">
-		<c:if test="${not loop_flag }">
-			<c:if test="${question.qCondition eq '답변완료'}" >
-	      		<div class="collapsible-body"><span>${answer.aDesc}</span>
-	      										<span>${answer.aDate}</span></div>
-	      		<c:set var="loop_flag" value="true" />
-      		</c:if>
-      		
-      		 <c:if test="${question.qCondition eq '답변대기'}">
-      			<div class="collapsible-body"><span>답변대기중입니다</span></div>
-      			<c:set var="loop_flag" value="true" />
-     	 	</c:if>
-      	</c:if>
+		<!-- 문의/답변하기 : 고객 문의 + 업체 답변 -->
+		<h3>문의답변</h3>
+		<!-- 주석이 많아서 합쳐지면서 합할 생각중 -->
+	</section>
 
-
-		</c:forEach>
-    </li>
-</c:forEach> 
-</ul>
-
-
-<%-- <!-- 문의내역 -->
- <ul class="collapsible">
- <c:forEach items="${questionList}" var="question">
-    <li>
-      <div class="collapsible-header">	<span>${question.qCode}</span> 
-									    <span>${question.qDate}</span> 
-									    <span>${question.qTitle}</span> 
-									    <span>${question.qDesc}</span> 
-									    <span>${question.qCondition}</span> </div>
-									    
-		<c:set var="loop_flag" value="false" />
-		
-		    		
-      		 <c:when test="${question.qCondition eq '답변대기'}">
-      			<div class="collapsible-body"><span>답변대기중입니다</span></div>
-      			<c:set var="loop_flag" value="true" />
-     	 	</c:when>
-     	 	<c:otherwise>
-     	 		<c:forEach items="${answerList}"  var="answer">
-     	 		<c:if test="${not loop_flag }">  
-     	 		<div class="collapsible-body"><span>${answer.aDesc}</span>
-	      										<span>${answer.aDate}</span></div>
-	      		<c:set var="loop_flag" value="true" />
-	      		</c:if>
-	      		</c:forEach>
-     	 	</c:otherwise>
-    </li>
-</c:forEach> 
-</ul>
- --%>
-
-<%-- <!-- 문의내역 -->
- <ul class="collapsible">
- <c:forEach items="${questionList}" var="question">
-    <li>
-      <div class="collapsible-header">	<span>${question.qCode}</span> 
-									    <span>${question.qDate}</span> 
-									    <span>${question.qTitle}</span> 
-									    <span>${question.qDesc}</span> 
-									    <span>${question.qCondition}</span> </div>
-
-     	<c:forEach items="${answerList}"  var="answer">
-     		<c:when test="${answer.aCode != null}">
-      			<div class="collapsible-body"><span>${answer.aDesc}</span>
-      											<span>${answer.aDate}</span></div>
-      		</c:when>
-      			<c:otherwise>
-      				<div class="collapsible-body"><span>답변대기중입니다</span></div>
-				</c:otherwise>
-		</c:forEach>
-    </li>
-</c:forEach> 
-</ul> --%>
+	<!-- footer import -->
+    <c:import url="http://localhost:8888/Fiesta/footer.jsp" charEncoding="UTF-8"></c:import>
 
 </body>
 </html>
