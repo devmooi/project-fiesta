@@ -16,10 +16,10 @@ import org.xml.sax.SAXException;
 import com.fiesta.model.dao.RegisterDaoImpl;
 import com.fiesta.model.vo.Company;
 
-public class HotelXMLParsing {
+public class HotelXMLParsing2 {
 
 	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException, SQLException {
-		String url = "WebContent/resource/data/전국민박펜션업소표준데이터.xml";
+		String url = "WebContent/resource/data/전국렌터카업체정보표준데이터.xml";
 
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -41,26 +41,26 @@ public class HotelXMLParsing {
 				Element eElement = (Element)nNode;
 				
 				String comTel = getTagValue("전화번호", eElement);
-				String comAddr = getTagValue("소재지도로명주소", eElement);
-				String comDesc = getTagValue("주변관광정보", eElement);
-				String comName = getTagValue("업소명", eElement);
+				String comAddr = getTagValue("차고지도로명주소", eElement);
+				String comDesc = getTagValue("자동차총보유대수", eElement);
+				String comName = getTagValue("업체명", eElement);
 				
 				if(comDesc != null) {
 					Company company = new Company();
 					company.setComTel(comTel);
 					company.setComAddr(comAddr);
-					company.setComDesc(comDesc);
+					company.setComDesc("총보유대수 : " + comDesc);
 					company.setComName(comName);
-					company.setComCategoryCode(2);
-					if(temp%3==0) company.setComImg("resource/img/hotel1.jpg");
-					else if(temp%3==1) company.setComImg("resource/img/hotel2.jpg");
-					else if(temp%3==2) company.setComImg("resource/img/hotel3.jpg");
+					company.setComCategoryCode(4);
+					if(temp%3==0) company.setComImg("resource/img/bus1.jpg");
+					else if(temp%3==1) company.setComImg("resource/img/bus2.jpg");
+					else if(temp%3==2) company.setComImg("resource/img/bus3.jpg");
 					RegisterDaoImpl.getInstance().registerCompany(company);
 					
 					System.out.println("전화번호 : " + comTel);
-					System.out.println("소재지도로명주소 : " + comAddr);
-					System.out.println("주변관광정보 : " + comDesc);
-					System.out.println("업소명 : " + comName);
+					System.out.println("차고지도로명주소 : " + comAddr);
+					System.out.println("자동차총보유대수 : " + comDesc);
+					System.out.println("업체명 : " + comName);
 					System.out.println(++count);
 					System.out.println("=====================================");
 				}

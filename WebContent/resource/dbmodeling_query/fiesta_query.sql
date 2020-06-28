@@ -27,7 +27,7 @@ CREATE TABLE company(
     com_pass VARCHAR(45),
     com_name VARCHAR(45) NOT NULL,
     com_tel VARCHAR(45),
-    com_addr VARCHAR(150),
+    com_addr VARCHAR(300),
     com_img VARCHAR(150),
     com_desc VARCHAR(150),
     com_count INT,
@@ -180,22 +180,20 @@ INSERT INTO comcategory(comCategory_code, comCategory_desc) VALUES(10, '협찬')
 INSERT INTO company(com_name, com_tel, com_img, com_desc, comCategory_code)
 VALUES('행복을 만드는 샘푸드', '010-4556-8302', 'resource/img/drink1.jpg', '주류 이외 생수, 과자, 통조림, 컵라면, 일회용품 등 제공', 3);
 INSERT INTO company(com_name, com_tel, com_addr, com_img, com_desc, comCategory_code)
-VALUES('한음기획', '02-6080-7727', '경기 수원시 팔달구 인계로124번길 43 대흥빌딩', 'resource/img/drink2.jpg', '행사기획, 기업마케팅, 행사장비 렌탈 전문 기업', 3);
+VALUES('플랜빛', '02-556-5515', '서울특별시 서초구 신반포로45길 74, 6층(잠원동)', 'resource/img/banner1.jpg', '기획, 제작에서 설치, 부착, 배포, 홍보결과까지 통합서비스', 9);
 INSERT INTO company(com_name, com_tel, com_addr, com_img, com_desc, comCategory_code)
-VALUES('㈜ 정 유통', '010-3271-2491', '서울 성동구 마장로31길 33', 'resource/img/drink3.jpg', '행사기획, 기업마케팅, 행사장비 렌탈 전문 기업', 3);
+VALUES('이브코드', '031-714-3011', '경기도 성남시 분당구 성남대로343번길 10-6 (정자동) 3층 344호', 'resource/img/brand1.jpg', '건국대학교 D.O.N 행사 협찬 경력', 10);
 
 INSERT INTO company(com_name, com_tel, com_addr, com_img, com_desc, comCategory_code)
-VALUES('플랜빛', '02-556-5515', '서울특별시 서초구 신반포로45길 74, 6층(잠원동)', 'resource/img/banner1.jpg', '기획, 제작에서 설치, 부착, 배포, 홍보결과까지 통합서비스', 9);
+VALUES('한음기획', '02-6080-7727', '경기 수원시 팔달구 인계로124번길 43 대흥빌딩', 'resource/img/drink2.jpg', '행사기획, 기업마케팅, 행사장비 렌탈 전문 기업', 3);
 INSERT INTO company(com_name, com_tel, com_addr, com_img, com_desc, comCategory_code)
 VALUES('백산현수막', '1599-1799', '경기도 화성시 매송면 원평리 101-3', 'resource/img/banner2.jpg', '모든현수막 제작부터 시공까지 다이렉트로! 대형현수막 전문업체', 9);
 INSERT INTO company(com_name, com_tel, com_addr, com_img, com_desc, comCategory_code)
-VALUES('주컴퍼니', '1661-2992', '인천광역시 계양구 효성동 304-19번지 1층~4층(전층)', 'resource/img/banner3.jpg', '다양한 업종, 활용도 높은 시트지 광고까지 최신식 자체 제작 시스템', 9);
-
-INSERT INTO company(com_name, com_tel, com_addr, com_img, com_desc, comCategory_code)
-VALUES('이브코드', '031-714-3011', '경기도 성남시 분당구 성남대로343번길 10-6 (정자동) 3층 344호', 'resource/img/brand1.jpg', '건국대학교 D.O.N 행사 협찬 경력', 10);
-INSERT INTO company(com_name, com_tel, com_addr, com_img, com_desc, comCategory_code)
 VALUES('무백', '02-511-3060', '서울특별시 성동구 뚝섬로1길 25(성수동1가) 서울숲한라에코밸리 901호', 'resource/img/brand2.jpg', '이화여대 영상제 제품 협찬 경력', 10);
-INSERT INTO company(com_name, com_tel, com_addr, com_img, com_desc, comCategory_code)
-VALUES('이땅', '1544-7437', '대전광역시 유성구 테크노2로 125-5', 'resource/img/brand3.jpg', '대학 패션쇼와 예술고교 협찬 대폭 확대', 10);
 
-SELECT comCategory_code, comCategory_desc FROM comcategory;
+INSERT INTO company(com_name, com_tel, com_addr, com_img, com_desc, comCategory_code)
+VALUES('㈜ 정 유통', '010-3271-2491', '서울 성동구 마장로31길 33', 'resource/img/drink3.jpg', '행사기획, 기업마케팅, 행사장비 렌탈 전문 기업', 3);
+INSERT INTO company(com_name, com_tel, com_addr, com_img, com_desc, comCategory_code)
+VALUES('주컴퍼니', '1661-2992', '인천광역시 계양구 효성동 304-19번지 1층~4층(전층)', 'resource/img/banner3.jpg', '다양한 업종, 활용도 높은 시트지 광고까지 최신식 자체 제작 시스템', 9);
+INSERT INTO company(com_name, com_tel, com_addr, com_img, com_desc, comCategory_code)
+VALUES('이땅', '1544-7437', '대전광역시 유성구 테크노2로 125-5', 'resource/img/brand3.png', '대학 패션쇼와 예술고교 협찬 대폭 확대', 10);

@@ -61,7 +61,6 @@ public class CompanyDaoImpl {
 			String query = "SELECT * FROM comcategory";
 			ps = conn.prepareStatement(query);
 			rs = ps.executeQuery();
-			System.out.println(rs.next());
 			while(rs.next()) {
 				list.add(new Comcategory(rs.getInt("comCategory_code"), rs.getString("comCategory_desc")));
 			}
