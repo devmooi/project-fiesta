@@ -221,9 +221,9 @@ public class RegisterDaoImpl {
 		PreparedStatement ps = null;
 		try {
 			conn = getConnection();
-			String query = "INSERT INTO company(com_email, com_pass, com_name, com_tel, com_addr, com_img, com_desc, com_count, comCategory_code) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			String query = "INSERT INTO company (com_email, com_pass, com_name, com_tel, com_addr, com_img, com_desc) VALUES(?, ?, ?, ?, ?, ?, ?)";
 			ps = conn.prepareStatement(query);
-			//System.out.println("ps completed in registerCompany");
+			System.out.println("ps completed in registerCompany");
 			
 			ps.setString(1, company.getComEmail());
 			ps.setString(2, company.getComPass());
@@ -232,8 +232,7 @@ public class RegisterDaoImpl {
 			ps.setString(5, company.getComAddr());
 			ps.setString(6, company.getComImg());
 			ps.setString(7, company.getComDesc());
-			ps.setInt(8, company.getComCount());
-			ps.setInt(9, company.getComCategoryCode());
+			//ps.setInt(8, company.getComCategoryCode());
 			System.out.println(ps.executeUpdate()+" row register success");
 		} finally {
 			closeAll(ps, conn);
@@ -274,7 +273,7 @@ public class RegisterDaoImpl {
 		}
 		return company; 
 	}
-
+		
 	//VO 수정으로 인한 변경
 	public void updateCompany(Company company) throws SQLException {
 		Connection conn = null;
@@ -306,7 +305,7 @@ public class RegisterDaoImpl {
 		PreparedStatement ps = null;
 		try {
 			conn = getConnection();
-			String query = "DELETE FROM company WHERE com_id=? AND com_pass=?";
+			String query = "DELETE FROM company WHERE com_email=? AND com_pass=?";
 			ps = conn.prepareStatement(query);
 			//System.out.println("ps completed in deleteCompany");
 			

@@ -7,6 +7,7 @@ import com.fiesta.controller.component.CompanyEmailExistController;
 import com.fiesta.controller.component.CompanyRegisterController;
 import com.fiesta.controller.component.CustomerEmailExistController;
 import com.fiesta.controller.component.CustomerRegisterController;
+import com.fiesta.controller.component.DeleteCompanyController;
 import com.fiesta.controller.component.DeleteCustomerController;
 import com.fiesta.controller.component.FileUploadTestController;
 import com.fiesta.controller.component.InsertReviewController;
@@ -23,6 +24,7 @@ import com.fiesta.controller.component.ShowAllComanyController;
 import com.fiesta.controller.component.ShowAllCompanyByCategoryController;
 import com.fiesta.controller.component.ShowServiceController;
 import com.fiesta.controller.component.SortCompanyController;
+import com.fiesta.controller.component.UpdateCompanyController;
 import com.fiesta.controller.component.UpdateCustomerController;
 import com.fiesta.controller.component.lookupCompanyController;
 
@@ -124,10 +126,18 @@ public class HandlerMapping {
 			controller = new UpdateCustomerController();
 			System.out.println("UpdateCustomerController 생성됨");
 			
+		}else if(command.equals("updateCompany.do")) {
+					controller = new UpdateCompanyController();
+					System.out.println("UpdateCompanyController 생성됨");
+				
 		}else if(command.equals("deleteCustomer.do")) {
 			controller = new DeleteCustomerController();
 			System.out.println("DeleteCustomerController 생성됨");
-			
+		
+		}else if(command.equals("deleteCompany.do")) {
+			controller = new DeleteCompanyController();
+			System.out.println("DeleteCompanyController 생성됨");
+		
 		}else if(command.equals("logout.do")) {
 			controller = new LogoutController();
 			System.out.println("LogoutController 생성됨");

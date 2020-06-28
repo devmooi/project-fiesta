@@ -1,6 +1,5 @@
 package com.fiesta.controller.component;
 
-import java.io.PrintWriter;
 import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,20 +9,22 @@ import com.fiesta.controller.Controller;
 import com.fiesta.controller.ModelAndView;
 import com.fiesta.model.dao.RegisterDaoImpl;
 
-public class CustomerEmailExistController implements Controller {
+public class DeleteCompanyController implements Controller {
 
 	@Override
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String email = request.getParameter("custEmail");
-		boolean flag = false;
-		PrintWriter out = response.getWriter();
+		String email = request.getParameter("email");
+		String pass = request.getParameter("pass");
+			
 		try {
-			flag = RegisterDaoImpl.getInstance().custEmailExist(email);
-			out.print(flag);
+				RegisterDaoImpl.getInstance().deleteCompany(email, pass);
+
 		} catch (SQLException e) {
 			
-		}
+		}	
 		return null;
 	}
 
 }
+
+

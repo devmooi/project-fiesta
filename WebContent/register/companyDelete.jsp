@@ -11,8 +11,8 @@ $(function() {
 	$('#deleteBtn').click(function(){
 		$.ajax({
 			type:'post',
-			url:'deleteCustomer.do',
-			data:'email=${customer.custEmail}&&pass=${customer.custPass}',
+			url:'deleteCompany.do',
+			data:'email=${company.comEmail}&&pass=${company.comPass}',
 			
 			success:function(result) {
 				alert("정상적으로 계정삭제되었습니다.");
@@ -26,7 +26,7 @@ $(function() {
 </head>
 <body>
 정말로 계정을 삭제하고 싶으세요?<br>
-계정을 삭제하면 모든 개인정보가 삭제됩니다.<br>
+계정을 삭제하면 모든 업체정보가 삭제됩니다.<br>
 
 <!-- 
 [?] 계정삭제 이유..를 어디로 보내지? 이건 따로 어디서 다루기 때문에 받는 것 같은데 음.. 
@@ -42,10 +42,10 @@ $(function() {
 계정삭제이유(선택)<br>
 <input type="text" name="deleteDesc" id="deleteDesc"><br>
 
-<form action="deleteCustomer.do" id="deleteFrm">
-	<input type="checkbox" required="required"> ${customer.custName}님의 계정을 삭제하는 것을 확인하였습니다. <br>
+<form action="deleteCompany.do" id="deleteFrm">
+	<input type="checkbox" required="required"> ${company.comName}님의 계정을 삭제하는 것을 확인하였습니다. <br>
 	<input type="button" value="계정삭제" id="deleteBtn">
-	<button type="button" onclick="location.href='customerMypage.jsp'">취소</button> <!-- 오.. onclick하면 걍 가네 오.. -->
+	<button type="button" onclick="location.href='companyMypage.jsp'">취소</button> <!-- 오.. onclick하면 걍 가네 오.. -->
 </form>
 	
 </body>
