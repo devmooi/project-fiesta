@@ -5,11 +5,20 @@ public class Wish {
 	String custEmail;
 	int comCode;
 	
+	String comName;
+	String comDesc;
+	
 	public Wish() {}
 	public Wish(int wishCode, String custEmail, int comCode) {
 		this.wishCode = wishCode;
 		this.custEmail = custEmail;
 		this.comCode = comCode;
+	}
+	
+	public Wish(int wishCode, String comName, String comDesc) {
+		this.wishCode = wishCode;
+		this.comName = comName;
+		this.comDesc = comDesc;
 	}
 	
 	public int getWishCode() {
