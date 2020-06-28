@@ -13,6 +13,8 @@ public class ServiceRegisterController implements Controller {
 
 	@Override
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		int comCode = 1; //세션에서 회사코드 받아올것
+
 		String serviceName = request.getParameter("serviceName");
 		String serviceDesc = request.getParameter("serviceDesc");
 		String serviceImg = request.getParameter("serviceImg");
@@ -21,12 +23,12 @@ public class ServiceRegisterController implements Controller {
 		String path = "";
 
 		//Service VO 변경으로 인해 수정
-		Service service  = new Service(serviceName, serviceDesc, serviceImg, serviceTag, 1);
+		Service service  = new Service(serviceName, serviceDesc, serviceImg, serviceTag, comCode);
 
 		CompanyDaoImpl.getInstance().insertService(service);
 
 
-		return new ModelAndView("ServiceAllShow.do");
+		return new ModelAndView("ServiceAllShow.do?companycode="+comCode);
 	}
 
 }

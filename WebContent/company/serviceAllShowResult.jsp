@@ -90,14 +90,16 @@
 <table border="2" width="350" bgcolor="yellow" align="center">
 	<c:forEach items="${serviceList}" var="service">
 		<tr>
+			<td>${service.serviceCode}</td>
 			<td>${service.serviceName}</td>
 			<td>${service.serviceImg}</td>
 			<td>${service.serviceDesc}</td>
 			<td>${service.serviceTag}</td>
+			<td><a href="ServiceDelete.do?serviceCode=${service.serviceCode}">삭제</a></td>  <!-- 이거는 업체가 로그인했을때만 보일 것 -->
 		</tr>
 	</c:forEach>
 </table>
-<a href="ServiceDelete.do?serviceCode=4">삭제</a>
+<a href="serviceRegister.jsp?companycode=${companycode}">추가등록</a> <!-- 이거는 업체가 로그인했을때만 보일 것 -->
 <p></p>
 <hr>
 <!-- 리뷰 / 문의 : 탭 방식 -->
