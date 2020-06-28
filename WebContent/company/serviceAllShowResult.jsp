@@ -40,7 +40,7 @@
 				data:"comCode="+comCode,
 				
 				success:function(result) {
-						alert(comCode);
+						//alert(comCode); 확인용
 						alert("찜하기 성공");
 				}
 			}); // ajax
@@ -80,9 +80,12 @@
 <!-- 업체 1개에 대한 정보가 들어옴 / 찜하기 -->
 <h3>업체소개</h3>
 
-<button id = "wishBtn">찜하기</button>
-<input type="hidden" name="companycode" value="${companycode}">
 
+<!-- 찜하기랑 목록 -->
+<button id = "wishBtn">찜하기</button>
+<a href="wishList.do">나의 찜 목록보기</a>
+
+<br>
 <h3 align="center">서비스</h3><p>
 <table border="2" width="350" bgcolor="yellow" align="center">
 	<c:forEach items="${serviceList}" var="service">

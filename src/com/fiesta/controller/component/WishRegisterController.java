@@ -13,17 +13,12 @@ public class WishRegisterController implements Controller {
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		int companycode = Integer.parseInt(request.getParameter("comCode"));
 		System.out.println(companycode);
-		String custEmail = "encore@gmail.com";
+		String custEmail = "encore@gmail.com"; //세션에서 받아올것
 		
-		//String path = "";
 
 		WishDaoImpl.getInstance().insertWish(custEmail,companycode);
 		
-		//request.setAttribute("aDesc", aDesc);
-		
-		//path = "ServiceAllShow.do";
 			
-
 		return null;
 		
 	}

@@ -100,7 +100,13 @@ public class HandlerMapping {
 		}else if(command.equals("wishRegister.do")) {
 			controller = new WishRegisterController();
 			System.out.println("WishRegisterController 생성됨");
+		
+		}else if(command.equals("wishList.do")) {
+			controller = new WishListController();
+			System.out.println("WishListController 생성됨");
 		}
+		
+		
 		
 		return controller;
 	}

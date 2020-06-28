@@ -39,10 +39,24 @@ public class Wish {
 	public void setComCode(int comCode) {
 		this.comCode = comCode;
 	}
-	
+	public String getComName() {
+		return comName;
+	}
+	public void setComName(String comName) {
+		this.comName = comName;
+	}
+	public String getComDesc() {
+		return comDesc;
+	}
+	public void setComDesc(String comDesc) {
+		this.comDesc = comDesc;
+	}
 	@Override
 	public String toString() {
-		return "Wish [wishCode=" + wishCode + ", custEmail=" + custEmail + ", comCode=" + comCode + "]";
+		return "Wish [wishCode=" + wishCode + ", custEmail=" + custEmail + ", comCode=" + comCode + ", comName="
+				+ comName + ", comDesc=" + comDesc + "]";
 	}
+
+	
 	
 }

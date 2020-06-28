@@ -90,13 +90,14 @@ public class WishDaoImpl {
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				Company com = new Company();
+				//Company com = new Company();
 				//com.setComName("c.com_name");
 				//com.setComDesc("c.com_desc");
 				list.add(new Wish(rs.getInt("w.wish_code"), 
 									  rs.getString("c.com_name"),  
 									  rs.getString("c.com_desc")));
 			}
+			System.out.println("show All list ok");
 		}finally {
 			closeAll(rs, ps, conn);
 		} 
@@ -126,7 +127,7 @@ public class WishDaoImpl {
 		WishDaoImpl dao = WishDaoImpl.getInstance();
 		
 		//dao.insertWish("encore@gmail.com", 5);
-		dao.deleteWish(4);
+		//dao.deleteWish(4);
 		System.out.println(dao.showAllWish("encore@gmail.com"));
 		
 
