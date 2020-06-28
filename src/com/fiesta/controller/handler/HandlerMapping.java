@@ -1,7 +1,34 @@
 package com.fiesta.controller.handler;
 
 import com.fiesta.controller.Controller;
-import com.fiesta.controller.component.*;
+import com.fiesta.controller.component.AnswerRegisterController;
+import com.fiesta.controller.component.AnswerViewController;
+import com.fiesta.controller.component.CompanyEmailExistController;
+import com.fiesta.controller.component.CompanyRegisterController;
+import com.fiesta.controller.component.CustomerEmailExistController;
+import com.fiesta.controller.component.CustomerRegisterController;
+import com.fiesta.controller.component.DeleteCompanyController;
+import com.fiesta.controller.component.DeleteCustomerController;
+import com.fiesta.controller.component.FileUploadTestController;
+import com.fiesta.controller.component.InsertReviewController;
+import com.fiesta.controller.component.LoginController;
+import com.fiesta.controller.component.LogoutController;
+import com.fiesta.controller.component.QuestionAllShowByComController;
+import com.fiesta.controller.component.QuestionAllShowController;
+import com.fiesta.controller.component.QuestionRegisterController;
+import com.fiesta.controller.component.QuestionViewController;
+import com.fiesta.controller.component.ServiceAllShowController;
+import com.fiesta.controller.component.ServiceDeleteController;
+import com.fiesta.controller.component.ServiceRegisterController;
+import com.fiesta.controller.component.ShowAllComanyController;
+import com.fiesta.controller.component.ShowAllCompanyByCategoryController;
+import com.fiesta.controller.component.ShowAllCustomerOrderController;
+import com.fiesta.controller.component.ShowAllCustomerRequestController;
+import com.fiesta.controller.component.ShowServiceController;
+import com.fiesta.controller.component.SortCompanyController;
+import com.fiesta.controller.component.UpdateCompanyController;
+import com.fiesta.controller.component.UpdateCustomerController;
+import com.fiesta.controller.component.lookupCompanyController;
 
 public class HandlerMapping {
 	private static HandlerMapping handler = new HandlerMapping();
@@ -96,7 +123,36 @@ public class HandlerMapping {
 		}else if(command.equals("ShowService.do")) {
 			controller = new ShowServiceController();
 			System.out.println("ShowServiceController 생성됨");
+			
+		}else if(command.equals("updateCustomer.do")) {
+			controller = new UpdateCustomerController();
+			System.out.println("UpdateCustomerController 생성됨");
+			
+		}else if(command.equals("updateCompany.do")) {
+					controller = new UpdateCompanyController();
+					System.out.println("UpdateCompanyController 생성됨");
+				
+		}else if(command.equals("deleteCustomer.do")) {
+			controller = new DeleteCustomerController();
+			System.out.println("DeleteCustomerController 생성됨");
+		
+		}else if(command.equals("deleteCompany.do")) {
+			controller = new DeleteCompanyController();
+			System.out.println("DeleteCompanyController 생성됨");
+		
+		}else if(command.equals("logout.do")) {
+			controller = new LogoutController();
+			System.out.println("LogoutController 생성됨");
+			
+		}else if(command.equals("showAllCustOrder.do")) {
+			controller = new ShowAllCustomerOrderController();
+			System.out.println("ShowAllCustomerOrderController 생성됨");
+			
+		}else if(command.equals("showAllCustRequest.do")) {
+			controller = new ShowAllCustomerRequestController();
+			System.out.println("ShowAllCustomerRequestController 생성됨");
 		}
+		
 		return controller;
 	}
 }

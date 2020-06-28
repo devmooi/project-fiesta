@@ -66,7 +66,6 @@ public class RegisterDaoImpl {
 		}
 	}
 
-	//VO 수정으로 인한 변경
 	public Customer loginCustomer(String custEmail, String pass) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -94,7 +93,6 @@ public class RegisterDaoImpl {
 		return customer; 
 	}
 
-	//VO 수정으로 인한 변경
 	public void updateCustomer(Customer customer) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -114,8 +112,7 @@ public class RegisterDaoImpl {
 			closeAll(ps, conn);
 		}
 	}
-	
-	//VO 수정으로 인한 변경
+
 	public void deleteCustomer(String custEmail, String pass) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -133,7 +130,6 @@ public class RegisterDaoImpl {
 		}
 	}
 
-	//VO 수정으로 인한 변경
 	public Customer lookupCustomer(String custEmail) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -153,7 +149,7 @@ public class RegisterDaoImpl {
 							rs.getString("cust_pass"),
 							rs.getString("cust_tel"),
 							rs.getString("cust_group"));
-			//System.out.println(id+ " lookup success");
+			System.out.println(custEmail+ " lookup success");
 			}
 		} finally {
 			closeAll(rs, ps, conn);
@@ -200,7 +196,7 @@ public class RegisterDaoImpl {
 		PreparedStatement ps = null;
 		try {
 			conn = getConnection();
-			String query = "INSERT INTO company(com_email, com_pass, com_name, com_tel, com_addr, com_img, com_desc, com_count, comCategory_code) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			String query = "INSERT INTO company (com_email, com_pass, com_name, com_tel, com_addr, com_img, com_desc, comCategory_code) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 			ps = conn.prepareStatement(query);
 			//System.out.println("ps completed in registerCompany");
 			
@@ -211,8 +207,7 @@ public class RegisterDaoImpl {
 			ps.setString(5, company.getComAddr());
 			ps.setString(6, company.getComImg());
 			ps.setString(7, company.getComDesc());
-			ps.setInt(8, company.getComCount());
-			ps.setInt(9, company.getComCategoryCode());
+			ps.setInt(8, company.getComCategoryCode());
 			System.out.println(ps.executeUpdate()+" row register success");
 		} finally {
 			closeAll(ps, conn);
@@ -245,15 +240,14 @@ public class RegisterDaoImpl {
 									  rs.getString("com_desc"),
 									  rs.getInt("com_count"),
 									  rs.getInt("comCategory_code"));  
-			//System.out.println(id+ " login success");
+			System.out.println(comEmail+ " login success");
 				}
 		} finally {
 			closeAll(rs, ps, conn);
 		}
 		return company; 
 	}
-
-	//VO 수정으로 인한 변경
+		
 	public void updateCompany(Company company) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -271,20 +265,18 @@ public class RegisterDaoImpl {
 			ps.setString(6, company.getComDesc());
 			ps.setInt(7, company.getComCategoryCode());
 			ps.setString(8, company.getComEmail());
-			
 			System.out.println(ps.executeUpdate()+" row update success");
 		} finally {
 			closeAll(ps, conn);
 		}		
 	}
 
-	//VO 수정으로 인한 변경
 	public void deleteCompany(String comEmail, String pass) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try {
 			conn = getConnection();
-			String query = "DELETE FROM company WHERE com_id=? AND com_pass=?";
+			String query = "DELETE FROM company WHERE com_email=? AND com_pass=?";
 			ps = conn.prepareStatement(query);
 			//System.out.println("ps completed in deleteCompany");
 			
@@ -299,6 +291,5 @@ public class RegisterDaoImpl {
 	//단위테스트
 	public static void main(String[] args) throws SQLException {
 		RegisterDaoImpl dao = RegisterDaoImpl.getInstance();
-		
 	}
 }

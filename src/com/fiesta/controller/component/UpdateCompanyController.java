@@ -10,32 +10,26 @@ import com.fiesta.controller.ModelAndView;
 import com.fiesta.model.dao.RegisterDaoImpl;
 import com.fiesta.model.vo.Company;
 
-public class CompanyRegisterController implements Controller {
+public class UpdateCompanyController implements Controller {
 
 	@Override
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String email = request.getParameter("email");
-		String name = request.getParameter("name");
-		String pass = request.getParameter("pass");
-		String tel = request.getParameter("tel");
-		String addr = request.getParameter("addr");
-		String img = request.getParameter("img");
-		String desc = request.getParameter("desc");
+		String name = request.getParameter("comName");
+		String email = request.getParameter("comEmail");
+		String pass = request.getParameter("comPass");
+		String tel = request.getParameter("comTel");
+		String addr = request.getParameter("comAddr"); 
+		String img = request.getParameter("comImg"); 
+		String desc = request.getParameter("comDesc"); 
 		int categoryCode = Integer.parseInt((String)request.getParameter("categoryCode"));
 
-
-
-		String path = "../index.jsp";
-		
 		Company company = new Company(email, pass, name, tel, addr, img, desc, categoryCode);
 		try {
-			RegisterDaoImpl.getInstance().registerCompany(company);
-			
+			RegisterDaoImpl.getInstance().updateCompany(company);
 		} catch (SQLException e) {
 			
 		}
-		return new ModelAndView(path);
-	
+		return null; 
 	}
-}
 
+}
