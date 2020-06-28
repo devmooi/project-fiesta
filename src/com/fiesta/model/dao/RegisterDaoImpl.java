@@ -66,7 +66,6 @@ public class RegisterDaoImpl {
 		}
 	}
 
-	//VO 수정으로 인한 변경
 	public Customer loginCustomer(String custEmail, String pass) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -94,7 +93,6 @@ public class RegisterDaoImpl {
 		return customer; 
 	}
 
-	//VO 수정으로 인한 변경
 	public void updateCustomer(Customer customer) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -114,29 +112,7 @@ public class RegisterDaoImpl {
 			closeAll(ps, conn);
 		}
 	}
-	
-	// 각각 수정버튼을 위해 필요한 business logic이라고 생각했음
-	// 그런데, 생성자가.. 인자값 1개짜리는 1개만 존재할 수 있나보다..?
-	/*public void updateCustomerName(Customer customer) throws SQLException {
-		Connection conn = null;
-		PreparedStatement ps = null;
-		try {
-			conn = getConnection();
-			String query = "UPDATE customer SET cust_name=? WHERE cust_email=?";
-			ps = conn.prepareStatement(query);
-			//System.out.println("ps completed in updateCustomer");
-			
-			ps.setString(1, customer.getCustName());
-			ps.setString(2, customer.getCustEmail());
-			System.out.println(ps.executeUpdate()+" row update success");
-		} finally {
-			closeAll(ps, conn);
-		}
-	}*/
-	
-	
-	
-	//VO 수정으로 인한 변경
+
 	public void deleteCustomer(String custEmail, String pass) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -154,7 +130,6 @@ public class RegisterDaoImpl {
 		}
 	}
 
-	//VO 수정으로 인한 변경
 	public Customer lookupCustomer(String custEmail) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -221,9 +196,9 @@ public class RegisterDaoImpl {
 		PreparedStatement ps = null;
 		try {
 			conn = getConnection();
-			String query = "INSERT INTO company (com_email, com_pass, com_name, com_tel, com_addr, com_img, com_desc) VALUES(?, ?, ?, ?, ?, ?, ?)";
+			String query = "INSERT INTO company (com_email, com_pass, com_name, com_tel, com_addr, com_img, com_desc, comCategory_code) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 			ps = conn.prepareStatement(query);
-			System.out.println("ps completed in registerCompany");
+			//System.out.println("ps completed in registerCompany");
 			
 			ps.setString(1, company.getComEmail());
 			ps.setString(2, company.getComPass());
@@ -232,14 +207,13 @@ public class RegisterDaoImpl {
 			ps.setString(5, company.getComAddr());
 			ps.setString(6, company.getComImg());
 			ps.setString(7, company.getComDesc());
-			//ps.setInt(8, company.getComCategoryCode());
+			ps.setInt(8, company.getComCategoryCode());
 			System.out.println(ps.executeUpdate()+" row register success");
 		} finally {
 			closeAll(ps, conn);
 		}
 	}		
 
-	//VO 수정으로 인한 변경
 	public Company loginCompany(String comEmail, String pass) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -266,7 +240,7 @@ public class RegisterDaoImpl {
 									  rs.getString("com_desc"),
 									  rs.getInt("com_count"),
 									  rs.getInt("comCategory_code"));  
-			//System.out.println(id+ " login success");
+			System.out.println(comEmail+ " login success");
 				}
 		} finally {
 			closeAll(rs, ps, conn);
@@ -274,7 +248,6 @@ public class RegisterDaoImpl {
 		return company; 
 	}
 		
-	//VO 수정으로 인한 변경
 	public void updateCompany(Company company) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -292,14 +265,12 @@ public class RegisterDaoImpl {
 			ps.setString(6, company.getComDesc());
 			ps.setInt(7, company.getComCategoryCode());
 			ps.setString(8, company.getComEmail());
-			
 			System.out.println(ps.executeUpdate()+" row update success");
 		} finally {
 			closeAll(ps, conn);
 		}		
 	}
 
-	//VO 수정으로 인한 변경
 	public void deleteCompany(String comEmail, String pass) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;

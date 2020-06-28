@@ -82,7 +82,20 @@ $(function() {
 	업체로고등록  <input type="text" name="comImg" id="comImg" value="${company.comImg}" placeholder="${company.comImg}"><br>
 		<span id="comImgCheckView"></span><br>
 	업체상세정보  <input type="text" name="comDesc" id="comDesc" value="${company.comDesc}" placeholder="${company.comDesc}"><br>
-		<span id="comDescCheckView"></span><br>		
+		<span id="comDescCheckView"></span><br>
+	업체분류 <select name="categoryCode" id="categoryCode">
+			<option selected="selected">${company.comCategoryCode}</option>
+			<option value=1>연예기획사</option>
+			<option value=2>숙소</option>
+			<option value=3>주류/렌탈</option>
+			<option value=4>버스</option>
+			<option value=5>음향조명</option>
+			<option value=6>보험회사</option>
+			<option value=7>푸드트럭</option>
+			<option value=8>의류</option>
+			<option value=9>현수막</option>
+			<option value=10>협찬</option>		
+		</select><br>
 	<input type="button" id="companyUpdateBtn" value="업체정보수정">
 	<span id="updateCompanyCheckView"></span>	
 	</form>

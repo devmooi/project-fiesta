@@ -21,8 +21,9 @@ public class UpdateCompanyController implements Controller {
 		String addr = request.getParameter("comAddr"); 
 		String img = request.getParameter("comImg"); 
 		String desc = request.getParameter("comDesc"); 
-		
-		Company company = new Company(email, pass, name, tel, addr, img, desc);
+		int categoryCode = Integer.parseInt((String)request.getParameter("categoryCode"));
+
+		Company company = new Company(email, pass, name, tel, addr, img, desc, categoryCode);
 		try {
 			RegisterDaoImpl.getInstance().updateCompany(company);
 		} catch (SQLException e) {

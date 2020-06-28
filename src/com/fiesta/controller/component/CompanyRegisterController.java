@@ -21,10 +21,13 @@ public class CompanyRegisterController implements Controller {
 		String addr = request.getParameter("addr");
 		String img = request.getParameter("img");
 		String desc = request.getParameter("desc");
+		int categoryCode = Integer.parseInt((String)request.getParameter("categoryCode"));
+
+
 
 		String path = "../index.jsp";
 		
-		Company company = new Company(email, name, pass, tel, addr, img, desc);
+		Company company = new Company(email, pass, name, tel, addr, img, desc, categoryCode);
 		try {
 			RegisterDaoImpl.getInstance().registerCompany(company);
 			
