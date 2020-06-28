@@ -5,6 +5,7 @@
 <head>
 	<style>
 		footer {
+			margin-top: 60px;
 			text-align: center;
 		}
 		footer div a {
