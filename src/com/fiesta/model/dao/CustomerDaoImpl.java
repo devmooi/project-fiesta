@@ -48,7 +48,7 @@ public class CustomerDaoImpl {
 	
 	//작업 영역
 	//VO 수정으로 인한 변경
-	public void insertCustorder(Custorder custorder) throws SQLException {
+	public void insertCustOrder(Custorder custorder) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try {
@@ -72,7 +72,7 @@ public class CustomerDaoImpl {
 	}
 
 	//VO 수정으로 인한 변경
-	public void insertOrderdetail(Orderdetail orderdetail) throws SQLException {
+	public void insertCustOrderDetail(Orderdetail orderdetail) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try {
@@ -93,7 +93,7 @@ public class CustomerDaoImpl {
 	}
 	
 	//VO 수정으로 인한 변경
-	public ArrayList<Custorder> showAllCustorder(String custEmail) throws SQLException {
+	public ArrayList<Custorder> showAllCustOrder(String custEmail) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -131,7 +131,7 @@ public class CustomerDaoImpl {
 	
 	
 	//foreign key...?
-	public ArrayList<Orderdetail> showAllOrderdetail(String requestCode) throws SQLException {
+	public ArrayList<Orderdetail> showAllCustOrderDetail(String requestCode) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;

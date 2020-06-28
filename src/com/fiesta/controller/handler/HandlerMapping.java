@@ -22,6 +22,8 @@ import com.fiesta.controller.component.ServiceDeleteController;
 import com.fiesta.controller.component.ServiceRegisterController;
 import com.fiesta.controller.component.ShowAllComanyController;
 import com.fiesta.controller.component.ShowAllCompanyByCategoryController;
+import com.fiesta.controller.component.ShowAllCustomerOrderController;
+import com.fiesta.controller.component.ShowAllCustomerRequestController;
 import com.fiesta.controller.component.ShowServiceController;
 import com.fiesta.controller.component.SortCompanyController;
 import com.fiesta.controller.component.UpdateCompanyController;
@@ -141,8 +143,15 @@ public class HandlerMapping {
 		}else if(command.equals("logout.do")) {
 			controller = new LogoutController();
 			System.out.println("LogoutController 생성됨");
+			
+		}else if(command.equals("showAllCustOrder.do")) {
+			controller = new ShowAllCustomerOrderController();
+			System.out.println("ShowAllCustomerOrderController 생성됨");
+			
+		}else if(command.equals("showAllCustRequest.do")) {
+			controller = new ShowAllCustomerRequestController();
+			System.out.println("ShowAllCustomerRequestController 생성됨");
 		}
-		
 		
 		return controller;
 	}

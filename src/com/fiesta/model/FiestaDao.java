@@ -26,13 +26,13 @@ public interface FiestaDao {
 	Customer lookupCustomer(String custEmail) throws SQLException;
 	
 	//고객 의뢰
-	void insertCustorder(Custorder custorder) throws SQLException;
+	void insertCustOrder(Custorder custorder) throws SQLException;
 	//고객 의뢰 확정
-	void insertOrderdetail(Orderdetail orderdetail) throws SQLException;
+	void insertCustOrderDetail(Orderdetail orderdetail) throws SQLException;
 	//고객 의뢰한 모든 내용 조회
-	ArrayList<Custorder> showAllCustorder(String custEmail) throws SQLException;
+	ArrayList<Custorder> showAllCustOrder(String custEmail) throws SQLException;
 	//고객 의뢰 확정 내용 조회
-	ArrayList<Orderdetail> showAllOrderdetail(String requestCode) throws SQLException; 
+	ArrayList<Orderdetail> showAllOrderDetail(String requestCode) throws SQLException; 
 	
 	//회사 등록
 	void registerCompany(Company company) throws SQLException;

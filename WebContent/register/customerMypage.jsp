@@ -62,6 +62,34 @@ $(function() {
 			}
 		}); // ajax
 	}); // click
+	
+	/* $('#showAllCustOrder').click(function() {
+		$.ajax({
+			type:'post',
+			url:'showAllCustOrder.do',
+			data:"",
+			// 나는, 비동기를 통해 저 url을 호출만할꺼야. business logic 돌릴려고. 그 돌린 결과를 그냥 단순히 뿌리려고.
+			// 그러면 그냥 data 생략하고 가면 안되는거야? 아니면 비동기를 쓰면 안되는거야? 음..
+			// "" 넘기니까 일단 동작. ok.
+			
+			success:function(result) {
+				$('#showAllCustOrderView').html(result);				
+			}
+		}); // ajax
+	}); // click
+	
+	$('#showAllCustRequest').click(function() {
+		$.ajax({
+			type:'post',
+			url:'showAllCustRequest.do',
+			data:"",
+			
+			
+			success:function(result) {
+				$('#showAllCustRequestView').html(result);				
+			}
+		}); // ajax
+	}); // click */
 }); // ready
 </script>
 </head>
@@ -86,14 +114,27 @@ $(function() {
 	
 	<h2>거래 내역</h2>
 	<!-- attribute 저장한 내용을 뿌려주는... 모달로 뿌리는 것도 추가.. 어떤 컬럼을 보여줄건지 -->
+	
+	<!-- 내가 하고자 하는 건, tab이 이동할 때, 함수만 호출하는건데. 내가 원하는 함수만 호출하는건데. 즉,
+	html 상에서 함수호출 할 수 있으면 그냥 끝나는건데. 음.
+	
+	아니 근데, 그 함수를 호출해서, return값을 결국 여기에, 같은 페이지에 뿌려야하는거니까, 비동기가 맞지 않나?
+	html 상에서 함수를 호출한다 해도, return은 어디로 될지 모르는거잖아? 음..-->
 	<div class="tab_content">
 		<input type="radio" name="type" id="order" checked>
-		<label for="order"> 주문 내역 </label>
+		<label for="order" id="showAllCustOrder"> 주문 내역 </label>
+			<span id="showAllCustOrderView"></span>
+			
 		<input type="radio" name="type" id="request">
-		<label for="request"> 의뢰 내역 </label>		
-		<div class="contents order"> 주문 내역 내용</div>
-		<div class="contents request"> 의뢰 내역 내용</div>
+		<label for="request" id="showAllCustRequest"> 의뢰 내역 </label>		
+			<span id="showAllCustRequestView"></span>
+				
+		<!-- <div class="contents order" id="showAllCustOrderDetail"> 주문 내역 내용</div><br>
+				주문 내용
+		<div class="contents request" id="showAllCustRequestDetail"> 의뢰 내역 내용</div><br>
+				의뢰 내용 -->
 	</div>
+	
 	
 	<!-- 리뷰하기.. -->
 	
