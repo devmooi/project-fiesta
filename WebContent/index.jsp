@@ -185,7 +185,7 @@
     		<div class="companyList">
     			<!-- 카테고리별로 업체 3개 -->
     			<c:forEach begin="0" end="2" var="cnt">
-    				<a href="company/ServiceAllShow.do?companycode=${company[cnt].comCode}" class="company">
+    				<a href="ServiceAllShow.do?companycode=${company[cnt].comCode}" class="company">
     					<div>
     						<img src="${company[cnt].comImg}">
     					</div>
