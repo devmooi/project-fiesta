@@ -26,22 +26,28 @@ public class UpdateCustomerController implements Controller {
 		String tel = request.getParameter("custTel");
 		String group = request.getParameter("custGroup"); 
 		
-		String path = "customerMypage.jsp";
+		String path = "";
 		
 		Customer customer = new Customer(email, name, pass, tel, group);
+		ArrayList<Custorder> orderList = new ArrayList<>();
+		ArrayList<Custorderdetail> orderDetailList = new ArrayList<>();
+		ArrayList<Custrequest> requestList = new ArrayList<>();
+		ArrayList<Custrequestdetail> requestDetailList = new ArrayList<>();
 		
 		try {
 			RegisterDaoImpl.getInstance().updateCustomer(customer);
 			
-			ArrayList<Custorder> orderList = CustomerDaoImpl.getInstance().showAllCustOrder(email);
-			ArrayList<Custorderdetail> orderDetailList = CustomerDaoImpl.getInstance().showAllCustOrderDetail(email);
-			ArrayList<Custrequest> requestList = CustomerDaoImpl.getInstance().showAllCustRequest(email);
-			ArrayList<Custrequestdetail> requestDetailList = CustomerDaoImpl.getInstance().showAllCustRequestDetail(email);
+			orderList = CustomerDaoImpl.getInstance().showAllCustOrder(email);
+			orderDetailList = CustomerDaoImpl.getInstance().showAllCustOrderDetail(email);
+			requestList = CustomerDaoImpl.getInstance().showAllCustRequest(email);
+			requestDetailList = CustomerDaoImpl.getInstance().showAllCustRequestDetail(email);
 		
 			request.setAttribute("orderList", orderList);
 			request.setAttribute("requestList", requestList);
 			request.setAttribute("orderDetailList", orderDetailList);
 			request.setAttribute("requestDetailList", requestDetailList);
+			
+			path = "customerMypage.jsp";
 			
 		} catch (SQLException e) {
 			
