@@ -91,8 +91,8 @@ public class QuestionDaoImpl {
 		try {
 			conn = getConnection();
 
-			String query = "SELECT q.q_code, q.q_title, q.q_desc, q.q_date, q_condition, c.com_name"
-					+ "FROM question q, company c"
+			String query = "SELECT q.q_code, q.q_title, q.q_desc, q.q_date, q_condition, c.com_name "
+					+ "FROM question q, company c "
 					+ "WHERE q.com_code = c.com_code and cust_email=?";
 			ps = conn.prepareStatement(query);
 			System.out.println("PreparedStatement....showAllQuestion..");
@@ -200,6 +200,24 @@ public class QuestionDaoImpl {
 		}
 		return list;
 	}
+	
+	public void deleteQuestion(int qCode) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		try{
+			conn=  getConnection();
+			String query = "DELETE FROM question WHERE q_code=?";
+			ps = conn.prepareStatement(query);
+			System.out.println("PreparedStatement 생성됨...deleteQuestion");
+			
+			ps.setInt(1, qCode);
+			
+			System.out.println(ps.executeUpdate()+" row delete OK!!");
+		}finally{
+			closeAll(ps, conn);
+		}
+		
+	}
 
 	public void insertAnswer(int qCode, String aDesc, int comCode) throws SQLException {
 		Connection conn = null;
@@ -224,7 +242,7 @@ public class QuestionDaoImpl {
 			ps.setString(5, showQuestion(qCode).getCustEmail());
 			
 			// 답변대기를 답변완료로 바꾸기, 이메일로 보내기
-			changeQnaCondition(qCode);
+			changeQnaCondition(qCode,"답변완료");
 			
 			System.out.println(ps.executeUpdate()+" row INSERT OK!!");
 		}finally{
@@ -235,18 +253,19 @@ public class QuestionDaoImpl {
 	
 	//문의 찾기
 	
-	//답변상태 바꾸기
-	public void changeQnaCondition(int qCode) throws SQLException{
+	//답변상태 바꾸기 답변대기를 답변완료로
+	public void changeQnaCondition(int qCode, String condition) throws SQLException{
 		Connection conn = null;
 		PreparedStatement ps = null;
 		
 		try{
 			conn=  getConnection();
-			String query = "Update question set q_condition='답변완료' WHERE q_code=?";
+			String query = "Update question set q_condition=? WHERE q_code=?";
 			ps = conn.prepareStatement(query);
 			System.out.println("PreparedStatement 생성됨...changeQnaCondition");
 			
-			ps.setInt(1, qCode);  
+			ps.setString(1, condition);
+			ps.setInt(2, qCode);  
 			
 			// 답변대기를 답변완료로 바꾸기, 이메일로 보내기
 			
@@ -286,6 +305,26 @@ public class QuestionDaoImpl {
 			closeAll(rs, ps, conn);
 		}
 		return answer;
+	}
+	
+	public void deleteAnswer(int answerqCode) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		try{
+			conn=  getConnection();
+			String query = "DELETE FROM answer WHERE q_code=?";
+			ps = conn.prepareStatement(query);
+			System.out.println("PreparedStatement 생성됨...deleteAnswer");
+			
+			ps.setInt(1, answerqCode);
+			
+			changeQnaCondition(answerqCode,"답변대기");
+			
+			System.out.println(ps.executeUpdate()+" row delete OK!!");
+		}finally{
+			closeAll(ps, conn);
+		}
+		
 	}
 	
 	//단위테스트
