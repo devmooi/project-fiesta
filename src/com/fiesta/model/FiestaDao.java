@@ -28,11 +28,11 @@ public interface FiestaDao {
 	//고객 의뢰
 	void insertCustOrder(Custorder custorder) throws SQLException;
 	//고객 의뢰 확정
-	void insertCustOrderDetail(Orderdetail orderdetail) throws SQLException;
+	void insertCustOrderDetail(Custrequestdetail orderdetail) throws SQLException;
 	//고객 의뢰한 모든 내용 조회
 	ArrayList<Custorder> showAllCustOrder(String custEmail) throws SQLException;
 	//고객 의뢰 확정 내용 조회
-	ArrayList<Orderdetail> showAllOrderDetail(String requestCode) throws SQLException; 
+	ArrayList<Custrequestdetail> showAllOrderDetail(String requestCode) throws SQLException; 
 	
 	//회사 등록
 	void registerCompany(Company company) throws SQLException;

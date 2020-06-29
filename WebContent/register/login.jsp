@@ -34,6 +34,8 @@ $(function() {
 </style>
 </head>
 <body>
+<c:import url="http://localhost:8888/Fiesta/header.jsp" charEncoding="UTF-8"></c:import>
+
 	<h1>Fiesta에 오신 것을 환영합니다.</h1>
 	<form action="login.do" id="loginFrm">
 		<input type="radio" name="pick" id="pick" value="customer" checked="checked"> 고객
@@ -48,5 +50,8 @@ $(function() {
 		<p>비밀번호 찾기</p>
 		<a href="register.jsp">계정이 없으신가요?</a>
 	</form>
+<c:import url="http://localhost:8888/Fiesta/footer.jsp" charEncoding="UTF-8"></c:import>
 </body>
 </html>
+
+

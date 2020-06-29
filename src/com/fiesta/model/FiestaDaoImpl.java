@@ -223,7 +223,7 @@ public class FiestaDaoImpl {
 	}
 
 	//VO 수정으로 인한 변경
-	public void insertOrderdetail(Orderdetail orderdetail) throws SQLException {
+	public void insertOrderdetail(Custrequestdetail orderdetail) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try {
@@ -282,11 +282,11 @@ public class FiestaDaoImpl {
 	
 	
 	//foreign key...?
-	public ArrayList<Orderdetail> showAllOrderdetail(String requestCode) throws SQLException {
+	public ArrayList<Custrequestdetail> showAllOrderdetail(String requestCode) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		ArrayList<Orderdetail> list = new ArrayList<>();
+		ArrayList<Custrequestdetail> list = new ArrayList<>();
 		try {
 			conn = getConnection();
 			String query = "SELECT * FROM orderdetail WHERE order_require=?";

@@ -1,6 +1,6 @@
 package com.fiesta.model.vo;
 
-public class Request {
+public class Custrequest {
 	int requestCode;
 	String requestSysdate;
 	String requestRevdate;
@@ -10,8 +10,20 @@ public class Request {
 	String requestFiesta;
 	String custEmail;
 	
-	public Request() {}
-	public Request(int requestCode, String requestSysdate, String requestRevdate, String requestPlace,
+	public Custrequest() {}
+	
+	public Custrequest(String requestSysdate, String requestRevdate, String requestPlace,
+			String requestBudget, String requestRequire, String requestFiesta, String custEmail) {
+		this.requestSysdate = requestSysdate;
+		this.requestRevdate = requestRevdate;
+		this.requestPlace = requestPlace;
+		this.requestBudget = requestBudget;
+		this.requestRequire = requestRequire;
+		this.requestFiesta = requestFiesta;
+		this.custEmail = custEmail;
+	}
+	
+	public Custrequest(int requestCode, String requestSysdate, String requestRevdate, String requestPlace,
 			String requestBudget, String requestRequire, String requestFiesta, String custEmail) {
 		this.requestCode = requestCode;
 		this.requestSysdate = requestSysdate;

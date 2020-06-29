@@ -1,6 +1,6 @@
 package com.fiesta.model.vo;
 
-public class Orderdetail {
+public class Custrequestdetail {
 	int detailCode;
 	int detailTotalprice;
 	String detailDesc;
@@ -9,8 +9,19 @@ public class Orderdetail {
 	int requestCode;
 	int comCode;
 	
-	public Orderdetail() {}
-	public Orderdetail(int detailCode, int detailTotalprice, String detailDesc, String detailCondition,
+	public Custrequestdetail() {}
+	
+	public Custrequestdetail(int detailTotalprice, String detailDesc, String detailCondition,
+			String detailCompletedate, int requestCode, int comCode) {
+		this.detailTotalprice = detailTotalprice;
+		this.detailDesc = detailDesc;
+		this.detailCondition = detailCondition;
+		this.detailCompletedate = detailCompletedate;
+		this.requestCode = requestCode;
+		this.comCode = comCode;
+	}
+	
+	public Custrequestdetail(int detailCode, int detailTotalprice, String detailDesc, String detailCondition,
 			String detailCompletedate, int requestCode, int comCode) {
 		this.detailCode = detailCode;
 		this.detailTotalprice = detailTotalprice;
@@ -20,6 +31,7 @@ public class Orderdetail {
 		this.requestCode = requestCode;
 		this.comCode = comCode;
 	}
+	
 	
 	public int getDetailCode() {
 		return detailCode;

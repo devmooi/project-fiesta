@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,6 +27,8 @@ $(function() {
 </script>
 </head>
 <body>
+<c:import url="http://localhost:8888/Fiesta/header.jsp" charEncoding="UTF-8"></c:import>
+
 정말로 계정을 삭제하고 싶으세요?<br>
 계정을 삭제하면 모든 개인정보가 삭제됩니다.<br>
 
@@ -47,6 +51,6 @@ $(function() {
 	<input type="button" value="계정삭제" id="deleteBtn">
 	<button type="button" onclick="location.href='customerMypage.jsp'">취소</button> <!-- 오.. onclick하면 걍 가네 오.. -->
 </form>
-	
+<c:import url="http://localhost:8888/Fiesta/footer.jsp" charEncoding="UTF-8"></c:import>	
 </body>
 </html>

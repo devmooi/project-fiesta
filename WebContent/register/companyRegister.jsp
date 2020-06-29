@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -45,6 +47,8 @@
 </script>
 </head>
 <body>
+<c:import url="http://localhost:8888/Fiesta/header.jsp" charEncoding="UTF-8"></c:import>
+
 	<h1>Fiesta에 오신 것을 환영합니다.</h1>
 	<form action="companyRegister.do" id="registerFrm">
 		업체명 <br><input type="text" name="name" id="name" required="required"><br>
@@ -77,5 +81,8 @@
 			<br><br>
 		<input type="submit" value="회원가입" id="registerBtn">
 	</form>
+<c:import url="http://localhost:8888/Fiesta/footer.jsp" charEncoding="UTF-8"></c:import>
 </body>
 </html>
+
+
