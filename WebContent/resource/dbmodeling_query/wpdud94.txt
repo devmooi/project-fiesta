@@ -40,3 +40,9 @@ ON c.com_code = r.com_code
 WHERE c.comCategory_code = 1) cr
 WHERE s.com_code=cr.com_code
 ORDER BY cr.com_code DESC;
+
+/* INSERT INTO service(service_name, service_desc, service_img, service_tag, com_code)
+VALUES('12','1234',null,'#1234',1);
+
+INSERT INTO customer(cust_email, cust_name, cust_pass, cust_tel, cust_group)
+VALUES('encore@gmail.com', 'java','1234','010-5043-5765','가가대'); */

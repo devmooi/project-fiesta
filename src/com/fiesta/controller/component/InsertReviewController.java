@@ -28,6 +28,10 @@ public class InsertReviewController implements Controller {
 		ReviewDaoImpl dao = ReviewDaoImpl.getInstance();
 		HttpSession session = request.getSession();
 		
+		Customer cust = new Customer("encore@gmail.com", "java", "1234");
+		session.setAttribute("customer", cust);
+		
+		
 		DiskFileItemFactory fileItemFactory = new DiskFileItemFactory();
 		fileItemFactory.setRepository(attachesDir);
 		fileItemFactory.setSizeThreshold(1024 * 1024);
@@ -103,11 +107,8 @@ public class InsertReviewController implements Controller {
 		}
 		
 		System.out.println("reviewcode"+reviewCode);
-		Customer cust = new Customer();
-		cust.setCustEmail("encore@gmail.com");
 		Review review = new Review(reviewCode, reviewScore, reviewImg, reviewDesc,
-				cust, new Service(serviceCode), new Company(companycode));
-		//new Customer(session.getAttribute("customer").getEmail()
+				(Customer)session.getAttribute("customer"), new Service(serviceCode), new Company(companycode));
 		dao.insertReview(review);
 		
 		response.sendRedirect("ServiceAllShow.do?companycode="+companycode);

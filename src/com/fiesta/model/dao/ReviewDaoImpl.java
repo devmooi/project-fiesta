@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.sql.DataSource;
 
@@ -96,6 +97,7 @@ public class ReviewDaoImpl {
 	public void insertReview(Review review) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
+		
 		System.out.println(review);
 		
 		try {
@@ -118,8 +120,181 @@ public class ReviewDaoImpl {
 			closeAll(ps, conn);
 		}
 	}
+	
+	public int[] countRowAndCol() throws SQLException{
+		int[] arr = new int[2];
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			conn=getConnection();
+			StringBuffer query = new StringBuffer();
+			query.append("SELECT count(DISTINCT service_code) scount, count(DISTINCT cust_email) ccount ");
+			query.append("FROM review ");
+			ps=conn.prepareStatement(query.toString());
+			//System.out.println(query);
+			rs=ps.executeQuery();
+			if(rs.next()) {
+				arr[0]=rs.getInt("ccount");
+				arr[1]=rs.getInt("scount");
+			}
+			
+		}finally {
+			closeAll(rs, ps, conn);
+		}
+		
+		return arr;
+	}
+	
+	public int whereIsCust(String email) throws SQLException{
+		int location = 0;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			conn=getConnection();
+			StringBuffer query = new StringBuffer();
+			query.append("SELECT review_code code, review_score score, cust_email email ");
+			query.append("FROM review ");
+			query.append("ORDER BY review_code, email ");
+			ps=conn.prepareStatement(query.toString());
+			System.out.println(query);
+			rs=ps.executeQuery();
 
-	public ArrayList<Review> showAllReview(int comCode) throws SQLException {
+			while(rs.next()) {
+				if(email.equals(rs.getString("email"))) {
+					break;
+				}
+				location++;
+			}
+		}finally {
+			closeAll(rs, ps, conn);
+		}
+		
+		return location;
+	}
+	
+	public String[] getRow() throws SQLException{
+		String[] arr = {};
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		int[] arr2 = countRowAndCol();
+		
+		try {
+			conn=getConnection();
+			StringBuffer query = new StringBuffer();
+			query.append("SELECT review_code code, review_score score, cust_email email ");
+			query.append("FROM review ");
+			query.append("ORDER BY review_code, email ");
+			query.append("LIMIT "+String.valueOf(arr2[0]));
+			ps=conn.prepareStatement(query.toString());
+			//System.out.println(query);
+			rs=ps.executeQuery();
+			arr= new String[arr2[0]];
+			int idx = 0;
+			//System.out.println(arr2[0]);
+			while(rs.next()) {
+				arr[idx] = rs.getString("email");
+				//System.out.println(idx);
+				idx++;
+			}
+		}finally {
+			closeAll(rs, ps, conn);
+		}
+		
+		return arr;
+	}
+	
+	public int[][] getReviewMatrix() throws SQLException {
+		int[][] mat = {};
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			conn=getConnection();
+			StringBuffer query = new StringBuffer();
+			query.append("SELECT review_code code, review_score score, cust_email email ");
+			query.append("FROM review ");
+			query.append("ORDER BY review_code, email ");
+			ps=conn.prepareStatement(query.toString());
+			//System.out.println(query);
+			rs=ps.executeQuery();
+			
+			int[] arr = countRowAndCol();
+			mat = new int[arr[0]][arr[1]];//열 = 고객, 행 = 서비스
+			int i=0;
+			int j=0;
+			while(rs.next()) {
+				mat[j][i]=rs.getInt("score");
+				i++;
+				if(i==10) {
+					j++;
+					i=0;
+				}
+			}
+		}finally {
+			closeAll(rs, ps, conn);
+		}
+		
+		return mat;
+	}
+	
+	public float[] getCorr(int[][] matrix, String[] row, int location) {
+		float[] corr = new float[matrix.length];
+		
+		System.out.println("row : "+ Arrays.toString(row));
+		System.out.println("location : "+ location);
+		
+		float sumU = 0; // A 포함 리뷰 점수의 편차제곱 합 집합
+		float[] avgU = new float[matrix.length];// A 포함 리뷰 점수의 평균 집합
+		float[] stdU = new float[matrix.length];// A 포함 리뷰 점수의 표준편차
+		float[] covAU = new float[matrix.length];// A와 리뷰 점수의 공변량
+		
+		//sumA, avgA
+		for(int i=0;i<matrix[0].length;i++) {
+			sumU=0;
+			for(int j=0;j<matrix.length;j++) {
+				//System.out.println("수 : "+matrix[j][i]);
+				sumU+= matrix[j][i];
+				if(j==matrix.length-1) {
+					avgU[i] = (float) (Math.round(sumU/(j+1)*10000)/10000.0);
+					//System.out.println("sumU : "+sumU);
+					//System.out.println("avgU : "+avgU[i]);
+					
+				}	
+			}
+		}
+		System.out.println(Arrays.toString(avgU));
+		//stdU
+		for(int i=0;i<matrix[0].length;i++) {
+			int sumDU = 0;
+			for(int j=0;j<matrix.length;j++) {
+				sumDU += (float) Math.pow((float)(matrix[j][i]-avgU[i]), 2);
+				if(j==matrix.length-1) {
+					stdU[i] = (float) Math.sqrt((float)sumDU);
+					//System.out.println("sumDU : "+sumDU);
+					//System.out.println("stdU : "+stdU[i]);
+				}
+			}
+		}
+		System.out.println(Arrays.toString(stdU));
+		//covAU
+		for(int i=0;i<matrix[0].length;i++) {
+			int sumCov = 0;
+			for(int j=0;j<matrix.length;j++) {
+				sumCov += (float) (matrix[j][location]-avgU[location])*(matrix[j][i]-avgU[i]);
+			}
+		}
+		
+		
+		return corr;
+	}
+	
+	public ArrayList<Review> showAllReviewByCompany(int comCode) throws SQLException {
 		ArrayList<Review> list = new ArrayList<Review>();
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -277,9 +452,65 @@ public class ReviewDaoImpl {
 	//단위테스트
 	public static void main(String[] args) throws SQLException {
 		ReviewDaoImpl dao = ReviewDaoImpl.getInstance();
+		RegisterDaoImpl rdao =  RegisterDaoImpl.getInstance();
+		CompanyDaoImpl cdao = CompanyDaoImpl.getInstance();
 		//System.out.println(dao.showService(1));
 		//System.out.println(dao.isReview(1, 1));
 		//System.out.println(dao.showAllReview(1).size());
-		System.out.println(dao.showReview("1-1-1"));
+		//System.out.println(dao.showReview("1-1-1"));
+		
+		//알고리즘 테스트 케이스 추가
+		/*int num=1;
+		int comCode =1;
+		
+		String reviewCode = "";
+		String reviewDesc = "123";
+		int reviewScore=0;
+		int serviceCode= 1;
+		String email ="1";
+		Service service = new Service(serviceCode, "123", "1234", null, null, comCode);
+		Company company = new Company();
+		Customer cust = new Customer(email, "123", "1234", "1111", "d");
+		Review review = new Review();
+		int cnt=1;
+		for(int i=0;i<10;i++) {
+			cust.setCustEmail(email);
+			rdao.registerCustomer(cust);
+			cdao.insertService(service);
+			serviceCode++;
+			comCode++;
+			email=String.valueOf(Integer.parseInt(email)+1);
+			System.out.println("email : "+email);
+			System.out.println(cnt+"회 :: 서비스, 고객");
+			cnt++;
+		}
+		comCode=1;
+		serviceCode= 1;
+		for(int i=0;i<10;i++) {
+			email ="1";
+			for(int j=0;j<10;j++) {
+				reviewCode = comCode+"-"+serviceCode+"-"+num;
+				reviewScore = (int) Math.floor((Math.random()*5 + 1));
+				cust.setCustEmail(email);
+				service.setServiceCode(serviceCode);
+				company.setComCode(comCode);
+				review = new Review(reviewCode, reviewScore, null, reviewDesc, cust, service, company);
+				dao.insertReview(review);
+				email=String.valueOf(Integer.parseInt(email)+1);
+				num++;
+			}
+			comCode++;
+			System.out.println(cnt+"회 ::");
+			cnt++;
+		}*/
+		
+		//matrix 생성
+		int[][] mat = dao.getReviewMatrix();
+		for(int[] arr : mat) {
+			System.out.println(java.util.Arrays.toString(arr));
+		}
+		//평균
+		System.out.println(dao.getCorr(dao.getReviewMatrix(), dao.getRow(), dao.whereIsCust("2")));
+		
 	}
 }

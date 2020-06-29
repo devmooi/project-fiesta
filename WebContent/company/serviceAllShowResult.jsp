@@ -15,7 +15,6 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
-		
 		$(function() {
 			$('#frm').submit(function() {
 				var sum =0;
@@ -27,9 +26,6 @@
 					return false;
 				}
 			});//submit
-		});//ready
-		
-		
 		$(document).ready(function(){
 			$('.tabs').tabs();
 			
@@ -38,9 +34,8 @@
 			$("#popCloseBtn").click(function(event){
 	            $("#popupDiv").css("display","none"); //팝업창 display none
 	        });
-		});
+		}
 		
- 
 		//찜하기
 		function registerWish(){
 			var comCode = ${companycode};
@@ -196,7 +191,6 @@
         		<button id="popCloseBtn">close</button>
     	</div>
         
-
 		<br>
 		<h3 align="center">서비스</h3><p>
 		<table border="2" width="350" bgcolor="yellow" align="center">
@@ -226,7 +220,6 @@
 				</form>
 		</div>
 		<p></p>
-
 
 <!-- 여기서부터 탭 !!!! -->
 <!-- 탭제목들 -->
@@ -377,6 +370,7 @@
 		  </div>
 		
 	</section>
+
 
 	<!-- footer import -->
     <c:import url="http://localhost:8888/Fiesta/footer.jsp" charEncoding="UTF-8"></c:import>
