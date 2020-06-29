@@ -32,33 +32,6 @@
 			
 			$('.collapsible').collapsible();
 			
-			/* $('.collapsible').collapsible(function() {
-				var qCode = $('#qCode').val();
-				if (email.length == 0) {
-					$('#emailCheckView').html("이메일을 입력해주세요.");
-					return;
-				} 
-				$.ajax({
-					type:'post',
-					url:'answerView.do',
-					data:$('#registerFrm').serialize(),
-					
-					success:function(result) {
-						if(result=='true')
-							$('#emailCheckView').html("이미 사용중인  이메일입니다.");
-						else
-							$('#emailCheckView').html("사용 가능한 이메일입니다.");
-					}
-				}); // email ajax
-			}); // email keyup */
-			
-			//$('.answer').;
-			
-		});//ready
-		
-		$(function() {
-			$('.collapsible').collapsible();
-			
 			$('#wishBtn').click(function() {
 				var comCode = ${companycode};
 				
@@ -74,7 +47,7 @@
 					}
 				}); // ajax
 			}); // click
-
+			
 		});//ready
 		
 		function aOpenClose() {
