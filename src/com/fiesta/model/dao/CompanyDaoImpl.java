@@ -609,12 +609,32 @@ public class CompanyDaoImpl {
 		return list;
 	}
 	
+	public void plusCount(int comCode) throws SQLException{
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		try {
+			conn=getConnection();
+			StringBuffer query = new StringBuffer();
+			query.append("UPDATE company SET com_count=com_count+1 ");
+			query.append("WHERE com_code = ? ");
+			ps=conn.prepareStatement(query.toString());
+			ps.setInt(1, comCode);
+			System.out.println("조회수, "+ps.executeUpdate()+"건 증가");
+			
+		}finally {
+			closeAll(ps, conn);
+		}
+		
+	}
+	
 	//단위테스트
 	public static void main(String[] args) throws SQLException {
 		CompanyDaoImpl dao = CompanyDaoImpl.getInstance();
-		ArrayList<Service> list = dao.showAllService(1);
+		/*ArrayList<Service> list = dao.showAllService(1);
 		for(Service service : list) {
 			System.out.println(service.getComCode());
-		}
+		}*/
+		dao.plusCount(1);
 	}
 }

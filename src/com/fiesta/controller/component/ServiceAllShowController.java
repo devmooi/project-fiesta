@@ -82,6 +82,9 @@ public class ServiceAllShowController implements Controller {
 		request.setAttribute("review", review);
 		request.setAttribute("list3", list3);
 		
+		//클릭 시 조회수 증가
+		CompanyDaoImpl.getInstance().plusCount(companycode);
+		
 		return new ModelAndView(path);
 	}
 
