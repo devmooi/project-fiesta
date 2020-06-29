@@ -15,7 +15,9 @@
     	//제영
 	    $(function() {
 	    	$('button[name=reviewInsert]').click(function() {
-				window.location.href="ShowService.do?companycode="+$(this).next().val();
+	    		var companycode=$(this).next().val();
+	    		//alert(companycode);
+				location.href="ShowService.do?companycode="+companycode;
 			});//button[name=reviewInsert] click
 			
 			$('button[name=answerReivew]').click(function() {
@@ -26,10 +28,6 @@
 		
 		//하경
 		$(function() {
-			$('button[name=reviewInsert]').click(function() {
-				window.location.href="./review/insertReview.jsp";
-			});//button[name=reviewInsert] click
-			
 			$('.collapsible').collapsible();
 			
 			/* $('.collapsible').collapsible(function() {
@@ -144,35 +142,14 @@
 		</c:forEach>
 		<a href="ServiceDelete.do?serviceCode=4">삭제</a>
 
-		<!-- 리뷰에 대한 답은 해당 고객만 : 나중에 '리뷰하기'는 마이페이지로 이동 -->
-		<h3>리뷰</h3>
-		<div id="review">
-			<div id="reviewInsert">
-			<button name="reviewInsert">리뷰하기</button>
-			<input type="hidden" name="companycode" value="${companycode}">
-			</div>
-			<div id="reviewScore">
-			평점 : 
-			<span>리뷰개수</span>
-			</div>
-			<hr>
-			<c:forEach items="${list2}" var="review">
-			<div id="reviewContent">
-			<span>이름 : ${review.customer.custName}, </span><span>만족도 : ${review.reviewScore}, </span><span>일시 : ${review.reviewDate}</span><br>
-			<span><img src= "${review.reviewImg}" width=100 height=100></span><br>
-			<span>내용 : ${review.reviewDesc}</span><br>
-			</div>
-			<br>
-			</c:forEach>
-		</div>
+
 
 		<!-- 문의/답변하기 : 고객 문의 + 업체 답변 -->
 		<h3>문의답변</h3>
 		<!-- 주석이 많아서 합쳐지면서 합할 생각중 -->
 	</section>
 
-	<!-- footer import -->
-    <c:import url="http://localhost:8888/Fiesta/footer.jsp" charEncoding="UTF-8"></c:import>
+
 
 
 <!-- 찜하기랑 목록 -->
@@ -302,6 +279,7 @@
 </form>
 </div> --%>
 <br><br>
-
+	<!-- footer import -->
+    <c:import url="http://localhost:8888/Fiesta/footer.jsp" charEncoding="UTF-8"></c:import>
 </body>
 </html>

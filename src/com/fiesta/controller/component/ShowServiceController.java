@@ -17,7 +17,6 @@ public class ShowServiceController implements Controller {
 		int companycode = Integer.parseInt(request.getParameter("companycode"));
 		ArrayList<Service> list = new ArrayList<>();
 		
-		
 		list = ReviewDaoImpl.getInstance().showService(companycode);
 		
 		request.setAttribute("list", list);
