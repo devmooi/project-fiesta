@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,13 +12,20 @@
 	<!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script>
+    	//제영
 	    $(function() {
-			$('button[name=reviewInsert]').click(function() {
-				window.location.href="ShowService.do?companycode="+$('input[type=hidden]').val();
+	    	$('button[name=reviewInsert]').click(function() {
+				window.location.href="ShowService.do?companycode="+$(this).next().val();
 			});//button[name=reviewInsert] click
+			
+			$('button[name=answerReivew]').click(function() {
+				window.location.href="ShowReivew.do?reviewCode="+$(this).next().val();
+			});//button[name=answerReview] click
+			
 		});//ready
-
-	    $(function() {
+		
+		//하경
+		$(function() {
 			$('button[name=reviewInsert]').click(function() {
 				window.location.href="./review/insertReview.jsp";
 			});//button[name=reviewInsert] click
@@ -47,46 +55,42 @@
 			//$('.answer').;
 			
 		});//ready
-
-    $(function() {
-		$('button[name=reviewInsert]').click(function() {
-			window.location.href="./review/insertReview.jsp";
-		});//button[name=reviewInsert] click
 		
-		$('.collapsible').collapsible();
-		
-		$('#wishBtn').click(function() {
-			var comCode = ${companycode};
+		$(function() {
+			$('.collapsible').collapsible();
 			
-			
-			$.ajax({
-				type:'post',
-				url:'wishRegister.do',
-				data:"comCode="+comCode,
+			$('#wishBtn').click(function() {
+				var comCode = ${companycode};
 				
-				success:function(result) {
-						//alert(comCode); 확인용
-						alert("찜하기 성공");
-				}
-			}); // ajax
-		}); // click
+				
+				$.ajax({
+					type:'post',
+					url:'wishRegister.do',
+					data:"comCode="+comCode,
+					
+					success:function(result) {
+							//alert(comCode); 확인용
+							alert("찜하기 성공");
+					}
+				}); // ajax
+			}); // click
 
-	});//ready
-	
-	function aOpenClose() {
-	      if ( $('#answerForm').css('display') == 'none' ) {
-	        $('#answerForm').show();
-	        /*  $('#answerForm').text('박스 닫기')*/
-	      } else {
-	        $('#answerForm').hide();
-	        /*$('#answerForm').text('박스 열기')*/
-	      }
-	}
-
+		});//ready
+		
+		function aOpenClose() {
+		      if ( $('#answerForm').css('display') == 'none' ) {
+		        $('#answerForm').show();
+		        /*  $('#answerForm').text('박스 닫기')*/
+		      } else {
+		        $('#answerForm').hide();
+		        /*$('#answerForm').text('박스 열기')*/
+		      }
+		}
+		
 		$(document).ready(function(){
 			$('.tabs').tabs();
 		});
-	</script>
+    </script>
 	<style>
 		section {
 			width: 1080px;
@@ -201,16 +205,23 @@
 	<input type="hidden" name="companycode" value="${companycode}">
 	</div>
 	<div id="reviewScore">
-	평점 : 
-	<span>리뷰개수</span>
+	<span>평점 : </span>
+	<c:forEach items="${list3}" var="url">
+	 <img src ="${url}" width="10px" height="10px">
+	</c:forEach> 
+	<span>리뷰수 : ${review.countDesc}</span>
 	</div>
 	<hr>
 	<c:forEach items="${list2}" var="review">
+	<c:set var="reviewCode1" value="${reviewCode.reviewCode}"></c:set>
 	<div id="reviewContent">
 	<span>이름 : ${review.customer.custName}, </span><span>만족도 : ${review.reviewScore}, </span><span>일시 : ${review.reviewDate}</span><br>
 	<span><img src= "${review.reviewImg}" width=100 height=100></span><br>
 	<span>내용 : ${review.reviewDesc}</span><br>
+	<button name="answerReivew">답변하기</button>
+	<input type="hidden" name="reviewCode" value="${review.reviewCode}">
 	</div>
+	<hr>
 	<br>
 	</c:forEach>
 </div>

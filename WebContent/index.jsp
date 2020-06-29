@@ -20,7 +20,7 @@
     <title>Fiesta</title>
     <link href="resource/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- <meta http-equiv="refresh" content="10"> -->
+    <meta http-equiv="refresh" content="10">
     
     <style>
         #requestFiesta {

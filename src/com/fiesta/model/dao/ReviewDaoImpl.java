@@ -48,8 +48,8 @@ public class ReviewDaoImpl {
 		closeAll(ps, conn);
 	}
 	
-	public String isReview(int comCode, int serviceCode) throws SQLException{
-		String reviewCode = "false";
+	public boolean isReview(int comCode, int serviceCode) throws SQLException{
+		boolean reviewflag = false;
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -65,13 +65,32 @@ public class ReviewDaoImpl {
 			ps.setInt(1, comCode);
 			ps.setInt(2, serviceCode);
 			rs=ps.executeQuery();
-			while(rs.next()) {
-				reviewCode=rs.getString("review_code");
-			}
+			reviewflag=rs.next();
 		}finally {
 			closeAll(rs, ps, conn);
 		}
-		return reviewCode;
+		return reviewflag;
+	}
+	public boolean isAnswer(String reviewCode) throws SQLException{
+		boolean reviewflag = false;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = getConnection();
+			StringBuffer query = new StringBuffer();
+			query.append("SELECT review_code ");
+			query.append("FROM review ");
+			query.append("WHERE review_code Like ? ");
+			ps=conn.prepareStatement(query.toString());
+			ps.setString(1, reviewCode);
+			rs=ps.executeQuery();
+			reviewflag=rs.next();
+		}finally {
+			closeAll(rs, ps, conn);
+		}
+		return reviewflag;
 	}
 	//작업 영역
 	public void insertReview(Review review) throws SQLException {
@@ -116,29 +135,114 @@ public class ReviewDaoImpl {
 			query.append("AND r.com_code = ? ");
 			ps=conn.prepareStatement(query.toString());
 			ps.setInt(1,comCode);
-			System.out.println(query);
+			//System.out.println(query);
 			rs=ps.executeQuery();
 			
 			while(rs.next()) {
 				Customer cust = new Customer();
 				cust.setCustEmail(rs.getString("r.cust_email"));
 				cust.setCustName(rs.getString("cust.cust_name"));
-				list.add(new Review(rs.getString("r.review_code"),
-						rs.getInt("r.review_score"),
-						rs.getString("r.review_img"),
-						rs.getString("r.review_desc"),
-						rs.getString("r.review_date"),
-						cust,
-						new Service(rs.getInt("r.service_code")),
-						new Company(rs.getInt("r.com_code")),
-						0,
-						0));
+				String reviewCode = rs.getString("r.review_code");
+				if(reviewCode.length()==5) {
+					list.add(new Review(rs.getString("r.review_code"),
+							rs.getInt("r.review_score"),
+							rs.getString("r.review_img"),
+							rs.getString("r.review_desc"),
+							rs.getString("r.review_date"),
+							cust,
+							new Service(rs.getInt("r.service_code")),
+							new Company(rs.getInt("r.com_code")),
+							0,
+							0));
+				}
 			}
 		}finally {
 			closeAll(rs, ps, conn);
 		}
 		
 		return list;
+	}
+	
+	public Review showReview(String reviewCode) throws SQLException{
+		Review review = new Review();
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			conn=getConnection();
+			StringBuffer query = new StringBuffer();
+			query.append("SELECT r.review_code, r.review_desc, avg(review_score) avg, count(review_code) count, ");
+			query.append("cust.cust_email email, cust.cust_name name, r.com_code comcode, r.service_code servicecode ");
+			query.append("FROM review r, customer cust ");
+			query.append("WHERE r.review_code LIKE ? ");
+			query.append("AND r.cust_email = cust.cust_email ");
+			query.append("GROUP BY review_code ");
+			ps=conn.prepareStatement(query.toString());
+			ps.setString(1, reviewCode);
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				review.setReviewCode(rs.getString("r.review_code"));
+				review.setReviewDesc(rs.getString("r.review_desc"));
+				review.setAvgReviewScore(rs.getFloat("avg"));
+				review.setCountDesc(rs.getInt("count"));
+				Customer cust = new Customer();
+				cust.setCustEmail(rs.getString("email"));
+				cust.setCustName(rs.getString("name"));
+				review.setCustomer(cust);
+				Company company = new Company();
+				company.setComCode(rs.getInt("comcode"));
+				review.setCompany(company);
+				Service service  = new Service();
+				service.setServiceCode(rs.getInt("servicecode"));
+				review.setService(service);
+			}
+		}finally {
+			closeAll(rs, ps, conn);
+		}
+		
+		return review;
+	}
+	
+	public Review showReview(int comCode) throws SQLException{
+		Review review = new Review();
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			conn=getConnection();
+			StringBuffer query = new StringBuffer();
+			query.append("SELECT r.review_code, r.review_desc, avg(review_score) avg, count(review_code) count, ");
+			query.append("cust.cust_email email, cust.cust_name name, r.com_code comcode, r.service_code servicecode ");
+			query.append("FROM review r, customer cust ");
+			query.append("WHERE r.com_code = ? ");
+			query.append("AND r.cust_email = cust.cust_email ");
+			query.append("GROUP BY review_code ");
+			ps=conn.prepareStatement(query.toString());
+			ps.setInt(1, comCode);
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				review.setReviewCode(rs.getString("r.review_code"));
+				review.setReviewDesc(rs.getString("r.review_desc"));
+				review.setAvgReviewScore(rs.getFloat("avg"));
+				review.setCountDesc(rs.getInt("count"));
+				Customer cust = new Customer();
+				cust.setCustEmail(rs.getString("email"));
+				cust.setCustName(rs.getString("name"));
+				review.setCustomer(cust);
+				Company company = new Company();
+				company.setComCode(rs.getInt("comcode"));
+				review.setCompany(company);
+				Service service  = new Service();
+				service.setServiceCode(rs.getInt("servicecode"));
+				review.setService(service);
+			}
+		}finally {
+			closeAll(rs, ps, conn);
+		}
+		
+		return review;
 	}
 	
 	public ArrayList<Service> showService(int companycode) throws SQLException{
@@ -175,6 +279,7 @@ public class ReviewDaoImpl {
 		ReviewDaoImpl dao = ReviewDaoImpl.getInstance();
 		//System.out.println(dao.showService(1));
 		//System.out.println(dao.isReview(1, 1));
-		System.out.println(dao.showAllReview(1).size());
+		//System.out.println(dao.showAllReview(1).size());
+		System.out.println(dao.showReview("1-1-1"));
 	}
 }

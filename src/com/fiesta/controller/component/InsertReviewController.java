@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.catalina.tribes.util.Arrays;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -32,6 +33,7 @@ public class InsertReviewController implements Controller {
 		fileItemFactory.setSizeThreshold(1024 * 1024);
 		ServletFileUpload fileUpload = new ServletFileUpload(fileItemFactory);
 		
+		String type = "";
 		int comCode=0;
 		String[] arr = {};
 		int serviceCode= 0;
@@ -54,6 +56,13 @@ public class InsertReviewController implements Controller {
 						serviceCode = Integer.parseInt(arr[0]);
 					}else if(item.getFieldName().equals("reviewDesc")){
 						reviewDesc =  item.getString("utf-8");
+					}else if(item.getFieldName().equals("codes")) {
+						arr =  item.getString("utf-8").split(",");
+						reviewCode = arr[0];
+						comCode = Integer.parseInt(arr[1]);
+						serviceCode = Integer.parseInt(arr[2]);
+					}else if(item.getFieldName().equals("type")) {
+						type = item.getString("utf-8");
 					}
 				}else {
 					System.out.println("파라미터 명 : " + item.getFieldName());
@@ -62,7 +71,7 @@ public class InsertReviewController implements Controller {
 					if(item.getSize() > 0) {
 						String separator = File.separator;
 						int index = item.getName().lastIndexOf(separator);
-						String fileName = item.getName().substring(index + 1);
+						String fileName = item.getName().substring(index + 1)+comCode+serviceCode;
 						File uploadFile = new File(attachesDir + separator + fileName);
 						item.write(uploadFile);
 						reviewImg+=item.getName();
@@ -72,13 +81,28 @@ public class InsertReviewController implements Controller {
 		}catch(Exception e) {
 			System.out.println("FileUploadTestController :: " + e);
 		}
-		reviewCode=comCode+"-"+serviceCode+"-"+"1";
-		if(!dao.isReview(comCode, serviceCode).equals("false")) {
-			String[] arr2 = dao.isReview(comCode, serviceCode).split("-");
-			arr2[2]=String.valueOf(Integer.parseInt(arr2[2])+1);
-			reviewCode=arr2[0]+"-"+arr2[1]+"-"+arr2[2];
+		System.out.println("reviewCode : "+reviewCode);
+		if(type.equals("1")) {
+			System.out.println(dao.isReview(comCode, serviceCode)==true);
+			if(dao.isReview(comCode, serviceCode)==true) {
+				String[] arr2 = dao.showReview(comCode).getReviewCode().split("-");
+				arr2[2]=String.valueOf(Integer.parseInt(arr2[2])+1);
+				reviewCode=arr2[0]+"-"+arr2[1]+"-"+arr2[2];
+			}else {
+				reviewCode=comCode+"-"+serviceCode+"-"+"1";
+			}
+		}else {
+			if(dao.isAnswer(reviewCode+"-%")==true) {
+				String[] arr2 = dao.showReview(reviewCode+"-%").getReviewCode().split("-");
+				System.out.println(Arrays.toString(arr2));
+				arr2[3]=String.valueOf(Integer.parseInt(arr2[3])+1);
+				reviewCode=arr2[0]+"-"+arr2[1]+"-"+arr2[2]+"-"+arr2[3];
+			}else {
+				reviewCode+="-1";
+			}
 		}
-		System.out.println(reviewCode);
+		
+		System.out.println("reviewcode"+reviewCode);
 		Customer cust = new Customer();
 		cust.setCustEmail("encore@gmail.com");
 		Review review = new Review(reviewCode, reviewScore, reviewImg, reviewDesc,

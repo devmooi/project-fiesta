@@ -8,21 +8,20 @@ import javax.servlet.http.HttpServletResponse;
 import com.fiesta.controller.Controller;
 import com.fiesta.controller.ModelAndView;
 import com.fiesta.model.dao.ReviewDaoImpl;
+import com.fiesta.model.vo.Review;
 import com.fiesta.model.vo.Service;
 
-public class ShowServiceController implements Controller {
+public class ShowReviewController implements Controller {
 
 	@Override
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		int companycode = Integer.parseInt(request.getParameter("companycode"));
-		ArrayList<Service> list = new ArrayList<>();
+		String reviewCode = request.getParameter("reviewCode");
+		Review review = new Review();
 		
+		review=ReviewDaoImpl.getInstance().showReview(reviewCode);
+		request.setAttribute("review", review);
 		
-		list = ReviewDaoImpl.getInstance().showService(companycode);
-		
-		request.setAttribute("list", list);
-		
-		return new ModelAndView("review/insertReview.jsp");
+		return new ModelAndView("review/answerReview.jsp");
 	}
 
 }
