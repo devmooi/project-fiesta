@@ -28,6 +28,7 @@
             background-size: cover;
             position: relative;
             min-height:90vh;
+            
         }
         #requestFiesta .blackBox {
             background: black;
