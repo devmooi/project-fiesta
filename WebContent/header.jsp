@@ -93,9 +93,9 @@
 
         <!-- 비회원, 고객 로그인, 업체 로그인 상황에 따라 달라짐 -->
         <ul>
-            <li><a href="register/register.jsp">회원가입</a></li>
-            <li><a href="ShowAllCompany.do">업체 찾기</a></li>
-            <li><a href="register/login.jsp">로그인</a></li>
+            <li><a href="http://localhost:8888/Fiesta/register/register.jsp">회원가입</a></li>
+            <li><a href="http://localhost:8888/Fiesta/ShowAllCompany.do">업체 찾기</a></li>
+            <li><a href="http://localhost:8888/Fiesta/register/login.jsp">로그인</a></li>
             <!-- 로그인 했을 때 : 회원가입과 로그인이 사라지고 -->
             <!-- 고객이 로그인 했을 때 -->
             <!-- <li><a href="#">마이페이지</a></li> -->
