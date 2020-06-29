@@ -13,16 +13,19 @@ public class ServiceDeleteController implements Controller {
 
 	@Override
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		int comCode = 1; //나중에 세션에서 회사코드값 받아올것
+		int companycode = 1; //나중에 세션에서 회사코드값 받아올것
 		int serviceCode = Integer.parseInt(request.getParameter("serviceCode"));
 		
 		String path = "";
 
 		CompanyDaoImpl.getInstance().deleteService(serviceCode);
 		
-		path = "ServiceAllShow.do?companycode="+comCode;  
+		path = "ServiceAllShow.do?companycode="+companycode;  
 		
-		return new ModelAndView(path);
+		response.sendRedirect("ServiceAllShow.do?companycode="+companycode);
+		
+		//return new ModelAndView(path);
+		return null;
 	}
 
 }

@@ -9,10 +9,10 @@ import com.fiesta.controller.Controller;
 import com.fiesta.controller.ModelAndView;
 import com.fiesta.model.dao.CompanyDaoImpl;
 import com.fiesta.model.dao.QuestionDaoImpl;
-import com.fiesta.model.vo.Answer;
-import com.fiesta.model.vo.Question;
-
 import com.fiesta.model.dao.ReviewDaoImpl;
+import com.fiesta.model.vo.Answer;
+import com.fiesta.model.vo.Company;
+import com.fiesta.model.vo.Question;
 import com.fiesta.model.vo.Review;
 import com.fiesta.model.vo.Service;
 
@@ -25,6 +25,9 @@ public class ServiceAllShowController implements Controller {
 		String path = "";
 		Answer answer = null;
 		Question qDetail = null;
+		
+		//회사 정보 불러오기
+		Company company = CompanyDaoImpl.getInstance().detailViewCompany(companycode);
 		
 		//서비스 리스트
 		ArrayList<Service> serviceList = CompanyDaoImpl.getInstance().showAllService(companycode);
@@ -52,6 +55,10 @@ public class ServiceAllShowController implements Controller {
 		}
 		
 		System.out.println(answerList);
+		
+		//회사정보 바인딩
+		request.setAttribute("company", company);
+		
 		//서비스바인딩
 		request.setAttribute("serviceList", serviceList);
 		
@@ -60,7 +67,7 @@ public class ServiceAllShowController implements Controller {
 		request.setAttribute("questionDetail", questionDetail);
 		request.setAttribute("answerList", answerList);
 		
-		path = "./company/serviceAllShowResult.jsp";
+		path = "serviceAllShowResult.jsp";
 
 		//리뷰 출력
 		ArrayList<Review> list2 = ReviewDaoImpl.getInstance().showAllReview(companycode);

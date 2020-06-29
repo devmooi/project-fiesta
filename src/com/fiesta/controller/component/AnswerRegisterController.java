@@ -26,10 +26,12 @@ public class AnswerRegisterController implements Controller {
 		
 		//request.setAttribute("aDesc", aDesc);
 		
-		path = "ServiceAllShow.do";
-			
+		//path = "ServiceAllShow.do";
+		
+		response.sendRedirect("ServiceAllShow.do?companycode="+companycode);
 
-		return new ModelAndView(path);
+		//return new ModelAndView(path);
+		return null;
 	}
 
 }
