@@ -279,6 +279,6 @@ public class CustomerDaoImpl {
 		//dao.insertCustOrderDetail(new Custorderdetail(1000, "상세", "19191010", 3, 1, 1, "encore@gmail.com"));
 		//dao.insertCustRequestDetail(new Custrequestdetail(1000, "상세", "진행", "19191010", 1, 1));
 		//dao.showAllCustOrder(3);
-		dao.showAllCustRequest(1);
+		//dao.showAllCustRequest(1);
 	}
 }
