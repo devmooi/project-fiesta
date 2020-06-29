@@ -8,6 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<c:import url="http://localhost:8888/Fiesta/header.jsp" charEncoding="UTF-8"></c:import>
 <h3 align="center">나의 위시 리스트</h3><p>
 <table border="2" width="350" bgcolor="yellow" align="center">
 	<c:forEach items="${wishlist}" var="wish">
@@ -19,6 +20,7 @@
 		</tr>
 	</c:forEach>
 </table>
-
+<c:import url="http://localhost:8888/Fiesta/footer.jsp" charEncoding="UTF-8"></c:import>
 </body>
 </html>
+

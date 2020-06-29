@@ -21,7 +21,8 @@ public class CustomerRegisterController implements Controller {
 		String tel = request.getParameter("tel");
 		String group = request.getParameter("group");
 
-		String path = "../index.jsp";
+		//String path = "../index.jsp";
+		String path = "customerMypage.jsp";
 		
 		Customer customer = new Customer(email, name, pass, tel, group);
 		try {
