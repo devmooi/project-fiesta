@@ -125,7 +125,7 @@
 </head>
 <body>
 	<!-- header import -->
-    <c:import url="http://localhost:8888/Fiesta/header.jsp" charEncoding="UTF-8"></c:import>
+    <%-- <c:import url="http://localhost:8888/Fiesta/header.jsp" charEncoding="UTF-8"></c:import> --%>
     
 	<!-- 항상 section에서 시작 -->
 	<section>
@@ -172,7 +172,7 @@
 	</section>
 
 	<!-- footer import -->
-    <c:import url="http://localhost:8888/Fiesta/footer.jsp" charEncoding="UTF-8"></c:import>
+    <%-- <c:import url="http://localhost:8888/Fiesta/footer.jsp" charEncoding="UTF-8"></c:import> --%>
 
 
 <!-- 찜하기랑 목록 -->
