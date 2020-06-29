@@ -49,8 +49,8 @@
 </table> --%>
 
 
-<%-- 
-<!-- 고객입장 -->
+ 
+<%-- <!-- 고객입장 -->
 <h3 align="center">나의 문의내역들</h3><p>
 <c:forEach items="${list}" var="question">
 	<a href="questionView.do?qCode=${question.qCode}" class="question">
@@ -59,12 +59,27 @@
 	    <span>${question.qTitle}</span>
 	    <span>${question.qDesc}</span>
 	    <span>${question.qCondition}</span>
+	    <a href="questionDelete.do?qCode=${question.qCode}">삭제</a>
 	</a>
-</c:forEach> --%>
+</c:forEach>  --%>
+
+
+<!-- 고객입장 -->
+<h3 align="center">나의 문의내역들</h3><p>
+<c:forEach items="${list}" var="question">
+		<div>
+	    <span>${question.qCode}</span>
+	    <span>${question.qDate}</span>
+	    <span>${question.qTitle}</span>
+	    <span>${question.qDesc}</span>
+	    <span>${question.qCondition}</span>
+	    <a href="questionDelete.do?qCode=${question.qCode}">삭제</a>
+	    </div>
+</c:forEach> 
 
 
 <!-- 회사입장 -->
-<h3 align="center">우리회사에 들어온 문의내역들</h3><p>
+<%-- <h3 align="center">우리회사에 들어온 문의내역들</h3><p>
 <c:forEach items="${list}" var="question">
 	<a href="questionView.do?qCode=${question.qCode}" class="question">
 	    <span>${question.qCode}</span> 
@@ -74,6 +89,6 @@
 	    <span>${question.qCondition}</span> 
 	</a>
 	<a href="answerRegister.jsp?qCode=${question.qCode}">답변하기</a>
-</c:forEach>
+</c:forEach> --%>
 </body>
 </html>

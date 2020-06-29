@@ -24,8 +24,9 @@ public class AnswerRegisterController implements Controller {
 
 		QuestionDaoImpl.getInstance().insertAnswer(qCode, aDesc, companycode);
 		
-		//request.setAttribute("aDesc", aDesc);
+		//이메일보내기
 		
+		//request.setAttribute("aDesc", aDesc);
 		//path = "ServiceAllShow.do";
 		
 		response.sendRedirect("ServiceAllShow.do?companycode="+companycode);

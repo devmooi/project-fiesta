@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
@@ -8,13 +8,12 @@
 	<meta charset="UTF-8">
 	<title>Fiesta - 업체 상세페이지</title>
     <link href="../Fiesta/resource/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
-    
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    
 	<!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
+		
 		$(function() {
 			$('#frm').submit(function() {
 				var sum =0;
@@ -26,6 +25,9 @@
 					return false;
 				}
 			});//submit
+		});//ready
+		
+		
 		$(document).ready(function(){
 			$('.tabs').tabs();
 			
@@ -34,7 +36,7 @@
 			$("#popCloseBtn").click(function(event){
 	            $("#popupDiv").css("display","none"); //팝업창 display none
 	        });
-		}
+		});
 		
 		//찜하기
 		function registerWish(){
@@ -56,7 +58,7 @@
 	             "top": (($(window).height()-$("#popupDiv").outerHeight())/2+$(window).scrollTop())+"px",
 	             "left": (($(window).width()-$("#popupDiv").outerWidth())/2+$(window).scrollLeft())+"px"
 	             //팝업창을 가운데로 띄우기 위해 현재 화면의 가운데 값과 스크롤 값을 계산하여 팝업창 CSS 설정
-	          
+	         
 	          });
 		}
 		
@@ -94,7 +96,7 @@
 						alert("서비스등록");
 				}
 			}); // ajax
-		} 
+		}
 		
 		//문의 등록
  		function qRegister() {
@@ -108,7 +110,7 @@
 						alert("문의등록");
 				}
 			}); // ajax
-		} 
+		}
 		
     </script>
 	<style>
@@ -128,7 +130,6 @@
 			display: block;
 		}
 	</style>
-    
     <style type="text/css">
         .answerForm {
       		display: none;
@@ -137,7 +138,6 @@
     	.serviceForm {
       		display: none;
     	}
-    
     	.qdetail{
     		background-color: #FAF4C0;
     	}
@@ -154,15 +154,13 @@
 		    background: #FAE0D4;
 		    width: 300px;
 		    height: 300px;
-		    display: none; 
+		    display: none;
     	}
     </style>
 </head>
 <body>
 	<!-- header import -->
-     <c:import url="http://localhost:8888/Fiesta/header.jsp" charEncoding="UTF-8"></c:import> 
-    
-
+     <c:import url="http://localhost:8888/Fiesta/header.jsp" charEncoding="UTF-8"></c:import>
 	<!-- 항상 section에서 시작 -->
 	<section>
 		<!-- 업체 1개에 대한 정보 / 찜하기 : 업체가 들어왔을시 수정, 삭제 가능 -->
@@ -190,7 +188,6 @@
 				<a href="wishList.do">나의 찜 목록보기</a>
         		<button id="popCloseBtn">close</button>
     	</div>
-        
 		<br>
 		<h3 align="center">서비스</h3><p>
 		<table border="2" width="350" bgcolor="yellow" align="center">
@@ -220,7 +217,6 @@
 				</form>
 		</div>
 		<p></p>
-
 <!-- 여기서부터 탭 !!!! -->
 <!-- 탭제목들 -->
 		  <div class="row">
@@ -232,8 +228,7 @@
 		        <li class="tab col s3"><a href="#question">문의하기</a></li>
 		      </ul>
 		    </div>
-
-<!-- 탭내용들 -->	    
+<!-- 탭내용들 -->	   
 		    <!-- 리뷰내역 -->
 		    <div id="reviewTab" class="col s12">
 		    	<div id="review">
@@ -246,7 +241,7 @@
 							<%-- <input type="hidden" name="comCode" value="${list[0].company.comCode}"> --%>
 							<input type="hidden" name="companycode" value="${companycode}">
 							<input type="hidden" name="type" value="1">
-							업체명 : 
+							업체명 :
 							<%-- <input type="text" name="comName" readonly="readonly" value="${list[0].company.comName}"><br> --%>
 							<input type="text" name="comName" readonly="readonly" value="${companycode}"><br>
 							
@@ -255,11 +250,11 @@
 								<c:forEach items="${serviceList}" var="service">
 									<option>${service.serviceCode},${service.serviceName}</option>
 								</c:forEach>
-							</select> 
+							</select>
 						</div>
 						
 						<div id="reviewScore">
-							만족도 : 
+							만족도 :
 							<input name="reviewScore" type="radio" value="1">1점
 							<input name="reviewScore" type="radio" value="2">2점
 							<input name="reviewScore" type="radio" value="3">3점
@@ -285,7 +280,7 @@
 					<span>평점 : </span>
 					<c:forEach items="${list3}" var="url">
 					 <img src ="${url}" width="10px" height="10px">
-					</c:forEach> 
+					</c:forEach>
 					<span>리뷰수 : ${review.countDesc}</span>
 					</div>
 					<hr>
@@ -304,7 +299,7 @@
 				</div>
 				<hr>
 		    </div>
-		    
+		   
 		    <!-- 문의내역 -->
 		    <div id="qnaTab" class="col s12">
 		    	<h6 align="center"><b>문의내역</b></h6>
@@ -313,13 +308,13 @@
 				 <c:forEach items="${questionList}" var="question">
 				    <li>
 				      <div class="collapsible-header">	<%-- <span>${question.qCode}</span>  --%>
-													    <span>${question.qDate}</span> 
-													    <span>${question.qTitle}</span> 
-													    <span>${question.qDesc}</span> 
+													    <span>${question.qDate}</span>
+													    <span>${question.qTitle}</span>
+													    <span>${question.qDesc}</span>
 													    <span>${question.qCondition}</span> </div>
 													
 							<c:forEach items="${questionDetail}"  var="qDetail">
-							<c:if test="${qDetail.qCode == question.qCode}" >						    
+							<c:if test="${qDetail.qCode == question.qCode}" >						   
 							<div class="collapsible-body qdetail"><h6>문의내용</h6><span>${qDetail.qDesc}</span></div>
 							</c:if>
 							</c:forEach>
@@ -328,7 +323,8 @@
 							<c:forEach items="${answerList}"  var="answer">
 								<c:if test="${answer.qCode == question.qCode}" >
 					      		<div class="collapsible-body adetail"><h6>답변내용</h6><span>${answer.aDesc}</span>
-					      										<span>${answer.aDate}</span></div>
+					      										<span>${answer.aDate}</span>
+					      										<a href="answerDelete.do?answerqCode=${answer.qCode}">삭제</a></div>
 					      		</c:if>
 					      	</c:forEach>
 				      		</c:if>
@@ -349,14 +345,14 @@
 				      		
 				     	</c:if>
 				    </li>
-				</c:forEach> 
+				</c:forEach>
 				</ul>
 				<br><br>
 				<hr>
 		    </div>
-		    
+		   
 		    <!-- <div id="test3" class="col s12">Test 3</div> -->
-		    
+		   
 		    <!-- 문의하기 -->
 		    <div id="question" class="col s12">
 		    	<h6 align="center"><b>문의하기</b></h6>
@@ -370,8 +366,6 @@
 		  </div>
 		
 	</section>
-
-
 	<!-- footer import -->
     <c:import url="http://localhost:8888/Fiesta/footer.jsp" charEncoding="UTF-8"></c:import>
 </body>
