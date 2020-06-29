@@ -118,17 +118,34 @@
 			width: 1080px;
 			margin: auto;
 		}
-		section h2 {
-			font-size: 2rem;
-			font-weight: bold;
-		}
-		section h3 {
-			font-size: 1.5rem;
-			font-weight: bold;
-		}
 		section a {
 			display: block;
 		}
+		
+		#companyInfo {
+    		display: flex;
+    		padding-top: 30px;
+    	}
+    	#companyInfo img {
+    		width: 150px;
+    		height: 150px;
+    		border-radius: 5px;
+    		margin-right: 20px;
+    	}
+    	#companyInfo h2 {
+    		font-size: 1.7rem;
+    		font-weight: bold;
+    		margin-top: 20px;
+    	}
+    	#companyDetail h3 {
+    		font-size: 1.3rem;
+    		font-weight: bold;
+    	}
+    	#companyDetail span {
+    		font-weight: bold;
+    		width: 70px;
+    		display: inline-block;
+    	}
 	</style>
     <style type="text/css">
         .answerForm {
@@ -156,6 +173,9 @@
 		    height: 300px;
 		    display: none;
     	}
+    	
+    	
+    	
     </style>
 </head>
 <body>
@@ -163,20 +183,22 @@
      <c:import url="http://localhost:8888/Fiesta/header.jsp" charEncoding="UTF-8"></c:import>
 	<!-- 항상 section에서 시작 -->
 	<section>
-		<!-- 업체 1개에 대한 정보 / 찜하기 : 업체가 들어왔을시 수정, 삭제 가능 -->
-		<h3>업체명</h3>
-		${company.comName}
-		<div style= "float:right;"><h6>조회수</h6>${company.comCount}</div>
+		<div id="companyInfo">
+			<img src="${company.comImg}">
+			<div>
+				<h2>${company.comName}</h2>
+				<p>${company.comDesc}</p>
+				<p>조회수 : ${company.comCount}</p>
+			</div>
+		</div>
+		<div id="companyDetail">
+			<h3>기본 정보</h3>
+			<p><span>이메일</span> ${company.comEmail}</p>
+			<p><span>전화번호</span> ${company.comTel}</p>
+			<p><span>주소</span> ${company.comAddr}</p>
+		</div>
 		
-		<br><br>
-		<h6>업체 설명</h6>
-		<img src= "../${company.comImg}" width=100 height=100>
-		 ${company.comDesc}
-		<br><br>
-		
-		<h6>이메일</h6>${company.comEmail}
-		<h6>전화번호</h6>${company.comTel}
-		<h6>주소</h6>${company.comAddr}
+
 		<br><br>
 		<!-- 찜하기랑 목록 -->
 		<button id = "wishBtn" onclick="registerWish()">찜하기</button>
