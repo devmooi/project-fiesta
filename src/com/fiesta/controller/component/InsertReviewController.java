@@ -71,7 +71,7 @@ public class InsertReviewController implements Controller {
 					if(item.getSize() > 0) {
 						String separator = File.separator;
 						int index = item.getName().lastIndexOf(separator);
-						String fileName = item.getName().substring(index + 1);
+						String fileName = item.getName().substring(index + 1)+comCode+serviceCode;
 						File uploadFile = new File(attachesDir + separator + fileName);
 						item.write(uploadFile);
 						reviewImg+=item.getName();
