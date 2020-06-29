@@ -31,7 +31,7 @@
 			});//button[name=reviewInsert] click
 			
 			$('.collapsible').collapsible();
-			
+/* 			
 			$('#wishBtn').click(function() {
 				var comCode = ${companycode};
 				
@@ -46,23 +46,85 @@
 							alert("찜하기 성공");
 					}
 				}); // ajax
-			}); // click
-			
+			}); // click */
+						
 		});//ready
 		
-		function aOpenClose() {
-		      if ( $('#answerForm').css('display') == 'none' ) {
-		        $('#answerForm').show();
-		        /*  $('#answerForm').text('박스 닫기')*/
-		      } else {
-		        $('#answerForm').hide();
-		        /*$('#answerForm').text('박스 열기')*/
-		      }
-		}
 		
 		$(document).ready(function(){
 			$('.tabs').tabs();
 		});
+		
+		
+		//찜하기
+		function registerWish(){
+			var comCode = ${companycode};
+			$.ajax({
+				type:'post',
+				url:'wishRegister.do',
+				data:"comCode="+comCode,
+				
+				success:function(result) {
+						//alert(comCode); 확인용
+						alert("찜하기 성공");
+				}
+			}); // ajax
+		}
+		
+		//서비스등록창 열고닫기
+		function serviceOpenClose() {
+		      if ( $('.serviceForm').css('display') == 'none' ) {
+		        $('.serviceForm').show();
+		        /*  $('#answerForm').text('박스 닫기')*/
+		      } else {
+		        $('.serviceForm').hide();
+		        /*$('#answerForm').text('박스 열기')*/
+		      }
+		}
+		
+		//답변하기창 열고닫기
+		function answerOpenClose() {
+		      if ( $('.answerForm').css('display') == 'none' ) {
+		        $('.answerForm').show();
+		        /*  $('#answerForm').text('박스 닫기')*/
+		      } else {
+		        $('.answerForm').hide();
+		        /*$('#answerForm').text('박스 열기')*/
+		      }
+		}
+		
+		//서비스 등록
+ 		function serviceRegister() {
+			$.ajax({
+				type:'post',
+				url:'serviceRegister.do',
+				data:$('#serviceRegisterForm').serialize(),
+				
+				success:function(result) {
+						//alert(comCode); 확인용
+						alert("서비스등록");
+				}
+			}); // ajax
+		} 
+		
+		//문의 등록
+ 		function qRegister() {
+			$.ajax({
+				type:'post',
+				url:'questionRegister.do',
+				data:$('#questionForm').serialize(),
+				
+				success:function(result) {
+						//alert(comCode); 확인용
+						alert("문의등록");
+				}
+			}); // ajax
+		} 
+		
+		$(document).ready(function(){
+			$('.tabs').tabs();
+		});
+		
     </script>
 	<style>
 		section {
@@ -83,7 +145,11 @@
 	</style>
     
     <style type="text/css">
-        #answerForm {
+        .answerForm {
+      		display: none;
+    	}
+    	
+    	.serviceForm {
       		display: none;
     	}
     
@@ -107,7 +173,7 @@
 		<p>업체 정보</p>
 		
 		<!-- 찜하기랑 목록 -->
-		<button id = "wishBtn">찜하기</button>
+		<button id = "wishBtn" onclick="registerWish()">찜하기</button>
 		<a href="wishList.do">나의 찜 목록보기</a>
 
 
@@ -125,7 +191,18 @@
 				</tr>
 			</c:forEach>
 		</table>
-		<a href="serviceRegister.jsp?companycode=${companycode}">추가등록</a> <!-- 이거는 업체가 로그인했을때만 보일 것 -->
+		<button class = "serviceRegisterBtn" onclick = "serviceOpenClose()">서비스추가등록</button><br><!-- 이거는 업체가 로그인했을때만 보일 것 -->
+		<div class = "serviceForm">
+				<h4>서비스등록하기</h4>
+				<form action="" name="registerForm" id="serviceRegisterForm" >
+				<input type="hidden" name="companycode" value="${companycode}">
+				서비스 이름 : <input type="text" name="serviceName" required="required"><br><br>
+				서비스 설명 : <input type="text" name="serviceDesc" required="required"><br><br>
+				서비스 사진 : <input type="text" name="serviceImg" required="required"><br><br>
+				서비스 태그 : <input type="text" name="serviceTag" required="required"><br><br>
+				<input onclick="serviceRegister()" type="submit" value="서비스등록">
+				</form>
+		</div>
 		<p></p>
 
 <hr>
@@ -190,8 +267,8 @@
 	
 		<c:if test="${question.qCondition eq '답변대기'}">
       		<div class="collapsible-body" class="adetail"><span>답변대기중입니다</span>
-      		<button class = "answerBtn" onclick = "aOpenClose()">답변하기</button><br>
-      		<div id = "answerForm">
+      		<button class = "answerBtn" onclick = "answerOpenClose()">답변하기</button><br>
+      		<div class = "answerForm">
 				<h4>답변하기</h4>
 				<form action="answerRegister.do?" name="registerForm" >
 				<input type="hidden" name="companycode" value="${companycode}">
@@ -211,14 +288,14 @@
 	
 	<hr>
 	<br>
-	
-	<!-- 문의하기   >>> 나중에 탭으로 할것 -->  
+ 		<!-- 문의하기   >>> 나중에 탭으로 할것 -->  
 	<h4>문의하기</h4>
-	<form action="questionRegister.do?" name="registerForm" >
+	<form action="" id="questionForm" >
 	<input type="hidden" name="companycode" value="${companycode}">
 	문의제목 : <input type="text" name="qTitle" required="required"><br><br>
 	문의내용 : <input type="text" name="qDesc" required="required"><br><br>
-	<input type="submit" value="문의 등록">
+	<input onclick ="qRegister()" type="submit" value="문의 등록">
+	
 	</form>
 	<br><br>
 	<!-- 문의하기 등록은 바로 되는데 그페이지에서 새로고침 할때마다 계속 생김....ㅠㅅㅠ  

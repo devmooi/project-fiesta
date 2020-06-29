@@ -11,8 +11,7 @@ public class QuestionRegisterController implements Controller{
 
 	@Override
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String comCode = request.getParameter("companycode");
-		int companycode = Integer.parseInt(comCode);
+		int companycode = Integer.parseInt(request.getParameter("companycode"));
 		System.out.println(companycode);
 		String qTitle = request.getParameter("qTitle");
 		String qDesc = request.getParameter("qDesc");
@@ -26,7 +25,7 @@ public class QuestionRegisterController implements Controller{
 		request.setAttribute("qDesc", qDesc);
 		*/
 		
-		path = "ServiceAllShow.do?companycode="+comCode;
+		path = "ServiceAllShow.do?companycode="+companycode;
 		
 		return new ModelAndView(path);
 	}
