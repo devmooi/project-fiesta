@@ -38,3 +38,9 @@ INSERT INTO company(com_name, com_tel, com_addr, com_img, com_desc, comCategory_
 VALUES('(주)캠프엔터테인먼트', '02-541-8114', '서울시 서초구 잠원동 10-37 용진빌딩 1층', 'resource/img/film2.jpg', '연출, 촬영, 장비 및 스튜디오 대여', 5);
 INSERT INTO company(com_name, com_tel, com_addr, com_img, com_desc, comCategory_code)
 VALUES('파워음향', '02-486-4820~1', '서울특별시 강동구 천호3동 199-1번지 102, 103호', 'resource/img/sound5.jpg', '음향기기 대여', 5);
+
+/* INSERT INTO service(service_name, service_desc, service_img, service_tag, com_code)
+VALUES('12','1234',null,'#1234',1);
+
+INSERT INTO customer(cust_email, cust_name, cust_pass, cust_tel, cust_group)
+VALUES('encore@gmail.com', 'java','1234','010-5043-5765','가가대'); */
