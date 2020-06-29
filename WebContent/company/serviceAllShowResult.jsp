@@ -9,6 +9,8 @@
 	<title>Fiesta - 업체 상세페이지</title>
     <link href="../Fiesta/resource/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
     
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
 	<!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -32,9 +34,13 @@
 			$('.tabs').tabs();
 			
 			$('.collapsible').collapsible();
+			
+			$("#popCloseBtn").click(function(event){
+	            $("#popupDiv").css("display","none"); //팝업창 display none
+	        });
 		});
 		
-		
+ 
 		//찜하기
 		function registerWish(){
 			var comCode = ${companycode};
@@ -45,9 +51,18 @@
 				
 				success:function(result) {
 						//alert(comCode); 확인용
-						alert("찜하기 성공");
+						//alert("찜하기 성공");
 				}
 			}); // ajax
+			
+			$("#popupDiv").css("display","block"); //팝업창 display block
+			
+			 $("#popupDiv").css({
+	             "top": (($(window).height()-$("#popupDiv").outerHeight())/2+$(window).scrollTop())+"px",
+	             "left": (($(window).width()-$("#popupDiv").outerWidth())/2+$(window).scrollLeft())+"px"
+	             //팝업창을 가운데로 띄우기 위해 현재 화면의 가운데 값과 스크롤 값을 계산하여 팝업창 CSS 설정
+	          
+	          });
 		}
 		
 		//서비스등록창 열고닫기
@@ -135,6 +150,17 @@
     	.adetail{
     		background-color: #D4F4FA;
     	}
+    	
+    	#popupDiv {  /* 팝업창 css */
+    		text-align:center;
+		    top : 0px;
+		    padding-top: 60px;
+		    position: absolute;
+		    background: #FAE0D4;
+		    width: 300px;
+		    height: 300px;
+		    display: none; 
+    	}
     </style>
 </head>
 <body>
@@ -151,7 +177,8 @@
 		
 		<br><br>
 		<h6>업체 설명</h6>
-		${company.comImg} ${company.comDesc}
+		<img src= "../${company.comImg}" width=100 height=100>
+		 ${company.comDesc}
 		<br><br>
 		
 		<h6>이메일</h6>${company.comEmail}
@@ -160,8 +187,15 @@
 		<br><br>
 		<!-- 찜하기랑 목록 -->
 		<button id = "wishBtn" onclick="registerWish()">찜하기</button>
-		<a href="wishList.do">나의 찜 목록보기</a>
-
+		
+		
+		<div id="popupDiv"> <!-- 찜성공 팝업창 -->
+				<i class="large material-icons">favorite</i>
+				<div>찜하기 성공!</div>
+				<a href="wishList.do">나의 찜 목록보기</a>
+        		<button id="popCloseBtn">close</button>
+    	</div>
+        
 
 		<br>
 		<h3 align="center">서비스</h3><p>
@@ -170,7 +204,7 @@
 				<tr>
 					<td>${service.serviceCode}</td>
 					<td>${service.serviceName}</td>
-					<td>${service.serviceImg}</td>
+					<td><img src= "../resource/file_upload/${service.serviceImg}" width=100 height=100></td>
 					<td>${service.serviceDesc}</td>
 					<td>${service.serviceTag}</td>
 					<td><a href="ServiceDelete.do?serviceCode=${service.serviceCode}">삭제</a></td>  <!-- 이거는 업체가 로그인했을때만 보일 것 -->
@@ -180,13 +214,15 @@
 		<button class = "serviceRegisterBtn" onclick = "serviceOpenClose()">서비스추가등록</button><br><!-- 이거는 업체가 로그인했을때만 보일 것 -->
 		<div class = "serviceForm">
 				<h4>서비스등록하기</h4>
-				<form action="" name="registerForm" id="serviceRegisterForm" >
+				<form action="serviceRegister.do" id="serviceRegisterForm" enctype="multipart/form-data"  method="post">
 				<input type="hidden" name="companycode" value="${companycode}">
 				서비스 이름 : <input type="text" name="serviceName" required="required"><br><br>
 				서비스 설명 : <input type="text" name="serviceDesc" required="required"><br><br>
-				서비스 사진 : <input type="text" name="serviceImg" required="required"><br><br>
+<!-- 				서비스 사진 : <input type="text" name="serviceImg" required="required"><br><br> -->
+				서비스 사진 : <input name="serviceImg" type="file" accept=".jpg, .jpeg, .png" multiple="multiple"><br><br>
 				서비스 태그 : <input type="text" name="serviceTag" required="required"><br><br>
 				<input onclick="serviceRegister()" type="submit" value="서비스등록">
+				<!-- <input type="submit" value="서비스등록"> -->
 				</form>
 		</div>
 		<p></p>
