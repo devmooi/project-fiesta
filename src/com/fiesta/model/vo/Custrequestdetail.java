@@ -8,8 +8,16 @@ public class Custrequestdetail {
 	String detailCompletedate;
 	int requestCode;
 	int comCode;
-	
+		
 	public Custrequestdetail() {}
+	
+	public Custrequestdetail(int detailTotalprice, String detailDesc, String detailCondition,
+			String detailCompletedate) {
+		this.detailTotalprice = detailTotalprice;
+		this.detailDesc = detailDesc;
+		this.detailCondition = detailCondition;
+		this.detailCompletedate = detailCompletedate;
+	}
 	
 	public Custrequestdetail(int detailTotalprice, String detailDesc, String detailCondition,
 			String detailCompletedate, int requestCode, int comCode) {
@@ -75,6 +83,8 @@ public class Custrequestdetail {
 	public void setComCode(int comCode) {
 		this.comCode = comCode;
 	}
+	
+	
 	
 	@Override
 	public String toString() {

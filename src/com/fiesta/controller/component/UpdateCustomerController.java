@@ -28,20 +28,15 @@ public class UpdateCustomerController implements Controller {
 		
 		String path = "customerMypage.jsp";
 		
-		int orderCode = Integer.parseInt((String)request.getParameter("orderCode"));
-		int custdetailCode = Integer.parseInt((String)request.getParameter("custdetailCode"));
-		int requestCode = Integer.parseInt((String)request.getParameter("requestCode"));
-		int detailCode = Integer.parseInt((String)request.getParameter("detailCode"));
-		
 		Customer customer = new Customer(email, name, pass, tel, group);
 		
 		try {
 			RegisterDaoImpl.getInstance().updateCustomer(customer);
 			
-			ArrayList<Custorder> orderList = CustomerDaoImpl.getInstance().showAllCustOrder(orderCode);
-			ArrayList<Custorderdetail> orderDetailList = CustomerDaoImpl.getInstance().showAllCustOrderDetail(custdetailCode);
-			ArrayList<Custrequest> requestList = CustomerDaoImpl.getInstance().showAllCustRequest(requestCode);
-			ArrayList<Custrequestdetail> requestDetailList = CustomerDaoImpl.getInstance().showAllCustRequestDetail(detailCode);
+			ArrayList<Custorder> orderList = CustomerDaoImpl.getInstance().showAllCustOrder(email);
+			ArrayList<Custorderdetail> orderDetailList = CustomerDaoImpl.getInstance().showAllCustOrderDetail(email);
+			ArrayList<Custrequest> requestList = CustomerDaoImpl.getInstance().showAllCustRequest(email);
+			ArrayList<Custrequestdetail> requestDetailList = CustomerDaoImpl.getInstance().showAllCustRequestDetail(email);
 		
 			request.setAttribute("orderList", orderList);
 			request.setAttribute("requestList", requestList);

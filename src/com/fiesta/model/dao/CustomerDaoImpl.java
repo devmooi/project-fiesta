@@ -97,67 +97,59 @@ public class CustomerDaoImpl {
 	}
 	
 	//VO 수정으로 인한 변경
-	public ArrayList<Custorder> showAllCustOrder(int orderCode) throws SQLException {
+	public ArrayList<Custorder> showAllCustOrder(String custEmail) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		ArrayList<Custorder> orderlist = new ArrayList<>();
+		ArrayList<Custorder> list = new ArrayList<>();
 		try {
 			conn = getConnection();
-			String query = "SELECT * FROM custorder WHERE order_code=?";
+			String query = "SELECT order_sysdate, order_revdate, order_place, order_budget, order_require, order_condition "
+						 + "FROM custorder WHERE cust_email=?";
 			ps = conn.prepareStatement(query);
 			System.out.println("ps completed in showAllCustorder");
 			
-			ps.setInt(1, orderCode);
+			ps.setString(1, custEmail);
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				orderlist.add(new Custorder(
-									   orderCode,
+				list.add(new Custorder(
 									   rs.getString("order_sysdate"),
 									   rs.getString("order_revdate"),
 									   rs.getString("order_place"),
 									   rs.getString("order_budget"),
 									   rs.getString("order_require"),
-									   rs.getString("order_condition"),
-									   rs.getString("cust_email"),
-									   rs.getInt("service_code"),
-									   rs.getInt("com_code")));
-			System.out.println(orderCode+ " showallcustorder success");
+									   rs.getString("order_condition")));
+			System.out.println(custEmail+ " showallcustorder success");
 			}
 		} finally {
 			closeAll(rs, ps, conn);
 		}
-		return orderlist;
+		return list;
 	}
 	
 	
-	
-	
-	//foreign key...?
-	public ArrayList<Custorderdetail> showAllCustOrderDetail(int custdetailCode) throws SQLException {
+	public ArrayList<Custorderdetail> showAllCustOrderDetail(String custEmail) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		ArrayList<Custorderdetail> list = new ArrayList<>();
 		try {
 			conn = getConnection();
-			String query = "SELECT * FROM custorderdetail WHERE custdetail_code=?";
+			String query = "SELECT custdetail_totalprice, custdetail_desc, custdetail_completedate "
+							+ "FROM custorderdetail WHERE cust_email=?";
 			ps = conn.prepareStatement(query);
 			System.out.println("ps completed in showAllOrderdetail");
 			
-			ps.setInt(1, custdetailCode);
+			ps.setString(1, custEmail);
 			rs = ps.executeQuery();
-			/*while(rs.next()) {
-				list.add(new Orderdetail(
-									   rs.getInt("detail_code"),
-									   rs.getInt("detail_totalprice"),
-									   rs.getString("detail_desc"),
-									   rs.getInt("service_code"),
-									   rs.getInt("com_code")
-									   id));
-			System.out.println(id+ " showallorderdetail success");
-			}*/
+			while(rs.next()) {
+				list.add(new Custorderdetail(
+									   rs.getInt("custdetail_totalprice"),
+									   rs.getString("custdetail_desc"),
+									   rs.getString("custdetail_completedate")));
+			System.out.println(custEmail+ " showallorderdetail success");
+			}
 		} finally {
 			closeAll(rs, ps, conn);
 		}
@@ -208,62 +200,61 @@ public class CustomerDaoImpl {
 			}				
 		}
 	
-	public ArrayList<Custrequest> showAllCustRequest(int requestCode) throws SQLException {
+	public ArrayList<Custrequest> showAllCustRequest(String custEmail) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		ArrayList<Custrequest> requestlist = new ArrayList<>();
+		ArrayList<Custrequest> list = new ArrayList<>();
 		try {
 			conn = getConnection();
-			String query = "SELECT * FROM custrequest WHERE request_code=?";
+			String query = "SELECT request_sysdate, request_revdate, request_place, request_budget, request_require, request_fiesta "
+					+ "FROM custrequest WHERE cust_email=?";
 			ps = conn.prepareStatement(query);
 			System.out.println("ps completed in showAllCustrequest");
 			
-			ps.setInt(1, requestCode);
+			ps.setString(1, custEmail);
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				requestlist.add(new Custrequest(
-									   requestCode,
+				list.add(new Custrequest(
 									   rs.getString("request_sysdate"),
 									   rs.getString("request_revdate"),
 									   rs.getString("request_place"),
 									   rs.getString("request_budget"),
 									   rs.getString("request_require"),
-									   rs.getString("request_fiesta"),
-									   rs.getString("cust_email")));
-			System.out.println(requestCode+ " showallcustrequest success");
+									   rs.getString("request_fiesta")));
+			System.out.println(custEmail+ " showallcustrequest success");
 			}
 		} finally {
 			closeAll(rs, ps, conn);
 		}
-		return requestlist;
+		return list;
 	}
 	
-	//foreign key...?
-		public ArrayList<Custrequestdetail> showAllCustRequestDetail(int detailCode) throws SQLException {
+	public ArrayList<Custrequestdetail> showAllCustRequestDetail(String custEmail) throws SQLException {
 			Connection conn = null;
 			PreparedStatement ps = null;
 			ResultSet rs = null;
 			ArrayList<Custrequestdetail> list = new ArrayList<>();
 			try {
 				conn = getConnection();
-				String query = "SELECT * FROM custrequestdetail WHERE detail_code=?";
+				String query = "SELECT d.detail_totalprice, d.detail_desc, d.detail_condition, d.detail_completedate "
+							+ "FROM custrequestdetail d, custrequest r "
+							+ "WHERE d.request_code = r.request_code "
+							+ "AND cust_email=?";
 				ps = conn.prepareStatement(query);
 				System.out.println("ps completed in showAllRequestdetail");
 				
-				ps.setInt(1, detailCode);
+				ps.setString(1, custEmail);
 				rs = ps.executeQuery();
-				/*while(rs.next()) {
-					list.add(new Orderdetail(
-										   rs.getInt("detail_code"),
-										   rs.getInt("detail_totalprice"),
-										   rs.getString("detail_desc"),
-										   rs.getInt("service_code"),
-										   rs.getInt("com_code")
-										   id));
-				System.out.println(id+ " showallorderdetail success");
-				}*/
+				while(rs.next()) {
+					list.add(new Custrequestdetail(
+												   rs.getInt("d.detail_totalprice"),
+												   rs.getString("d.detail_desc"),
+												   rs.getString("d.detail_condition"),
+												   rs.getString("d.detail_completedate")));
+				System.out.println(custEmail+ " showallrequestdetail success");
+				}
 			} finally {
 				closeAll(rs, ps, conn);
 			}
@@ -280,5 +271,11 @@ public class CustomerDaoImpl {
 		//dao.insertCustRequestDetail(new Custrequestdetail(1000, "상세", "진행", "19191010", 1, 1));
 		//dao.showAllCustOrder(3);
 		//dao.showAllCustRequest(1);
+		// dao.showAllCustOrder("encore@gmail.com");
+		//dao.showAllCustRequest("encore@gmail.com");
+		// dao.showAllCustRequestDetail("encore@gmail.com");
+		//dao.showAllCustRequestDetail("encore@gmail.com");
+		
+		
 	}
 }
