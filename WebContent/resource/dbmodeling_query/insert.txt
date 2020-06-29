@@ -27,7 +27,21 @@ VALUES('encore@gmail.com','java','1234','010-5043-5765','한양대 사회과학�
 
 INSERT INTO review(review_code, review_score, review_img, review_desc, review_date, cust_email, service_code, com_code)
 VALUES('1-1-1', 4, './resource/file_upload/Fiesta_DBModeling_WorkBench.PNG', '좋아요', sysdate(), 'encore@gmail.com', 1, 1);
-INSERT INTO question(q_date, q_title, q_desc, cust_email, com_code)
-VALUES(sysdate(), '숙박문의', '몇명이서 잘 수 있나요?', 'encore@gmail.com', 1);
-INSERT INTO question(q_date, q_title, q_desc, cust_email, com_code)
-VALUES(sysdate(), '공연문의', '이거슨 문장 잘라지는지 테스트하기 위한 문의사항입니담 키키키키킼', 'encore@gmail.com', 1);
+
+
+
+문의랑 답변 임의 데이터
+-- 문의 추가
+insert into question(com_code, q_title, q_desc, cust_email) VALUES(1, "숙박문의","몇명이서 잘 수 있나요?", "encore@gmail.com");
+insert into question(com_code, q_title, q_desc, cust_email) VALUES(1, "공연문의","이거슨 문장 잘라지는지 테스트하기 위한 문의사항입니담 키키키키킼", "encore@gmail.com");
+insert into question(com_code, q_title, q_desc, cust_email) VALUES(4,"버스문의","이거는 답변 없는 문의를 보는 테스트", "encore@gmail.com");
+insert into question(com_code, q_title, q_desc, cust_email) VALUES(1,"공연문의","테스트용이다1", "encore@gmail.com");
+insert into question(com_code, q_title, q_desc, cust_email) VALUES(1,"공연문의","이것도 테스트용이지롱1", "encore@gmail.com");
+
+-- 답변 추가 
+insert into answer(a_date, a_desc, com_code, q_code, cust_email) VALUES('2019-04-11', '할인해드리겠습니다 연락주세용', 1, 3, 'encore@gmail.com');
+insert into answer(a_date, a_desc, com_code, q_code, cust_email) VALUES('2019-04-16', '이거슨 답변이다', 1, 6, 'encore@gmail.com');
+
+-- 답변상태바꾸기(답변을 임의로 추가해서 상태를 임의로 바꿔줘야함)
+Update question set q_condition='답변완료' WHERE q_code=3;
+Update question set q_condition='답변완료' WHERE q_code=6;

@@ -60,7 +60,7 @@ public class ServiceAllShowController implements Controller {
 		request.setAttribute("questionDetail", questionDetail);
 		request.setAttribute("answerList", answerList);
 		
-		path = "./company/serviceAllShowResult.jsp";
+		path = "serviceAllShowResult.jsp";
 
 		//리뷰 출력
 		ArrayList<Review> list2 = ReviewDaoImpl.getInstance().showAllReview(companycode);
