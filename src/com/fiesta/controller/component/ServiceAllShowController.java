@@ -24,17 +24,24 @@ public class ServiceAllShowController implements Controller {
 		int companycode = Integer.parseInt(request.getParameter("companycode"));
 		String path = "";
 		Answer answer = null;
+		Question qDetail = null;
 		
 		//서비스 리스트
 		ArrayList<Service> serviceList = CompanyDaoImpl.getInstance().showAllService(companycode);
 		
 		//문의답변
 		ArrayList<Question> questionList = QuestionDaoImpl.getInstance().showAllQuestionByCompany(companycode);
+		ArrayList<Question> questionDetail = new ArrayList<>();
 		ArrayList<Answer> answerList = new ArrayList<>();
 		
 		for(Question q : questionList) {
 			answer = new Answer();
+			qDetail = new Question();
 			answer = QuestionDaoImpl.getInstance().showAnswer(q.getqCode());
+			qDetail = QuestionDaoImpl.getInstance().showQuestion(q.getqCode());
+			
+			questionDetail.add(qDetail);
+			
 //			if(answer!=null) {
 				answerList.add(answer);
 /*			}else { if(answer == null) {
@@ -50,6 +57,7 @@ public class ServiceAllShowController implements Controller {
 		
 		//문의답변 바인딩
 		request.setAttribute("questionList", questionList);
+		request.setAttribute("questionDetail", questionDetail);
 		request.setAttribute("answerList", answerList);
 		
 		path = "serviceAllShowResult.jsp";
@@ -57,7 +65,6 @@ public class ServiceAllShowController implements Controller {
 		ArrayList<Review> list2 = ReviewDaoImpl.getInstance().showAllReview(companycode);
 		request.setAttribute("list2", list2);
 		request.setAttribute("companycode", companycode);
-		path = "./company/serviceAllShowResult.jsp";
 		
 		return new ModelAndView(path);
 	}

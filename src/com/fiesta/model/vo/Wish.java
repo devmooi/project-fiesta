@@ -5,11 +5,20 @@ public class Wish {
 	String custEmail;
 	int comCode;
 	
+	String comName;
+	String comDesc;
+	
 	public Wish() {}
 	public Wish(int wishCode, String custEmail, int comCode) {
 		this.wishCode = wishCode;
 		this.custEmail = custEmail;
 		this.comCode = comCode;
+	}
+	
+	public Wish(int wishCode, String comName, String comDesc) {
+		this.wishCode = wishCode;
+		this.comName = comName;
+		this.comDesc = comDesc;
 	}
 	
 	public int getWishCode() {
@@ -30,10 +39,24 @@ public class Wish {
 	public void setComCode(int comCode) {
 		this.comCode = comCode;
 	}
-	
+	public String getComName() {
+		return comName;
+	}
+	public void setComName(String comName) {
+		this.comName = comName;
+	}
+	public String getComDesc() {
+		return comDesc;
+	}
+	public void setComDesc(String comDesc) {
+		this.comDesc = comDesc;
+	}
 	@Override
 	public String toString() {
-		return "Wish [wishCode=" + wishCode + ", custEmail=" + custEmail + ", comCode=" + comCode + "]";
+		return "Wish [wishCode=" + wishCode + ", custEmail=" + custEmail + ", comCode=" + comCode + ", comName="
+				+ comName + ", comDesc=" + comDesc + "]";
 	}
+
+	
 	
 }

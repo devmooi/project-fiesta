@@ -1007,7 +1007,7 @@ public class FiestaDaoImpl {
 	}
 	
 	//하나조회하는거 추가
-	public Question showQuestion(int qCode) throws SQLException {
+/*	public Question showQuestion(int qCode) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -1035,7 +1035,7 @@ public class FiestaDaoImpl {
 			closeAll(rs, ps, conn);
 		}
 		return question;
-	}
+	}*/
 	
 	//회사입장에서 자기한테 들어온 문의만 보기
 	public ArrayList<Question> showAllQuestionByCompany(int comCode) throws SQLException {
