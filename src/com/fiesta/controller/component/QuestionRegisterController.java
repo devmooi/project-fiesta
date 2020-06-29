@@ -27,7 +27,10 @@ public class QuestionRegisterController implements Controller{
 		
 		path = "ServiceAllShow.do?companycode="+companycode;
 		
-		return new ModelAndView(path);
+		response.sendRedirect("ServiceAllShow.do?companycode="+companycode);
+		
+		//return new ModelAndView(path);
+		return null;
 	}
 
 }

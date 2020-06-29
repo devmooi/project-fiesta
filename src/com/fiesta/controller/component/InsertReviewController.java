@@ -34,7 +34,7 @@ public class InsertReviewController implements Controller {
 		ServletFileUpload fileUpload = new ServletFileUpload(fileItemFactory);
 		
 		String type = "";
-		int comCode=0;
+		int companycode=0;
 		String[] arr = {};
 		int serviceCode= 0;
 		String reviewCode="";
@@ -50,7 +50,7 @@ public class InsertReviewController implements Controller {
 					if(item.getFieldName().equals("reviewScore")) {
 						reviewScore =  Integer.parseInt(item.getString("utf-8"));
 					}else if(item.getFieldName().equals("comCode")){
-						comCode =  Integer.parseInt(item.getString("utf-8"));
+						companycode =  Integer.parseInt(item.getString("utf-8"));
 					}else if(item.getFieldName().equals("serviceName")){
 						arr =  item.getString("utf-8").split(",");
 						serviceCode = Integer.parseInt(arr[0]);
@@ -59,7 +59,7 @@ public class InsertReviewController implements Controller {
 					}else if(item.getFieldName().equals("codes")) {
 						arr =  item.getString("utf-8").split(",");
 						reviewCode = arr[0];
-						comCode = Integer.parseInt(arr[1]);
+						companycode = Integer.parseInt(arr[1]);
 						serviceCode = Integer.parseInt(arr[2]);
 					}else if(item.getFieldName().equals("type")) {
 						type = item.getString("utf-8");
@@ -71,7 +71,7 @@ public class InsertReviewController implements Controller {
 					if(item.getSize() > 0) {
 						String separator = File.separator;
 						int index = item.getName().lastIndexOf(separator);
-						String fileName = item.getName().substring(index + 1)+comCode+serviceCode;
+						String fileName = item.getName().substring(index + 1)+companycode+serviceCode;
 						File uploadFile = new File(attachesDir + separator + fileName);
 						item.write(uploadFile);
 						reviewImg+=item.getName();
@@ -83,13 +83,13 @@ public class InsertReviewController implements Controller {
 		}
 		System.out.println("reviewCode : "+reviewCode);
 		if(type.equals("1")) {
-			System.out.println(dao.isReview(comCode, serviceCode)==true);
-			if(dao.isReview(comCode, serviceCode)==true) {
-				String[] arr2 = dao.showReview(comCode).getReviewCode().split("-");
+			System.out.println(dao.isReview(companycode, serviceCode)==true);
+			if(dao.isReview(companycode, serviceCode)==true) {
+				String[] arr2 = dao.showReview(companycode).getReviewCode().split("-");
 				arr2[2]=String.valueOf(Integer.parseInt(arr2[2])+1);
 				reviewCode=arr2[0]+"-"+arr2[1]+"-"+arr2[2];
 			}else {
-				reviewCode=comCode+"-"+serviceCode+"-"+"1";
+				reviewCode=companycode+"-"+serviceCode+"-"+"1";
 			}
 		}else {
 			if(dao.isAnswer(reviewCode+"-%")==true) {
@@ -106,10 +106,14 @@ public class InsertReviewController implements Controller {
 		Customer cust = new Customer();
 		cust.setCustEmail("encore@gmail.com");
 		Review review = new Review(reviewCode, reviewScore, reviewImg, reviewDesc,
-				cust, new Service(serviceCode), new Company(comCode));
+				cust, new Service(serviceCode), new Company(companycode));
 		//new Customer(session.getAttribute("customer").getEmail()
 		dao.insertReview(review);
-		return new ModelAndView("ServiceAllShow.do?companycode="+comCode);
+		
+		response.sendRedirect("ServiceAllShow.do?companycode="+companycode);
+		
+		//return new ModelAndView("ServiceAllShow.do?companycode="+comCode);
+		return null;
 	}
 
 }

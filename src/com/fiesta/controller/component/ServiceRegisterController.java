@@ -28,8 +28,10 @@ public class ServiceRegisterController implements Controller {
 
 		CompanyDaoImpl.getInstance().insertService(service);
 
+		response.sendRedirect("ServiceAllShow.do?companycode="+companycode);
 
-		return new ModelAndView("ServiceAllShow.do?companycode="+companycode);
+		//return new ModelAndView("ServiceAllShow.do?companycode="+companycode);
+		return null;
 	}
 
 }

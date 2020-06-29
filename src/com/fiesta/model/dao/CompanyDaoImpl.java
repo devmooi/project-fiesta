@@ -130,6 +130,39 @@ public class CompanyDaoImpl {
 		return company;
 	}
 	
+	public Company detailViewCompany(int comCode) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Company company = null;
+		try {
+			conn = getConnection();
+			String query = "SELECT * FROM company WHERE com_code=?";
+			ps = conn.prepareStatement(query);
+			System.out.println("PreparedStatement....detailViewCompany..");
+			
+			ps.setInt(1, comCode);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				company = new Company(
+										  comCode,
+										  rs.getString("com_email"),
+										  rs.getString("com_pass"),
+										  rs.getString("com_name"),
+										  rs.getString("com_tel"),
+										  rs.getString("com_addr"),
+										  rs.getString("com_img"),
+										  rs.getString("com_desc"),
+										  rs.getInt("com_count"),
+										  rs.getInt("comCategory_code"));  
+			//System.out.println(id+ " lookup success");
+			}
+		} finally {
+			closeAll(rs, ps, conn);
+		}
+		return company;
+	}
+	
 	
 	
 	public ArrayList<Review> showAllCompany() throws SQLException {
