@@ -191,7 +191,9 @@ $(function() {
 													
 							<c:forEach items="${questionDetail}"  var="qDetail">
 							<c:if test="${qDetail.qCode == question.qCode}" >						   
-							<div class="collapsible-body qdetail"><h6>문의내용</h6><span>${qDetail.qDesc}</span></div>
+							<div class="collapsible-body qdetail"><h6>문의내용</h6><span>${qDetail.qDesc}</span>
+							<a href="questionDelete.do?qCode=${question.qCode}">삭제</a>
+							</div>
 							</c:if>
 							</c:forEach>
 				
