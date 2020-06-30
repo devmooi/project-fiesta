@@ -42,7 +42,9 @@
 		}
 		#register a:hover {
 			border: 1px solid #009688;
-			color: #009688;
+			color: white;
+			background: #009688;
+			transition-duration: 1s;
 		}
 	</style>
 </head>

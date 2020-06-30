@@ -15,6 +15,7 @@ public class CompanyEmailExistController implements Controller {
 	@Override
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String email = request.getParameter("comEmail");
+
 		boolean flag = false;
 		PrintWriter out = response.getWriter();
 		try {

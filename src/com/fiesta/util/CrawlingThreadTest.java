@@ -33,6 +33,7 @@ class ClothingCrawling extends Thread {
 			for(Element e : elem.select("h3[class=\"LC20lb DKV0Md\"]")) {
 				String comName = e.text()
 						.replace("단체티 주문제작 전문 ", "")
+						.replace("NO.1- 탑앤탑 대학교/과티", "")
 						.replace("대학과잠바 | No.1 단체 과점퍼 주문제작 쇼핑몰 - ", "")
 						.replace("티파나: No.1 단체티 주문 제작 쇼핑몰", "")
 						.replace("단체티 주문제작 쇼핑몰 ", "")
@@ -40,6 +41,8 @@ class ClothingCrawling extends Thread {
 						.replace("-과잠,돕바,단체티 쇼핑몰", "")
 						.replace("단체티ㅣ단체복 티셔츠ㅣ단체조끼ㅣ단체바람막이 주문 제작 ...", "")
 						.replace("단체복은 ", "")
+						.replace("단체티,단체복,단체조끼,단체아이템,친목티 쇼핑몰 - ", "")
+						.replace("주문/제작안내 - 단체티 제작전문 ", "")
 						.replace(" - 단체복, 단체맨투맨, 단체옷, 단체복 패딩, 과잠바", "");
 				if(!comName.equals("")) {
 					comNameList.add(comName);
@@ -48,6 +51,7 @@ class ClothingCrawling extends Thread {
 
 			for(Element e : elem.select("span[class=\"st\"]")) {
 				String comDesc = e.text()
+						.replace("단체티 주문제작 전문으로 단체복, 과티, 교회티, 브랜드단체티, 단체맨투맨, 단체후드티, 단체조끼등 24시간 빠른 단체티 주문제작 탑앤탑.", "")
 						.replace("단체티 주문제작 전문 탑앤탑입니다. ", "")
 						.replace("대학과잠바, 과점퍼제작, 과바람막이, 행사바람막이, 과복, 대학교바람막이, 동호회바람막이, 과잠바, 단체복바람막이, 과바막 주문제작 할인까지 가능한 쇼핑몰 - 티파 ...", "")
 						.replace("단체복ㅣ단체티ㅣ단체 티셔츠 주문 제작ㅣ단체조끼ㅣ단체바람막이ㅣ트레이닝복ㅣ작업복ㅣ회사복 주문 제작.", "");
