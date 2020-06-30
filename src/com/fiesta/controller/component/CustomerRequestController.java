@@ -12,7 +12,9 @@ public class CustomerRequestController implements Controller {
 	@Override
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		if (request.getParameter("fromDate") != null) {
+		String command = request.getParameter("command");
+		
+		if (command.equals("date")) {
 		String fromDate = request.getParameter("fromDate");
 		String toDate = request.getParameter("toDate");
 		
@@ -30,7 +32,7 @@ public class CustomerRequestController implements Controller {
 
 		return new ModelAndView(path);
 		
-		} else if (request.getParameter("postcode") != null) {
+		} else if (command.equals("place")) {
 			String postcode = request.getParameter("postcode");
 			String addressItem = request.getParameter("addressItem");
 			String address = request.getParameter("address");
@@ -48,15 +50,16 @@ public class CustomerRequestController implements Controller {
 
 			return new ModelAndView(path);
 			
-		} /*else if ("form의 이름 == budgetFrm"){
+		} /*else if (command.equals("budget")) {
 			
+			request.getParameter
 			String path = "4_requestRequire.jsp";
 
 			return new ModelAndView(path);
 			
-		} else if ("form의 이름 == finalFrm"){
+		} else if (command.equals("require")){
 			
-			tring path = "어디로? 업체로?";
+			String path = "어디로? 업체로?";
 
 			return new ModelAndView(path);
 			

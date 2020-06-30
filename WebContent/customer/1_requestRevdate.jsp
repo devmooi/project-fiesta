@@ -73,6 +73,7 @@ $(function() {
 		오늘 날짜 : <span id="today"></span><br>
 		예약 예정일 <br>
         <form action="customerRequest.do" id="dateFrm">
+        <input type="hidden" name="command" value="date">
           <label for="fromDate">FROM</label>
           <input type="text" name="fromDate" id="fromDate">
           &nbsp;&nbsp;&nbsp;
