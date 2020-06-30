@@ -99,7 +99,7 @@ CREATE TABLE custrequest(
 	request_fiesta VARCHAR(45) NOT NULL,
 	cust_email VARCHAR(45) NOT NULL
 );
-ALTER TABLE request ADD constraint fk_request foreign key(cust_email) references customer(cust_email) on delete cascade;
+ALTER TABLE custrequest ADD constraint fk_request foreign key(cust_email) references customer(cust_email) on delete cascade;
 
 -- orderdetail --> custrequestdetail 고객 의뢰 완료 내역 (계약서)
 CREATE TABLE custrequestdetail(
@@ -111,8 +111,8 @@ CREATE TABLE custrequestdetail(
     request_code INT NOT NULL,
     com_code INT NOT NULL
 );
-ALTER TABLE orderdetail ADD constraint fk_orderdetail_request foreign key(request_code) references request(request_code) on delete cascade;
-ALTER TABLE orderdetail ADD constraint fk_orderdetail_company foreign key(com_code) references company(com_code) on delete cascade;
+ALTER TABLE custrequestdetail ADD constraint fk_orderdetail_request foreign key(request_code) references custrequest(request_code) on delete cascade;
+ALTER TABLE custrequestdetail ADD constraint fk_orderdetail_company foreign key(com_code) references company(com_code) on delete cascade;
 
 -- review
 CREATE TABLE review(
