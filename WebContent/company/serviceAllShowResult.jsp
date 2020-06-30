@@ -36,6 +36,24 @@
 			$("#popCloseBtn").click(function(event){
 	            $("#popupDiv").css("display","none"); //팝업창 display none
 	        });
+			
+/*   			$('.qnaContent').slice(0,10).show(); //10개씩 자르기
+			$('#more').click(function(e){
+				e.preventDefault();
+				$('.qnaContent:hidden').slice(0,10).show();
+				if($('qnaContent:hidden'==0){
+					alert(더이상 없음);
+				})
+			})   */
+			$('.qnaContent:gt(4)').hide().last().after(
+				    $('<a />').attr('href','#').text('Show more').click(function(){
+				        var a = this;
+				        $('.mydata:not(:visible):lt(5)').fadeIn(function(){
+				         if ($('.mydata:not(:visible)').length == 0) $(a).remove();   
+				        }); return false;
+				})
+			);
+			
 		});
 		
 		//찜하기
@@ -160,7 +178,7 @@
 </head>
 <body>
 	<!-- header import -->
-     <c:import url="http://localhost:8888/Fiesta/header.jsp" charEncoding="UTF-8"></c:import>
+      <c:import url="http://localhost:8888/Fiesta/header.jsp" charEncoding="UTF-8"></c:import> 
 	<!-- 항상 section에서 시작 -->
 	<section>
 		<!-- 업체 1개에 대한 정보 / 찜하기 : 업체가 들어왔을시 수정, 삭제 가능 -->
@@ -304,13 +322,14 @@
 		    <div id="qnaTab" class="col s12">
 		    	<h6 align="center"><b>문의내역</b></h6>
 		    	<br>
+		    	<div class= "qnaContent">
 				 <ul class="collapsible">
 				 <c:forEach items="${questionList}" var="question">
 				    <li>
 				      <div class="collapsible-header">	<%-- <span>${question.qCode}</span>  --%>
-													    <span>${question.qDate}</span>
-													    <span>${question.qTitle}</span>
-													    <span>${question.qDesc}</span>
+													    <span>${question.qTitle}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+													    <span>${question.qDesc}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+													    <span>${question.qDate}</span>&nbsp;&nbsp;&nbsp;&nbsp;
 													    <span>${question.qCondition}</span> </div>
 													
 							<c:forEach items="${questionDetail}"  var="qDetail">
@@ -347,6 +366,8 @@
 				    </li>
 				</c:forEach>
 				</ul>
+				</div>
+				<a href="#" id="more">더보기</a>
 				<br><br>
 				<hr>
 		    </div>
@@ -362,6 +383,7 @@
 				문의제목 : <input type="text" name="qTitle" required="required"><br><br>
 				문의내용 : <input type="text" name="qDesc" required="required"><br><br>
 				<input align="center" onclick ="qRegister()" type="submit" value="문의 등록">
+				</form>
 		    </div>
 		  </div>
 		
