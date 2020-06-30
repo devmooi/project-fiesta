@@ -378,6 +378,7 @@
 				      <div class="collapsible-header">	<%-- <span>${question.qCode}</span>  --%>
 													    <span>${question.qTitle}</span>&nbsp;&nbsp;&nbsp;&nbsp;
 													    <span>${question.qDesc}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+													    <span>${question.custEmail}</span>&nbsp;&nbsp;&nbsp;&nbsp;
 													    <span>${question.qDate}</span>&nbsp;&nbsp;&nbsp;&nbsp;
 													    <span>${question.qCondition}</span> </div>
 													
