@@ -140,7 +140,12 @@ public class HandlerMapping {
 		}else if(command.equals("ShowReivew.do")) {
 			controller = new ShowReviewController();
 			System.out.println("ShowReviewController 생성됨");
+		
+		}else if(command.equals("customerMypage.do")) {
+			controller = new CustomerMypageController();
+			System.out.println("CustomerMypageController 생성됨");
 		}
+	
 
 		return controller;
 	}

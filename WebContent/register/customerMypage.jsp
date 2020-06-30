@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -93,6 +94,7 @@ $(function() {
 	</form>
 	<a href="customerDelete.jsp">계정삭제</a>
 	
+
 	<section>
 		<h2>거래 내역  </h2>
 		<div class="row">
@@ -118,23 +120,24 @@ $(function() {
 		        	<span>${order.orderPlace}</span>
 		        	<span>${order.orderBudget}</span>
 		        	<span>${order.orderRequire}</span>
-		        	<span>${order.orderCondition}</span></div>	
+		        	<span>${order.orderCondition}</span>
+		        </div>	
 		      <c:forEach items="${orderDetailList}" var="orderDetail">
 		        <div class="collaps-body orderDetail">
-		          <h6>주문 상세 내용</h6>
+		          <h6 align="center">주문 상세 내용</h6>
 		            <span>${orderDetail.custdetailDesc}</span></div>
 		      </c:forEach>
 	          </li>
-		    </c:forEach>
+	        </c:forEach>
 	      </ul> 	
 	    </div>			  
-	  </div>			
+	  
 	  
 	  <div id="requestTab" class="col s12">
- 		  <h6 align="center">의뢰내역</h6>
- 		  <br>
+		  <h6 align="center">의뢰내역</h6>
+		  <br>
 		    <ul class="collapsible">
-		    <c:forEach items="${requestList}" var="request">
+		    <c:forEach items="${requestList}" var="order">
 		      <li>
 		        <div class="collapsible-header">
 		        	<span>${request.requestSysdate}</span>
@@ -142,18 +145,23 @@ $(function() {
 		        	<span>${request.requestPlace}</span>
 		        	<span>${request.requestBudget}</span>
 		        	<span>${request.requestRequire}</span>
-		        	<span>${request.requestFiesta}</span></div>	
-		      <c:forEach items="${requestDetailList}" var="requestDetail">
-		        <div class="collaps-body requestDetail">
+		        	<span>${request.requestFiesta}</span>
+		        </div>	
+		      <c:forEach items="${requestDetailList}" var="orderDetail">
+		        <div class="collaps-body orderDetail">
 		          <h6>의뢰 상세 내용</h6>
 		            <span>${requestDetail.detailDesc}</span></div>
 		      </c:forEach>
 	          </li>
-		    </c:forEach>
+	        </c:forEach>
 	      </ul> 	
 	    </div>			  
+	  </div>			
+	 
 	  
-	  <%-- <div id="orderTab" class="col s12">
+	  
+	  
+<%-- 	  <div id="orderTab" class="col s12">
 		  <h6 align="center">문의내역</h6>
 		  <br>
 		    <ul class="collapsible">
@@ -205,7 +213,7 @@ $(function() {
 	          </li>
 		    </c:forEach>
 	      </ul> 	
-	    </div>		     --%>
+	    </div>	 --%>	    
 	    		 
 	    		   
     </section>
