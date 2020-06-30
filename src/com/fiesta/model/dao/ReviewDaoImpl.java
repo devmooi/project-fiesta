@@ -7,6 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 
 import javax.sql.DataSource;
 
@@ -130,7 +133,7 @@ public class ReviewDaoImpl {
 		try {
 			conn=getConnection();
 			StringBuffer query = new StringBuffer();
-			query.append("SELECT count(DISTINCT service_code) scount, count(DISTINCT cust_email) ccount ");
+			query.append("SELECT count(distinct concat(service_code,'-',com_code)) scount, count(DISTINCT cust_email) ccount ");
 			query.append("FROM review ");
 			ps=conn.prepareStatement(query.toString());
 			//System.out.println(query);
@@ -147,8 +150,8 @@ public class ReviewDaoImpl {
 		return arr;
 	}
 	
-	public int whereIsCust(String email) throws SQLException{
-		int location = 0;
+	public ArrayList<String> getCustArray() throws SQLException{
+		ArrayList<String> custArray = new ArrayList<>();
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -156,24 +159,51 @@ public class ReviewDaoImpl {
 		try {
 			conn=getConnection();
 			StringBuffer query = new StringBuffer();
-			query.append("SELECT review_code code, review_score score, cust_email email ");
+			query.append("SELECT DISTINCT cust_email email ");
 			query.append("FROM review ");
 			query.append("ORDER BY review_code, email ");
 			ps=conn.prepareStatement(query.toString());
 			System.out.println(query);
 			rs=ps.executeQuery();
-
+			
+			int idx=0;
 			while(rs.next()) {
-				if(email.equals(rs.getString("email"))) {
-					break;
-				}
-				location++;
+				custArray.add(rs.getString("email"));
+				idx++;
 			}
 		}finally {
 			closeAll(rs, ps, conn);
 		}
 		
-		return location;
+		return custArray;
+	}
+	
+	public ArrayList<String> getServiceArray() throws SQLException{
+		ArrayList<String> custArray = new ArrayList<>();
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			conn=getConnection();
+			StringBuffer query = new StringBuffer();
+			query.append("SELECT DISTINCT concat(service_code,'-',com_code) code ");
+			query.append("FROM review ");
+			query.append("ORDER BY review_code, cust_email ");
+			ps=conn.prepareStatement(query.toString());
+			System.out.println(query);
+			rs=ps.executeQuery();
+			
+			int idx=0;
+			while(rs.next()) {
+				custArray.add(rs.getString("code"));
+				idx++;
+			}
+		}finally {
+			closeAll(rs, ps, conn);
+		}
+		
+		return custArray;
 	}
 	
 	public String[] getRow() throws SQLException{
@@ -225,13 +255,14 @@ public class ReviewDaoImpl {
 			rs=ps.executeQuery();
 			
 			int[] arr = countRowAndCol();
+			System.out.println("행렬 수 : "+Arrays.toString(arr));
 			mat = new int[arr[0]][arr[1]];//열 = 고객, 행 = 서비스
 			int i=0;
 			int j=0;
 			while(rs.next()) {
 				mat[j][i]=rs.getInt("score");
 				i++;
-				if(i==10) {
+				if(i==mat[0].length) {
 					j++;
 					i=0;
 				}
@@ -243,11 +274,14 @@ public class ReviewDaoImpl {
 		return mat;
 	}
 	
-	public float[] getCorr(int[][] matrix, String[] row, int location) {
+	public String[] getCorr(int[][] matrix, String[] row, String who) throws SQLException {
+		String[] recommandService = new String[5];
 		float[] corr = new float[matrix.length];
+		ArrayList<String> custArray = getCustArray();
+		ArrayList<String> serviceArray = getServiceArray();
 		
 		System.out.println("row : "+ Arrays.toString(row));
-		System.out.println("location : "+ location);
+		System.out.println("who : "+ who);
 		
 		float sumU = 0; // A 포함 리뷰 점수의 편차제곱 합 집합
 		float[] avgU = new float[matrix.length];// A 포함 리뷰 점수의 평균 집합
@@ -257,23 +291,28 @@ public class ReviewDaoImpl {
 		//sumA, avgA
 		for(int i=0;i<matrix[0].length;i++) {
 			sumU=0;
+			int cnt=0;
 			for(int j=0;j<matrix.length;j++) {
 				//System.out.println("수 : "+matrix[j][i]);
+				if(matrix[j][i]==0) continue;
 				sumU+= matrix[j][i];
+				cnt++;
 				if(j==matrix.length-1) {
-					avgU[i] = (float) (Math.round(sumU/(j+1)*10000)/10000.0);
+					avgU[i] = (float) (Math.round(sumU/(cnt)*10000)/10000.0);
 					//System.out.println("sumU : "+sumU);
 					//System.out.println("avgU : "+avgU[i]);
 					
 				}	
 			}
 		}
-		System.out.println(Arrays.toString(avgU));
+		System.out.println("평균 : "+Arrays.toString(avgU));
 		//stdU
 		for(int i=0;i<matrix[0].length;i++) {
-			int sumDU = 0;
+			float sumDU = 0;
 			for(int j=0;j<matrix.length;j++) {
-				sumDU += (float) Math.pow((float)(matrix[j][i]-avgU[i]), 2);
+				if(matrix[j][i]!=0) {
+					sumDU += (float) Math.pow((float)(matrix[j][i]-avgU[i]), 2);
+				}
 				if(j==matrix.length-1) {
 					stdU[i] = (float) Math.sqrt((float)sumDU);
 					//System.out.println("sumDU : "+sumDU);
@@ -281,18 +320,63 @@ public class ReviewDaoImpl {
 				}
 			}
 		}
-		System.out.println(Arrays.toString(stdU));
+		System.out.println("표준편차*n : "+Arrays.toString(stdU));
 		//covAU
+		int custlocation = custArray.indexOf(who);
+		System.out.println("고객 인덱스 : "+custlocation);
 		for(int i=0;i<matrix[0].length;i++) {
-			int sumCov = 0;
-			for(int j=0;j<matrix.length;j++) {
-				sumCov += (float) (matrix[j][location]-avgU[location])*(matrix[j][i]-avgU[i]);
+			if(i!=custlocation) {
+				float sumCov = 0;
+				for(int j=0;j<matrix.length;j++) {
+					sumCov += (float) ((float)matrix[j][custlocation]-(float)avgU[custlocation])*((float)matrix[j][i]-(float)avgU[i]);
+					if(j==matrix.length-1) {
+						covAU[i] = (float) sumCov;
+					}
+				}
 			}
 		}
+		System.out.println("공분산 : "+Arrays.toString(covAU));
 		
+		//특정인과 그외 사람들 간 corr
+		for(int i=0;i<covAU.length;i++) {
+			if(i!=custlocation) {
+				corr[i] = (float) (Math.round(((covAU[i])/(stdU[custlocation]*stdU[i]))*10000)/10000.0);
+			}
+		}
+		System.out.println("유사도"+Arrays.toString(corr));
 		
-		return corr;
+		// 모든 서비스에 대한 기대 점수
+		Float[] expscoreArr = new Float[matrix[0].length];
+		float sumRSbyCorr=0;
+		float sumCorr=0;
+		for(int i=0; i<matrix.length;i++) {
+			for(int j=0;j<matrix[0].length;j++) {
+				if(corr[i]!=0) {
+					sumRSbyCorr+=matrix[i][j]*corr[j];
+					sumCorr+= corr[j];
+				}
+			}
+			expscoreArr[i]=sumRSbyCorr/sumCorr;
+		}
+		System.out.println("서비스 어레이 : "+serviceArray);
+		System.out.println("기대점수 : "+Arrays.toString(expscoreArr));
+		HashMap<Float, String> sNe = new HashMap<>();
+		for(int i=0;i<expscoreArr.length;i++) {
+			sNe.put(expscoreArr[i],serviceArray.get(i));
+		}
+		System.out.println(sNe);
+		Arrays.sort(expscoreArr, Collections.reverseOrder());
+		System.out.println("기대점수 내림차순: "+Arrays.toString(expscoreArr));
+		for(int i=0;i<5;i++) {
+			recommandService[i]=sNe.get(expscoreArr[i]);
+		}
+		
+		//서비스 별 평균 리뷰 점수
+		
+		return recommandService;
 	}
+	
+	
 	
 	public ArrayList<Review> showAllReviewByCompany(int comCode) throws SQLException {
 		ArrayList<Review> list = new ArrayList<Review>();
@@ -309,8 +393,9 @@ public class ReviewDaoImpl {
 			query.append("WHERE r.cust_email=cust.cust_email ");
 			query.append("AND r.com_code = ? ");
 			ps=conn.prepareStatement(query.toString());
+			System.out.println("PreparedStatement....showAllReviewByCompany");
 			ps.setInt(1,comCode);
-			//System.out.println(query);
+			System.out.println(query);
 			rs=ps.executeQuery();
 			
 			while(rs.next()) {
@@ -318,7 +403,8 @@ public class ReviewDaoImpl {
 				cust.setCustEmail(rs.getString("r.cust_email"));
 				cust.setCustName(rs.getString("cust.cust_name"));
 				String reviewCode = rs.getString("r.review_code");
-				if(reviewCode.length()==5) {
+				String[] arr = reviewCode.split("-");
+				if(arr.length==3) {
 					list.add(new Review(rs.getString("r.review_code"),
 							rs.getInt("r.review_score"),
 							rs.getString("r.review_img"),
@@ -354,6 +440,7 @@ public class ReviewDaoImpl {
 			query.append("AND r.cust_email = cust.cust_email ");
 			query.append("GROUP BY review_code ");
 			ps=conn.prepareStatement(query.toString());
+			System.out.println("PreparedStatement....showReview");
 			ps.setString(1, reviewCode);
 			rs=ps.executeQuery();
 			while(rs.next()) {
@@ -393,8 +480,9 @@ public class ReviewDaoImpl {
 			query.append("FROM review r, customer cust ");
 			query.append("WHERE r.com_code = ? ");
 			query.append("AND r.cust_email = cust.cust_email ");
-			query.append("GROUP BY review_code ");
+			query.append("GROUP BY com_code ");
 			ps=conn.prepareStatement(query.toString());
+			//System.out.println(query);
 			ps.setInt(1, comCode);
 			rs=ps.executeQuery();
 			while(rs.next()) {
@@ -456,8 +544,8 @@ public class ReviewDaoImpl {
 		CompanyDaoImpl cdao = CompanyDaoImpl.getInstance();
 		//System.out.println(dao.showService(1));
 		//System.out.println(dao.isReview(1, 1));
-		//System.out.println(dao.showAllReview(1).size());
-		//System.out.println(dao.showReview("1-1-1"));
+		//System.out.println(dao.showAllReviewByCompany(18).size());
+		//System.out.println(dao.showReview(18));
 		
 		//알고리즘 테스트 케이스 추가
 		/*int num=1;
@@ -499,18 +587,19 @@ public class ReviewDaoImpl {
 				email=String.valueOf(Integer.parseInt(email)+1);
 				num++;
 			}
-			comCode++;
+			comCode++;serviceCode++;
 			System.out.println(cnt+"회 ::");
 			cnt++;
 		}*/
 		
 		//matrix 생성
 		int[][] mat = dao.getReviewMatrix();
+		System.out.println("matrix :: ");
 		for(int[] arr : mat) {
 			System.out.println(java.util.Arrays.toString(arr));
 		}
 		//평균
-		System.out.println(dao.getCorr(dao.getReviewMatrix(), dao.getRow(), dao.whereIsCust("2")));
+		System.out.println(Arrays.toString(dao.getCorr(dao.getReviewMatrix(), dao.getRow(), "2")));
 		
 	}
 }

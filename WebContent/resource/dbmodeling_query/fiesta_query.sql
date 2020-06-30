@@ -113,8 +113,13 @@ CREATE TABLE custrequestdetail(
     request_code INT NOT NULL,
     com_code INT NOT NULL
 );
+<<<<<<< HEAD
 ALTER TABLE custrequestdetail ADD constraint fk_custrequestdetail_custrequest foreign key(request_code) references custrequest(request_code) on delete cascade;
 ALTER TABLE custrequestdetail ADD constraint fk_custrequestdetail_company foreign key(com_code) references company(com_code) on delete cascade;
+=======
+ALTER TABLE custrequestdetail ADD constraint fk_orderdetail_request foreign key(request_code) references custrequest(request_code) on delete cascade;
+ALTER TABLE custrequestdetail ADD constraint fk_orderdetail_company foreign key(com_code) references company(com_code) on delete cascade;
+>>>>>>> branch 'wpdud94' of https://github.com/ednadev/Fiesta.git
 
 -- review
 CREATE TABLE review(

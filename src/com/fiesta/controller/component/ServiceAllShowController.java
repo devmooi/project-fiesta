@@ -70,24 +70,24 @@ public class ServiceAllShowController implements Controller {
 		path = "company/serviceAllShowResult.jsp";
 
 		//리뷰 출력
-		ArrayList<Review> list2 = ReviewDaoImpl.getInstance().showAllReviewByCompany(companycode);
-		request.setAttribute("list2", list2);
+		ArrayList<Review> reviewlist2 = ReviewDaoImpl.getInstance().showAllReviewByCompany(companycode);
+		request.setAttribute("reviewlist2", reviewlist2);
 		request.setAttribute("companycode", companycode);
 		
 		//리뷰수와 평점 출력
 		Review review = ReviewDaoImpl.getInstance().showReview(companycode);
 		float avg = review.getAvgReviewScore();
-		ArrayList<String> list3 = new ArrayList<>();
+		ArrayList<String> reviewSrcList = new ArrayList<>();
 		while(avg>0) {
-			list3.add("resource/img/star.png");
+			reviewSrcList.add("resource/img/star.png");
 			avg--;
 			if(avg<1&&avg>0) {
-				list3.add("resource/img/halfstar.png");
+				reviewSrcList.add("resource/img/halfstar.png");
 				avg=0;
 			}
 		}
 		request.setAttribute("review", review);
-		request.setAttribute("list3", list3);
+		request.setAttribute("reviewSrcList", reviewSrcList);
 		
 		//클릭 시 조회수 증가
 		CompanyDaoImpl.getInstance().plusCount(companycode);
