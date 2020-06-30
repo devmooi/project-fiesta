@@ -251,7 +251,7 @@
 		      </ul>
 		    </div>
 <!-- 탭내용들 -->	   
-		    <!-- 리뷰내역 -->
+	<!-- 리뷰내역 -->
 		    <div id="reviewTab" class="col s12">
 		    	<div id="review">
 					<div id="reviewInsert">
@@ -322,7 +322,7 @@
 				<hr>
 		    </div>
 		   
-		    <!-- 문의내역 -->
+	<!-- 문의내역 -->
 		    <div id="qnaTab" class="col s12">
 		    	<h6 align="center"><b>문의내역</b></h6>
 		    	<br>
@@ -378,7 +378,7 @@
 		   
 		    <!-- <div id="test3" class="col s12">Test 3</div> -->
 		   
-		    <!-- 문의하기 -->
+	<!-- 문의하기 -->
 		    <div id="question" class="col s12">
 		    	<h6 align="center"><b>문의하기</b></h6>
 		    	<br>

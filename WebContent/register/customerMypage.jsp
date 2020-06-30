@@ -6,7 +6,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+	<title>Fiesta - 마이페이지</title>
+    <link href="../Fiesta/resource/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <style>
 	/* input[type="radio"] {display:none;}
 	input[type="radio"] + label {display:inline-block; background:#ccc;color:#999; cursor:pointer;}
@@ -18,7 +23,6 @@
 	
 	section a { display:block; }
 </style>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
 $(function() {
 	$('#custName').keyup(function() {
@@ -71,11 +75,24 @@ $(function() {
 		$('.tabs').tabs();
 		$('.collapsible').collapsible();
 }); // ready
+
+
 </script>
+<style type="text/css">
+    	.qdetail{
+    		background-color: #FAF4C0;
+    	}
+    	
+    	.adetail{
+    		background-color: #D4F4FA;
+    	}
+</style>
 </head>
 <body>
-    <c:import url="http://localhost:8888/Fiesta/header.jsp" charEncoding="UTF-8"></c:import>
-
+    <!-- header import -->
+      <c:import url="http://localhost:8888/Fiesta/header.jsp" charEncoding="UTF-8"></c:import> 
+      
+	<section>
 	<!-- 업체 / 고객 구분 :  c:if  사용  -->
 	<h2>개인 정보 수정</h2> 
     <form action="updafteCustomer.do" id="customerUpdateFrm">
@@ -95,8 +112,9 @@ $(function() {
 	<a href="customerDelete.jsp">계정삭제</a>
 	
 
-	<section>
+
 		<h2>거래 내역  </h2>
+<!-- 탭제목들 -->
 		<div class="row">
 		  <div class="col s12">
 		    <ul class="tabs">
@@ -107,7 +125,8 @@ $(function() {
 		      <li class="tab col s3"><a href="#reviewTab">리뷰 내역</a></li>
 		    </ul>
 		  </div>
-		    		
+<!-- 탭내용들 -->	
+		<!-- 주문내역 -->	
 		<div id="orderTab" class="col s12">
 		  <h6 align="center">주문내역</h6>
 		  <br>
@@ -132,7 +151,7 @@ $(function() {
 	      </ul> 	
 	    </div>			  
 	  
-	  
+	  <!-- 의뢰내역 -->	
 	  <div id="requestTab" class="col s12">
 		  <h6 align="center">의뢰내역</h6>
 		  <br>
@@ -155,7 +174,51 @@ $(function() {
 	          </li>
 	        </c:forEach>
 	      </ul> 	
+	    </div>
+	    
+	  <!-- 내가 문의한내역 -->	
+	  <div id="questionTab" class="col s12">
+		  <h6 align="center">내가 문의한 내역</h6>
+		  <br>
+		    <ul class="collapsible">
+				 <c:forEach items="${questionList}" var="question">
+				    <li>
+				      <div class="collapsible-header">	<%-- <span>${question.qCode}</span>  --%>
+													    <span>${question.qTitle}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+													    <span>${question.qDesc}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+													    <span>${question.qDate}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+													    <span>${question.qCondition}</span> </div>
+													
+							<c:forEach items="${questionDetail}"  var="qDetail">
+							<c:if test="${qDetail.qCode == question.qCode}" >						   
+							<div class="collapsible-body qdetail"><h6>문의내용</h6><span>${qDetail.qDesc}</span></div>
+							</c:if>
+							</c:forEach>
+				
+							<c:if test="${question.qCondition eq '답변완료'}" >
+							<c:forEach items="${answerList}"  var="answer">
+								<c:if test="${answer.qCode == question.qCode}" >
+					      		<div class="collapsible-body adetail"><h6>답변내용</h6><span>${answer.aDesc}</span>
+					      										<span>${answer.aDate}</span>
+					      		</div>
+					      		</c:if>
+					      	</c:forEach>
+				      		</c:if>
+					
+						<c:if test="${question.qCondition eq '답변대기'}">
+				      		<div class="collapsible-body" class="adetail"><span>답변대기중입니다</span>
+				      		</div>
+				     	</c:if>
+				    </li>
+				</c:forEach>
+				</ul>	
 	    </div>			  
+	  
+	  
+	  
+	  
+	  
+	  
 	  </div>			
 	 
 	  
