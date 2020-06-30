@@ -187,9 +187,6 @@
 		    height: 300px;
 		    display: none;
     	}
-    	
-    	
-    	
     </style>
 </head>
 <body>

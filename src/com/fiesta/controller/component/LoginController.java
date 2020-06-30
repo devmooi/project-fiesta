@@ -24,11 +24,10 @@ public class LoginController implements Controller {
 		boolean flag = false;
 		PrintWriter out = response.getWriter();
 
-		
 		try {
-			if(pick.equals("customer")) { // 지렸다 하경님
-			Customer customer = RegisterDaoImpl.getInstance().loginCustomer(email, pass);
-			HttpSession session = request.getSession();
+			if(pick.equals("customer")) { 
+				Customer customer = RegisterDaoImpl.getInstance().loginCustomer(email, pass);
+				HttpSession session = request.getSession();
 
 				if(customer != null) {
 					session.setAttribute("customer", customer);
