@@ -12,12 +12,15 @@ public class WishDeleteController implements Controller {
 	@Override
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		int wishCode = Integer.parseInt(request.getParameter("wishCode"));
+		String custEmail = request.getParameter("custEmail"); //세션에서 받아오기
 		
 		String path = "";
 
-		WishDaoImpl.getInstance().deleteWish(wishCode);
+		WishDaoImpl.getInstance().deleteWish(wishCode,custEmail);
 		
-		path = "wishList.do";  
+		//path = "wishList.do";  
+		
+		response.sendRedirect("customerMypage.do?custEmail="+custEmail);
 		
 		return new ModelAndView(path);
 	}

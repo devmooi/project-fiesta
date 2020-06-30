@@ -10,12 +10,14 @@ import com.fiesta.controller.Controller;
 import com.fiesta.controller.ModelAndView;
 import com.fiesta.model.dao.CustomerDaoImpl;
 import com.fiesta.model.dao.QuestionDaoImpl;
+import com.fiesta.model.dao.WishDaoImpl;
 import com.fiesta.model.vo.Answer;
 import com.fiesta.model.vo.Custorder;
 import com.fiesta.model.vo.Custorderdetail;
 import com.fiesta.model.vo.Custrequest;
 import com.fiesta.model.vo.Custrequestdetail;
 import com.fiesta.model.vo.Question;
+import com.fiesta.model.vo.Wish;
 
 public class CustomerMypageController implements Controller {
 
@@ -64,6 +66,10 @@ public class CustomerMypageController implements Controller {
 			answerList.add(answer);
 
 		}
+		
+		//나의 찜내역
+		ArrayList<Wish> wishlist = WishDaoImpl.getInstance().showAllWish(custEmail);
+		
 				
 		//주문의뢰내역 바인딩
 		request.setAttribute("orderList", orderList);
@@ -75,6 +81,9 @@ public class CustomerMypageController implements Controller {
 		request.setAttribute("questionList", questionList);
 		request.setAttribute("questionDetail", questionDetail);
 		request.setAttribute("answerList", answerList);
+		
+		//나의 찜내역 바인딩
+		request.setAttribute("wishlist", wishlist);
 
 		return new ModelAndView(path);
 	}

@@ -16,8 +16,11 @@ public class WishRegisterController implements Controller {
 		String custEmail = "encore@gmail.com"; //세션에서 받아올것
 		
 
-		WishDaoImpl.getInstance().insertWish(custEmail,companycode);
+		String existResult = WishDaoImpl.getInstance().insertWish(custEmail,companycode);
 		
+		request.setAttribute("existResult", existResult);
+		
+		System.out.println(existResult);
 			
 		return null;
 		

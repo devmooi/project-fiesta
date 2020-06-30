@@ -15,8 +15,9 @@ public class Wish {
 		this.comCode = comCode;
 	}
 	
-	public Wish(int wishCode, String comName, String comDesc) {
+	public Wish(int wishCode, String custEmail, String comName, String comDesc) {
 		this.wishCode = wishCode;
+		this.custEmail = custEmail;
 		this.comName = comName;
 		this.comDesc = comDesc;
 	}

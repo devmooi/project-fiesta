@@ -212,14 +212,25 @@ $(function() {
 				    </li>
 				</c:forEach>
 				</ul>	
-	    </div>			  
-	  
-	  
-	  
-	  
-	  
-	  
-	  </div>			
+	    </div>
+	    
+	<!-- 내가 찜한내역 -->	
+		  <div id="wishTab" class="col s12">
+			  <h6 align="center">내가 찜내역</h6>
+			  <br>
+			   <table border="2" width="350" bgcolor="yellow" align="center">
+					<c:forEach items="${wishlist}" var="wish">
+						<tr>
+							<td>${wish.wishCode}</td>
+							<td>${wish.comName}</td>
+							<td>${wish.comDesc}</td>
+							<td><a href="wishDelete.do?wishCode=${wish.wishCode}&custEmail=${wish.custEmail}">삭제</a></td>
+						</tr>
+					</c:forEach>
+				</table> 
+		    </div>			  
+		    	  
+	  </div><!-- tab 전체닫기 div -->			
 	 
 	  
 	  

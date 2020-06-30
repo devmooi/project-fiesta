@@ -52,9 +52,10 @@ public class WishDaoImpl {
 	
 	//작업 영역
 	//Wish
-	public void insertWish(String custEmail, int comCode) throws SQLException {
+	public String insertWish(String custEmail, int comCode) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
+		String result = "false";
 		
 		try{
 			conn=  getConnection();
@@ -65,11 +66,37 @@ public class WishDaoImpl {
 			ps.setString(1, custEmail);	//세션의 고객아이디 값 가져오기
 			ps.setInt(2, comCode); //기업코드값 가져오기
 			
-			System.out.println(ps.executeUpdate()+" row INSERT OK!!");
+			if(wishExist(comCode)==false) {
+				System.out.println(ps.executeUpdate()+" row INSERT OK!!");
+				result="true";
+			}else {
+				result="false";
+			}
+			
+			return result;
+			
 		}finally{
 			closeAll(ps, conn);
 		}
 		
+	}
+	
+	public boolean wishExist(int comCode) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			conn = getConnection();
+			String query = "SELECT com_code FROM wish WHERE com_code=?";
+			ps = conn.prepareStatement(query);
+			System.out.println("PreparedStatement 생성됨...wishExist");
+			
+			ps.setInt(1, comCode);
+			rs = ps.executeQuery();
+			return rs.next();
+		} finally {
+			closeAll(rs, ps, conn);
+		}
 	}
 
 	public ArrayList<Wish> showAllWish(String custEmail) throws SQLException {
@@ -93,7 +120,8 @@ public class WishDaoImpl {
 				//Company com = new Company();
 				//com.setComName("c.com_name");
 				//com.setComDesc("c.com_desc");
-				list.add(new Wish(rs.getInt("w.wish_code"), 
+				list.add(new Wish(rs.getInt("w.wish_code"),
+										custEmail,
 									  rs.getString("c.com_name"),  
 									  rs.getString("c.com_desc")));
 			}
@@ -104,16 +132,17 @@ public class WishDaoImpl {
 		return list;
 	}
 
-	public void deleteWish(int wishCode) throws SQLException {
+	public void deleteWish(int wishCode, String custEmail) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try{
 			conn=  getConnection();
-			String query = "DELETE FROM wish WHERE wish_code=?";
+			String query = "DELETE FROM wish WHERE wish_code=? and cust_email=?";
 			ps = conn.prepareStatement(query);
 			System.out.println("PreparedStatement 생성됨...deleteWish");
 			
 			ps.setInt(1, wishCode);
+			ps.setString(2, custEmail);
 			
 			System.out.println(ps.executeUpdate()+" row delete OK!!");
 		}finally{

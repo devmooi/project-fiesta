@@ -34,7 +34,8 @@
 			$('.collapsible').collapsible();
 			
 			$("#popCloseBtn").click(function(event){
-	            $("#popupDiv").css("display","none"); //팝업창 display none
+	            $("#successPopupDiv").css("display","none"); //팝업창 display none
+	            $("#failPopupDiv").css("display","none"); //팝업창 display none
 	        });
 			
 			//페이지방식1 - 안됨 ㅠㅠ
@@ -63,6 +64,7 @@
 		//찜하기
 		function registerWish(){
 			var comCode = ${companycode};
+
 			$.ajax({
 				type:'post',
 				url:'wishRegister.do',
@@ -71,18 +73,41 @@
 				success:function(result) {
 						//alert(comCode); 확인용
 						//alert("찜하기 성공");
+						/* var existResult = ${existResult};
+						wishPopUp(); */
 				}
 			}); // ajax
 			
-			$("#popupDiv").css("display","block"); //팝업창 display block
+  			$("#successPopupDiv").css("display","block"); //팝업창 display block
 			
-			 $("#popupDiv").css({
-	             "top": (($(window).height()-$("#popupDiv").outerHeight())/2+$(window).scrollTop())+"px",
-	             "left": (($(window).width()-$("#popupDiv").outerWidth())/2+$(window).scrollLeft())+"px"
-	             //팝업창을 가운데로 띄우기 위해 현재 화면의 가운데 값과 스크롤 값을 계산하여 팝업창 CSS 설정
+			 $("#successPopupDiv").css({
+	             "top": (($(window).height()-$("#successPopupDiv").outerHeight())/2+$(window).scrollTop())+"px",
+	             "left": (($(window).width()-$("#successPopupDiv").outerWidth())/2+$(window).scrollLeft())+"px"
+		 		});  
+  			
+		}
+			
+	
+ 		/* function wishPopUp(){
+  			if(existResult=='true')){
+				$("#successPopupDiv").css("display","block"); //팝업창 display block
+				
+				 $("#successPopupDiv").css({
+		             "top": (($(window).height()-$("#successPopupDiv").outerHeight())/2+$(window).scrollTop())+"px",
+		             "left": (($(window).width()-$("#successPopupDiv").outerWidth())/2+$(window).scrollLeft())+"px"
+		             //팝업창을 가운데로 띄우기 위해 현재 화면의 가운데 값과 스크롤 값을 계산하여 팝업창 CSS 설정
 	         
 	          });
-		}
+			}else{
+				$("#failPopupDiv").css("display","block"); //팝업창 display block
+				
+				 $("#failPopupDiv").css({
+		             "top": (($(window).height()-$("#failPopupDiv").outerHeight())/2+$(window).scrollTop())+"px",
+		             "left": (($(window).width()-$("#failPopupDiv").outerWidth())/2+$(window).scrollLeft())+"px"
+		             //팝업창을 가운데로 띄우기 위해 현재 화면의 가운데 값과 스크롤 값을 계산하여 팝업창 CSS 설정
+				}); 
+			}
+		} */ 
 		
 		//서비스등록창 열고닫기
 		function serviceOpenClose() {
@@ -168,7 +193,18 @@
     		background-color: #D4F4FA;
     	}
     	
-    	#popupDiv {  /* 팝업창 css */
+    	#successPopupDiv {  /* 팝업창 css */
+    		text-align:center;
+		    top : 0px;
+		    padding-top: 60px;
+		    position: absolute;
+		    background: #FAE0D4;
+		    width: 300px;
+		    height: 300px;
+		    display: none;
+    	}
+    	
+    	#failPopupDiv {  /* 팝업창 css */
     		text-align:center;
 		    top : 0px;
 		    padding-top: 60px;
@@ -204,12 +240,21 @@
 		<button id = "wishBtn" onclick="registerWish()">찜하기</button>
 		
 		
-		<div id="popupDiv"> <!-- 찜성공 팝업창 -->
+		<div id="successPopupDiv"> <!-- 찜성공 팝업창 -->
 				<i class="large material-icons">favorite</i>
 				<div>찜하기 성공!</div>
 				<a href="wishList.do">나의 찜 목록보기</a>
         		<button id="popCloseBtn">close</button>
     	</div>
+    	
+    			
+		<div id="failPopupDiv"> <!-- 찜실패 팝업창 -->
+				<i class="large material-icons">favorite</i>
+				<div>이미 찜했어요</div>
+				<a href="wishList.do">나의 찜 목록보기</a>
+        		<button id="popCloseBtn">close</button>
+    	</div>
+    	
 		<br>
 		<h3 align="center">서비스</h3><p>
 		<table border="2" width="350" bgcolor="yellow" align="center">
