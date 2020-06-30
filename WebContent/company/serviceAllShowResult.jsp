@@ -33,14 +33,37 @@
 			
 			$('.collapsible').collapsible();
 			
-			$("#popCloseBtn").click(function(event){
-	            $("#popupDiv").css("display","none"); //팝업창 display none
+			$(".popCloseBtn").click(function(event){
+	            $(".PopupDiv").css("display","none"); //팝업창 display none
 	        });
+			
+			//페이지방식1 - 안됨 ㅠㅠ
+/*   			$('.qnaContent').slice(0,10).show(); //10개씩 자르기
+			$('#more').click(function(e){
+				e.preventDefault();
+				$('.qnaContent:hidden').slice(0,10).show();
+				if($('qnaContent:hidden'==0){
+					alert(더이상 없음);
+				})
+			})   */
+			
+			//페이지방식2 -안됨 ㅠㅠㅠ
+/* 			$('.qnaContent:gt(4)').hide().last().after(
+				$('#more').click(function(){
+			        var a = this;
+			        $('.qnaContent:not(:visible):lt(5)').fadeIn(function(){
+			         if ($('.qnaContent:not(:visible)').length == 0)
+			        	 $(a).remove();   
+			        }); return false;
+				})
+			); */
+			
 		});
 		
 		//찜하기
 		function registerWish(){
 			var comCode = ${companycode};
+			//var existResult = ${existResult};
 			$.ajax({
 				type:'post',
 				url:'wishRegister.do',
@@ -49,17 +72,33 @@
 				success:function(result) {
 						//alert(comCode); 확인용
 						//alert("찜하기 성공");
+						//$("#result").html(result); 
+						//성공과 실패를 나눠서 팝업창을 띄우고 싶은데 안된다 ㅠㅅㅠ
+						if(result=='true'){
+							$(".wishResult").html("찜하기 성공!!!!");
+							
+				  			$(".PopupDiv").css("display","block"); //팝업창 display block
+					
+							$(".PopupDiv").css({
+					             "top": (($(window).height()-$(".PopupDiv").outerHeight())/2+$(window).scrollTop())+"px",
+					             "left": (($(window).width()-$(".PopupDiv").outerWidth())/2+$(window).scrollLeft())+"px",
+					             "background": "#FAE0D4"
+						 	});  
+						}else{
+							$(".wishResult").html("이미 찜했어요 ㅠㅅㅠ");
+							$(".material-icons").html("mood_bad");
+							
+				  			$(".PopupDiv").css("display","block"); //팝업창 display block
+					
+							$(".PopupDiv").css({
+					             "top": (($(window).height()-$(".PopupDiv").outerHeight())/2+$(window).scrollTop())+"px",
+					             "left": (($(window).width()-$(".PopupDiv").outerWidth())/2+$(window).scrollLeft())+"px",
+					             "background": "#D9E5FF"
+						 	}); 
+						}
 				}
 			}); // ajax
-			
-			$("#popupDiv").css("display","block"); //팝업창 display block
-			
-			 $("#popupDiv").css({
-	             "top": (($(window).height()-$("#popupDiv").outerHeight())/2+$(window).scrollTop())+"px",
-	             "left": (($(window).width()-$("#popupDiv").outerWidth())/2+$(window).scrollLeft())+"px"
-	             //팝업창을 가운데로 띄우기 위해 현재 화면의 가운데 값과 스크롤 값을 계산하여 팝업창 CSS 설정
-	         
-	          });
+  			
 		}
 		
 		//서비스등록창 열고닫기
@@ -163,7 +202,7 @@
     		background-color: #D4F4FA;
     	}
     	
-    	#popupDiv {  /* 팝업창 css */
+    	.PopupDiv {  /* 팝업창 css */
     		text-align:center;
 		    top : 0px;
 		    padding-top: 60px;
@@ -180,7 +219,7 @@
 </head>
 <body>
 	<!-- header import -->
-     <c:import url="http://localhost:8888/Fiesta/header.jsp" charEncoding="UTF-8"></c:import>
+      <c:import url="http://localhost:8888/Fiesta/header.jsp" charEncoding="UTF-8"></c:import> 
 	<!-- 항상 section에서 시작 -->
 	<section>
 		<div id="companyInfo">
@@ -197,19 +236,23 @@
 			<p><span>전화번호</span> ${company.comTel}</p>
 			<p><span>주소</span> ${company.comAddr}</p>
 		</div>
-		
+
+
 
 		<br><br>
 		<!-- 찜하기랑 목록 -->
 		<button id = "wishBtn" onclick="registerWish()">찜하기</button>
 		
-		
-		<div id="popupDiv"> <!-- 찜성공 팝업창 -->
+		<!-- 찜성공/실패 팝업창 -->
+		<div class="PopupDiv"> 
 				<i class="large material-icons">favorite</i>
-				<div>찜하기 성공!</div>
-				<a href="wishList.do">나의 찜 목록보기</a>
-        		<button id="popCloseBtn">close</button>
+				<div class="wishResult"></div>
+				<a href="customerMypage.do?">나의 찜 목록보기</a> <!-- 경로수정해야함 -->
+        		<button class="popCloseBtn">close</button>
     	</div>
+    	
+    	
+    	<!-- 서비스목록 -->
 		<br>
 		<h3 align="center">서비스</h3><p>
 		<table border="2" width="350" bgcolor="yellow" align="center">
@@ -251,7 +294,7 @@
 		      </ul>
 		    </div>
 <!-- 탭내용들 -->	   
-		    <!-- 리뷰내역 -->
+	<!-- 리뷰내역 -->
 		    <div id="reviewTab" class="col s12">
 		    	<div id="review">
 					<div id="reviewInsert">
@@ -322,17 +365,19 @@
 				<hr>
 		    </div>
 		   
-		    <!-- 문의내역 -->
+	<!-- 문의내역 -->
 		    <div id="qnaTab" class="col s12">
 		    	<h6 align="center"><b>문의내역</b></h6>
 		    	<br>
+		    	<div class= "qnaContent">
 				 <ul class="collapsible">
 				 <c:forEach items="${questionList}" var="question">
 				    <li>
 				      <div class="collapsible-header">	<%-- <span>${question.qCode}</span>  --%>
-													    <span>${question.qDate}</span>
-													    <span>${question.qTitle}</span>
-													    <span>${question.qDesc}</span>
+													    <span>${question.qTitle}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+													    <span>${question.qDesc}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+													    <span>${question.custEmail}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+													    <span>${question.qDate}</span>&nbsp;&nbsp;&nbsp;&nbsp;
 													    <span>${question.qCondition}</span> </div>
 													
 							<c:forEach items="${questionDetail}"  var="qDetail">
@@ -369,13 +414,15 @@
 				    </li>
 				</c:forEach>
 				</ul>
+				</div>
+				<a href="#" id="more">더보기</a>
 				<br><br>
 				<hr>
 		    </div>
 		   
 		    <!-- <div id="test3" class="col s12">Test 3</div> -->
 		   
-		    <!-- 문의하기 -->
+	<!-- 문의하기 -->
 		    <div id="question" class="col s12">
 		    	<h6 align="center"><b>문의하기</b></h6>
 		    	<br>
@@ -384,6 +431,7 @@
 				문의제목 : <input type="text" name="qTitle" required="required"><br><br>
 				문의내용 : <input type="text" name="qDesc" required="required"><br><br>
 				<input align="center" onclick ="qRegister()" type="submit" value="문의 등록">
+				</form>
 		    </div>
 		  </div>
 		

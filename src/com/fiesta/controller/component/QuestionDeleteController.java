@@ -21,7 +21,8 @@ public class QuestionDeleteController implements Controller {
 		//path = "ServiceAllShow.do?companycode="+companycode;  
 		
 		//questionAllShow.do?custEmail=encore@gmail.com
-		response.sendRedirect("questionAllShow.do?custEmail="+custEmail);
+		//response.sendRedirect("questionAllShow.do?custEmail="+custEmail);
+		response.sendRedirect("customerMypage.do?custEmail="+custEmail);
 		
 		//return new ModelAndView(path);
 		return null;
