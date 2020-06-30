@@ -306,11 +306,12 @@ public class ReviewDaoImpl {
 				float sumCov = 0;
 				for(int j=0;j<matrix.length;j++) {
 					if(matrix[j][custlocation]!=0&&matrix[j][i]!=0) {
-						//System.out.println(matrix[j][i]+"||"+matrix[j][custlocation]);
+						System.out.println(matrix[j][i]+"||"+matrix[j][custlocation]);
 						sumCov += (float) ((float)matrix[j][custlocation]-(float)avgU[custlocation])*((float)matrix[j][i]-(float)avgU[i]);
-						if(j==matrix.length-1) {
-							covAU[i] = (float) sumCov;
-						}
+					}
+					if(j==matrix.length-1) {
+						System.out.println(sumCov);
+						covAU[i] = (float) sumCov;
 					}
 				}
 			}
@@ -557,7 +558,7 @@ public class ReviewDaoImpl {
 			email ="1";
 			for(int j=0;j<10;j++) {
 				reviewCode = comCode+"-"+serviceCode+"-"+num;
-				reviewScore = (int) Math.floor((Math.random()*5 + 1));
+				reviewScore = (int) Math.floor((Math.random()*6));
 				cust.setCustEmail(email);
 				service.setServiceCode(serviceCode);
 				company.setComCode(comCode);
@@ -569,8 +570,8 @@ public class ReviewDaoImpl {
 			comCode++;
 			System.out.println(cnt+"회 ::");
 			cnt++;
-		}
-		*/
+		}*/
+		
 		//matrix 생성
 		int[][] mat = dao.getReviewMatrix();
 		System.out.println("matrix :: ");
