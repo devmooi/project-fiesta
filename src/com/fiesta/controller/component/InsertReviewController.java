@@ -24,19 +24,22 @@ public class InsertReviewController implements Controller {
 
 	@Override
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		File attachesDir = new File(request.getSession().getServletContext().getRealPath("/resource/file_upload"));
+		// 생성할 객체 미리 생성
 		ReviewDaoImpl dao = ReviewDaoImpl.getInstance();
 		HttpSession session = request.getSession();
 		
+		// 현재 페이지는 로그인 상황이나 합치기 전에는 미리 생성해놓음
 		Customer cust = new Customer("encore@gmail.com", "java", "1234");
 		session.setAttribute("customer", cust);
 		
-		
+		// 파일 업로드 준비
+		File attachesDir = new File(request.getSession().getServletContext().getRealPath("/resource/file_upload"));
 		DiskFileItemFactory fileItemFactory = new DiskFileItemFactory();
 		fileItemFactory.setRepository(attachesDir);
 		fileItemFactory.setSizeThreshold(1024 * 1024);
 		ServletFileUpload fileUpload = new ServletFileUpload(fileItemFactory);
 		
+		// 들어오는 방식이 getparameter가 아니므로 elseif로 받을 준비
 		String type = "";
 		int companycode=0;
 		String[] arr = {};
@@ -53,7 +56,7 @@ public class InsertReviewController implements Controller {
 					System.out.println("파라미터 값 : " + item.getString("utf-8"));
 					if(item.getFieldName().equals("reviewScore")) {
 						reviewScore =  Integer.parseInt(item.getString("utf-8"));
-					}else if(item.getFieldName().equals("comCode")){
+					}else if(item.getFieldName().equals("companycode")){
 						companycode =  Integer.parseInt(item.getString("utf-8"));
 					}else if(item.getFieldName().equals("serviceName")){
 						arr =  item.getString("utf-8").split(",");
@@ -75,7 +78,7 @@ public class InsertReviewController implements Controller {
 					if(item.getSize() > 0) {
 						String separator = File.separator;
 						int index = item.getName().lastIndexOf(separator);
-						String fileName = item.getName().substring(index + 1)+companycode+serviceCode;
+						String fileName = companycode+serviceCode+item.getName().substring(index + 1);
 						File uploadFile = new File(attachesDir + separator + fileName);
 						item.write(uploadFile);
 						reviewImg+=item.getName();

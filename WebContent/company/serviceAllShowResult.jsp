@@ -15,8 +15,15 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
-		$(function() {
-			$('#frm').submit(function() {
+		$(document).ready(function(){
+			$('.tabs').tabs();
+			
+			$('.collapsible').collapsible();
+			
+			$("#popCloseBtn").click(function(event){
+	            $("#popupDiv").css("display","none"); //팝업창 display none
+	        });
+			$('#insertReview').click(function() {
 				var sum =0;
 				$('input[name=reviewScore]:checked').each(function() {
 					sum+=$(this).val();
@@ -26,15 +33,7 @@
 					return false;
 				}
 			});//submit
-		$(document).ready(function(){
-			$('.tabs').tabs();
-			
-			$('.collapsible').collapsible();
-			
-			$("#popCloseBtn").click(function(event){
-	            $("#popupDiv").css("display","none"); //팝업창 display none
-	        });
-		}
+		});//ready
 		
 		//찜하기
 		function registerWish(){
@@ -160,7 +159,7 @@
 </head>
 <body>
 	<!-- header import -->
-     <c:import url="http://localhost:8888/Fiesta/header.jsp" charEncoding="UTF-8"></c:import> 
+    <c:import url="http://localhost:8888/Fiesta/header.jsp" charEncoding="UTF-8"></c:import>
     
 
 	<!-- 항상 section에서 시작 -->
@@ -198,7 +197,9 @@
 				<tr>
 					<td>${service.serviceCode}</td>
 					<td>${service.serviceName}</td>
+					<c:if test="${not empty service.serviceImg}">
 					<td><img src= "../resource/file_upload/${service.serviceImg}" width=100 height=100></td>
+					</c:if>
 					<td>${service.serviceDesc}</td>
 					<td>${service.serviceTag}</td>
 					<td><a href="ServiceDelete.do?serviceCode=${service.serviceCode}">삭제</a></td>  <!-- 이거는 업체가 로그인했을때만 보일 것 -->
@@ -238,18 +239,13 @@
 		    <div id="reviewTab" class="col s12">
 		    	<div id="review">
 					<div id="reviewInsert">
-					<input type="hidden" name="companycode" value="${companycode}">
 					<h4>리뷰 등록하기</h4>
-					<form id="frm" action="InsertReview.do" method="post" enctype="multipart/form-data">
+					<form id="reviewfrm" action="InsertReview.do" method="post" enctype="multipart/form-data">
 					<div id="wrap">
 						<div id="comDesc">
-							<%-- <input type="hidden" name="comCode" value="${list[0].company.comCode}"> --%>
 							<input type="hidden" name="companycode" value="${companycode}">
+							<input type="hidden" name="serviceCode" value="${companycode}">
 							<input type="hidden" name="type" value="1">
-							업체명 : 
-							<%-- <input type="text" name="comName" readonly="readonly" value="${list[0].company.comName}"><br> --%>
-							<input type="text" name="comName" readonly="readonly" value="${companycode}"><br>
-							
 							<select name="serviceName" required="required">
 								<option label="리뷰할 서비스 선택하세요"></option>
 								<c:forEach items="${serviceList}" var="service">
@@ -273,7 +269,7 @@
 						<div id="reviewDesc">
 							<textarea name="reviewDesc" rows="5" cols="20" required="required"></textarea>
 						</div>
-						<input type="submit" value="등록하기">
+						<input type="submit" value="등록하기" id="insertReview">
 					</div>
 					</form>
 					</div>
@@ -283,27 +279,29 @@
 					<!-- 리뷰내역  -->
 					<div id="reviewScore">
 					<span>평점 : </span>
-					<c:forEach items="${list3}" var="url">
+					<c:forEach items="${reviewSrcList}" var="url">
 					 <img src ="${url}" width="10px" height="10px">
 					</c:forEach> 
 					<span>리뷰수 : ${review.countDesc}</span>
 					</div>
 					<hr>
-					<c:forEach items="${list2}" var="review">
-					<c:set var="reviewCode1" value="${reviewCode.reviewCode}"></c:set>
+					<c:forEach items="${reviewlist2}" var="review">
+					<form id="answerfrm" action="ShowReview.do" method="post">
+					<input type="hidden" name="reviewCode" value="${review.reviewCode}">
 					<div id="reviewContent">
 					<span>이름 : ${review.customer.custName}, </span><span>만족도 : ${review.reviewScore}, </span><span>일시 : ${review.reviewDate}</span><br>
 					<span><img src= "${review.reviewImg}" width=100 height=100></span><br>
 					<span>내용 : ${review.reviewDesc}</span><br>
-					<button name="answerReivew">답변하기</button>
-					<input type="hidden" name="reviewCode" value="${review.reviewCode}">
+					<input type="submit" value="답변하기">
 					</div>
 					<hr>
 					<br>
+					</form>
 					</c:forEach>
 				</div>
 				<hr>
 		    </div>
+		    
 		    
 		    <!-- 문의내역 -->
 		    <div id="qnaTab" class="col s12">

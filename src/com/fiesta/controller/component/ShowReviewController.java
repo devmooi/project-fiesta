@@ -16,10 +16,12 @@ public class ShowReviewController implements Controller {
 	@Override
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String reviewCode = request.getParameter("reviewCode");
+		System.out.println("reviewCode : "+reviewCode);
 		Review review = new Review();
 		
 		review=ReviewDaoImpl.getInstance().showReview(reviewCode);
 		request.setAttribute("review", review);
+		System.out.println("review"+review);
 		
 		return new ModelAndView("review/answerReview.jsp");
 	}

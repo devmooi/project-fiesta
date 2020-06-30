@@ -309,8 +309,9 @@ public class ReviewDaoImpl {
 			query.append("WHERE r.cust_email=cust.cust_email ");
 			query.append("AND r.com_code = ? ");
 			ps=conn.prepareStatement(query.toString());
+			System.out.println("PreparedStatement....showAllReviewByCompany");
 			ps.setInt(1,comCode);
-			//System.out.println(query);
+			System.out.println(query);
 			rs=ps.executeQuery();
 			
 			while(rs.next()) {
@@ -318,7 +319,8 @@ public class ReviewDaoImpl {
 				cust.setCustEmail(rs.getString("r.cust_email"));
 				cust.setCustName(rs.getString("cust.cust_name"));
 				String reviewCode = rs.getString("r.review_code");
-				if(reviewCode.length()==5) {
+				String[] arr = reviewCode.split("-");
+				if(arr.length==3) {
 					list.add(new Review(rs.getString("r.review_code"),
 							rs.getInt("r.review_score"),
 							rs.getString("r.review_img"),
@@ -354,6 +356,7 @@ public class ReviewDaoImpl {
 			query.append("AND r.cust_email = cust.cust_email ");
 			query.append("GROUP BY review_code ");
 			ps=conn.prepareStatement(query.toString());
+			System.out.println("PreparedStatement....showReview");
 			ps.setString(1, reviewCode);
 			rs=ps.executeQuery();
 			while(rs.next()) {
@@ -393,8 +396,9 @@ public class ReviewDaoImpl {
 			query.append("FROM review r, customer cust ");
 			query.append("WHERE r.com_code = ? ");
 			query.append("AND r.cust_email = cust.cust_email ");
-			query.append("GROUP BY review_code ");
+			query.append("GROUP BY com_code ");
 			ps=conn.prepareStatement(query.toString());
+			//System.out.println(query);
 			ps.setInt(1, comCode);
 			rs=ps.executeQuery();
 			while(rs.next()) {
@@ -456,8 +460,8 @@ public class ReviewDaoImpl {
 		CompanyDaoImpl cdao = CompanyDaoImpl.getInstance();
 		//System.out.println(dao.showService(1));
 		//System.out.println(dao.isReview(1, 1));
-		//System.out.println(dao.showAllReview(1).size());
-		//System.out.println(dao.showReview("1-1-1"));
+		//System.out.println(dao.showAllReviewByCompany(18).size());
+		System.out.println(dao.showReview(18));
 		
 		//알고리즘 테스트 케이스 추가
 		/*int num=1;
@@ -505,12 +509,12 @@ public class ReviewDaoImpl {
 		}*/
 		
 		//matrix 생성
-		int[][] mat = dao.getReviewMatrix();
+		/*int[][] mat = dao.getReviewMatrix();
 		for(int[] arr : mat) {
 			System.out.println(java.util.Arrays.toString(arr));
 		}
 		//평균
-		System.out.println(dao.getCorr(dao.getReviewMatrix(), dao.getRow(), dao.whereIsCust("2")));
+		System.out.println(dao.getCorr(dao.getReviewMatrix(), dao.getRow(), dao.whereIsCust("2")));*/
 		
 	}
 }
