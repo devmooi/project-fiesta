@@ -26,27 +26,14 @@ public class UpdateCustomerController implements Controller {
 		String tel = request.getParameter("custTel");
 		String group = request.getParameter("custGroup"); 
 		
-		String path = "customerMypage.jsp";
-		
-		int orderCode = Integer.parseInt((String)request.getParameter("orderCode"));
-		int custdetailCode = Integer.parseInt((String)request.getParameter("custdetailCode"));
-		int requestCode = Integer.parseInt((String)request.getParameter("requestCode"));
-		int detailCode = Integer.parseInt((String)request.getParameter("detailCode"));
+		String path = "";
 		
 		Customer customer = new Customer(email, name, pass, tel, group);
-		
+				
 		try {
 			RegisterDaoImpl.getInstance().updateCustomer(customer);
 			
-			ArrayList<Custorder> orderList = CustomerDaoImpl.getInstance().showAllCustOrder(orderCode);
-			ArrayList<Custorderdetail> orderDetailList = CustomerDaoImpl.getInstance().showAllCustOrderDetail(custdetailCode);
-			ArrayList<Custrequest> requestList = CustomerDaoImpl.getInstance().showAllCustRequest(requestCode);
-			ArrayList<Custrequestdetail> requestDetailList = CustomerDaoImpl.getInstance().showAllCustRequestDetail(detailCode);
-		
-			request.setAttribute("orderList", orderList);
-			request.setAttribute("requestList", requestList);
-			request.setAttribute("orderDetailList", orderDetailList);
-			request.setAttribute("requestDetailList", requestDetailList);
+			path = "customerMypage.jsp";
 			
 		} catch (SQLException e) {
 			

@@ -15,6 +15,16 @@ public class Custorder {
 	public Custorder() {}
 
 	public Custorder(String orderSysdate, String orderRevdate, String orderPlace, String orderBudget,
+			String orderRequire, String orderCondition) {
+		this.orderSysdate = orderSysdate;
+		this.orderRevdate = orderRevdate;
+		this.orderPlace = orderPlace;
+		this.orderBudget = orderBudget;
+		this.orderRequire = orderRequire;
+		this.orderCondition = orderCondition;
+	}
+	
+	public Custorder(String orderSysdate, String orderRevdate, String orderPlace, String orderBudget,
 			String orderRequire, String custEmail, int serviceCode, int comCode) {
 		this.orderSysdate = orderSysdate;
 		this.orderRevdate = orderRevdate;

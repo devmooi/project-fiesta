@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -77,7 +78,7 @@ $(function() {
 
 	<!-- 업체 / 고객 구분 :  c:if  사용  -->
 	<h2>개인 정보 수정</h2> 
-    <form action="updateCustomer.do" id="customerUpdateFrm">
+    <form action="updafteCustomer.do" id="customerUpdateFrm">
 	이름  <input type="text" name="custName" id="custName" value="${customer.custName}" placeholder="${customer.custName}"><br>
 		<span id="custNameCheckView"></span><br>	
 	이메일  <input type="text" name="custEmail" id="custEmail" value="${customer.custEmail}" placeholder="${customer.custEmail}"><br>
@@ -93,8 +94,9 @@ $(function() {
 	</form>
 	<a href="customerDelete.jsp">계정삭제</a>
 	
+
 	<section>
-		<h2>거래 내역</h2>
+		<h2>거래 내역  </h2>
 		<div class="row">
 		  <div class="col s12">
 		    <ul class="tabs">
@@ -102,9 +104,10 @@ $(function() {
 		      <li class="tab col s3"><a href="#requestTab">의뢰내역</a></li>
 		      <li class="tab col s3"><a href="#questionTab">문의내역</a></li>
 		      <li class="tab col s3"><a href="#wishTab">찜 내역</a></li>
+		      <li class="tab col s3"><a href="#reviewTab">리뷰 내역</a></li>
 		    </ul>
 		  </div>
-		
+		    		
 		<div id="orderTab" class="col s12">
 		  <h6 align="center">주문내역</h6>
 		  <br>
@@ -117,23 +120,24 @@ $(function() {
 		        	<span>${order.orderPlace}</span>
 		        	<span>${order.orderBudget}</span>
 		        	<span>${order.orderRequire}</span>
-		        	<span>${order.orderCondition}</span></div>	
+		        	<span>${order.orderCondition}</span>
+		        </div>	
 		      <c:forEach items="${orderDetailList}" var="orderDetail">
 		        <div class="collaps-body orderDetail">
-		          <h6>주문 상세 내용</h6>
+		          <h6 align="center">주문 상세 내용</h6>
 		            <span>${orderDetail.custdetailDesc}</span></div>
 		      </c:forEach>
 	          </li>
-		    </c:forEach>
+	        </c:forEach>
 	      </ul> 	
 	    </div>			  
-	  </div>			
+	  
 	  
 	  <div id="requestTab" class="col s12">
- 		  <h6 align="center">의뢰내역</h6>
- 		  <br>
+		  <h6 align="center">의뢰내역</h6>
+		  <br>
 		    <ul class="collapsible">
-		    <c:forEach items="${requestList}" var="request">
+		    <c:forEach items="${requestList}" var="order">
 		      <li>
 		        <div class="collapsible-header">
 		        	<span>${request.requestSysdate}</span>
@@ -141,16 +145,21 @@ $(function() {
 		        	<span>${request.requestPlace}</span>
 		        	<span>${request.requestBudget}</span>
 		        	<span>${request.requestRequire}</span>
-		        	<span>${request.requestFiesta}</span></div>	
-		      <c:forEach items="${requestDetailList}" var="requestDetail">
-		        <div class="collaps-body requestDetail">
+		        	<span>${request.requestFiesta}</span>
+		        </div>	
+		      <c:forEach items="${requestDetailList}" var="orderDetail">
+		        <div class="collaps-body orderDetail">
 		          <h6>의뢰 상세 내용</h6>
 		            <span>${requestDetail.detailDesc}</span></div>
 		      </c:forEach>
 	          </li>
-		    </c:forEach>
+	        </c:forEach>
 	      </ul> 	
 	    </div>			  
+	  </div>			
+	 
+	  
+	  
 	  
 <%-- 	  <div id="orderTab" class="col s12">
 		  <h6 align="center">문의내역</h6>
@@ -186,7 +195,27 @@ $(function() {
 	          </li>
 		    </c:forEach>
 	      </ul> 	
-	    </div>	 --%>		  
+	    </div>	
+	    
+	    <div id="reviewTab" class="col s12">
+		  <h6 align="center">리뷰 내역</h6>
+		  <br>
+		    <ul class="collapsible">
+		    <c:forEach items="" var="">
+		      <li>
+		        <div class="collapsible-header">
+				</div>	
+		      <c:forEach items="" var="">
+		        <div class="collaps-body orderDetail">
+		          <h6>주문 상세 내용</h6>
+		        </div>
+		      </c:forEach>
+	          </li>
+		    </c:forEach>
+	      </ul> 	
+	    </div>	 --%>	    
+	    		 
+	    		   
     </section>
 		
 	

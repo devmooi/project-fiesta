@@ -13,6 +13,13 @@ public class Custorderdetail {
 	public Custorderdetail() {}
 	
 	public Custorderdetail(int custdetailTotalprice, String custdetailDesc,
+			String custdetailCompletedate) {
+		this.custdetailTotalprice = custdetailTotalprice;
+		this.custdetailDesc = custdetailDesc;
+		this.custdetailCompletedate = custdetailCompletedate;
+	}
+	
+	public Custorderdetail(int custdetailTotalprice, String custdetailDesc,
 			String custdetailCompletedate, int orderCode, int serviceCode, int comCode, String custEmail) {
 		this.custdetailTotalprice = custdetailTotalprice;
 		this.custdetailDesc = custdetailDesc;

@@ -13,6 +13,16 @@ public class Custrequest {
 	public Custrequest() {}
 	
 	public Custrequest(String requestSysdate, String requestRevdate, String requestPlace,
+			String requestBudget, String requestRequire, String requestFiesta) {
+		this.requestSysdate = requestSysdate;
+		this.requestRevdate = requestRevdate;
+		this.requestPlace = requestPlace;
+		this.requestBudget = requestBudget;
+		this.requestRequire = requestRequire;
+		this.requestFiesta = requestFiesta;
+	}
+	
+	public Custrequest(String requestSysdate, String requestRevdate, String requestPlace,
 			String requestBudget, String requestRequire, String requestFiesta, String custEmail) {
 		this.requestSysdate = requestSysdate;
 		this.requestRevdate = requestRevdate;
