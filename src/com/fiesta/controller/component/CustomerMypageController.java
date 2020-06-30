@@ -1,36 +1,25 @@
 package com.fiesta.controller.component;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fiesta.controller.Controller;
 import com.fiesta.controller.ModelAndView;
-import com.fiesta.model.dao.CustomerDaoImpl;
-import com.fiesta.model.dao.QuestionDaoImpl;
-import com.fiesta.model.dao.WishDaoImpl;
-import com.fiesta.model.vo.Answer;
-import com.fiesta.model.vo.Custorder;
-import com.fiesta.model.vo.Custorderdetail;
-import com.fiesta.model.vo.Custrequest;
-import com.fiesta.model.vo.Custrequestdetail;
-import com.fiesta.model.vo.Question;
-import com.fiesta.model.vo.Wish;
+import com.fiesta.model.dao.*;
+import com.fiesta.model.vo.*;
 
 public class CustomerMypageController implements Controller {
 
 	@Override
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-//		HttpSession session = request.getSession();
-//		String email = session.getAttribute("customer").
-		
-//		String email = request.getParameter("custEmail"); 
-//		System.out.println(email);
-		
-		String custEmail = "encore@gmail.com";
+		HttpSession session = request.getSession();
+
+		Customer customer = (Customer) session.getAttribute("customer"); // eclispe가 시키는대로 casting만 해주면 됐..!
+		String custEmail = customer.getCustEmail();
 		
 		String path = "customerMypage.jsp";
 
