@@ -19,6 +19,7 @@ public class ShowAllComanyController implements Controller{
 		list = CompanyDaoImpl.getInstance().showAllCompany();
 
 		request.setAttribute("list", list);
+		System.out.println(list);
 
 		return new ModelAndView("./company/companylist.jsp");
 	}

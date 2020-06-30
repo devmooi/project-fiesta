@@ -649,7 +649,7 @@ public class CompanyDaoImpl {
 		try {
 			conn=getConnection();
 			StringBuffer query = new StringBuffer();
-			query.append("UPDATE company SET com_count=com_count+1 ");
+			query.append("UPDATE company SET com_count=ifnull(com_count,0)+1 ");
 			query.append("WHERE com_code = ? ");
 			ps=conn.prepareStatement(query.toString());
 			ps.setInt(1, comCode);

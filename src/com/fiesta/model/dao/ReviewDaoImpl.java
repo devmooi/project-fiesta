@@ -101,7 +101,7 @@ public class ReviewDaoImpl {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		
-		System.out.println(review);
+		//System.out.println(review);
 		
 		try {
 			conn=getConnection();
@@ -124,32 +124,6 @@ public class ReviewDaoImpl {
 		}
 	}
 	
-	public int[] countRowAndCol() throws SQLException{
-		int[] arr = new int[2];
-		Connection conn = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		
-		try {
-			conn=getConnection();
-			StringBuffer query = new StringBuffer();
-			query.append("SELECT count(distinct concat(service_code,'-',com_code)) scount, count(DISTINCT cust_email) ccount ");
-			query.append("FROM review ");
-			ps=conn.prepareStatement(query.toString());
-			//System.out.println(query);
-			rs=ps.executeQuery();
-			if(rs.next()) {
-				arr[0]=rs.getInt("ccount");
-				arr[1]=rs.getInt("scount");
-			}
-			
-		}finally {
-			closeAll(rs, ps, conn);
-		}
-		
-		return arr;
-	}
-	
 	public ArrayList<String> getCustArray() throws SQLException{
 		ArrayList<String> custArray = new ArrayList<>();
 		Connection conn = null;
@@ -163,7 +137,7 @@ public class ReviewDaoImpl {
 			query.append("FROM review ");
 			query.append("ORDER BY review_code, email ");
 			ps=conn.prepareStatement(query.toString());
-			System.out.println(query);
+			//System.out.println(query);
 			rs=ps.executeQuery();
 			
 			int idx=0;
@@ -187,11 +161,11 @@ public class ReviewDaoImpl {
 		try {
 			conn=getConnection();
 			StringBuffer query = new StringBuffer();
-			query.append("SELECT DISTINCT concat(service_code,'-',com_code) code ");
+			query.append("SELECT DISTINCT concat(com_code,'-',service_code) code ");
 			query.append("FROM review ");
 			query.append("ORDER BY review_code, cust_email ");
 			ps=conn.prepareStatement(query.toString());
-			System.out.println(query);
+			//System.out.println(query);
 			rs=ps.executeQuery();
 			
 			int idx=0;
@@ -206,31 +180,25 @@ public class ReviewDaoImpl {
 		return custArray;
 	}
 	
-	public String[] getRow() throws SQLException{
-		String[] arr = {};
+	public int[] countRowAndCol() throws SQLException{
+		int[] arr = new int[2];
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		int[] arr2 = countRowAndCol();
 		
 		try {
 			conn=getConnection();
 			StringBuffer query = new StringBuffer();
-			query.append("SELECT review_code code, review_score score, cust_email email ");
+			query.append("SELECT count(distinct concat(com_code,'-',service_code)) scount, count(DISTINCT cust_email) ccount ");
 			query.append("FROM review ");
-			query.append("ORDER BY review_code, email ");
-			query.append("LIMIT "+String.valueOf(arr2[0]));
 			ps=conn.prepareStatement(query.toString());
 			//System.out.println(query);
 			rs=ps.executeQuery();
-			arr= new String[arr2[0]];
-			int idx = 0;
-			//System.out.println(arr2[0]);
-			while(rs.next()) {
-				arr[idx] = rs.getString("email");
-				//System.out.println(idx);
-				idx++;
+			if(rs.next()) {
+				arr[0]=rs.getInt("scount");
+				arr[1]=rs.getInt("ccount");
 			}
+			
 		}finally {
 			closeAll(rs, ps, conn);
 		}
@@ -247,7 +215,7 @@ public class ReviewDaoImpl {
 		try {
 			conn=getConnection();
 			StringBuffer query = new StringBuffer();
-			query.append("SELECT review_code code, review_score score, cust_email email ");
+			query.append("SELECT concat(com_code,'-',service_code) code, review_score score, cust_email email ");
 			query.append("FROM review ");
 			query.append("ORDER BY review_code, email ");
 			ps=conn.prepareStatement(query.toString());
@@ -255,11 +223,18 @@ public class ReviewDaoImpl {
 			rs=ps.executeQuery();
 			
 			int[] arr = countRowAndCol();
-			System.out.println("행렬 수 : "+Arrays.toString(arr));
-			mat = new int[arr[0]][arr[1]];//열 = 고객, 행 = 서비스
+			mat = new int[arr[0]][arr[1]];//행 = 고객, 열 = 서비스
+			System.out.println("행렬 수 : ["+arr[0]+","+arr[1]+"]");
+			ArrayList<String> custArray= getCustArray();
+			ArrayList<String> serviceArray = getServiceArray();
 			int i=0;
 			int j=0;
 			while(rs.next()) {
+				//System.out.println("이메일 : "+rs.getString("email"));
+				//System.out.println("코드 : "+rs.getString("code"));
+				i = custArray.indexOf(rs.getString("email"));
+				j = serviceArray.indexOf(rs.getString("code"));
+				//System.out.println("(i,j) = ("+i+","+j+")");
 				mat[j][i]=rs.getInt("score");
 				i++;
 				if(i==mat[0].length) {
@@ -274,19 +249,20 @@ public class ReviewDaoImpl {
 		return mat;
 	}
 	
-	public String[] getCorr(int[][] matrix, String[] row, String who) throws SQLException {
+	public String[] getExpScore(int[][] matrix, String who) throws SQLException {
+		//matrix[s][c]
 		String[] recommandService = new String[5];
-		float[] corr = new float[matrix.length];
+		float[] corr = new float[matrix[0].length];
 		ArrayList<String> custArray = getCustArray();
 		ArrayList<String> serviceArray = getServiceArray();
 		
-		System.out.println("row : "+ Arrays.toString(row));
+		System.out.println("고객 배열 : "+ custArray);
 		System.out.println("who : "+ who);
 		
 		float sumU = 0; // A 포함 리뷰 점수의 편차제곱 합 집합
-		float[] avgU = new float[matrix.length];// A 포함 리뷰 점수의 평균 집합
-		float[] stdU = new float[matrix.length];// A 포함 리뷰 점수의 표준편차
-		float[] covAU = new float[matrix.length];// A와 리뷰 점수의 공변량
+		float[] avgU = new float[matrix[0].length];// A 포함 리뷰 점수의 평균 집합
+		float[] stdU = new float[matrix[0].length];// A 포함 리뷰 점수의 표준편차
+		float[] covAU = new float[matrix[0].length];// A와 리뷰 점수의 공변량
 		
 		//sumA, avgA
 		for(int i=0;i<matrix[0].length;i++) {
@@ -321,23 +297,27 @@ public class ReviewDaoImpl {
 			}
 		}
 		System.out.println("표준편차*n : "+Arrays.toString(stdU));
-		//covAU
+		
+		//covAU :: 공분산
 		int custlocation = custArray.indexOf(who);
 		System.out.println("고객 인덱스 : "+custlocation);
 		for(int i=0;i<matrix[0].length;i++) {
 			if(i!=custlocation) {
 				float sumCov = 0;
 				for(int j=0;j<matrix.length;j++) {
-					sumCov += (float) ((float)matrix[j][custlocation]-(float)avgU[custlocation])*((float)matrix[j][i]-(float)avgU[i]);
-					if(j==matrix.length-1) {
-						covAU[i] = (float) sumCov;
+					if(matrix[j][custlocation]!=0&&matrix[j][i]!=0) {
+						//System.out.println(matrix[j][i]+"||"+matrix[j][custlocation]);
+						sumCov += (float) ((float)matrix[j][custlocation]-(float)avgU[custlocation])*((float)matrix[j][i]-(float)avgU[i]);
+						if(j==matrix.length-1) {
+							covAU[i] = (float) sumCov;
+						}
 					}
 				}
 			}
 		}
 		System.out.println("공분산 : "+Arrays.toString(covAU));
 		
-		//특정인과 그외 사람들 간 corr
+		//특정인과 그외 사람들 간 corr :: 유사도
 		for(int i=0;i<covAU.length;i++) {
 			if(i!=custlocation) {
 				corr[i] = (float) (Math.round(((covAU[i])/(stdU[custlocation]*stdU[i]))*10000)/10000.0);
@@ -346,29 +326,29 @@ public class ReviewDaoImpl {
 		System.out.println("유사도"+Arrays.toString(corr));
 		
 		// 모든 서비스에 대한 기대 점수
-		Float[] expscoreArr = new Float[matrix[0].length];
+		Float[] expscoreArr = new Float[matrix.length];
 		float sumRSbyCorr=0;
 		float sumCorr=0;
 		for(int i=0; i<matrix.length;i++) {
 			for(int j=0;j<matrix[0].length;j++) {
-				if(corr[i]!=0) {
-					sumRSbyCorr+=matrix[i][j]*corr[j];
-					sumCorr+= corr[j];
-				}
+				//System.out.println("matrix["+i+"]["+j+"] : "+matrix[i][j]+", corr["+j+"] : "+corr[j]);
+				sumRSbyCorr+=(matrix[i][j]*corr[j]); 
+				sumCorr+= corr[j];
 			}
-			expscoreArr[i]=sumRSbyCorr/sumCorr;
+			expscoreArr[i]=(float) ((float) Math.round((sumRSbyCorr/sumCorr)*10000)/10000.0);
 		}
 		System.out.println("서비스 어레이 : "+serviceArray);
-		System.out.println("기대점수 : "+Arrays.toString(expscoreArr));
-		HashMap<Float, String> sNe = new HashMap<>();
+		System.out.println("고객 어레이 : "+custArray);
+		System.out.println("기대점수 : "+Arrays.toString(expscoreArr)+", 개수 : "+expscoreArr.length);
+		HashMap<Float, String> scoreAndService = new HashMap<>();
 		for(int i=0;i<expscoreArr.length;i++) {
-			sNe.put(expscoreArr[i],serviceArray.get(i));
+			scoreAndService.put(expscoreArr[i],serviceArray.get(i));
 		}
-		System.out.println(sNe);
+		System.out.println(scoreAndService);
 		Arrays.sort(expscoreArr, Collections.reverseOrder());
 		System.out.println("기대점수 내림차순: "+Arrays.toString(expscoreArr));
 		for(int i=0;i<5;i++) {
-			recommandService[i]=sNe.get(expscoreArr[i]);
+			recommandService[i]=scoreAndService.get(expscoreArr[i]);
 		}
 		
 		//서비스 별 평균 리뷰 점수
@@ -554,18 +534,17 @@ public class ReviewDaoImpl {
 		String reviewCode = "";
 		String reviewDesc = "123";
 		int reviewScore=0;
-		int serviceCode= 1;
 		String email ="1";
-		Service service = new Service(serviceCode, "123", "1234", null, null, comCode);
+		Service service = new Service();
 		Company company = new Company();
 		Customer cust = new Customer(email, "123", "1234", "1111", "d");
 		Review review = new Review();
 		int cnt=1;
 		for(int i=0;i<10;i++) {
+			service.setComCode(comCode);
 			cust.setCustEmail(email);
 			rdao.registerCustomer(cust);
 			cdao.insertService(service);
-			serviceCode++;
 			comCode++;
 			email=String.valueOf(Integer.parseInt(email)+1);
 			System.out.println("email : "+email);
@@ -573,7 +552,7 @@ public class ReviewDaoImpl {
 			cnt++;
 		}
 		comCode=1;
-		serviceCode= 1;
+		int serviceCode= 1;
 		for(int i=0;i<10;i++) {
 			email ="1";
 			for(int j=0;j<10;j++) {
@@ -587,11 +566,11 @@ public class ReviewDaoImpl {
 				email=String.valueOf(Integer.parseInt(email)+1);
 				num++;
 			}
-			comCode++;serviceCode++;
+			comCode++;
 			System.out.println(cnt+"회 ::");
 			cnt++;
-		}*/
-		
+		}
+		*/
 		//matrix 생성
 		int[][] mat = dao.getReviewMatrix();
 		System.out.println("matrix :: ");
@@ -599,7 +578,7 @@ public class ReviewDaoImpl {
 			System.out.println(java.util.Arrays.toString(arr));
 		}
 		//평균
-		System.out.println(Arrays.toString(dao.getCorr(dao.getReviewMatrix(), dao.getRow(), "2")));
+		System.out.println(Arrays.toString(dao.getExpScore(dao.getReviewMatrix(), "10")));
 		
 	}
 }
