@@ -20,7 +20,6 @@
     <title>Fiesta</title>
     <link href="resource/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="refresh" content="10">
     
     <style>
         #requestFiesta {
@@ -149,7 +148,7 @@
 </head>
 <body>
     <!-- header import -->
-    <c:import url="header.jsp" charEncoding="UTF-8"></c:import>
+    <jsp:include page = "header.jsp" />
     
     <!-- 항상 section에서 시작 -->
     <!-- 고객 의뢰 : 고객으로 로그인 했을 때만 이동, 나머지는 a 링크 막아버리기 -->
@@ -170,8 +169,7 @@
             </div>
         </div>    
     </section>
-    
-    
+
     <!-- 카테고리별 업체 리스트 간략하게 보여주기 -->
     <section id="comCategoryByCompany">
     	<%

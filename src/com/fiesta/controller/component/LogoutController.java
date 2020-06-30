@@ -10,17 +10,15 @@ import com.fiesta.controller.ModelAndView;
 public class LogoutController implements Controller {
 
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String path = "../index.jsp";
-		try {
-			HttpSession session = request.getSession();
-			
-			if(session.getAttribute("customer") != null) {
-				session.invalidate();
-			} 
-				
-		} catch (Exception e) {
+
+		HttpSession session = request.getSession();
 		
+		if(session.getAttribute("customer") != null) {
+			session.invalidate();
+		} else if(session.getAttribute("company") != null) {
+			session.invalidate();
 		}
-		return new ModelAndView(path);
+		
+		return new ModelAndView("");
 	}
 }

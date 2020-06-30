@@ -11,28 +11,44 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script>
 		$(function() {
-			$('.modal').modal();
-			
-			$('#loginBtn').click(function() {
-				var email = $('#email').val();
-				var pass = $('#pass').val();
-				
+			$('#loginFrm').submit(function(event) {
+				event.preventDefault();
 				$.ajax({
 					type:'post',
 					url:'login.do',
-					data:$('#loginFrm').serialize(),
+					data:$(this).serialize(),
 					
 					success:function(result) {
 						if(result=='false') {
-							alert("로그인에 실패하였습니다. 이메일이나 비밀번호가 올바르게 입력되었는지 확인 후 다시 시도하십시오.");
+							$("#loginFailModal").show();
 						} else {
-							//location.href="loginResult.jsp"; 
-							location.href="registerSuccess.jsp";
-						}	
+							location.href="http://localhost:8888/Fiesta";
+						}
 					}
-				}); // ajax
-			}); // click	
+				});//ajax
+			});//loginFrm
+			
+			$('#passFind').click(function() {
+				$('#passFindModal').show();
+			});
+			
+			$('#passFindFrm').submit(function(event) {
+				event.preventDefault();
+				$.ajax({
+					type:'post',
+					url:'passFind.do',
+					data:'pick=' + $(':radio[name="pick"]:checked').val() +'&'+ $(this).serialize(),
+					
+					success:function(result) {
+						$('.searchModal').hide();
+					}
+				});//ajax
+			});//passFindFrm
 		}); // ready	
+		
+		function closeModal() {
+			$('.searchModal').hide();
+		};
 	</script>
 	<style>
 		footer {
@@ -95,13 +111,52 @@
 		}
 		#loginFrm > a {
 			position: relative;
-		    top: -27px;
+		    top: -17px;
 		    left: -211px;
+		}
+		
+		/* The Modal (background) */
+		.searchModal {
+			display: none;
+			position: fixed;
+			z-index: 999;
+			left:0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			overflow: auto;
+			background-color: rgba(0, 0, 0, 0.4);
+		}
+		
+		/* Modal Content Box */
+		.search-modal-content {
+			background-color: #fefefe;
+			margin: 12% auto;
+			padding: 20px;
+			border: 1px solid #888;
+			width: 35%;
+			text-align: center;
+			padding-bottom: 50px;
+		}
+		.search-modal-content h1 {
+			font-size: 1.2rem;
+			font-weight: bold;
+		}
+		.search-modal-content button {
+			background: #009688;
+		    border: 1px solid #009688;
+		    color: white;
+		    width: 100%;
+		    padding: 12px;
+		    cursor: pointer;
+		}
+		.search-modal-content span {
+			color: red;
 		}
 	</style>
 </head>
 <body>
-	<c:import url="http://localhost:8888/Fiesta/header.jsp" charEncoding="UTF-8"></c:import>
+	<jsp:include page = "../header.jsp" />
 	
 	<section>
 		<h2>Fiesta에 오신 것을 환영합니다</h2>
@@ -117,10 +172,6 @@
 					<span>업체</span>
 				</label>
 			</div>
-		</form>
-		
-		<!-- <div id="loginFrm">
-			
 			
 			<div class="input-field">
 				<label for="email">이메일</label>
@@ -132,28 +183,32 @@
 				<input type="password" name="pass" id="pass" required>
 			</div>
 			
-			이메일로 임시 비밀번호 전송
-			<a href="passFind.do">비밀번호 찾기</a>
+			<a href="#" id="passFind">비밀번호 찾기</a>
 			
-			<input type="submit" value="로그인" id="loginBtn">
-			<a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
-		</div>
+			<input type="submit" value="로그인" id="loginBtn">	
+		</form>
 		<a href="register.jsp">계정이 없으신가요?</a>
 	</section>
 	
-	<!-- Modal Trigger
-	  <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
+	<div id="loginFailModal" class="searchModal">
+		<div class="search-modal-content">
+			<h1>로그인에 실패하였습니다</h1>
+			<p>이메일이나 비밀번호가 올바르게 입력되었는지 확인 후 다시 시도하십시오.</p>
+			<button onClick="closeModal();">확인</button>
+		</div>
+	</div>
 	
-	  Modal Structure
-	  <div id="modal1" class="modal">
-	    <div class="modal-content">
-	      <h4>Modal Header</h4>
-	      <p>A bunch of text</p>
-	    </div>
-	    <div class="modal-footer">
-	      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
-	    </div>
-	  </div> --> 
+	<div id="passFindModal" class="searchModal">
+		<div class="search-modal-content">
+			<h1>비밀번호 재설정</h1>
+			<p>가입한 이메일 주소가 무엇인가요?</p>
+			<form action="passFind.do" id="passFindFrm">
+				<input type="email" name="email" id="email">
+				<p>다음 버튼을 누르시면, 해당 이메일로 비밀번호를<br>재설정하기 위한 <span>임시 비밀번호</span>를 발송합니다.</p>
+				<input type="submit" value="비밀번호 재설정하기">
+			</form>
+		</div>
+	</div>
 
 	<c:import url="http://localhost:8888/Fiesta/footer.jsp" charEncoding="UTF-8"></c:import>
 </body>

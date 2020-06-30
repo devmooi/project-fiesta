@@ -89,8 +89,7 @@ $(function() {
 </style>
 </head>
 <body>
-    <!-- header import -->
-      <c:import url="http://localhost:8888/Fiesta/header.jsp" charEncoding="UTF-8"></c:import> 
+    <jsp:include page = "../header.jsp" /> 
       
 	<section>
 	<!-- 업체 / 고객 구분 :  c:if  사용  -->

@@ -156,6 +156,9 @@ public class HandlerMapping {
 		}else if(command.equals("customerRequest.do")) {
 			controller = new CustomerRequestController();
 			System.out.println("CustomerRequestController 생성됨");
+		}else if(command.equals("passFind.do")) {
+			controller = new PassFindController();
+			System.out.println("PassFindController 생성됨");
 		}
 	
 		return controller;

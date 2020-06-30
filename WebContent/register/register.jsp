@@ -49,7 +49,7 @@
 	</style>
 </head>
 <body>
-	<c:import url="http://localhost:8888/Fiesta/header.jsp" charEncoding="UTF-8"></c:import>
+	<jsp:include page = "../header.jsp" />
 	<section>
 		<h2>회원가입</h2>
 		<div id="register">

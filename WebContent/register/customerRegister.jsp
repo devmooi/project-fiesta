@@ -122,7 +122,7 @@
 	</style>
 </head>
 <body>
-	<c:import url="http://localhost:8888/Fiesta/header.jsp" charEncoding="UTF-8"></c:import>
+	<jsp:include page = "../header.jsp" />
 
 	<section>
 		<h2>Fiesta에 오신 것을 환영합니다</h2>

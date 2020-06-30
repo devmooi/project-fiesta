@@ -29,7 +29,7 @@
             width: 100%;
             background: white;
             border-bottom: 1px solid #ddd;
-            z-index: 999;
+            z-index: 99;
         }
         header h1 {
             margin: 10px 25px;
@@ -93,14 +93,21 @@
 
         <!-- 비회원, 고객 로그인, 업체 로그인 상황에 따라 달라짐 -->
         <ul>
-            <li><a href="http://localhost:8888/Fiesta/register/register.jsp">회원가입</a></li>
-            <li><a href="http://localhost:8888/Fiesta/ShowAllCompany.do">업체 찾기</a></li>
-            <li><a href="http://localhost:8888/Fiesta/register/login.jsp">로그인</a></li>
-            <!-- 로그인 했을 때 : 회원가입과 로그인이 사라지고 -->
-            <!-- 고객이 로그인 했을 때 -->
-            <!-- <li><a href="#">마이페이지</a></li> -->
-            <!-- 업체가 로그인 했을 때 -->
-            <!-- <li><a href="#">업체 정보</a></li> -->
+        	<li><a href="http://localhost:8888/Fiesta/ShowAllCompany.do">업체 찾기</a></li>
+        	<c:choose>
+        		<c:when test="${!empty customer}">
+        			<li><a href="http://localhost:8888/Fiesta/register/customerMypage.jsp">마이페이지</a></li>
+        			<li><a href="http://localhost:8888/Fiesta/logout.do">로그아웃</a></li>
+        		</c:when>
+        		<c:when test="${!empty company}">
+        			<li><a href="http://localhost:8888/Fiesta/company/serviceAllShowResult.jsp">업체 정보</a></li>
+        			<li><a href="http://localhost:8888/Fiesta/logout.do">로그아웃</a></li>
+        		</c:when>
+        		<c:otherwise>
+        			<li><a href="http://localhost:8888/Fiesta/register/register.jsp">회원가입</a></li>
+            		<li><a href="http://localhost:8888/Fiesta/register/login.jsp">로그인</a></li>
+        		</c:otherwise>
+        	</c:choose>
         </ul>
     </header>
 </body>

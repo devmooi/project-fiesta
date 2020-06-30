@@ -17,28 +17,29 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-public class App {
+public class Mail {
 
 	public static void main(String[] args) {
-		sendMail();
+		String randomPass = RandomPassword.randomPassword(8);
+		System.out.println(randomPass);
+		sendMail("ednadev@naver.com", randomPass);
 	}
 	
-	public static void sendMail() {
+	public static void sendMail(String toEmail, String randomPass) {
 		// 메일 인코딩
 		final String bodyEncoding = "UTF-8"; //콘텐츠 인코딩
 		
-		String subject = "메일 발송 테스트";
+		String subject = "안녕하세요. 피에스타 입니다";
 		String fromEmail = "puzzle.fiesta04@gmail.com";
 		String fromUsername = "피에스타";
-		String toEmail = "ednadev@naver.com"; //콤마(,)로 여러개 나열
 		
 		final String username = "puzzle.fiesta04@gmail.com";
 		final String password = "buqa dvap azdm rapy"; //발급받은 앱 비밀번호
 		
 		//메일에 출력할 텍스트
 		StringBuffer sb = new StringBuffer();
-		sb.append("<h3>안녕하세요</h3>\n");
-		sb.append("<h4>피에스타 입니다.</h4>\n");
+		sb.append("<p>변경된 임시 비밀번호는 <span style='color: red;'>" + randomPass + "</span> 입니다.</p>");
+		sb.append("<p>비밀번호 재변경 바랍니다.</p>");
 		String html = sb.toString();
 		
 		//메일 옵션 설정

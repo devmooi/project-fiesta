@@ -191,7 +191,7 @@
 </head>
 <body>
 	<!-- header import -->
-	<c:import url="http://localhost:8888/Fiesta/header.jsp" charEncoding="UTF-8"></c:import>
+	<jsp:include page = "../header.jsp" />
 	
 	<!-- 항상 section에서 시작 -->
 	<section>

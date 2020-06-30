@@ -201,7 +201,7 @@
 </head>
 <body>
 	<!-- header import -->
-    <c:import url="http://localhost:8888/Fiesta/header.jsp" charEncoding="UTF-8"></c:import>
+    <jsp:include page = "../header.jsp" />
     
 	<!-- 항상 section에서 시작 -->
 	<section>
@@ -237,7 +237,7 @@
 				<option value="리뷰순">리뷰순</option>
 			</select>
 		</div>
-
+		
 		<div id="mainList">
 			<c:forEach items="${list}" var="review">
 				<a href="ServiceAllShow.do?companycode=${review.company.comCode}">
