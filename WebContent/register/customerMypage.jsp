@@ -223,7 +223,7 @@ $(function() {
 			   <table border="2" width="350" bgcolor="yellow" align="center">
 					<c:forEach items="${wishlist}" var="wish">
 						<tr>
-							<td>${wish.wishCode}</td>
+							<%-- <td>${wish.wishCode}</td> --%>
 							<td>${wish.comName}</td>
 							<td>${wish.comDesc}</td>
 							<td><a href="wishDelete.do?wishCode=${wish.wishCode}&custEmail=${wish.custEmail}">삭제</a></td>
