@@ -37,6 +37,7 @@
 	            $("#popupDiv").css("display","none"); //팝업창 display none
 	        });
 			
+			//페이지방식1 - 안됨 ㅠㅠ
 /*   			$('.qnaContent').slice(0,10).show(); //10개씩 자르기
 			$('#more').click(function(e){
 				e.preventDefault();
@@ -45,14 +46,17 @@
 					alert(더이상 없음);
 				})
 			})   */
-			$('.qnaContent:gt(4)').hide().last().after(
-				    $('<a />').attr('href','#').text('Show more').click(function(){
-				        var a = this;
-				        $('.mydata:not(:visible):lt(5)').fadeIn(function(){
-				         if ($('.mydata:not(:visible)').length == 0) $(a).remove();   
-				        }); return false;
+			
+			//페이지방식2 -안됨 ㅠㅠㅠ
+/* 			$('.qnaContent:gt(4)').hide().last().after(
+				$('#more').click(function(){
+			        var a = this;
+			        $('.qnaContent:not(:visible):lt(5)').fadeIn(function(){
+			         if ($('.qnaContent:not(:visible)').length == 0)
+			        	 $(a).remove();   
+			        }); return false;
 				})
-			);
+			); */
 			
 		});
 		
