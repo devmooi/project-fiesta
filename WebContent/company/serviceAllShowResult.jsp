@@ -33,9 +33,8 @@
 			
 			$('.collapsible').collapsible();
 			
-			$("#popCloseBtn").click(function(event){
-	            $("#successPopupDiv").css("display","none"); //팝업창 display none
-	            $("#failPopupDiv").css("display","none"); //팝업창 display none
+			$(".popCloseBtn").click(function(event){
+	            $(".PopupDiv").css("display","none"); //팝업창 display none
 	        });
 			
 			//페이지방식1 - 안됨 ㅠㅠ
@@ -64,7 +63,7 @@
 		//찜하기
 		function registerWish(){
 			var comCode = ${companycode};
-
+			//var existResult = ${existResult};
 			$.ajax({
 				type:'post',
 				url:'wishRegister.do',
@@ -73,41 +72,34 @@
 				success:function(result) {
 						//alert(comCode); 확인용
 						//alert("찜하기 성공");
-						/* var existResult = ${existResult};
-						wishPopUp(); */
+						//$("#result").html(result); 
+						//성공과 실패를 나눠서 팝업창을 띄우고 싶은데 안된다 ㅠㅅㅠ
+						if(result=='true'){
+							$(".wishResult").html("찜하기 성공!!!!");
+							
+				  			$(".PopupDiv").css("display","block"); //팝업창 display block
+					
+							$(".PopupDiv").css({
+					             "top": (($(window).height()-$(".PopupDiv").outerHeight())/2+$(window).scrollTop())+"px",
+					             "left": (($(window).width()-$(".PopupDiv").outerWidth())/2+$(window).scrollLeft())+"px",
+					             "background": "#FAE0D4"
+						 	});  
+						}else{
+							$(".wishResult").html("이미 찜했어요 ㅠㅅㅠ");
+							$(".material-icons").html("mood_bad");
+							
+				  			$(".PopupDiv").css("display","block"); //팝업창 display block
+					
+							$(".PopupDiv").css({
+					             "top": (($(window).height()-$(".PopupDiv").outerHeight())/2+$(window).scrollTop())+"px",
+					             "left": (($(window).width()-$(".PopupDiv").outerWidth())/2+$(window).scrollLeft())+"px",
+					             "background": "#D9E5FF"
+						 	}); 
+						}
 				}
 			}); // ajax
-			
-  			$("#successPopupDiv").css("display","block"); //팝업창 display block
-			
-			 $("#successPopupDiv").css({
-	             "top": (($(window).height()-$("#successPopupDiv").outerHeight())/2+$(window).scrollTop())+"px",
-	             "left": (($(window).width()-$("#successPopupDiv").outerWidth())/2+$(window).scrollLeft())+"px"
-		 		});  
   			
 		}
-			
-	
- 		/* function wishPopUp(){
-  			if(existResult=='true')){
-				$("#successPopupDiv").css("display","block"); //팝업창 display block
-				
-				 $("#successPopupDiv").css({
-		             "top": (($(window).height()-$("#successPopupDiv").outerHeight())/2+$(window).scrollTop())+"px",
-		             "left": (($(window).width()-$("#successPopupDiv").outerWidth())/2+$(window).scrollLeft())+"px"
-		             //팝업창을 가운데로 띄우기 위해 현재 화면의 가운데 값과 스크롤 값을 계산하여 팝업창 CSS 설정
-	         
-	          });
-			}else{
-				$("#failPopupDiv").css("display","block"); //팝업창 display block
-				
-				 $("#failPopupDiv").css({
-		             "top": (($(window).height()-$("#failPopupDiv").outerHeight())/2+$(window).scrollTop())+"px",
-		             "left": (($(window).width()-$("#failPopupDiv").outerWidth())/2+$(window).scrollLeft())+"px"
-		             //팝업창을 가운데로 띄우기 위해 현재 화면의 가운데 값과 스크롤 값을 계산하여 팝업창 CSS 설정
-				}); 
-			}
-		} */ 
 		
 		//서비스등록창 열고닫기
 		function serviceOpenClose() {
@@ -193,18 +185,7 @@
     		background-color: #D4F4FA;
     	}
     	
-    	#successPopupDiv {  /* 팝업창 css */
-    		text-align:center;
-		    top : 0px;
-		    padding-top: 60px;
-		    position: absolute;
-		    background: #FAE0D4;
-		    width: 300px;
-		    height: 300px;
-		    display: none;
-    	}
-    	
-    	#failPopupDiv {  /* 팝업창 css */
+    	.PopupDiv {  /* 팝업창 css */
     		text-align:center;
 		    top : 0px;
 		    padding-top: 60px;
@@ -221,6 +202,7 @@
       <c:import url="http://localhost:8888/Fiesta/header.jsp" charEncoding="UTF-8"></c:import> 
 	<!-- 항상 section에서 시작 -->
 	<section>
+	<div id="result"></div>
 		<!-- 업체 1개에 대한 정보 / 찜하기 : 업체가 들어왔을시 수정, 삭제 가능 -->
 		<h3>업체명</h3>
 		${company.comName}
@@ -239,22 +221,16 @@
 		<!-- 찜하기랑 목록 -->
 		<button id = "wishBtn" onclick="registerWish()">찜하기</button>
 		
-		
-		<div id="successPopupDiv"> <!-- 찜성공 팝업창 -->
+		<!-- 찜성공/실패 팝업창 -->
+		<div class="PopupDiv"> 
 				<i class="large material-icons">favorite</i>
-				<div>찜하기 성공!</div>
-				<a href="wishList.do">나의 찜 목록보기</a>
-        		<button id="popCloseBtn">close</button>
+				<div class="wishResult"></div>
+				<a href="customerMypage.do?">나의 찜 목록보기</a> <!-- 경로수정해야함 -->
+        		<button class="popCloseBtn">close</button>
     	</div>
     	
-    			
-		<div id="failPopupDiv"> <!-- 찜실패 팝업창 -->
-				<i class="large material-icons">favorite</i>
-				<div>이미 찜했어요</div>
-				<a href="wishList.do">나의 찜 목록보기</a>
-        		<button id="popCloseBtn">close</button>
-    	</div>
     	
+    	<!-- 서비스목록 -->
 		<br>
 		<h3 align="center">서비스</h3><p>
 		<table border="2" width="350" bgcolor="yellow" align="center">
