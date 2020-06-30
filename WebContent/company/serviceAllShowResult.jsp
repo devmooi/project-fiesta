@@ -193,7 +193,7 @@
 	<!-- header import -->
 	<jsp:include page = "../header.jsp" />
 	
-	<!-- 항상 section에서 시작 -->
+	<!-- 업체 정보 : 로그인해서 본인 업체로 들어온 경우 / 다른 업체 정보 또는 업체 로그인이 아닐 때 -->
 	<section>
 		<div id="companyInfo">
 			<img src="${company.comImg}">
@@ -209,6 +209,20 @@
 			<p><span>전화번호</span> ${company.comTel}</p>
 			<p><span>주소</span> ${company.comAddr}</p>
 		</div>
+	</section>
+	
+	<section>
+		<div id="companyInfo">
+			<img src="${companyInfo.comImg}">
+			<div>
+				<h2>${companyInfo.comName}</h2>
+				<p>${companyInfo.comDesc}</p>
+				<p>조회수 : ${companyInfo.comCount}</p>
+			</div>
+		</div>
+	</section>
+	
+	<section>
 
 
 

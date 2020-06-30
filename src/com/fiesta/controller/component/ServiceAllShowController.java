@@ -27,7 +27,7 @@ public class ServiceAllShowController implements Controller {
 		Question qDetail = null;
 		
 		//회사 정보 불러오기
-		Company company = CompanyDaoImpl.getInstance().detailViewCompany(companycode);
+		Company companyInfo = CompanyDaoImpl.getInstance().detailViewCompany(companycode);
 		
 		//서비스 리스트
 		ArrayList<Service> serviceList = CompanyDaoImpl.getInstance().showAllService(companycode);
@@ -57,7 +57,7 @@ public class ServiceAllShowController implements Controller {
 		System.out.println(answerList);
 		
 		//회사정보 바인딩
-		request.setAttribute("company", company);
+		request.setAttribute("companyInfo", companyInfo);
 		
 		//서비스바인딩
 		request.setAttribute("serviceList", serviceList);

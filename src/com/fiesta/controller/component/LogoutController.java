@@ -19,6 +19,6 @@ public class LogoutController implements Controller {
 			session.invalidate();
 		}
 		
-		return new ModelAndView("");
+		return new ModelAndView("index.jsp", true);
 	}
 }
