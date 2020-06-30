@@ -14,6 +14,7 @@ $(function() {
 </head>
 <body>
 	고객 의뢰 테스트 페이지
+	session을 활용해서 값을 계속 넘기는 작업을 하랜다. session에 담아두는.
 	<form action="customerRequest.do"> 		<!-- 고객 의뢰 관련 요청 모두 다.. 테스트 하는 곳 -->
 	
 	1. 원하는 날짜를 알려주세요.
