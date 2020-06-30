@@ -234,10 +234,13 @@
 		<table border="2" width="350" bgcolor="yellow" align="center">
 			<c:forEach items="${serviceList}" var="service">
 				<tr>
-					<td>${service.serviceCode}</td>
+<%-- 					<td>${service.serviceCode}</td> --%>
 					<td>${service.serviceName}</td>
 					<c:if test="${not empty service.serviceImg}">
 					<td><img src= "../resource/file_upload/${service.serviceImg}" width=100 height=100></td>
+					</c:if>
+					<c:if test="${empty service.serviceImg}">
+					<td>이미지 없음</td>
 					</c:if>
 					<td>${service.serviceDesc}</td>
 					<td>${service.serviceTag}</td>
