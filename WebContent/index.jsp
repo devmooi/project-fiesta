@@ -160,7 +160,8 @@
                 <div class="comCategoryList">
 	                <c:forEach items="${comCategory}" var="category" varStatus="status">
                         <!-- 고객으로 로그인 했을 때만 이부분 링크 주소, 비회원인 경우 가입 페이지로, 업체인 경우 막아버리고 알람 띄우기 -->
-	                	<a href="request.do?requestFiesta=${category.comCategoryCode}">
+	                	<!-- <a href="request.do?requestFiesta=${category.comCategoryCode}">-->
+	                		<a href="customerRequest.do?requestFiesta=${category.comCategoryCode}"><!--[의근] 이동경로 수정 -->
 	                		<i class="medium material-icons">${categoryIcon[status.index]}</i>
 	                    	<p>${category.comCategoryDesc}</p>
 	                	</a>

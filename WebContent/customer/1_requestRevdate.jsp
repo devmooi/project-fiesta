@@ -65,21 +65,37 @@ $(function() {
                      $("#fromDate").datepicker( "option", "maxDate", selectedDate );
                 }                
      });
+	
+		/* $('#requestBtn').click(function() {
+			$.ajax({
+				type:'post',
+				url:'customerRequest.do',
+				
+				success:function(result) {
+					$('#requestView').html(result);
+				}
+				
+			}); // ajax
+		}); // click */
 });
 </script>
 </head>
 <body>
+		<%-- <input type="image" src="../resource/img/header_+${requestFiesta}+.jpg"> --%>
+		
+		<progress value="25" max="100"></progress><br>
 		1. 원하는 날짜를 알려주세요.
 		오늘 날짜 : <span id="today"></span><br>
 		예약 예정일 <br>
         <form action="customerRequest.do" id="dateFrm">
         <input type="hidden" name="command" value="date">
+        <input type="hidden" name="requestFiesta" value="${requestFiesta}">
           <label for="fromDate">FROM</label>
           <input type="text" name="fromDate" id="fromDate">
           &nbsp;&nbsp;&nbsp;
           <label for="toDate">TO</label>
           <input type="text" name="toDate" id="toDate"><br>
-          <input type="submit" value="다음">
+          <input type="submit" id="requestBtn" value="다음">
         </form>
 </body>
 </html>
