@@ -196,6 +196,31 @@
 	<!-- 업체가 로그인 해서 업체 정보로 들어가면 company만 있음.. -->
 	<!-- 업체가 로그인 해서 다른 업체 정보를 봤을 때는 companyInfo랑 company가 둘다 있음 -->
 	<section>
+		<c:choose>
+			<c:when test="${!empty company}">
+				<!-- 회사가 로그인 했을 때 -->
+				<c:choose>
+					<c:when test=${!empty companyInfo}>
+						<!-- 다른 회사 정보를 봤을 때 -->
+						회사 로그인 - 다른 회사 정보 company : ${company}
+						회사 로그인 - 다른 회사 정보 companyInfo : ${companyInfo}
+					</c:when>
+					<c:when test=${company eq companyInfo}>
+						<!-- 업체 정보가 아닌 다른 곳에서 내 회사 정보를 봤을 때 -->
+						
+					</c:when>
+					<c:otherwise>
+						<!-- 내 회사 정보를 봤을 때 -->
+						회사 로그인 - 내 회사 정보
+					</c:otherwise>
+				</c:choose>
+			</c:when>
+			<c:otherwise>
+				<!-- 회사가 로그인 하지 않았을 때 -->
+				company : ${company}
+				companyInfo : ${companyInfo}
+			</c:otherwise>
+		</c:choose>
 		<%-- <c:choose>
 			<c:when test="${name eq '홍길동'}">
         		홍길동이 맞습니다.
