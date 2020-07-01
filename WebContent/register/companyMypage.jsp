@@ -116,11 +116,11 @@ function orderReject(){
 	$.ajax({
 		type:'post',
 		url:'orderReject.do',
-		data:"comCode="+comCode,
+		data:$('.orderRejectForm').serialize(),
 		
 		success:function(result) {
 				//alert(comCode); 확인용
-				alert("문의등록");
+				alert("주문을 반려하였습니다");
 		}
 	}); // ajax
 }
@@ -228,7 +228,10 @@ function orderReject(){
 									<input type="submit" value="주문 최종완료">
 								</form>
 								</div>
-								<button class = "orderReject" onclick = "orderReject()">주문반려하기</button>
+								<form action="" class="orderRejectForm" >
+									<input type="hidden" name="orderCode" value="${custOrder.orderCode}">
+								<input align="center" onclick ="orderReject()" type="submit" value="주문반려하기 ">
+								</form>
 							</c:if>
 							<!-- 주문 승인완료 일때는 최종거래내역을 볼 수 있다 -->
 							<c:if test="${custOrder.orderCondition == '주문승인완료'}">
