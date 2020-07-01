@@ -38,18 +38,6 @@ public class HandlerMapping {
 			controller = new QuestionRegisterController();
 			System.out.println("QuestionRegisterController 생성됨");
 			
-		}else if(command.equals("questionAllShow.do")) {
-			controller = new QuestionAllShowController();
-			System.out.println("QuestionAllShowController 생성됨");
-			
-		}else if(command.equals("questionView.do")) {
-			controller = new QuestionViewController();
-			System.out.println("QuestionViewController 생성됨");
-			
-		}else if(command.equals("questionAllShowByCom.do")) {
-			controller = new QuestionAllShowByComController();
-			System.out.println("QuestionAllShowByComController 생성됨");
-			
 		}else if(command.equals("questionDelete.do")) {
 			controller = new QuestionDeleteController();
 			System.out.println("QuestionAllShowByComController 생성됨");
@@ -57,10 +45,6 @@ public class HandlerMapping {
 		}else if(command.equals("answerRegister.do")) {
 			controller = new AnswerRegisterController();
 			System.out.println("AnswerRegisterController 생성됨");
-			
-		}else if(command.equals("answerView.do")) {
-			controller = new AnswerViewController();
-			System.out.println("AnswerViewController 생성됨");
 			
 		}else if(command.equals("answerDelete.do")) {
 			controller = new AnswerDeleteController();
