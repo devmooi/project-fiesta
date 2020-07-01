@@ -196,9 +196,6 @@
     	}
     	
     	/* 제공 서비스 */
-    	#serviceList {
-    		margin-bottom: 80px;
-    	}
     	#serviceList h3 {
     		font-size: 1.3rem;
     		font-weight: bold;
@@ -229,6 +226,9 @@
     	}
     	
     	/* 탭하기 */
+    	.tabs {
+    		margin-top: 80px !important;
+    	}
     	.tabs .tab a {
     		color: #009688 !important;
     		font-size: 1.2rem !important;
@@ -291,6 +291,57 @@
 					<span>${service.serviceTag}</span>
 				</a>
 			</c:forEach>
+			<c:if test="${not empty company}">
+				<button class = "serviceRegisterBtn" onclick = "serviceOpenClose()">서비스추가등록</button>
+			</c:if>
+		</div>
+		
+		<style>
+			.serviceRegisterBtn {
+				background: none;
+				border: 1px solid #009688;
+				color: #009688;
+				padding: 8px;
+				cursor: pointer;
+				border-radius: 5px;
+			}
+			.serviceRegisterBtn:hover {
+				background: #009688;
+				color: white;
+			}
+			.serviceForm {
+				margin-top: 40px;
+				overflow: hidden;
+			}
+			.serviceForm h4 {
+				font-size: 1.3rem;
+				font-weight: bold;
+			}
+			.serviceForm input[type=submit] {
+				background: none;
+				border: 1px solid #009688;
+				padding: 8px;
+				color: #009688;
+				cursor: pointer;
+				border-radius: 5px;
+				float: right;
+			}
+			.serviceForm input[type=submit]:hover {
+				background: #009688;
+				color: white;
+			}
+		</style>
+		<div class = "serviceForm">
+			<h4>서비스등록하기</h4>
+			<form action="serviceRegister.do" id="serviceRegisterForm" enctype="multipart/form-data"  method="post">
+				<input type="hidden" name="companycode" value="${companycode}">
+				서비스 이름 : <input type="text" name="serviceName" required="required"><br><br>
+				서비스 설명 : <input type="text" name="serviceDesc" required="required"><br><br>
+				서비스 사진 : <input name="serviceImg" type="file" accept=".jpg, .jpeg, .png" multiple="multiple"><br><br>
+				서비스 태그 : <input type="text" name="serviceTag" required="required"><br><br>
+				<input onclick="serviceRegister()" type="submit" value="서비스등록">
+				<!-- <input type="submit" value="서비스등록"> -->
+			</form>
 		</div>
 		
 		<ul class="tabs">
