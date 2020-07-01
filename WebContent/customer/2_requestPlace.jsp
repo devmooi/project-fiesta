@@ -57,15 +57,17 @@
 </head>
 <body>
 
+	<progress value="50" max="100"></progress><br>
 	2. 어느 지역인가요?
     <form action="customerRequest.do" id="placeFrm">
     <input type="hidden" name="command" value="place">
+    <input type="hidden" name="requestFiesta" value="${requestFiesta}">
        	<input type="text" id="postcode" name="postcode" placeholder="우편번호">
 		<input id="addressItem" type="button" onclick="execDaumPostcode()" value="주소검색">
 		<input name="addr" type="text" id="address" placeholder="주소">
 		<input name="addr" type="text" id="detailAddress" placeholder="상세주소">
 		<input type="text" id="extraAddress" placeholder="참고항목">
-	    <button><a href="1_requestBudget.jsp">이전</a></button><input type="submit" value="다음">
+	    <button><a href="1_requestRevdate.jsp">이전</a></button><input type="submit" value="다음">
     </form>
 </body>
 </html>
