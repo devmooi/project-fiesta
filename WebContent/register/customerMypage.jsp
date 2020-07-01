@@ -117,11 +117,11 @@ $(function() {
 		<div class="row">
 		  <div class="col s12">
 		    <ul class="tabs">
-		      <li class="tab col s3"><a href="#orderTab">주문내역</a></li>
-		      <li class="tab col s3"><a href="#requestTab">의뢰내역</a></li>
-		      <li class="tab col s3"><a href="#questionTab">문의내역</a></li>
-		      <li class="tab col s3"><a href="#wishTab">찜 내역</a></li>
-		      <li class="tab col s3"><a href="#reviewTab">리뷰 내역</a></li>
+		      <li class="tab col s2"><a href="#orderTab">주문내역</a></li>
+		      <li class="tab col s2"><a href="#requestTab">의뢰내역</a></li>
+		      <li class="tab col s2"><a href="#questionTab">문의내역</a></li>
+		      <li class="tab col s2"><a href="#wishTab">찜 내역</a></li>
+		      <li class="tab col s2"><a href="#reviewTab">리뷰 내역</a></li>
 		    </ul>
 		  </div>
 <!-- 탭내용들 -->	
@@ -227,6 +227,38 @@ $(function() {
 							<td>${wish.comDesc}</td>
 							<td><a href="wishDelete.do?wishCode=${wish.wishCode}&custEmail=${wish.custEmail}">삭제</a></td>
 						</tr>
+					</c:forEach>
+				</table> 
+		    </div>	
+		    
+	<!-- 나의 리뷰 내역 -->	
+		  <div id="reviewTab" class="col s12">
+			  <h6 align="center">나의 리뷰내역</h6>
+			  <br>
+			   <table border="2" width="350" bgcolor="yellow" align="center">
+			   		<thead>
+			   			<tr>
+			   			<!-- 테이블로 되어 있어 리뷰와 답변을 구분하기 힘듦. 원래는 리뷰 밑에 들여써서 답변을 넣으려고 함 -->
+			   				<th>업체명/답변</th><th>만족도</th><th>이미지</th><th>리뷰글/답변글</th><th>삭제하기</th>
+			   			</tr>
+			   		</thead>
+					<c:forEach items="${reviewlist}" var="review">
+						<tr>
+							<td>${review.company.comName}</td>
+							<td>${review.reviewScore}</td>
+							<td><img src="${review.reviewImg}" width="100" height="100"></td>
+							<td>${review.reviewDesc}</td>
+							<td><a href="reviewDelete.do?reviewCode=${review.reviewCode}">삭제</a></td>
+						</tr>
+						<c:forEach items="${review.answerlist}" var="answer">
+						<tr>
+							<td>답변</td>
+							<td></td>
+							<td>${answer.reviewImg}</td>
+							<td>${answer.reviewDesc}</td>
+							<td></td>
+						</tr>
+						</c:forEach>
 					</c:forEach>
 				</table> 
 		    </div>			  

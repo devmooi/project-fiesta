@@ -1,5 +1,7 @@
 package com.fiesta.model.vo;
 
+import java.util.ArrayList;
+
 public class Review {
 	String reviewCode;
 	int reviewScore;
@@ -11,6 +13,7 @@ public class Review {
 	Company company;
 	float avgReviewScore;
 	int countDesc;
+	ArrayList<Review> answerlist = new ArrayList<Review>();
 	
 	public Review() {}
 	public Review(float avgReviewScore, int countDesc, Company company) {
@@ -30,6 +33,7 @@ public class Review {
 		this.service = service;
 		this.company = company;
 	}
+	
 	public Review(String reviewCode, int reviewScore, String reviewImg, String reviewDesc, String reviewDate,
 			Customer customer, Service service, Company company, float avgReviewScore, int countDesc) {
 		super();
@@ -43,6 +47,22 @@ public class Review {
 		this.company = company;
 		this.avgReviewScore = avgReviewScore;
 		this.countDesc = countDesc;
+	}
+	public Review(String reviewCode, int reviewScore, String reviewImg, String reviewDesc, String reviewDate,
+			Customer customer, Service service, Company company, float avgReviewScore, int countDesc,
+			ArrayList<Review> answerlist) {
+		super();
+		this.reviewCode = reviewCode;
+		this.reviewScore = reviewScore;
+		this.reviewImg = reviewImg;
+		this.reviewDesc = reviewDesc;
+		this.reviewDate = reviewDate;
+		this.customer = customer;
+		this.service = service;
+		this.company = company;
+		this.avgReviewScore = avgReviewScore;
+		this.countDesc = countDesc;
+		this.answerlist = answerlist;
 	}
 	public String getReviewCode() {
 		return reviewCode;
@@ -104,12 +124,19 @@ public class Review {
 	public void setCountDesc(int countDesc) {
 		this.countDesc = countDesc;
 	}
+	public ArrayList<Review> getAnswerlist() {
+		return answerlist;
+	}
+	public void setAnswerlist(ArrayList<Review> answerlist) {
+		this.answerlist = answerlist;
+	}
 	@Override
 	public String toString() {
 		return "Review [reviewCode=" + reviewCode + ", reviewScore=" + reviewScore + ", reviewImg=" + reviewImg
 				+ ", reviewDesc=" + reviewDesc + ", reviewDate=" + reviewDate + ", customer=" + customer + ", service="
 				+ service + ", company=" + company + ", avgReviewScore=" + avgReviewScore + ", countDesc=" + countDesc
-				+ "]";
+				+ ", answerlist=" + answerlist + "]";
 	}
+	
 	
 }

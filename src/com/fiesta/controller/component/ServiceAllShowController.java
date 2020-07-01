@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fiesta.controller.Controller;
 import com.fiesta.controller.ModelAndView;
@@ -12,6 +13,7 @@ import com.fiesta.model.dao.QuestionDaoImpl;
 import com.fiesta.model.dao.ReviewDaoImpl;
 import com.fiesta.model.vo.Answer;
 import com.fiesta.model.vo.Company;
+import com.fiesta.model.vo.Customer;
 import com.fiesta.model.vo.Question;
 import com.fiesta.model.vo.Review;
 import com.fiesta.model.vo.Service;
@@ -20,11 +22,14 @@ public class ServiceAllShowController implements Controller {
 
 	@Override
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
+		HttpSession session = request.getSession();
 		int companycode = Integer.parseInt(request.getParameter("companycode"));
 		String path = "";
 		Answer answer = null;
 		Question qDetail = null;
+		
+		//세션 불러오기
+		Customer customer = (Customer) session.getAttribute("customer");
 		
 		//클릭 시 조회수 증가
 		CompanyDaoImpl.getInstance().plusCount(companycode);
@@ -59,19 +64,6 @@ public class ServiceAllShowController implements Controller {
 		
 		System.out.println(answerList);
 		
-		//회사정보 바인딩
-		request.setAttribute("companyInfo", companyInfo);
-		
-		//서비스바인딩
-		request.setAttribute("serviceList", serviceList);
-		
-		//문의답변 바인딩
-		request.setAttribute("questionList", questionList);
-		request.setAttribute("questionDetail", questionDetail);
-		request.setAttribute("answerList", answerList);
-		
-		path = "company/serviceAllShowResult.jsp";
-
 		//리뷰 출력
 		ArrayList<Review> reviewlist2 = ReviewDaoImpl.getInstance().showAllReviewByCompany(companycode);
 		request.setAttribute("reviewlist2", reviewlist2);
@@ -89,8 +81,23 @@ public class ServiceAllShowController implements Controller {
 				avg=0;
 			}
 		}
+		
+		//회사정보 바인딩
+		request.setAttribute("companyInfo", companyInfo);
+		
+		//서비스바인딩
+		request.setAttribute("serviceList", serviceList);
+		
+		//문의답변 바인딩
+		request.setAttribute("questionList", questionList);
+		request.setAttribute("questionDetail", questionDetail);
+		request.setAttribute("answerList", answerList);
+		
+		//리뷰 바인딩
 		request.setAttribute("review", review);
 		request.setAttribute("reviewSrcList", reviewSrcList);
+				
+		path = "company/serviceAllShowResult.jsp";
 		
 		return new ModelAndView(path);
 	}

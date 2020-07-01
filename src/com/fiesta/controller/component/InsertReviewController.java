@@ -28,6 +28,9 @@ public class InsertReviewController implements Controller {
 		ReviewDaoImpl dao = ReviewDaoImpl.getInstance();
 		HttpSession session = request.getSession();
 		
+		// 현재 페이지는 로그인 상황이나 합치기 전에는 미리 생성해놓음
+		Customer cust = new Customer("customer");
+
 		// 파일 업로드 준비
 		File attachesDir = new File(request.getSession().getServletContext().getRealPath("/resource/file_upload"));
 		DiskFileItemFactory fileItemFactory = new DiskFileItemFactory();
@@ -84,13 +87,7 @@ public class InsertReviewController implements Controller {
 		if(type.equals("1")) {
 			System.out.println(dao.isReview(companycode, serviceCode)==true);
 			if(dao.isReview(companycode, serviceCode)==true) {
-				System.out.println("이때 리뷰 코드 어떻게 되는지 확인 : " + reviewCode);
-				String[] arr2 = dao.showReview(companycode).getReviewCode().split("-");
-				System.out.println("이건 뭔데?" + arr2[0] + "-" + arr2[1] + "-" + arr2[2]);
-				arr2[2]=String.valueOf(Integer.parseInt(arr2[2])+1);
-				System.out.println("여기 어딘지 확인 ::" + arr2[2]);
-				reviewCode=arr2[0]+"-"+arr2[1]+"-"+arr2[2];
-				System.out.println("리뷰코드 어떻게 되나요?" + reviewCode);
+				reviewCode=companycode+"-"+serviceCode+"-"+(dao.lastReviewCode(companycode)+1);
 			}else {
 				reviewCode=companycode+"-"+serviceCode+"-"+"1";
 			}
@@ -108,6 +105,7 @@ public class InsertReviewController implements Controller {
 		System.out.println("reviewcode"+reviewCode);
 		Review review = new Review(reviewCode, reviewScore, reviewImg, reviewDesc,
 				(Customer)session.getAttribute("customer"), new Service(serviceCode), new Company(companycode));
+		System.out.println("review : "+review);
 		dao.insertReview(review);
 		
 		response.sendRedirect("ServiceAllShow.do?companycode="+companycode);

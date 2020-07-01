@@ -378,6 +378,7 @@
 	
 <div id="reviewTab" class="col s12">
 		    	<div id="review">
+		    		<c:if test="${not empty customer}">
 					<div id="reviewInsert">
 					<h4>리뷰 등록하기</h4>
 					<form id="reviewfrm" action="InsertReview.do" method="post" enctype="multipart/form-data">
@@ -413,7 +414,7 @@
 					</form>
 					</div>
 					<br><br><br>
-					
+					</c:if>
 					
 					<!-- 리뷰내역  -->
 					<div id="reviewScore">
