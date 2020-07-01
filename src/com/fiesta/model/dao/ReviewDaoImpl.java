@@ -410,7 +410,6 @@ public class ReviewDaoImpl {
 	public ArrayList<Review> showAllReviewByCompany(int comCode) throws SQLException {
 		ArrayList<Review> list = new ArrayList<Review>();
 		ArrayList<Review> answerlist = new ArrayList<Review>();
-		Review answer = null;
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -423,30 +422,40 @@ public class ReviewDaoImpl {
 			query.append("FROM review r, customer cust ");
 			query.append("WHERE r.cust_email=cust.cust_email ");
 			query.append("AND r.com_code = ? ");
-			query.append("ORDER BY r.com_code, r.review_code DESC ");
+			query.append("ORDER BY review_date DESC ");
 			ps=conn.prepareStatement(query.toString());
-			System.out.println("PreparedStatement....showAllReviewByCompany");
+			System.out.println("PreparedStatement....showAllReviewByCustomer");
 			ps.setInt(1,comCode);
 			System.out.println(query);
 			rs=ps.executeQuery();
 			
+			answerlist=showAllAnswerByCompany(comCode);
 			while(rs.next()) {
-				Customer cust = new Customer();
-				cust.setCustEmail(rs.getString("r.cust_email"));
-				cust.setCustName(rs.getString("cust.cust_name"));
-				String reviewCode = rs.getString("r.review_code");
-				String[] arr = reviewCode.split("-");
-				 if(arr.length==3){
-					list.add(new Review(rs.getString("r.review_code"),
-							rs.getInt("r.review_score"),
-							rs.getString("r.review_img"),
-							rs.getString("r.review_desc"),
-							rs.getString("r.review_date"),
-							cust,
-							new Service(rs.getInt("r.service_code")),
-							new Company(rs.getInt("r.com_code")),
-							0,
-							0));
+				if(rs.getString("r.review_code").split("-").length==3) {
+					Customer cust = new Customer();
+					cust.setCustEmail(rs.getString("r.cust_email"));
+					cust.setCustName(rs.getString("cust.cust_name"));
+					Service service = new Service();
+					service.setServiceCode(rs.getInt("r.service_code"));
+					Company company = new Company();
+					company.setComCode(rs.getInt("r.com_code"));
+					Review review = new Review();
+					review.setReviewCode(rs.getString("r.review_code"));
+					review.setReviewScore(rs.getInt("r.review_score"));
+					review.setReviewImg(rs.getString("r.review_img"));
+					review.setReviewDesc(rs.getString("r.review_desc"));
+					review.setReviewDate(rs.getString("r.review_date"));
+					review.setCompany(company);
+					review.setService(service);
+					review.setCustomer(cust);
+					for(Review answer : answerlist) {
+						if(answer.getCompany().getComCode()==rs.getInt("r.com_code")) {
+							review.setAnswerlist(answerlist);
+							list.add(review);
+						}else {
+							list.add(review);
+						}
+					}
 				}
 			}
 		}finally {
@@ -459,7 +468,6 @@ public class ReviewDaoImpl {
 	public ArrayList<Review> showAllReviewByCustomer(String email) throws SQLException {
 		ArrayList<Review> list = new ArrayList<Review>();
 		ArrayList<Review> answerlist = new ArrayList<Review>();
-		Review answer = null;
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -472,52 +480,40 @@ public class ReviewDaoImpl {
 			query.append("FROM review r, customer cust ");
 			query.append("WHERE r.cust_email=cust.cust_email ");
 			query.append("AND r.cust_email = ? ");
-			query.append("ORDER BY r.com_code, r.review_code DESC ");
+			query.append("ORDER BY review_date DESC ");
 			ps=conn.prepareStatement(query.toString());
-			System.out.println("PreparedStatement....showAllReviewByCompany");
+			System.out.println("PreparedStatement....showAllReviewByCustomer");
 			ps.setString(1,email);
 			System.out.println(query);
 			rs=ps.executeQuery();
 			
+			answerlist=showAllAnswerByCustomer(email);
 			while(rs.next()) {
-				Customer cust = new Customer();
-				cust.setCustEmail(rs.getString("r.cust_email"));
-				cust.setCustName(rs.getString("cust.cust_name"));
-				String reviewCode = rs.getString("r.review_code");
-				String[] arr = reviewCode.split("-");
-				if(arr.length==4) {
-					answer = new Review();
-					answer.setReviewImg(rs.getString("r.review_img"));
-					answer.setReviewDesc(rs.getString("r.review_desc"));
-					answer.setReviewDate(rs.getString("r.review_date"));
+				if(rs.getString("r.review_code").split("-").length==3) {
+					Customer cust = new Customer();
+					cust.setCustEmail(rs.getString("r.cust_email"));
+					cust.setCustName(rs.getString("cust.cust_name"));
+					Service service = new Service();
+					service.setServiceCode(rs.getInt("r.service_code"));
 					Company company = new Company();
 					company.setComCode(rs.getInt("r.com_code"));
-					answer.setCompany(company);
-					answerlist.add(answer);
-				}
-				if(arr.length==3&&rs.getInt("r.com_code")==answer.getCompany().getComCode()) {
-					list.add(new Review(rs.getString("r.review_code"),
-							rs.getInt("r.review_score"),
-							rs.getString("r.review_img"),
-							rs.getString("r.review_desc"),
-							rs.getString("r.review_date"),
-							cust,
-							new Service(rs.getInt("r.service_code")),
-							new Company(rs.getInt("r.com_code")),
-							0,
-							0,
-							answerlist));
-				}else if(arr.length==3){
-					list.add(new Review(rs.getString("r.review_code"),
-							rs.getInt("r.review_score"),
-							rs.getString("r.review_img"),
-							rs.getString("r.review_desc"),
-							rs.getString("r.review_date"),
-							cust,
-							new Service(rs.getInt("r.service_code")),
-							new Company(rs.getInt("r.com_code")),
-							0,
-							0));
+					Review review = new Review();
+					review.setReviewCode(rs.getString("r.review_code"));
+					review.setReviewScore(rs.getInt("r.review_score"));
+					review.setReviewImg(rs.getString("r.review_img"));
+					review.setReviewDesc(rs.getString("r.review_desc"));
+					review.setReviewDate(rs.getString("r.review_date"));
+					review.setCompany(company);
+					review.setService(service);
+					review.setCustomer(cust);
+					for(Review answer : answerlist) {
+						if(answer.getCompany().getComCode()==rs.getInt("r.com_code")) {
+							review.setAnswerlist(answerlist);
+							list.add(review);
+						}else {
+							list.add(review);
+						}
+					}
 				}
 			}
 		}finally {
@@ -525,6 +521,84 @@ public class ReviewDaoImpl {
 		}
 		
 		return list;
+	}
+	
+	public ArrayList<Review> showAllAnswerByCustomer(String email) throws SQLException {
+		ArrayList<Review> answerlist = new ArrayList<Review>();
+		Review answer = null;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			conn=getConnection();
+			StringBuffer query = new StringBuffer();
+			query.append("SELECT review_code, review_desc, review_img, review_date, com_code ");
+			query.append("FROM review ");
+			query.append("WHERE cust_email = ? ");
+			ps=conn.prepareStatement(query.toString());
+			System.out.println("PreparedStatement....showAllReviewByCustomer");
+			ps.setString(1,email);
+			System.out.println(query);
+			rs=ps.executeQuery();
+			
+			while(rs.next()) {
+				if(rs.getString("review_code").split("-").length==4) {
+					answer = new Review();
+					answer.setReviewCode(rs.getString("review_code"));
+					answer.setReviewImg(rs.getString("review_img"));
+					answer.setReviewDesc(rs.getString("review_desc"));
+					answer.setReviewDate(rs.getString("review_date"));
+					Company company = new Company();
+					company.setComCode(rs.getInt("com_code"));
+					answer.setCompany(company);
+					answerlist.add(answer);
+				}
+			}
+		}finally {
+			closeAll(rs, ps, conn);
+		}
+		
+		return answerlist;
+	}
+	
+	public ArrayList<Review> showAllAnswerByCompany(int comCode) throws SQLException {
+		ArrayList<Review> answerlist = new ArrayList<Review>();
+		Review answer = null;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			conn=getConnection();
+			StringBuffer query = new StringBuffer();
+			query.append("SELECT review_code, review_desc, review_img, review_date, com_code ");
+			query.append("FROM review ");
+			query.append("WHERE com_code = ? ");
+			ps=conn.prepareStatement(query.toString());
+			System.out.println("PreparedStatement....showAllReviewByCustomer");
+			ps.setInt(1,comCode);
+			System.out.println(query);
+			rs=ps.executeQuery();
+			
+			while(rs.next()) {
+				if(rs.getString("review_code").split("-").length==4) {
+					answer = new Review();
+					answer.setReviewCode(rs.getString("review_code"));
+					answer.setReviewImg(rs.getString("review_img"));
+					answer.setReviewDesc(rs.getString("review_desc"));
+					answer.setReviewDate(rs.getString("review_date"));
+					Company company = new Company();
+					company.setComCode(rs.getInt("com_code"));
+					answer.setCompany(company);
+					answerlist.add(answer);
+				}
+			}
+		}finally {
+			closeAll(rs, ps, conn);
+		}
+		
+		return answerlist;
 	}
 	
 	public Review showReview(String reviewCode) throws SQLException{
@@ -694,8 +768,9 @@ public class ReviewDaoImpl {
 		//System.out.println(dao.showReview(19));
 		//System.out.println(dao.showAllReviewByCustomer("wpdud001@gmail.com"));
 		//dao.deleteReview("10-10-102");
-		System.out.println(dao.lastReviewCode(1));
-		
+		//System.out.println(dao.lastReviewCode(1));
+		System.out.println(dao.showAllReviewByCompany(1));
+		//System.out.println(dao.showAllAnswerByCustomer("wpdud001@gmail.com"));
 		//알고리즘 테스트 케이스 추가
 		/*int num=1;
 		int comCode =1;
