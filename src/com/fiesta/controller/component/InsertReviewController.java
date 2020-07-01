@@ -94,6 +94,7 @@ public class InsertReviewController implements Controller {
 			if(dao.isReview(companycode, serviceCode)==true) {
 				String[] arr2 = dao.showReview(companycode).getReviewCode().split("-");
 				arr2[2]=String.valueOf(Integer.parseInt(arr2[2])+1);
+				System.out.println("여기 어딘지 확인 ::" + arr2[2]);
 				reviewCode=arr2[0]+"-"+arr2[1]+"-"+arr2[2];
 			}else {
 				reviewCode=companycode+"-"+serviceCode+"-"+"1";

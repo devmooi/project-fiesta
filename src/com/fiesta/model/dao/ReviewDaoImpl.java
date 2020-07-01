@@ -366,7 +366,7 @@ public class ReviewDaoImpl {
 	}
 	
 	
-	
+	//리뷰 불러오는 곳
 	public ArrayList<Review> showAllReviewByCompany(int comCode) throws SQLException {
 		ArrayList<Review> list = new ArrayList<Review>();
 		Connection conn = null;

@@ -67,9 +67,9 @@ public class CompanyRegisterController implements Controller {
 						String separator = File.separator;
 						int index = item.getName().lastIndexOf(separator);
 						String fileName = item.getName().substring(index + 1);
-						File uploadFile = new File(attachesDir + separator + fileName);
+						File uploadFile = new File(attachesDir + separator + "company_" + fileName);
 						item.write(uploadFile);
-						img = "/resource/file_upload/" + item.getName();
+						img = "resource/file_upload/company_" + item.getName();
 					}
 				}
 			}

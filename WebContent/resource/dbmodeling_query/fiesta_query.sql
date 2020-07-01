@@ -2,7 +2,6 @@
 DROP TABLE wish; -- 찜
 DROP TABLE review; -- 리뷰
 DROP TABLE custrequestdetail; -- 고객 의뢰 완료 내역 (계약서)
--- DROP TABLE orderdetail;
 DROP TABLE custorderdetail;
 DROP TABLE custorder; -- 고객 주문
 DROP TABLE service; -- 서비스
@@ -11,7 +10,6 @@ DROP TABLE question; -- 문의
 DROP TABLE company; -- 업체
 DROP TABLE comcategory; -- 업체 분류
 DROP TABLE custrequest; -- 고객 의뢰
--- DROP TABLE request;
 DROP TABLE customer; -- 고객
 
 
@@ -42,7 +40,7 @@ CREATE TABLE service(
 	service_code INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     service_name VARCHAR(45),
     service_desc VARCHAR(45),
-    service_img VARCHAR(45),
+    service_img VARCHAR(150),
     service_tag VARCHAR(45),
     com_code INT NOT NULL
 );

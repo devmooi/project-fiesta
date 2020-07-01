@@ -42,7 +42,7 @@ public class ServiceRegisterController implements Controller {
 		
 		String path = "";*/
 
-		Service service  = new Service(serviceName, serviceDesc, serviceImg, serviceTag, companycode);
+		Service service  = new Service(serviceName, serviceDesc, "resource/file_upload/" + serviceImg, serviceTag, companycode);
 
 		CompanyDaoImpl.getInstance().insertService(service);
 

@@ -17,11 +17,8 @@ public class CustomerMypageController implements Controller {
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		HttpSession session = request.getSession();
-
 		Customer customer = (Customer) session.getAttribute("customer"); // eclispe가 시키는대로 casting만 해주면 됐..!
 		String custEmail = customer.getCustEmail();
-		
-		String path = "customerMypage.jsp";
 
 		//주문내역
 		ArrayList<Custorder> orderList = new ArrayList<>();
@@ -74,7 +71,7 @@ public class CustomerMypageController implements Controller {
 		//나의 찜내역 바인딩
 		request.setAttribute("wishlist", wishlist);
 
-		return new ModelAndView(path);
+		return new ModelAndView("register/customerMypage.jsp");
 	}
 
 }

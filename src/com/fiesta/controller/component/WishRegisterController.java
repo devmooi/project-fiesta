@@ -4,10 +4,12 @@ import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fiesta.controller.Controller;
 import com.fiesta.controller.ModelAndView;
 import com.fiesta.model.dao.WishDaoImpl;
+import com.fiesta.model.vo.Customer;
 
 public class WishRegisterController implements Controller {
 
@@ -16,10 +18,10 @@ public class WishRegisterController implements Controller {
 		PrintWriter out = response.getWriter();
 		int companycode = Integer.parseInt(request.getParameter("comCode"));
 		System.out.println(companycode);
-		String custEmail = "encore@gmail.com"; //세션에서 받아올것
-		
-
-		String existResult = WishDaoImpl.getInstance().insertWish(custEmail,companycode);
+		HttpSession session = request.getSession();
+		Customer customer = (Customer) session.getAttribute("customer");
+	
+		String existResult = WishDaoImpl.getInstance().insertWish(customer.getCustEmail(),companycode);
 		
 		request.setAttribute("existResult", existResult);
 		

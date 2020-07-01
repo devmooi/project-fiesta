@@ -9,6 +9,7 @@
 	<title>Fiesta - 업체 상세페이지</title>
     <link href="../Fiesta/resource/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/064e5458ec.js" crossorigin="anonymous"></script>
 	<!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -16,6 +17,7 @@
 		$(document).ready(function(){
 			$('.tabs').tabs();
 			$('.collapsible').collapsible();
+			$('select').formSelect();
 			
 			$(".popCloseBtn").click(function(event){
 	            $(".PopupDiv").css("display","none"); //팝업창 display none
@@ -43,10 +45,6 @@
 				data:"comCode="+comCode,
 				
 				success:function(result) {
-						//alert(comCode); 확인용
-						//alert("찜하기 성공");
-						//$("#result").html(result); 
-						//성공과 실패를 나눠서 팝업창을 띄우고 싶은데 안된다 ㅠㅅㅠ
 						if(result=='true'){
 							$(".wishResult").html("찜하기 성공!!!!");
 							
@@ -59,7 +57,7 @@
 						 	});  
 						}else{
 							$(".wishResult").html("이미 찜했어요 ㅠㅅㅠ");
-							$(".material-icons").html("mood_bad");
+							$(".favorite").html("mood_bad");
 							
 				  			$(".PopupDiv").css("display","block"); //팝업창 display block
 					
@@ -153,10 +151,94 @@
     		font-size: 1.3rem;
     		font-weight: bold;
     	}
+    	#companyDetail .material-icons {
+    		position: relative;
+    		top: 6px;
+    		margin-right: 10px;
+    	}
     	#companyDetail span {
     		font-weight: bold;
     		width: 70px;
     		display: inline-block;
+    	}
+    	
+    	/* 찜하기 */
+    	#wishBtn {
+    		margin-left: 20px;
+    		background: none;
+    		border: none;
+    		color: black;
+    		cursor: pointer;
+    	}
+    	#wishBtn:hover {
+    		color: #009688;
+    	}
+    	
+    	.PopupDiv {  /* 팝업창 css */
+    		text-align:center;
+		    top : 0px;
+		    padding-top: 60px;
+		    position: absolute;
+		    background: #FAE0D4;
+		    width: 300px;
+		    height: 300px;
+		    display: none;
+    	}
+    	.PopupDiv a {
+    		display: block;
+    	}
+    	.PopupDiv .popCloseBtn {
+    		cursor: pointer;
+    		margin-top: 20px;
+    		background: none;
+		    border: 2px solid black;
+		    padding: 5px 20px;
+    	}
+    	
+    	/* 제공 서비스 */
+    	#serviceList {
+    		margin-bottom: 80px;
+    	}
+    	#serviceList h3 {
+    		font-size: 1.3rem;
+    		font-weight: bold;
+    		margin-top: 80px;
+    	}
+    	#serviceList a {
+    		display: flex;
+    		align-items: center;
+    		color: black;
+    		margin-bottom: 9px;
+    		border: 2px solid #ddd;
+    		padding: 10px;
+    	}
+    	#serviceList a:hover {
+    		border: 2px solid #009688;
+    		transition-duration: 1.5s;
+    	}
+    	#serviceList h4 {
+    		font-size: 1.1rem;
+    		font-weight: bold;
+    		width: 10%;
+    		margin:0;
+    		margin-left: 20px;
+    	}
+    	#serviceList p {
+    		width: 60%;
+    		margin: 0;
+    	}
+    	
+    	/* 탭하기 */
+    	.tabs .tab a {
+    		color: #009688 !important;
+    		font-size: 1.2rem !important;
+    		font-weight: bold !important;
+    	}
+    	.tabs .indicator {
+    		background-color: #009688 !important;
+    	}
+    	.tabs .tab a:focus, .tabs .tab a:focus.active {
+    		background-color: rgba(20, 150, 135, 0.2) !important;
     	}
 	</style>
     <style type="text/css">
@@ -174,80 +256,10 @@
     	.adetail{
     		background-color: #D4F4FA;
     	}
-    	
-    	.PopupDiv {  /* 팝업창 css */
-    		text-align:center;
-		    top : 0px;
-		    padding-top: 60px;
-		    position: absolute;
-		    background: #FAE0D4;
-		    width: 300px;
-		    height: 300px;
-		    display: none;
-    	}
     </style>
 </head>
 <body>
-	<!-- header import -->
 	<jsp:include page = "../header.jsp" />
-	
-	<!-- 업체 정보 : 로그인해서 본인 업체로 들어온 경우 / 다른 업체 정보 또는 업체 로그인이 아닐 때 -->
-	<!-- 비로그인 또는 고객이 로그인 했을 때는 companyInfo만 있음.. -->
-	<!-- 업체가 로그인 해서 업체 정보로 들어가면 company만 있음.. -->
-	<!-- 업체가 로그인 해서 다른 업체 정보를 봤을 때는 companyInfo랑 company가 둘다 있음 -->
-	<section>
-		<c:choose>
-			<c:when test="${!empty company}">
-				<!-- 회사가 로그인 했을 때 -->
-				<c:choose>
-					<c:when test=${!empty companyInfo}>
-						<!-- 다른 회사 정보를 봤을 때 -->
-						회사 로그인 - 다른 회사 정보 company : ${company}
-						회사 로그인 - 다른 회사 정보 companyInfo : ${companyInfo}
-					</c:when>
-					<c:when test=${company eq companyInfo}>
-						<!-- 업체 정보가 아닌 다른 곳에서 내 회사 정보를 봤을 때 -->
-						
-					</c:when>
-					<c:otherwise>
-						<!-- 내 회사 정보를 봤을 때 -->
-						회사 로그인 - 내 회사 정보
-					</c:otherwise>
-				</c:choose>
-			</c:when>
-			<c:otherwise>
-				<!-- 회사가 로그인 하지 않았을 때 -->
-				company : ${company}
-				companyInfo : ${companyInfo}
-			</c:otherwise>
-		</c:choose>
-		<%-- <c:choose>
-			<c:when test="${name eq '홍길동'}">
-        		홍길동이 맞습니다.
-    		</c:when>
-    		<c:when test="${name eq '철수'}">
-        		홍길동이 아닙니다.
-    		</c:when>
-    		<c:otherwise>
-        		사람이 없습니다 ㅜㅜ
-    		</c:otherwise>
-		</c:choose> --%>
-
-		<div id="companyInfo">
-			<img src="${company.comImg}">
-			<div>
-				<h2>${company.comName}</h2>
-				<p>${company.comDesc}</p>
-				<p>조회수 : ${company.comCount}</p>
-			</div>
-		</div>
-		<div id="companyDetail">
-			<h3>기본 정보</h3>
-			<p><span>이메일</span> ${company.comEmail}</p>
-			<p><span>전화번호</span> ${company.comTel}</p>
-			<p><span>주소</span> ${company.comAddr}</p>
-		</div>
-	</section>
 	
 	<section>
 		<div id="companyInfo">
@@ -255,115 +267,102 @@
 			<div>
 				<h2>${companyInfo.comName}</h2>
 				<p>${companyInfo.comDesc}</p>
-				<p>조회수 : ${companyInfo.comCount}</p>
+				<span>조회수 : ${companyInfo.comCount}</span>
+				<c:if test="${!empty customer}">
+					<button id = "wishBtn" onclick="registerWish()"><i class="far fa-heart"></i> 찜하기</button>
+				</c:if>
 			</div>
 		</div>
-	</section>
-	
-	<section>
-
-
-
-		<br><br>
-		<!-- 찜하기랑 목록 -->
-		<button id = "wishBtn" onclick="registerWish()">찜하기</button>
-		
-		<!-- 찜성공/실패 팝업창 -->
-		<div class="PopupDiv"> 
-				<i class="large material-icons">favorite</i>
-				<div class="wishResult"></div>
-				<a href="customerMypage.do?">나의 찜 목록보기</a> <!-- 경로수정해야함 -->
-        		<button class="popCloseBtn">close</button>
-    	</div>
-    	
-    	
-    	<!-- 서비스목록 -->
-		<br>
-		<h3 align="center">서비스</h3><p>
-		<table border="2" width="350" bgcolor="yellow" align="center">
-			<c:forEach items="${serviceList}" var="service">
-				<tr>
-<%-- 					<td>${service.serviceCode}</td> --%>
-					<td>${service.serviceName}</td>
-					<c:if test="${not empty service.serviceImg}">
-					<td><img src= "../resource/file_upload/${service.serviceImg}" width=100 height=100></td>
-					</c:if>
-					<c:if test="${empty service.serviceImg}">
-					<td>이미지 없음</td>
-					</c:if>
-					<td>${service.serviceDesc}</td>
-					<td>${service.serviceTag}</td>
-					<td><a href="ServiceDelete.do?serviceCode=${service.serviceCode}">삭제</a></td>  <!-- 이거는 업체가 로그인했을때만 보일 것 -->
-				</tr>
-			</c:forEach>
-		</table>
-		<button class = "serviceRegisterBtn" onclick = "serviceOpenClose()">서비스추가등록</button><br><!-- 이거는 업체가 로그인했을때만 보일 것 -->
-		<div class = "serviceForm">
-				<h4>서비스등록하기</h4>
-				<form action="serviceRegister.do" id="serviceRegisterForm" enctype="multipart/form-data"  method="post">
-				<input type="hidden" name="companycode" value="${companycode}">
-				서비스 이름 : <input type="text" name="serviceName" required="required"><br><br>
-				서비스 설명 : <input type="text" name="serviceDesc" required="required"><br><br>
-<!-- 				서비스 사진 : <input type="text" name="serviceImg" required="required"><br><br> -->
-				서비스 사진 : <input name="serviceImg" type="file" accept=".jpg, .jpeg, .png" multiple="multiple"><br><br>
-				서비스 태그 : <input type="text" name="serviceTag" required="required"><br><br>
-				<input onclick="serviceRegister()" type="submit" value="서비스등록">
-				<!-- <input type="submit" value="서비스등록"> -->
-				</form>
+		<div id="companyDetail">
+			<h3>기본 정보</h3>
+			<p><i class="material-icons">email</i><span>이메일</span> ${companyInfo.comEmail}</p>
+			<p><i class="material-icons">phone</i><span>전화번호</span> ${companyInfo.comTel}</p>
+			<p><i class="material-icons">map</i><span>주소</span> ${companyInfo.comAddr}</p>
 		</div>
-		<p></p>
-<!-- 여기서부터 탭 !!!! -->
-<!-- 탭제목들 -->
-		  <div class="row">
-		    <div class="col s12">
-		      <ul class="tabs">
-		        <li class="tab col s3"><a href="#reviewTab">리뷰내역</a></li>
-		        <li class="tab col s3"><a href="#qnaTab">문의내역</a></li>
-		        <!-- <li class="tab col s3 disabled"><a href="#test3">Disabled Tab</a></li> -->
-		        <li class="tab col s3"><a href="#question">문의하기</a></li>
-		      </ul>
-		    </div>
-<!-- 탭내용들 -->	   
-	<!-- 리뷰내역 -->
-		    <div id="reviewTab" class="col s12">
-		    	<div id="review">
-					<div id="reviewInsert">
-					<h4>리뷰 등록하기</h4>
-					<form id="reviewfrm" action="InsertReview.do" method="post" enctype="multipart/form-data">
-					<div id="wrap">
-						<div id="comDesc">
-							<input type="hidden" name="companycode" value="${companycode}">
-							<input type="hidden" name="type" value="1">
-							<select name="serviceName" required="required">
-								<option label="리뷰할 서비스 선택하세요"></option>
-								<c:forEach items="${serviceList}" var="service">
-									<option>${service.serviceCode},${service.serviceName}</option>
-								</c:forEach>
-							</select>
-						</div>
-						
-						<div id="reviewScore">
-							만족도 :
-							<input name="reviewScore" type="radio" value="1">1점
-							<input name="reviewScore" type="radio" value="2">2점
-							<input name="reviewScore" type="radio" value="3">3점
-							<input name="reviewScore" type="radio" value="4">4점
-							<input name="reviewScore" type="radio" value="5">5점
-						</div>
-						<div id="reviewImg">
-							사진 올리기: 1024*1024 이하의 이미지만 및 jpg, jpeg, png만 가능 <br>
-							<input name="reviewImg" type="file" accept=".jpg, .jpeg, .png" multiple="multiple">
-						</div>
-						<div id="reviewDesc">
-							<textarea name="reviewDesc" rows="5" cols="20" required="required"></textarea>
-						</div>
-						<input type="submit" value="등록하기" id="insertReview">
+		
+		<div id="serviceList">
+			<h3>제공 서비스</h3>
+			<!-- 서비스 목록 -->
+			<c:forEach items="${serviceList}" var="service">
+				<a href="#">
+					<img src= "${service.serviceImg}" width=100 height=100>
+					<h4>${service.serviceName}</h4>
+					<p>${service.serviceDesc}</p>
+					<span>${service.serviceTag}</span>
+				</a>
+			</c:forEach>
+		</div>
+		
+		<ul class="tabs">
+			<li class="tab"><a href="#reviewTab">리뷰</a></li>
+			<li class="tab"><a href="#qnaTab">문의</a></li>
+		</ul>
+		
+		<style>
+			#reviewTab h4 {
+				font-size: 1.1rem;
+				font-weight: bold;
+			}
+			#reviewTab .select-wrapper {
+				display: block;
+			}
+		</style>
+		
+		<!-- 리뷰 -->
+		<div id="reviewTab">
+			<!-- 고객만 등록 가능 -->
+			<div id="reviewInsert">
+				<h4>리뷰 등록하기</h4>
+				<form id="reviewfrm" action="InsertReview.do" method="post" enctype="multipart/form-data">
+					<input type="hidden" name="companycode" value="${companycode}">
+					<input type="hidden" name="type" value="1">
+					<select name="serviceName" required="required">
+						<option disabled selected>리뷰할 서비스를 선택하세요</option>
+						<c:forEach items="${serviceList}" var="service">
+							<option>${service.serviceCode},${service.serviceName}</option>
+						</c:forEach>
+					</select>
+					<div id="reviewScore">
+						만족도 :
+						<label>
+							<input name="reviewScore" type="radio" value="1">
+							<span><i class="small material-icons">star_border</i></span>
+						</label>
+						<label>
+							<input name="reviewScore" type="radio" value="2">
+							<span><i class="small material-icons">star_border</i></span>
+						</label>
+						<label>
+							<input name="reviewScore" type="radio" value="3">
+							<span><i class="small material-icons">star_border</i></span>
+						</label>
+						<label>
+							<input name="reviewScore" type="radio" value="4">
+							<span><i class="small material-icons">star_border</i></span>
+						</label>
+						<label>
+							<input name="reviewScore" type="radio" value="5">
+							<span><i class="small material-icons">star_border</i></span>
+						</label>
 					</div>
-					</form>
+					<div id="reviewImg">
+						사진 올리기: 1024*1024 이하의 이미지만 및 jpg, jpeg, png만 가능 <br>
+						<input name="reviewImg" type="file" accept=".jpg, .jpeg, .png" multiple="multiple">
 					</div>
-					<br><br><br>
-					
-					
+					<div id="reviewDesc">
+						<textarea name="reviewDesc" rows="5" cols="20" required="required"></textarea>
+					</div>
+					<input type="submit" value="등록하기" id="insertReview">
+				</form>
+				
+				
+			</div>
+			
+			<!-- 전부 다 볼 수 있는 부분 : 리뷰 내역 -->
+			
+		</div>
+			<br><br><br><br>
+
 					<!-- 리뷰내역  -->
 					<div id="reviewScore">
 					<span>평점 : </span>
@@ -389,6 +388,18 @@
 				</div>
 				<hr>
 		    </div>
+		</div>
+		<div id="qnaTab">
+			문의
+		</div>
+	</section>
+	
+<!-- 여기서부터 탭 !!!! -->
+<!-- 탭제목들 -->
+<!-- 탭내용들 -->	   
+	<!-- 리뷰내역 -->
+		   <%--  <div id="reviewTab" class="col s12">
+		    	
    
 		    <!-- 문의내역 -->
 		    <div id="qnaTab" class="col s12">
@@ -398,7 +409,7 @@
 				 <ul class="collapsible">
 				 <c:forEach items="${questionList}" var="question">
 				    <li>
-				      <div class="collapsible-header">	<%-- <span>${question.qCode}</span>  --%>
+				      <div class="collapsible-header">	<span>${question.qCode}</span> 
 													    <span>${question.qTitle}</span>&nbsp;&nbsp;&nbsp;&nbsp;
 													    <span>${question.qDesc}</span>&nbsp;&nbsp;&nbsp;&nbsp;
 													    <span>${question.custEmail}</span>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -460,7 +471,18 @@
 		    </div>
 		  </div>
 		
-	</section>
+	
+	 --%>
+	
+	
+	<!-- 찜성공/실패 팝업창 -->
+	<div class="PopupDiv"> 
+		<i class="large material-icons favorite">mood</i>
+		<div class="wishResult"></div>
+		<a href="customerMypage.do">나의 찜 목록보기</a> 
+      	<button class="popCloseBtn">close</button>
+   	</div>
+   	
 	<!-- footer import -->
     <c:import url="http://localhost:8888/Fiesta/footer.jsp" charEncoding="UTF-8"></c:import>
 </body>
