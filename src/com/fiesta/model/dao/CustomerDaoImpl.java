@@ -127,24 +127,24 @@ public class CustomerDaoImpl {
 		ResultSet rs = null;
 		ArrayList<Custorder> list = new ArrayList<>();
 		try {
-			conn = getConnection();
-			String query = "SELECT order_sysdate, order_revdate, order_place, order_budget, order_require, order_condition "
-						 + "FROM custorder WHERE cust_email=?";
+			conn = getConnection();			
+			String query = "SELECT c.order_code, c.order_sysdate, c.order_condition, c.cust_email, c.service_code, s.service_name "
+					 + "FROM custorder c, service s "
+					 + "WHERE c.service_code = s.service_code and c.cust_email=?";
 			ps = conn.prepareStatement(query);
-			System.out.println("ps completed in showAllCustorder");
+			System.out.println("PreparedStatement 생성됨...showAllCustOrder");
 			
 			ps.setString(1, custEmail);
 			rs = ps.executeQuery();
-			
+
 			while(rs.next()) {
 				list.add(new Custorder(
-									   rs.getString("order_sysdate"),
-									   rs.getString("order_revdate"),
-									   rs.getString("order_place"),
-									   rs.getString("order_budget"),
-									   rs.getString("order_require"),
-									   rs.getString("order_condition")));
-			System.out.println(custEmail+ " showallcustorder success");
+									   rs.getInt("c.order_code"),
+									   rs.getInt("c.service_code"),
+									   rs.getString("s.service_name"),
+									   rs.getString("c.order_sysdate"),
+									   rs.getString("c.order_condition"),
+									   rs.getString("c.cust_email")));
 			}
 		} finally {
 			closeAll(rs, ps, conn);
@@ -227,19 +227,23 @@ public class CustomerDaoImpl {
 		ArrayList<Custorderdetail> list = new ArrayList<>();
 		try {
 			conn = getConnection();
-			String query = "SELECT custdetail_totalprice, custdetail_desc, custdetail_completedate "
+			String query = "SELECT * "
 							+ "FROM custorderdetail WHERE cust_email=?";
 			ps = conn.prepareStatement(query);
-			System.out.println("ps completed in showAllOrderdetail");
+			System.out.println("PreparedStatement 생성됨...showAllCustOrderDetail");
 			
 			ps.setString(1, custEmail);
 			rs = ps.executeQuery();
 			while(rs.next()) {
 				list.add(new Custorderdetail(
-									   rs.getInt("custdetail_totalprice"),
-									   rs.getString("custdetail_desc"),
-									   rs.getString("custdetail_completedate")));
-			System.out.println(custEmail+ " showallorderdetail success");
+										   rs.getInt("custdetail_code"),
+										   rs.getInt("custdetail_totalprice"),
+										   rs.getString("custdetail_desc"),
+										   rs.getString("custdetail_completedate"),
+										   rs.getInt("order_code"),
+										   rs.getInt("service_code"),
+										   rs.getInt("com_code"),
+										   rs.getString("cust_email")));
 			}
 		} finally {
 			closeAll(rs, ps, conn);

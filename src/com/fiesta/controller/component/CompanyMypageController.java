@@ -28,15 +28,15 @@ public class CompanyMypageController implements Controller {
 		
 		//주문한 서비스
 		ArrayList<Service> custOrderService = new ArrayList<>();
-		
-		//최종주문승인된 서비스
-		ArrayList<Custorderdetail> custOrderFinalDetail = CustomerDaoImpl.getInstance().showAllCustOrderDetailByCompany(companycode);
-		
+				
 		//고객리스트 자세히 보기
 		for(Custorder c : custOrderList) {
 			custOrderDetailList.add(CustomerDaoImpl.getInstance().showCustOrder(c.getOrderCode()));
 			custOrderService.add(CompanyDaoImpl.getInstance().showService(c.getServiceCode()));
 		}
+		
+		//최종주문승인된 서비스
+		ArrayList<Custorderdetail> custOrderFinalDetail = CustomerDaoImpl.getInstance().showAllCustOrderDetailByCompany(companycode);
 			
 		//바인딩
 		request.setAttribute("custOrderList", custOrderList);
