@@ -5,7 +5,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.sql.DataSource;
 
@@ -50,30 +52,42 @@ public class CustomerDaoImpl {
 	
 	//작업 영역
 	//VO 수정으로 인한 변경
+	//고객주문
 	public void insertCustOrder(Custorder custorder) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
-		try {
-			conn = getConnection();
-			String query = "INSERT INTO custorder (order_sysdate, order_revdate, order_place, order_budget, order_require, cust_email, service_code, com_code) VALUES(?,?,?,?,?,?,?,?)";
+		
+		//현재시간 출력
+		SimpleDateFormat format = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
+		Calendar time = Calendar.getInstance();
+		String currTime = format.format(time.getTime());
+		//System.out.println(currTime); 확인용
+		
+		try{
+			conn=  getConnection();
+			String query = "INSERT INTO custorder(order_sysdate, order_revdate, order_place, order_budget, order_require, order_condition, cust_email, service_code, com_code) "
+					+ "VALUES(?,?,?,?,?,?,?,?,?)";
 			ps = conn.prepareStatement(query);
-			System.out.println("ps completed in insertCustorder");
+			System.out.println("PreparedStatement 생성됨...insertCustOrder");
 			
-			ps.setString(1, custorder.getOrderSysdate());
+			ps.setString(1, currTime);
 			ps.setString(2, custorder.getOrderRevdate());
 			ps.setString(3, custorder.getOrderPlace());
 			ps.setString(4, custorder.getOrderBudget());
 			ps.setString(5, custorder.getOrderRequire());
-			ps.setString(6, custorder.getCustEmail());
-			ps.setInt(7, custorder.getServiceCode());
-			ps.setInt(8, custorder.getComCode());
-			System.out.println(ps.executeUpdate()+" row insert success");
-		} finally {
+			ps.setString(6, "주문대기");//condition 상태값 default값이 '주문대기'여야 함.
+			ps.setString(7, custorder.getCustEmail());//세션의 고객아이디 값 가져오기
+			ps.setInt(8, custorder.getServiceCode());
+			ps.setInt(9, custorder.getComCode());//기업코드값 가져오기
+
+			System.out.println(ps.executeUpdate()+" row INSERT OK!!");
+		}finally{
 			closeAll(ps, conn);
 		}		
 	}
 
 	//VO 수정으로 인한 변경
+	//고객이 주문 완료 됐을 때 나오는 의뢰서
 	public void insertCustOrderDetail(Custorderdetail custorderdetail) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -97,6 +111,7 @@ public class CustomerDaoImpl {
 	}
 	
 	//VO 수정으로 인한 변경
+	//자기가 쓴 의뢰내역
 	public ArrayList<Custorder> showAllCustOrder(String custEmail) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -121,6 +136,38 @@ public class CustomerDaoImpl {
 									   rs.getString("order_require"),
 									   rs.getString("order_condition")));
 			System.out.println(custEmail+ " showallcustorder success");
+			}
+		} finally {
+			closeAll(rs, ps, conn);
+		}
+		return list;
+	}
+	
+	//회사가 보는 의뢰내역
+	public ArrayList<Custorder> showAllCustOrderByCompany(int comcode) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		ArrayList<Custorder> list = new ArrayList<>();
+		try {
+			conn = getConnection();
+
+			String query = "SELECT c.order_sysdate, c.order_condition, c.cust_email, c.service_code, s.service_name "
+						 + "FROM custorder c, service s "
+						 + "WHERE c.service_code = s.service_code and c.com_code=?";
+			ps = conn.prepareStatement(query);
+			System.out.println("PreparedStatement 생성됨...showAllCustOrderByCompany");
+			
+			ps.setInt(1, comcode);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				list.add(new Custorder(
+									   rs.getInt("service_code"),
+									   rs.getString("service_name"),
+									   rs.getString("order_sysdate"),
+									   rs.getString("order_condition"),
+									   rs.getString("cust_email")));
 			}
 		} finally {
 			closeAll(rs, ps, conn);
@@ -156,7 +203,8 @@ public class CustomerDaoImpl {
 		return list;
 	}
 	
-	
+//////////////////////////////////////////////////////////////////
+	//고객요청
 	public void insertCustRequest(Custrequest custrequest) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;

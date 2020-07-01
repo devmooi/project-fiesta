@@ -156,11 +156,27 @@ public class HandlerMapping {
 		}else if(command.equals("customerRequest.do")) {
 			controller = new CustomerRequestController();
 			System.out.println("CustomerRequestController 생성됨");
+			
+		}else if(command.equals("companyMypage.do")) {
+			controller = new CompanyMypageController();
+			System.out.println("CompanyMypageController 생성됨");
+
 		}else if(command.equals("passFind.do")) {
 			controller = new PassFindController();
 			System.out.println("PassFindController 생성됨");
+			
+		}else if(command.equals("ServiceOrder.do")) {
+			controller = new ServiceOrderController();
+			System.out.println("ServiceOrderController 생성됨");
+			
+		}else if(command.equals("customerOrderFrom.do")) {
+			controller = new CustomerOrderFromController();
+			System.out.println("CustomerOrderFromController 생성됨");
 		}
-	
+		
+		
+		
+		
 		return controller;
 	}
 }

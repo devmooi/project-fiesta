@@ -191,47 +191,7 @@
 	<!-- header import -->
 	<jsp:include page = "../header.jsp" />
 	
-	<!-- 업체 정보 : 로그인해서 본인 업체로 들어온 경우 / 다른 업체 정보 또는 업체 로그인이 아닐 때 -->
-	<!-- 비로그인 또는 고객이 로그인 했을 때는 companyInfo만 있음.. -->
-	<!-- 업체가 로그인 해서 업체 정보로 들어가면 company만 있음.. -->
-	<!-- 업체가 로그인 해서 다른 업체 정보를 봤을 때는 companyInfo랑 company가 둘다 있음 -->
-	<section>
-		<c:choose>
-			<c:when test="${!empty company}">
-				<!-- 회사가 로그인 했을 때 -->
-				<c:choose>
-					<c:when test=${!empty companyInfo}>
-						<!-- 다른 회사 정보를 봤을 때 -->
-						회사 로그인 - 다른 회사 정보 company : ${company}
-						회사 로그인 - 다른 회사 정보 companyInfo : ${companyInfo}
-					</c:when>
-					<c:when test=${company eq companyInfo}>
-						<!-- 업체 정보가 아닌 다른 곳에서 내 회사 정보를 봤을 때 -->
-						
-					</c:when>
-					<c:otherwise>
-						<!-- 내 회사 정보를 봤을 때 -->
-						회사 로그인 - 내 회사 정보
-					</c:otherwise>
-				</c:choose>
-			</c:when>
-			<c:otherwise>
-				<!-- 회사가 로그인 하지 않았을 때 -->
-				company : ${company}
-				companyInfo : ${companyInfo}
-			</c:otherwise>
-		</c:choose>
-		<%-- <c:choose>
-			<c:when test="${name eq '홍길동'}">
-        		홍길동이 맞습니다.
-    		</c:when>
-    		<c:when test="${name eq '철수'}">
-        		홍길동이 아닙니다.
-    		</c:when>
-    		<c:otherwise>
-        		사람이 없습니다 ㅜㅜ
-    		</c:otherwise>
-		</c:choose> --%>
+	
 
 		<div id="companyInfo">
 			<img src="${company.comImg}">
@@ -246,17 +206,6 @@
 			<p><span>이메일</span> ${company.comEmail}</p>
 			<p><span>전화번호</span> ${company.comTel}</p>
 			<p><span>주소</span> ${company.comAddr}</p>
-		</div>
-	</section>
-	
-	<section>
-		<div id="companyInfo">
-			<img src="${companyInfo.comImg}">
-			<div>
-				<h2>${companyInfo.comName}</h2>
-				<p>${companyInfo.comDesc}</p>
-				<p>조회수 : ${companyInfo.comCount}</p>
-			</div>
 		</div>
 	</section>
 	
@@ -293,6 +242,7 @@
 					</c:if>
 					<td>${service.serviceDesc}</td>
 					<td>${service.serviceTag}</td>
+					<td><a href="ServiceOrder.do?companycode=${companycode}&serviceCode=${service.serviceCode}">주문</a></td>  <!-- 이거는 고객이 로그인했을때만 보일 것 -->
 					<td><a href="ServiceDelete.do?serviceCode=${service.serviceCode}">삭제</a></td>  <!-- 이거는 업체가 로그인했을때만 보일 것 -->
 				</tr>
 			</c:forEach>

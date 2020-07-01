@@ -642,6 +642,34 @@ public class CompanyDaoImpl {
 		return list;
 	}
 	
+	public Service showService(int servicecode) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Service service = null;
+		try {
+			conn = getConnection();
+			String query = "SELECT * FROM service WHERE service_code=?";
+			ps = conn.prepareStatement(query);
+			System.out.println("PreparedStatement....showService..");
+					
+			ps.setInt(1, servicecode);
+			
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				service = new Service(rs.getInt("service_code"),
+						rs.getString("service_name"),
+						rs.getString("service_desc"),
+						rs.getString("service_img"),
+						rs.getString("service_tag"),
+						rs.getInt("com_code"));
+			}
+		}finally {
+			closeAll(rs, ps, conn);
+		}
+		return service;
+	}
+	
 	public void plusCount(int comCode) throws SQLException{
 		Connection conn = null;
 		PreparedStatement ps = null;
