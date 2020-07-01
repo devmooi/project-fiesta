@@ -62,11 +62,14 @@ public class CustomerMypageController implements Controller {
 		//나의 리뷰내역
 		Company company = new Company();
 		ArrayList<Review> reviewlist = ReviewDaoImpl.getInstance().showAllReviewByCustomer(custEmail);
+		System.out.println(reviewlist);
 			//리뷰에 해당하는 답변 불러오기 --> company 데이터 병합... 원래 DB에서 할 수 있으나 시간이 없어서...
 		for(Review review : reviewlist) {
 			company = CompanyDaoImpl.getInstance().detailViewCompany(review.getCompany().getComCode());
+			System.out.println(company);
 			review.setCompany(company);
 		}
+		System.out.println("reviewlist : "+reviewlist);
 	
 				
 		//주문의뢰내역 바인딩
