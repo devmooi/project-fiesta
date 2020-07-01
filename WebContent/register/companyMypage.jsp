@@ -121,6 +121,8 @@
 			<p><i class="material-icons">map</i><span>주소</span> ${company.comAddr}</p>
 		</div>
 	</section>
+	<button>업체 정보 수정</button>
+	
 	<h2>업체 정보 수정</h2>
 	<form action="updateCompany.do" id="companyUpdateFrm">
 	업체명  <input type="text" name="comName" id="comName" value="${company.comName}" placeholder="${company.comName}"><br>

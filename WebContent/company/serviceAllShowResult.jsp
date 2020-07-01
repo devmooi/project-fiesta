@@ -259,7 +259,7 @@
     </style>
 </head>
 <body>
-	<jsp:include page = "../header.jsp" />
+	<%-- <jsp:include page = "../header.jsp" /> --%>
 	
 	<section>
 		<div id="companyInfo">
@@ -293,6 +293,21 @@
 			</c:forEach>
 		</div>
 		
+		<button class = "serviceRegisterBtn" onclick = "serviceOpenClose()">서비스추가등록</button><br><!-- 이거는 업체가 로그인했을때만 보일 것 -->
+		<div class = "serviceForm">
+				<h4>서비스등록하기</h4>
+				<form action="serviceRegister.do" id="serviceRegisterForm" enctype="multipart/form-data"  method="post">
+				<input type="hidden" name="companycode" value="${companycode}">
+				서비스 이름 : <input type="text" name="serviceName" required="required"><br><br>
+				서비스 설명 : <input type="text" name="serviceDesc" required="required"><br><br>
+<!-- 				서비스 사진 : <input type="text" name="serviceImg" required="required"><br><br> -->
+				서비스 사진 : <input name="serviceImg" type="file" accept=".jpg, .jpeg, .png" multiple="multiple"><br><br>
+				서비스 태그 : <input type="text" name="serviceTag" required="required"><br><br>
+				<input onclick="serviceRegister()" type="submit" value="서비스등록">
+				<!-- <input type="submit" value="서비스등록"> -->
+				</form>
+		</div>
+		
 		<ul class="tabs">
 			<li class="tab"><a href="#reviewTab">리뷰</a></li>
 			<li class="tab"><a href="#qnaTab">문의</a></li>
@@ -308,7 +323,7 @@
 			}
 		</style>
 		
-		<!-- 리뷰 -->
+		<%-- <!-- 리뷰 -->
 		<div id="reviewTab">
 			<!-- 고객만 등록 가능 -->
 			<div id="reviewInsert">
@@ -354,15 +369,52 @@
 					</div>
 					<input type="submit" value="등록하기" id="insertReview">
 				</form>
-				
-				
 			</div>
 			
 			<!-- 전부 다 볼 수 있는 부분 : 리뷰 내역 -->
-			
-		</div>
-			<br><br><br><br>
+		</div> --%>
 
+	</section>
+	
+<div id="reviewTab" class="col s12">
+		    	<div id="review">
+					<div id="reviewInsert">
+					<h4>리뷰 등록하기</h4>
+					<form id="reviewfrm" action="InsertReview.do" method="post" enctype="multipart/form-data">
+					<div id="wrap">
+						<div id="comDesc">
+							<input type="hidden" name="companycode" value="${companycode}">
+							<input type="hidden" name="type" value="1">
+							<select name="serviceName" required="required">
+								<option label="리뷰할 서비스 선택하세요"></option>
+								<c:forEach items="${serviceList}" var="service">
+									<option>${service.serviceCode},${service.serviceName}</option>
+								</c:forEach>
+							</select>
+						</div>
+						
+						<div id="reviewScore">
+							만족도 :
+							<input name="reviewScore" type="radio" value="1">1점
+							<input name="reviewScore" type="radio" value="2">2점
+							<input name="reviewScore" type="radio" value="3">3점
+							<input name="reviewScore" type="radio" value="4">4점
+							<input name="reviewScore" type="radio" value="5">5점
+						</div>
+						<div id="reviewImg">
+							사진 올리기: 1024*1024 이하의 이미지만 및 jpg, jpeg, png만 가능 <br>
+							<input name="reviewImg" type="file" accept=".jpg, .jpeg, .png" multiple="multiple">
+						</div>
+						<div id="reviewDesc">
+							<textarea name="reviewDesc" rows="5" cols="20" required="required"></textarea>
+						</div>
+						<input type="submit" value="등록하기" id="insertReview">
+					</div>
+					</form>
+					</div>
+					<br><br><br>
+					
+					
 					<!-- 리뷰내역  -->
 					<div id="reviewScore">
 					<span>평점 : </span>
@@ -388,18 +440,6 @@
 				</div>
 				<hr>
 		    </div>
-		</div>
-		<div id="qnaTab">
-			문의
-		</div>
-	</section>
-	
-<!-- 여기서부터 탭 !!!! -->
-<!-- 탭제목들 -->
-<!-- 탭내용들 -->	   
-	<!-- 리뷰내역 -->
-		   <%--  <div id="reviewTab" class="col s12">
-		    	
    
 		    <!-- 문의내역 -->
 		    <div id="qnaTab" class="col s12">
@@ -409,7 +449,7 @@
 				 <ul class="collapsible">
 				 <c:forEach items="${questionList}" var="question">
 				    <li>
-				      <div class="collapsible-header">	<span>${question.qCode}</span> 
+				      <div class="collapsible-header">	<%-- <span>${question.qCode}</span>  --%>
 													    <span>${question.qTitle}</span>&nbsp;&nbsp;&nbsp;&nbsp;
 													    <span>${question.qDesc}</span>&nbsp;&nbsp;&nbsp;&nbsp;
 													    <span>${question.custEmail}</span>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -470,10 +510,6 @@
 				</form>
 		    </div>
 		  </div>
-		
-	
-	 --%>
-	
 	
 	<!-- 찜성공/실패 팝업창 -->
 	<div class="PopupDiv"> 

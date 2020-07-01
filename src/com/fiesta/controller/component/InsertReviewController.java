@@ -28,10 +28,6 @@ public class InsertReviewController implements Controller {
 		ReviewDaoImpl dao = ReviewDaoImpl.getInstance();
 		HttpSession session = request.getSession();
 		
-		// 현재 페이지는 로그인 상황이나 합치기 전에는 미리 생성해놓음
-		Customer cust = new Customer("encore@gmail.com", "java", "1234");
-		session.setAttribute("customer", cust);
-		
 		// 파일 업로드 준비
 		File attachesDir = new File(request.getSession().getServletContext().getRealPath("/resource/file_upload"));
 		DiskFileItemFactory fileItemFactory = new DiskFileItemFactory();
@@ -63,11 +59,6 @@ public class InsertReviewController implements Controller {
 						serviceCode = Integer.parseInt(arr[0]);
 					}else if(item.getFieldName().equals("reviewDesc")){
 						reviewDesc =  item.getString("utf-8");
-					}else if(item.getFieldName().equals("codes")) {
-						arr =  item.getString("utf-8").split(",");
-						reviewCode = arr[0];
-						companycode = Integer.parseInt(arr[1]);
-						serviceCode = Integer.parseInt(arr[2]);
 					}else if(item.getFieldName().equals("type")) {
 						type = item.getString("utf-8");
 					}
@@ -78,7 +69,7 @@ public class InsertReviewController implements Controller {
 					if(item.getSize() > 0) {
 						String separator = File.separator;
 						int index = item.getName().lastIndexOf(separator);
-						String fileName = companycode+serviceCode+item.getName().substring(index + 1);
+						String fileName = companycode+"_"+serviceCode+item.getName().substring(index + 1);
 						File uploadFile = new File(attachesDir + separator + fileName);
 						item.write(uploadFile);
 						reviewImg+=item.getName();
@@ -89,13 +80,17 @@ public class InsertReviewController implements Controller {
 			System.out.println("FileUploadTestController :: " + e);
 		}
 		System.out.println("reviewCode : "+reviewCode);
+		
 		if(type.equals("1")) {
 			System.out.println(dao.isReview(companycode, serviceCode)==true);
 			if(dao.isReview(companycode, serviceCode)==true) {
+				System.out.println("이때 리뷰 코드 어떻게 되는지 확인 : " + reviewCode);
 				String[] arr2 = dao.showReview(companycode).getReviewCode().split("-");
+				System.out.println("이건 뭔데?" + arr2[0] + "-" + arr2[1] + "-" + arr2[2]);
 				arr2[2]=String.valueOf(Integer.parseInt(arr2[2])+1);
 				System.out.println("여기 어딘지 확인 ::" + arr2[2]);
 				reviewCode=arr2[0]+"-"+arr2[1]+"-"+arr2[2];
+				System.out.println("리뷰코드 어떻게 되나요?" + reviewCode);
 			}else {
 				reviewCode=companycode+"-"+serviceCode+"-"+"1";
 			}
