@@ -90,7 +90,7 @@ $(function() {
 	}); // click
 }); // ready
 
-//주문하기창 열고닫기
+//주문받기창 열고닫기
 function orderApproveFormOpenClose() {
       if ( $('.orderApproveForm').css('display') == 'none' ) {
         $('.orderApproveForm').show();
@@ -204,7 +204,7 @@ function orderReject(){
 						      			<span><c:if test="${not empty service.serviceImg}">
 											<td><img src= "../resource/file_upload/${service.serviceImg}" width=100 height=100></td><br>
 											</c:if></span>
-						      			<span>서비스 태그 : ${service.serviceDesc}</span><br>
+						      			<span>서비스 내용 : ${service.serviceDesc}</span><br>
 						      			<c:set var="loop_flag" value="true" />
 					      		</c:if>
 				      			</c:if>
@@ -213,6 +213,7 @@ function orderReject(){
 			      			<span>희망장소 : ${custOrderDetail.orderPlace}</span><br>
 			      			<span>예산 : ${custOrderDetail.orderBudget}</span><br>
 			      			<span>부가사항 : ${custOrderDetail.orderRequire}</span><br>
+			      			<!-- 상태는 주문대기, 주문취소, 주문반려, 주문승인완료 가 있다-->
 			      			<!-- 주문 대기 일때는 주문 받기와 거절이 있다  -->
 							<c:if test="${custOrder.orderCondition == '주문대기'}">
 								<button class = "orderApprove" onclick = "orderApproveFormOpenClose()">주문받기</button>&nbsp;&nbsp;&nbsp;

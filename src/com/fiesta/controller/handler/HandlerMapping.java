@@ -180,6 +180,10 @@ public class HandlerMapping {
 		}else if(command.equals("orderReject.do")) {
 			controller = new OrderRejectController();
 			System.out.println("OrderRejectController 생성됨");
+		
+		}else if(command.equals("orderCancel.do")) {
+			controller = new OrderCancelController();
+			System.out.println("OrderCancelController 생성됨");
 		}
 		
 		

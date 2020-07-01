@@ -22,6 +22,22 @@
 	input[id="request"]:checked ~ .request {display:block;} */
 	
 	section a { display:block; }
+	
+	/* 주문내역보기 */
+    .orderdetail{
+   		background-color: #FAF4C0;
+   	}
+   	
+   	/* 주문승인폼 */
+   	.orderApproveForm {
+      	display: none;
+      	background-color: #CEFBC9;
+    }
+    /* 승인된 주문 최종내역 보기 */
+	.orderFinalView{
+		display: none;
+      	background-color: #CEFBC9;
+	}
 </style>
 <script>
 $(function() {
@@ -76,6 +92,29 @@ $(function() {
 		$('.collapsible').collapsible();
 }); // ready
 
+//주문승인된 최종내역 창 열고닫기
+function orderFinalViewOpenClose() {
+      if ( $('.orderFinalView').css('display') == 'none' ) {
+        $('.orderFinalView').show();
+        /*  $('#answerForm').text('박스 닫기')*/
+      } else {
+        $('.orderFinalView').hide();
+        /*$('#answerForm').text('박스 열기')*/
+      }
+}
+//주문 반려하기 버튼 클릭하면 나오는 함수
+function orderCancel(){
+	$.ajax({
+		type:'post',
+		url:'orderCancel.do',
+		data:$('.orderCancelForm').serialize(),
+		
+		success:function(result) {
+				//alert(comCode); 확인용
+				alert("주문을 취소하였습니다");
+		}
+	}); // ajax
+}
 
 </script>
 <style type="text/css">
@@ -127,28 +166,73 @@ $(function() {
 <!-- 탭내용들 -->	
 		<!-- 주문내역 -->	
 		<div id="orderTab" class="col s12">
-		  <h6 align="center">주문내역</h6>
+		  <h6 align="center">주문받은내역</h6>
 		  <br>
 		    <ul class="collapsible">
-		    <c:forEach items="${orderList}" var="order">
+		    <c:forEach items="${custOrderList}" var="custOrder">
 		      <li>
 		        <div class="collapsible-header">
-		        	<span>${order.orderSysdate}</span>
-		        	<span>${order.orderRevdate}</span>
-		        	<span>${order.orderPlace}</span>
-		        	<span>${order.orderBudget}</span>
-		        	<span>${order.orderRequire}</span>
-		        	<span>${order.orderCondition}</span>
-		        </div>	
-		      <c:forEach items="${orderDetailList}" var="orderDetail">
-		        <div class="collaps-body orderDetail">
-		          <h6 align="center">주문 상세 내용</h6>
-		            <span>${orderDetail.custdetailDesc}</span></div>
-		      </c:forEach>
+			        <span>${custOrder.serviceCode}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+			        <span>${custOrder.serviceName}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+		        	<span>${custOrder.orderSysdate}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+		        	<span>${custOrder.orderCondition}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+		        </div>
+		       	
+		       	<!-- 자세히보기 -->	        
+		        <c:forEach items="${custOrderDetailList}"  var="custOrderDetail">
+					<c:if test="${custOrder.orderCode == custOrderDetail.orderCode}" >
+			      		<div class="collapsible-body orderdetail">
+			      			<h6>주문내용</h6>
+			      			<c:set var="loop_flag" value="false" />
+			      			<c:forEach items="${custOrderService}"  var="service">
+			      				<c:if test="${not loop_flag }">
+					      			<c:if test="${service.serviceCode == custOrderDetail.serviceCode}" >
+					      				<span>서비스 코드 : ${service.serviceCode}</span><br>
+						      			<span>서비스 이름 : ${service.serviceName}</span><br>
+						      			<span><c:if test="${not empty service.serviceImg}">
+											<td><img src= "../resource/file_upload/${service.serviceImg}" width=100 height=100></td><br>
+											</c:if></span>
+						      			<span>서비스 내용 : ${service.serviceDesc}</span><br>
+						      			<c:set var="loop_flag" value="true" />
+					      		</c:if>
+				      			</c:if>
+				      		</c:forEach>
+			      			<span>희망일시 : ${custOrderDetail.orderRevdate}</span><br>
+			      			<span>희망장소 : ${custOrderDetail.orderPlace}</span><br>
+			      			<span>예산 : ${custOrderDetail.orderBudget}</span><br>
+			      			<span>부가사항 : ${custOrderDetail.orderRequire}</span><br>
+			      			<!-- 상태는 주문대기, 주문취소, 주문반려, 주문승인완료 가 있다-->
+			      			<!-- 주문 대기 일때는 주문 취소를 할 수 있다  -->
+							<c:if test="${custOrder.orderCondition == '주문대기'}">
+								<form action="" class="orderCancelForm" >
+									<input type="hidden" name="orderCode" value="${custOrder.orderCode}">
+								<input align="center" onclick ="orderCancel()" type="submit" value="주문취소하기 ">
+								</form>
+							</c:if>
+							<!-- 주문 승인완료 일때는 최종거래내역을 볼 수 있다 -->
+							<c:if test="${custOrder.orderCondition == '주문승인완료'}">
+								<button class = "orderFinalViewBtn" onclick = "orderFinalViewOpenClose()">최종내역보기</button>
+								<div class="orderFinalView">
+									<c:forEach items="${custOrderFinalDetail}"  var="finalDetail">
+										<c:if test="${custOrder.orderCode == finalDetail.orderCode}">
+											최종금액 : ${finalDetail.custdetailTotalprice} <br><br>
+											최종요구사항내역 : ${finalDetail.custdetailDesc} <br><br>
+											최종거래완료날짜 : ${finalDetail.custdetailCompletedate} <br><br>
+										</c:if>
+									</c:forEach>
+								</div>
+							</c:if>
+						</div>
+		      		</c:if>
+				</c:forEach>
 	          </li>
 	        </c:forEach>
 	      </ul> 	
-	    </div>			  
+	    </div>
+	    
+	    
+	    
+	    			  
 	  
 	  <!-- 의뢰내역 -->	
 	  <div id="requestTab" class="col s12">

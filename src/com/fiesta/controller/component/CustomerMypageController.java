@@ -16,14 +16,11 @@ public class CustomerMypageController implements Controller {
 	@Override
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-/*		HttpSession session = request.getSession();
+		HttpSession session = request.getSession();
 
 		Customer customer = (Customer) session.getAttribute("customer"); // eclispe가 시키는대로 casting만 해주면 됐..!
-		String custEmail = customer.getCustEmail();*/
-		
-		//이따 지워야해욤
-		String custEmail = "encore@gmail.com";
-				
+		String custEmail = customer.getCustEmail();
+						
 		String path = "customerMypage.jsp";
 
 		//주문내역
