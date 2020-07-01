@@ -155,7 +155,7 @@ $(function() {
 		  <h6 align="center">의뢰내역</h6>
 		  <br>
 		    <ul class="collapsible">
-		    <c:forEach items="${requestList}" var="order">
+		    <c:forEach items="${requestList}" var="request">
 		      <li>
 		        <div class="collapsible-header">
 		        	<span>${request.requestSysdate}</span>
