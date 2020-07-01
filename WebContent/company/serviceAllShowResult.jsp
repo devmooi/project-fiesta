@@ -14,9 +14,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
 		$(document).ready(function(){
-			
 			$('.tabs').tabs();
-			
 			$('.collapsible').collapsible();
 			
 			$(".popCloseBtn").click(function(event){
@@ -194,7 +192,22 @@
 	<jsp:include page = "../header.jsp" />
 	
 	<!-- 업체 정보 : 로그인해서 본인 업체로 들어온 경우 / 다른 업체 정보 또는 업체 로그인이 아닐 때 -->
+	<!-- 비로그인 또는 고객이 로그인 했을 때는 companyInfo만 있음.. -->
+	<!-- 업체가 로그인 해서 업체 정보로 들어가면 company만 있음.. -->
+	<!-- 업체가 로그인 해서 다른 업체 정보를 봤을 때는 companyInfo랑 company가 둘다 있음 -->
 	<section>
+		<%-- <c:choose>
+			<c:when test="${name eq '홍길동'}">
+        		홍길동이 맞습니다.
+    		</c:when>
+    		<c:when test="${name eq '철수'}">
+        		홍길동이 아닙니다.
+    		</c:when>
+    		<c:otherwise>
+        		사람이 없습니다 ㅜㅜ
+    		</c:otherwise>
+		</c:choose> --%>
+
 		<div id="companyInfo">
 			<img src="${company.comImg}">
 			<div>
