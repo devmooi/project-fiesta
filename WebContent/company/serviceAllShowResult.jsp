@@ -189,7 +189,7 @@
 </head>
 <body>
 	<!-- header import -->
-	<jsp:include page = "../header.jsp" />
+	<%-- <jsp:include page = "../header.jsp" /> --%>
 	
 	<!-- 업체 정보 : 로그인해서 본인 업체로 들어온 경우 / 다른 업체 정보 또는 업체 로그인이 아닐 때 -->
 	<!-- 비로그인 또는 고객이 로그인 했을 때는 companyInfo만 있음.. -->
@@ -299,6 +299,7 @@
 	<!-- 리뷰내역 -->
 		    <div id="reviewTab" class="col s12">
 		    	<div id="review">
+		    		<c:if test="${not empty customer}">
 					<div id="reviewInsert">
 					<h4>리뷰 등록하기</h4>
 					<form id="reviewfrm" action="InsertReview.do" method="post" enctype="multipart/form-data">
@@ -334,7 +335,7 @@
 					</form>
 					</div>
 					<br><br><br>
-					
+					</c:if>
 					
 					<!-- 리뷰내역  -->
 					<div id="reviewScore">

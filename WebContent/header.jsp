@@ -96,7 +96,7 @@
         	<li><a href="http://localhost:8888/Fiesta/ShowAllCompany.do">업체 찾기</a></li>
         	<c:choose>
         		<c:when test="${!empty customer}">
-        			<li><a href="http://localhost:8888/Fiesta/register/customerMypage.jsp">마이페이지</a></li>
+        			<li><a href="http://localhost:8888/Fiesta/customerMypage.do">마이페이지</a></li>
         			<li><a href="http://localhost:8888/Fiesta/logout.do">로그아웃</a></li>
         		</c:when>
         		<c:when test="${!empty company}">

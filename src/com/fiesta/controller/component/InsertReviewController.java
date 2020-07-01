@@ -29,8 +29,7 @@ public class InsertReviewController implements Controller {
 		HttpSession session = request.getSession();
 		
 		// 현재 페이지는 로그인 상황이나 합치기 전에는 미리 생성해놓음
-		Customer cust = new Customer("encore@gmail.com", "java", "1234");
-		session.setAttribute("customer", cust);
+		Customer cust = new Customer("customer");
 		
 		// 파일 업로드 준비
 		File attachesDir = new File(request.getSession().getServletContext().getRealPath("/resource/file_upload"));
@@ -92,9 +91,7 @@ public class InsertReviewController implements Controller {
 		if(type.equals("1")) {
 			System.out.println(dao.isReview(companycode, serviceCode)==true);
 			if(dao.isReview(companycode, serviceCode)==true) {
-				String[] arr2 = dao.showReview(companycode).getReviewCode().split("-");
-				arr2[2]=String.valueOf(Integer.parseInt(arr2[2])+1);
-				reviewCode=arr2[0]+"-"+arr2[1]+"-"+arr2[2];
+				reviewCode=companycode+"-"+serviceCode+"-"+(dao.lastReviewCode(companycode)+1);
 			}else {
 				reviewCode=companycode+"-"+serviceCode+"-"+"1";
 			}
@@ -112,6 +109,7 @@ public class InsertReviewController implements Controller {
 		System.out.println("reviewcode"+reviewCode);
 		Review review = new Review(reviewCode, reviewScore, reviewImg, reviewDesc,
 				(Customer)session.getAttribute("customer"), new Service(serviceCode), new Company(companycode));
+		System.out.println("review : "+review);
 		dao.insertReview(review);
 		
 		response.sendRedirect("ServiceAllShow.do?companycode="+companycode);

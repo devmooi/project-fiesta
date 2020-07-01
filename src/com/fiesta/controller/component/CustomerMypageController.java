@@ -21,7 +21,7 @@ public class CustomerMypageController implements Controller {
 		Customer customer = (Customer) session.getAttribute("customer"); // eclispe가 시키는대로 casting만 해주면 됐..!
 		String custEmail = customer.getCustEmail();
 		
-		String path = "customerMypage.jsp";
+		String path = "./register/customerMypage.jsp";
 
 		//주문내역
 		ArrayList<Custorder> orderList = new ArrayList<>();
@@ -59,6 +59,15 @@ public class CustomerMypageController implements Controller {
 		//나의 찜내역
 		ArrayList<Wish> wishlist = WishDaoImpl.getInstance().showAllWish(custEmail);
 		
+		//나의 리뷰내역
+		Company company = new Company();
+		ArrayList<Review> reviewlist = ReviewDaoImpl.getInstance().showAllReviewByCustomer(custEmail);
+			//리뷰에 해당하는 답변 불러오기 --> company 데이터 병합... 원래 DB에서 할 수 있으나 시간이 없어서...
+		for(Review review : reviewlist) {
+			company = CompanyDaoImpl.getInstance().detailViewCompany(review.getCompany().getComCode());
+			review.setCompany(company);
+		}
+	
 				
 		//주문의뢰내역 바인딩
 		request.setAttribute("orderList", orderList);
@@ -73,6 +82,10 @@ public class CustomerMypageController implements Controller {
 		
 		//나의 찜내역 바인딩
 		request.setAttribute("wishlist", wishlist);
+		
+		//나의 리뷰내역 바인딩
+		request.setAttribute("reviewlist", reviewlist);
+		
 
 		return new ModelAndView(path);
 	}
