@@ -2,10 +2,12 @@ package com.fiesta.controller.component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fiesta.controller.Controller;
 import com.fiesta.controller.ModelAndView;
 import com.fiesta.model.dao.QuestionDaoImpl;
+import com.fiesta.model.vo.Customer;
 
 public class QuestionRegisterController implements Controller{
 
@@ -15,7 +17,10 @@ public class QuestionRegisterController implements Controller{
 		System.out.println(companycode);
 		String qTitle = request.getParameter("qTitle");
 		String qDesc = request.getParameter("qDesc");
-		String custEmail = "encore@gmail.com";   //나중에 세션값에서 받아오기
+		
+		HttpSession session = request.getSession();
+		Customer customer = (Customer) session.getAttribute("customer");
+		String custEmail = customer.getCustEmail();
 		String path = "";
 
 		QuestionDaoImpl.getInstance().insertQuestion(companycode, qTitle, qDesc, custEmail);
