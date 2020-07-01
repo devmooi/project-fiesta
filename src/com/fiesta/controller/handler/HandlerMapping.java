@@ -172,6 +172,10 @@ public class HandlerMapping {
 		}else if(command.equals("customerOrderFrom.do")) {
 			controller = new CustomerOrderFromController();
 			System.out.println("CustomerOrderFromController 생성됨");
+		
+		}else if(command.equals("orderApprove.do")) {
+			controller = new OrderApproveController();
+			System.out.println("OrderApproveController 생성됨");
 		}
 		
 		

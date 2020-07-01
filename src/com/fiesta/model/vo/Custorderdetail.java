@@ -42,6 +42,15 @@ public class Custorderdetail {
 		this.custEmail = custEmail;
 	}
 	
+	public Custorderdetail(int custdetailTotalprice, String custdetailDesc, int orderCode, int serviceCode, int comCode, String custEmail) {
+		this.custdetailTotalprice = custdetailTotalprice;
+		this.custdetailDesc = custdetailDesc;
+		this.orderCode = orderCode;
+		this.serviceCode = serviceCode;
+		this.comCode = comCode;
+		this.custEmail = custEmail;
+	}
+	
 	public int getCustdetailCode() {
 		return custdetailCode;
 	}

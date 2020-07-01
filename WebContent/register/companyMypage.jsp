@@ -20,15 +20,21 @@
 	input[id="order"]:checked ~ .order {display:block;}
 	input[id="request"]:checked ~ .request {display:block;}
 	
+	/* 주문내역보기 */
     .orderdetail{
    		background-color: #FAF4C0;
    	}
    	
+   	/* 주문승인폼 */
    	.orderApproveForm {
       	display: none;
       	background-color: #CEFBC9;
     }
-	
+    /* 승인된 주문 최종내역 보기 */
+	.orderFinalView{
+		display: none;
+      	background-color: #CEFBC9;
+	}
 </style>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
@@ -95,7 +101,29 @@ function orderApproveFormOpenClose() {
       }
 }
 
-
+//주문승인된 최종내역 창 열고닫기
+function orderFinalViewOpenClose() {
+      if ( $('.orderFinalView').css('display') == 'none' ) {
+        $('.orderFinalView').show();
+        /*  $('#answerForm').text('박스 닫기')*/
+      } else {
+        $('.orderFinalView').hide();
+        /*$('#answerForm').text('박스 열기')*/
+      }
+}
+//주문 반려하기 버튼 클릭하면 나오는 함수
+function orderReject(){
+	$.ajax({
+		type:'post',
+		url:'orderReject.do',
+		data:"comCode="+comCode,
+		
+		success:function(result) {
+				//alert(comCode); 확인용
+				alert("문의등록");
+		}
+	}); // ajax
+}
 </script>
 </head>
 <body>
@@ -192,10 +220,10 @@ function orderApproveFormOpenClose() {
 								<h4>주문받기</h4>
 								<form action="orderApprove.do?" name="orderApproveForm" >
 									<input type="hidden" name="orderCode" value="${custOrder.orderCode}">
-									<input type="text" name="serviceCode" value="${custOrder.serviceCode}" disabled>
-									<input type="text" name="serviceName" value="${custOrder.serviceName}" disabled>
-									<input type="text" name="custEmail" value="${custOrder.custEmail}" disabled>
-									최종금액 : <input type="text" name="finalPrice" required="required"><br><br>
+									<input type="text" name="serviceCode" value="${custOrder.serviceCode}" readonly="readonly">
+									<input type="text" name="serviceName" value="${custOrder.serviceName}" readonly="readonly">
+									<input type="text" name="custEmail" value="${custOrder.custEmail}" readonly="readonly">
+									최종금액 : <input type="text" name="totalPrice" required="required"><br><br>
 									최종요구사항내역 : <input type="text" name="finalDesc" required="required"><br><br>
 									<input type="submit" value="주문 최종완료">
 								</form>
@@ -204,7 +232,16 @@ function orderApproveFormOpenClose() {
 							</c:if>
 							<!-- 주문 승인완료 일때는 최종거래내역을 볼 수 있다 -->
 							<c:if test="${custOrder.orderCondition == '주문승인완료'}">
-				      			<a href="answerDelete.do?answerqCode=${answer.qCode}">최종내역보기</a>&nbsp;&nbsp;&nbsp;
+								<button class = "orderFinalViewBtn" onclick = "orderFinalViewOpenClose()">최종내역보기</button>
+								<div class="orderFinalView">
+									<c:forEach items="${custOrderFinalDetail}"  var="finalDetail">
+										<c:if test="${custOrder.orderCode == finalDetail.orderCode}">
+											최종금액 : ${finalDetail.custdetailTotalprice} <br><br>
+											최종요구사항내역 : ${finalDetail.custdetailDesc} <br><br>
+											최종거래완료날짜 : ${finalDetail.custdetailCompletedate} <br><br>
+										</c:if>
+									</c:forEach>
+								</div>
 							</c:if>
 						</div>
 		      		</c:if>

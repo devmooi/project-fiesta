@@ -91,23 +91,32 @@ public class CustomerDaoImpl {
 	public void insertCustOrderDetail(Custorderdetail custorderdetail) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
-		try {
-			conn = getConnection();
-			String query = "INSERT INTO custorderdetail (custdetail_totalprice, custdetail_desc, custdetail_completedate, order_code, service_code, com_code, cust_email) VALUES(?,?,?,?,?,?,?)";
+		
+		//현재시간 출력
+		SimpleDateFormat format = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
+		Calendar time = Calendar.getInstance();
+		String currTime = format.format(time.getTime());
+		//System.out.println(currTime); 확인용
+		
+		try{
+			conn=  getConnection();
+			String query = "INSERT INTO custorderdetail(custdetail_totalprice, custdetail_desc, custdetail_completedate, order_code, service_code, com_code, cust_email) "
+					+ "VALUES(?,?,?,?,?,?,?)";
 			ps = conn.prepareStatement(query);
-			System.out.println("ps completed in insertOrderdetail");
+			System.out.println("PreparedStatement 생성됨...insertCustOrderDetail");
 			
 			ps.setInt(1, custorderdetail.getCustdetailTotalprice());
 			ps.setString(2, custorderdetail.getCustdetailDesc());
-			ps.setString(3, custorderdetail.getCustdetailCompletedate());
+			ps.setString(3, currTime);
 			ps.setInt(4, custorderdetail.getOrderCode());
 			ps.setInt(5, custorderdetail.getServiceCode());
 			ps.setInt(6, custorderdetail.getComCode());
 			ps.setString(7, custorderdetail.getCustEmail());
-			System.out.println(ps.executeUpdate()+" row insert success");
-		} finally {
+
+			System.out.println(ps.executeUpdate()+" row INSERT OK!!");
+		}finally{
 			closeAll(ps, conn);
-		}				
+		}		
 	}
 	
 	//VO 수정으로 인한 변경
@@ -210,7 +219,7 @@ public class CustomerDaoImpl {
 		return list;
 	}
 	
-	
+	//승인된 최종내역들 다보기 고객이
 	public ArrayList<Custorderdetail> showAllCustOrderDetail(String custEmail) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -237,6 +246,60 @@ public class CustomerDaoImpl {
 		}
 		return list;
 	}
+	
+	//승인된 최종내역들 다보기 회사가
+	public ArrayList<Custorderdetail> showAllCustOrderDetailByCompany(int comCode) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		ArrayList<Custorderdetail> list = new ArrayList<>();
+		try {
+			conn = getConnection();
+			String query = "SELECT * "
+							+ "FROM custorderdetail WHERE com_code=?";
+			ps = conn.prepareStatement(query);
+			System.out.println("PreparedStatement 생성됨...showAllCustOrderDetailByCompany");
+
+			ps.setInt(1, comCode);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				list.add(new Custorderdetail(
+									   rs.getInt("custdetail_code"),
+									   rs.getInt("custdetail_totalprice"),
+									   rs.getString("custdetail_desc"),
+									   rs.getString("custdetail_completedate"),
+									   rs.getInt("order_code"),
+									   rs.getInt("service_code"),
+									   rs.getInt("com_code"),
+									   rs.getString("cust_email")));
+			}
+		} finally {
+			closeAll(rs, ps, conn);
+		}
+		return list;
+	}
+	
+	//답변상태 바꾸기 답변대기를 답변완료로
+		public void changeOrderCondition(int orderCode, String condition) throws SQLException{
+			Connection conn = null;
+			PreparedStatement ps = null;
+			
+			try{
+				conn=  getConnection();
+				String query = "Update custorder set order_condition=? WHERE order_code=?";
+				ps = conn.prepareStatement(query);
+				System.out.println("PreparedStatement 생성됨...changeOrderCondition");
+				
+				ps.setString(1, condition);
+				ps.setInt(2, orderCode);  
+				
+				// 답변대기를 답변완료로 바꾸기, 이메일로 보내기
+				
+				System.out.println(ps.executeUpdate()+" row update OK!!");
+			}finally{
+				closeAll(ps, conn);
+			}
+		}
 	
 //////////////////////////////////////////////////////////////////
 	//고객요청
@@ -350,6 +413,7 @@ public class CustomerDaoImpl {
 		CustomerDaoImpl dao = CustomerDaoImpl.getInstance();
 		//dao.insertCustOrder(new Custorder("1119-02-17","1212","홍천","10000","빨리","encore@gmail.com",1,1));
 		//dao.insertCustRequest(new Custrequest("1119-02-17","1212","홍천","10000","빨리","부가","encore@gmail.com"));
+		//dao.insertCustOrderDetail(new Custorderdetail(1000, "상세", 1, 25, 1, "encore@gmail.com"));
 		//dao.insertCustOrderDetail(new Custorderdetail(1000, "상세", "19191010", 3, 1, 1, "encore@gmail.com"));
 		//dao.insertCustRequestDetail(new Custrequestdetail(1000, "상세", "진행", "19191010", 1, 1));
 		//dao.showAllCustOrder(3);
