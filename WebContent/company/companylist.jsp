@@ -168,6 +168,36 @@
 			margin-top: 20px;
 		}
 
+		#recoList {
+			clear: both;
+			margin-top: 100px;
+		}
+		#recoList a{
+			display: block;
+			border-bottom: 1px solid #ddd;
+			margin-bottom: 30px;
+			padding-bottom: 10px;
+			overflow: hidden;
+			color: black;
+		}
+		#recoList a:hover {
+			border-bottom: 1px solid #009688;
+		}
+		#recoList a img {
+			width: 150px;
+			height: 150px;
+			border-radius: 10px;
+			float: left;
+		}
+		#recoList a div {
+			float: left;
+			margin-left: 20px;
+		}
+		#recoList a div h3 {
+			font-size: 1.2rem;
+			font-weight: bold;
+		}
+
 		#mainList {
 			clear: both;
 			margin-top: 100px;
@@ -238,6 +268,23 @@
 			</select>
 		</div>
 		
+		<div id="recommandList">
+			<c:forEach items="${recoList}" var="recoCom">
+				<a href="ServiceAllShow.do?companycode=${recoCom.company.comCode}">
+					<img src="${recoCom.company.comImg}">
+					<div>
+						<h3>${recoCom.company.comName}</h3>
+						<p>${recoCom.company.comDesc}</p>
+						<p>
+							<span>조회수 : ${recoCom.company.comCount}</span>
+							<span>평점 : ${recoCom.avgReviewScore}</span>
+							<span>리뷰수 : ${recoCom.countDesc}</span>
+						</p>
+					</div>
+				</a>
+			</c:forEach>
+		</div>
+
 		<div id="mainList">
 			<c:forEach items="${list}" var="review">
 				<a href="ServiceAllShow.do?companycode=${review.company.comCode}">

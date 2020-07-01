@@ -26,6 +26,9 @@ public class ServiceAllShowController implements Controller {
 		Answer answer = null;
 		Question qDetail = null;
 		
+		//클릭 시 조회수 증가
+		CompanyDaoImpl.getInstance().plusCount(companycode);
+		
 		//회사 정보 불러오기
 		Company companyInfo = CompanyDaoImpl.getInstance().detailViewCompany(companycode);
 		
@@ -88,9 +91,6 @@ public class ServiceAllShowController implements Controller {
 		}
 		request.setAttribute("review", review);
 		request.setAttribute("reviewSrcList", reviewSrcList);
-		
-		//클릭 시 조회수 증가
-		CompanyDaoImpl.getInstance().plusCount(companycode);
 		
 		return new ModelAndView(path);
 	}
