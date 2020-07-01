@@ -338,7 +338,7 @@ function orderCancel(){
 						<tr>
 							<td>답변</td>
 							<td></td>
-							<td>${answer.reviewImg}</td>
+							<td><img src = "${answer.reviewImg}"></td>
 							<td>${answer.reviewDesc}</td>
 							<td></td>
 						</tr>

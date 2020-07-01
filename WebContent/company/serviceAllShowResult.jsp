@@ -377,7 +377,14 @@
 					<div id="reviewContent">
 					<span>이름 : ${review.customer.custName}, </span><span>만족도 : ${review.reviewScore}, </span><span>일시 : ${review.reviewDate}</span><br>
 					<span><img src= "${review.reviewImg}" width=100 height=100></span><br>
-					<span>내용 : ${review.reviewDesc}</span><br>
+					<span>내용 : ${review.reviewDesc}</span><br><br>
+						<div id="answer">
+							<c:forEach items="${review.answerlist}" var="answer">
+								<span>답변</span>
+								<span><img src="${answer.reviewImg}" width=100 height=100></span>
+								<span>${answer.reviewDesc}</span>
+							</c:forEach>
+						</div>
 					<input type="submit" value="답변하기">
 					</div>
 					<hr>
