@@ -75,7 +75,8 @@ public class InsertReviewController implements Controller {
 						String fileName = companycode+"_"+serviceCode+item.getName().substring(index + 1);
 						File uploadFile = new File(attachesDir + separator + fileName);
 						item.write(uploadFile);
-						reviewImg+=item.getName();
+						reviewImg = "resource/file_upload/" + fileName;
+						System.out.println("이미지 체크 :: " + reviewImg);
 					}
 				}
 			}

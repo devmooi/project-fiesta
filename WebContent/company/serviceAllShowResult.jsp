@@ -259,7 +259,7 @@
     </style>
 </head>
 <body>
-	<%-- <jsp:include page = "../header.jsp" /> --%>
+	<jsp:include page = "../header.jsp" />
 	
 	<section>
 		<div id="companyInfo">
@@ -293,21 +293,6 @@
 			</c:forEach>
 		</div>
 		
-		<button class = "serviceRegisterBtn" onclick = "serviceOpenClose()">서비스추가등록</button><br><!-- 이거는 업체가 로그인했을때만 보일 것 -->
-		<div class = "serviceForm">
-				<h4>서비스등록하기</h4>
-				<form action="serviceRegister.do" id="serviceRegisterForm" enctype="multipart/form-data"  method="post">
-				<input type="hidden" name="companycode" value="${companycode}">
-				서비스 이름 : <input type="text" name="serviceName" required="required"><br><br>
-				서비스 설명 : <input type="text" name="serviceDesc" required="required"><br><br>
-<!-- 				서비스 사진 : <input type="text" name="serviceImg" required="required"><br><br> -->
-				서비스 사진 : <input name="serviceImg" type="file" accept=".jpg, .jpeg, .png" multiple="multiple"><br><br>
-				서비스 태그 : <input type="text" name="serviceTag" required="required"><br><br>
-				<input onclick="serviceRegister()" type="submit" value="서비스등록">
-				<!-- <input type="submit" value="서비스등록"> -->
-				</form>
-		</div>
-		
 		<ul class="tabs">
 			<li class="tab"><a href="#reviewTab">리뷰</a></li>
 			<li class="tab"><a href="#qnaTab">문의</a></li>
@@ -321,64 +306,92 @@
 			#reviewTab .select-wrapper {
 				display: block;
 			}
+			#reviewTab #reviewScore .star:after {
+				display: none !important;
+			}
 		</style>
 		
-		<%-- <!-- 리뷰 -->
+		<!-- 리뷰 -->
 		<div id="reviewTab">
 			<!-- 고객만 등록 가능 -->
-			<div id="reviewInsert">
-				<h4>리뷰 등록하기</h4>
-				<form id="reviewfrm" action="InsertReview.do" method="post" enctype="multipart/form-data">
-					<input type="hidden" name="companycode" value="${companycode}">
-					<input type="hidden" name="type" value="1">
-					<select name="serviceName" required="required">
-						<option disabled selected>리뷰할 서비스를 선택하세요</option>
-						<c:forEach items="${serviceList}" var="service">
-							<option>${service.serviceCode},${service.serviceName}</option>
-						</c:forEach>
-					</select>
-					<div id="reviewScore">
-						만족도 :
-						<label>
-							<input name="reviewScore" type="radio" value="1">
-							<span><i class="small material-icons">star_border</i></span>
-						</label>
-						<label>
-							<input name="reviewScore" type="radio" value="2">
-							<span><i class="small material-icons">star_border</i></span>
-						</label>
-						<label>
-							<input name="reviewScore" type="radio" value="3">
-							<span><i class="small material-icons">star_border</i></span>
-						</label>
-						<label>
-							<input name="reviewScore" type="radio" value="4">
-							<span><i class="small material-icons">star_border</i></span>
-						</label>
-						<label>
-							<input name="reviewScore" type="radio" value="5">
-							<span><i class="small material-icons">star_border</i></span>
-						</label>
-					</div>
-					<div id="reviewImg">
-						사진 올리기: 1024*1024 이하의 이미지만 및 jpg, jpeg, png만 가능 <br>
-						<input name="reviewImg" type="file" accept=".jpg, .jpeg, .png" multiple="multiple">
-					</div>
-					<div id="reviewDesc">
-						<textarea name="reviewDesc" rows="5" cols="20" required="required"></textarea>
-					</div>
-					<input type="submit" value="등록하기" id="insertReview">
-				</form>
-			</div>
+			<c:if test="${not empty customer}">
+				<div id="reviewInsert">
+					<h4>리뷰 등록하기</h4>
+					<form id="reviewfrm" action="InsertReview.do" method="post" enctype="multipart/form-data">
+						<input type="hidden" name="companycode" value="${companycode}">
+						<input type="hidden" name="type" value="1">
+						<select name="serviceName" required="required">
+							<option disabled selected>리뷰할 서비스를 선택하세요</option>
+							<c:forEach items="${serviceList}" var="service">
+								<option value="${service.serviceCode},${service.serviceName}">${service.serviceName} - ${service.serviceDesc}</option>
+							</c:forEach>
+						</select>
+						<div id="reviewScore">
+							만족도 :
+							<label>
+								<input name="reviewScore" type="radio" value="1">
+								<span><i class="small material-icons star">star_border</i></span>
+							</label>
+							<label>
+								<input name="reviewScore" type="radio" value="2">
+								<span><i class="small material-icons star">star_border</i></span>
+							</label>
+							<label>
+								<input name="reviewScore" type="radio" value="3">
+								<span><i class="small material-icons star">star_border</i></span>
+							</label>
+							<label>
+								<input name="reviewScore" type="radio" value="4">
+								<span><i class="small material-icons star">star_border</i></span>
+							</label>
+							<label>
+								<input name="reviewScore" type="radio" value="5">
+								<span><i class="small material-icons star">star_border</i></span>
+							</label>
+							<div id="reviewImg">
+								사진 올리기: 1024*1024 이하의 이미지만 및 jpg, jpeg, png만 가능 <br>
+								<input name="reviewImg" type="file" accept=".jpg, .jpeg, .png" multiple="multiple">
+							</div>
+							<div id="reviewDesc">
+								<textarea name="reviewDesc" rows="5" cols="20" required="required"></textarea>
+							</div>
+							<input type="submit" value="등록하기" id="insertReview">
+						</div>
+					</form>
+				</div>
+			</c:if>
 			
 			<!-- 전부 다 볼 수 있는 부분 : 리뷰 내역 -->
-		</div> --%>
-
+			<!-- 리뷰내역  -->
+					<div id="reviewScore">
+					<span>평점 : </span>
+					<c:forEach items="${reviewSrcList}" var="url">
+					 <img src ="${url}" width="10px" height="10px">
+					</c:forEach>
+					<span>리뷰수 : ${review.countDesc}</span>
+					</div>
+					<hr>
+					<c:forEach items="${reviewlist2}" var="review">
+					<form id="answerfrm" action="ShowReview.do" method="post">
+					<input type="hidden" name="reviewCode" value="${review.reviewCode}">
+					<div id="reviewContent">
+					<span>이름 : ${review.customer.custName}, </span><span>만족도 : ${review.reviewScore}, </span><span>일시 : ${review.reviewDate}</span><br>
+					<span><img src= "${review.reviewImg}" width=100 height=100></span><br>
+					<span>내용 : ${review.reviewDesc}</span><br>
+					<input type="submit" value="답변하기">
+					</div>
+					<hr>
+					<br>
+					</form>
+					</c:forEach>
+				</div>
+		
+		
 	</section>
 	
-<div id="reviewTab" class="col s12">
+<%-- 
 		    	<div id="review">
-		    		<c:if test="${not empty customer}">
+		    		
 					<div id="reviewInsert">
 					<h4>리뷰 등록하기</h4>
 					<form id="reviewfrm" action="InsertReview.do" method="post" enctype="multipart/form-data">
@@ -416,29 +429,7 @@
 					<br><br><br>
 					</c:if>
 					
-					<!-- 리뷰내역  -->
-					<div id="reviewScore">
-					<span>평점 : </span>
-					<c:forEach items="${reviewSrcList}" var="url">
-					 <img src ="${url}" width="10px" height="10px">
-					</c:forEach>
-					<span>리뷰수 : ${review.countDesc}</span>
-					</div>
-					<hr>
-					<c:forEach items="${reviewlist2}" var="review">
-					<form id="answerfrm" action="ShowReview.do" method="post">
-					<input type="hidden" name="reviewCode" value="${review.reviewCode}">
-					<div id="reviewContent">
-					<span>이름 : ${review.customer.custName}, </span><span>만족도 : ${review.reviewScore}, </span><span>일시 : ${review.reviewDate}</span><br>
-					<span><img src= "${review.reviewImg}" width=100 height=100></span><br>
-					<span>내용 : ${review.reviewDesc}</span><br>
-					<input type="submit" value="답변하기">
-					</div>
-					<hr>
-					<br>
-					</form>
-					</c:forEach>
-				</div>
+					
 				<hr>
 		    </div>
    
@@ -450,7 +441,7 @@
 				 <ul class="collapsible">
 				 <c:forEach items="${questionList}" var="question">
 				    <li>
-				      <div class="collapsible-header">	<%-- <span>${question.qCode}</span>  --%>
+				      <div class="collapsible-header">	<span>${question.qCode}</span> 
 													    <span>${question.qTitle}</span>&nbsp;&nbsp;&nbsp;&nbsp;
 													    <span>${question.qDesc}</span>&nbsp;&nbsp;&nbsp;&nbsp;
 													    <span>${question.custEmail}</span>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -510,7 +501,7 @@
 				<input align="center" onclick ="qRegister()" type="submit" value="문의 등록">
 				</form>
 		    </div>
-		  </div>
+		  </div> --%>
 	
 	<!-- 찜성공/실패 팝업창 -->
 	<div class="PopupDiv"> 
