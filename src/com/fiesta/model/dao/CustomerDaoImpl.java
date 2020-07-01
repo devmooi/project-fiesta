@@ -111,7 +111,7 @@ public class CustomerDaoImpl {
 	}
 	
 	//VO 수정으로 인한 변경
-	//자기가 쓴 의뢰내역
+	//자기가 쓴 의뢰내역 모두보기
 	public ArrayList<Custorder> showAllCustOrder(String custEmail) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -143,6 +143,40 @@ public class CustomerDaoImpl {
 		return list;
 	}
 	
+	//고객이 주문한 서비스 자세히 보기
+	public Custorder showCustOrder(int custorderCode) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Custorder custOrder = null;
+		try {
+			conn = getConnection();
+			String query = "SELECT order_code, order_sysdate, order_revdate, order_place, order_budget, order_require, order_condition, cust_email, service_code "
+						 + "FROM custorder WHERE order_code=?";
+			ps = conn.prepareStatement(query);
+			System.out.println("PreparedStatement 생성됨...showCustOrder");
+			
+			ps.setInt(1, custorderCode);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				custOrder = new Custorder(
+									   rs.getInt("order_code"),
+									   rs.getString("order_sysdate"),
+									   rs.getString("order_revdate"),
+									   rs.getString("order_place"),
+									   rs.getString("order_budget"),
+									   rs.getString("order_require"),
+									   rs.getString("order_condition"),
+									   rs.getString("cust_email"),
+									   rs.getInt("service_code"));
+			}
+		} finally {
+			closeAll(rs, ps, conn);
+		}
+		return custOrder;
+	}
+	
 	//회사가 보는 의뢰내역
 	public ArrayList<Custorder> showAllCustOrderByCompany(int comcode) throws SQLException {
 		Connection conn = null;
@@ -152,7 +186,7 @@ public class CustomerDaoImpl {
 		try {
 			conn = getConnection();
 
-			String query = "SELECT c.order_sysdate, c.order_condition, c.cust_email, c.service_code, s.service_name "
+			String query = "SELECT c.order_code, c.order_sysdate, c.order_condition, c.cust_email, c.service_code, s.service_name "
 						 + "FROM custorder c, service s "
 						 + "WHERE c.service_code = s.service_code and c.com_code=?";
 			ps = conn.prepareStatement(query);
@@ -163,11 +197,12 @@ public class CustomerDaoImpl {
 			
 			while(rs.next()) {
 				list.add(new Custorder(
-									   rs.getInt("service_code"),
-									   rs.getString("service_name"),
-									   rs.getString("order_sysdate"),
-									   rs.getString("order_condition"),
-									   rs.getString("cust_email")));
+									   rs.getInt("c.order_code"),
+									   rs.getInt("c.service_code"),
+									   rs.getString("s.service_name"),
+									   rs.getString("c.order_sysdate"),
+									   rs.getString("c.order_condition"),
+									   rs.getString("c.cust_email")));
 			}
 		} finally {
 			closeAll(rs, ps, conn);

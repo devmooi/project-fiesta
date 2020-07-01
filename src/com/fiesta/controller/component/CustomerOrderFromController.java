@@ -21,14 +21,14 @@ public class CustomerOrderFromController implements Controller {
 		String orderBudget = request.getParameter("orderBudget");
 		String orderRequire = request.getParameter("orderRequire");
 		
-		int companycode = Integer.parseInt(request.getParameter("companycode"));
+		//int companycode = Integer.parseInt(request.getParameter("companycode"));
 		int serviceCode = Integer.parseInt(request.getParameter("serviceCode"));
 		//System.out.println(companycode);
 		String custEmail = "encore@gmail.com";   //나중에 세션값에서 받아오기
 		
 		String path = "";
 
-		Custorder custorder = new Custorder(orderRevdate, orderPlace, orderBudget, orderRequire, custEmail, serviceCode, companycode);
+		Custorder custorder = new Custorder(orderRevdate, orderPlace, orderBudget, orderRequire, custEmail, serviceCode);
 		
 		CustomerDaoImpl.getInstance().insertCustOrder(custorder);
 		Service service = CompanyDaoImpl.getInstance().showService(serviceCode);

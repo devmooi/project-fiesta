@@ -1,10 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+	<title>Fiesta - 마이페이지</title>
+    <link href="../Fiesta/resource/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <style>
 	input[type="radio"] {display:none;}
 	input[type="radio"]:checked + label {background:#aaa;color:#000;}
@@ -13,10 +20,23 @@
 	input[id="order"]:checked ~ .order {display:block;}
 	input[id="request"]:checked ~ .request {display:block;}
 	
+    .orderdetail{
+   		background-color: #FAF4C0;
+   	}
+   	
+   	.orderApproveForm {
+      	display: none;
+      	background-color: #CEFBC9;
+    }
+	
 </style>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
 $(function() {
+	$('.tabs').tabs();
+
+	$('.collapsible').collapsible();
+	
 	$('#comName').keyup(function() {
 		var name = $('#comName').val();
 		if (name.length == 0) {
@@ -63,10 +83,25 @@ $(function() {
 		}); // ajax
 	}); // click
 }); // ready
+
+//주문하기창 열고닫기
+function orderApproveFormOpenClose() {
+      if ( $('.orderApproveForm').css('display') == 'none' ) {
+        $('.orderApproveForm').show();
+        /*  $('#answerForm').text('박스 닫기')*/
+      } else {
+        $('.orderApproveForm').hide();
+        /*$('#answerForm').text('박스 열기')*/
+      }
+}
+
+
 </script>
 </head>
 <body>
-	
+
+	<jsp:include page = "../header.jsp" />
+	<section></section>
 	<h2>업체 정보 수정</h2>
 	<form action="updateCompany.do" id="companyUpdateFrm">
 	업체명  <input type="text" name="comName" id="comName" value="${company.comName}" placeholder="${company.comName}"><br>
@@ -101,19 +136,110 @@ $(function() {
 	</form>
 	<a href="companyDelete.jsp">계정삭제</a>
 
-
-	<h2>거래 내역</h2>
-	<!-- attribute 저장한 내용을 뿌려주는... 모달로 뿌리는 것도 추가.. 어떤 컬럼을 보여줄건지 -->
-	<div class="tab_content">
-		<input type="radio" name="type" id="order" checked>
-		<label for="order"> 받은 주문 내역 </label>
-		<input type="radio" name="type" id="request">
-		<label for="request"> 받은 의뢰 내역 </label>		
-		<div class="contents order"> 받은 주문 내역 내용</div>
-		<div class="contents request"> 받은 의뢰 내역 내용</div>
-	</div>
-	
-	<!-- 리뷰하기.. -->
+<h4>거래내역</h4>
+<!-- 탭제목들 -->
+		<div class="row">
+		  <div class="col s12">
+		    <ul class="tabs">
+		      <li class="tab col s3"><a href="#orderTab">주문받은내역</a></li>
+		      <li class="tab col s3"><a href="#requestTab">의뢰받은내역</a></li>
+		    </ul>
+		  </div>
+		  
+<!-- 탭내용들 -->	
+		<!-- 주문받은내역 -->	
+		<div id="orderTab" class="col s12">
+		  <h6 align="center">주문받은내역</h6>
+		  <br>
+		    <ul class="collapsible">
+		    <c:forEach items="${custOrderList}" var="custOrder">
+		      <li>
+		        <div class="collapsible-header">
+			        <span>${custOrder.serviceCode}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+			        <span>${custOrder.serviceName}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+			        <span>${custOrder.custEmail}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+		        	<span>${custOrder.orderSysdate}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+		        	<span>${custOrder.orderCondition}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+		        </div>
+		       	
+		       	<!-- 자세히보기 -->	        
+		        <c:forEach items="${custOrderDetailList}"  var="custOrderDetail">
+					<c:if test="${custOrder.orderCode == custOrderDetail.orderCode}" >
+			      		<div class="collapsible-body orderdetail">
+			      			<h6>주문내용</h6>
+			      			<c:set var="loop_flag" value="false" />
+			      			<c:forEach items="${custOrderService}"  var="service">
+			      				<c:if test="${not loop_flag }">
+					      			<c:if test="${service.serviceCode == custOrderDetail.serviceCode}" >
+					      				<span>서비스 코드 : ${service.serviceCode}</span><br>
+						      			<span>서비스 이름 : ${service.serviceName}</span><br>
+						      			<span><c:if test="${not empty service.serviceImg}">
+											<td><img src= "../resource/file_upload/${service.serviceImg}" width=100 height=100></td><br>
+											</c:if></span>
+						      			<span>서비스 태그 : ${service.serviceDesc}</span><br>
+						      			<c:set var="loop_flag" value="true" />
+					      		</c:if>
+				      			</c:if>
+				      		</c:forEach>
+			      			<span>희망일시 : ${custOrderDetail.orderRevdate}</span><br>
+			      			<span>희망장소 : ${custOrderDetail.orderPlace}</span><br>
+			      			<span>예산 : ${custOrderDetail.orderBudget}</span><br>
+			      			<span>부가사항 : ${custOrderDetail.orderRequire}</span><br>
+			      			<!-- 주문 대기 일때는 주문 받기와 거절이 있다  -->
+							<c:if test="${custOrder.orderCondition == '주문대기'}">
+								<button class = "orderApprove" onclick = "orderApproveFormOpenClose()">주문받기</button>&nbsp;&nbsp;&nbsp;
+								<div class = "orderApproveForm">
+								<h4>주문받기</h4>
+								<form action="orderApprove.do?" name="orderApproveForm" >
+									<input type="hidden" name="orderCode" value="${custOrder.orderCode}">
+									<input type="text" name="serviceCode" value="${custOrder.serviceCode}" disabled>
+									<input type="text" name="serviceName" value="${custOrder.serviceName}" disabled>
+									<input type="text" name="custEmail" value="${custOrder.custEmail}" disabled>
+									최종금액 : <input type="text" name="finalPrice" required="required"><br><br>
+									최종요구사항내역 : <input type="text" name="finalDesc" required="required"><br><br>
+									<input type="submit" value="주문 최종완료">
+								</form>
+								</div>
+								<button class = "orderReject" onclick = "orderReject()">주문반려하기</button>
+							</c:if>
+							<!-- 주문 승인완료 일때는 최종거래내역을 볼 수 있다 -->
+							<c:if test="${custOrder.orderCondition == '주문승인완료'}">
+				      			<a href="answerDelete.do?answerqCode=${answer.qCode}">최종내역보기</a>&nbsp;&nbsp;&nbsp;
+							</c:if>
+						</div>
+		      		</c:if>
+				</c:forEach>
+	          </li>
+	        </c:forEach>
+	      </ul> 	
+	    </div>			  
+	  
+	  <!-- 의뢰받은내역 -->	
+	  <div id="requestTab" class="col s12">
+		  <h6 align="center">의뢰내역</h6>
+		  <br>
+		    <ul class="collapsible">
+		    <c:forEach items="${requestList}" var="request">
+		      <li>
+		        <div class="collapsible-header">
+		        	<span>${request.requestSysdate}</span>
+		        	<span>${request.requestRevdate}</span>
+		        	<span>${request.requestPlace}</span>
+		        	<span>${request.requestBudget}</span>
+		        	<span>${request.requestRequire}</span>
+		        	<span>${request.requestFiesta}</span>
+		        </div>	
+		      <c:forEach items="${requestDetailList}" var="orderDetail">
+		        <div class="collaps-body orderDetail">
+		          <h6>의뢰 상세 내용</h6>
+		            <span>${requestDetail.detailDesc}</span></div>
+		      </c:forEach>
+	          </li>
+	        </c:forEach>
+	      </ul> 	
+	    </div>		    	  
+	  </div><!-- tab 전체닫기 div -->			
+	 
 	
 
 </body>
