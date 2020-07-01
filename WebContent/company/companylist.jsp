@@ -168,11 +168,15 @@
 			margin-top: 20px;
 		}
 
-		#recoList {
+		#recommandList {
 			clear: both;
 			margin-top: 100px;
 		}
-		#recoList a{
+		#recommandList h3 {
+			font-size: 1.2rem;
+			font-weight: bold;
+		}
+		#recommandList a{
 			display: block;
 			border-bottom: 1px solid #ddd;
 			margin-bottom: 30px;
@@ -180,20 +184,20 @@
 			overflow: hidden;
 			color: black;
 		}
-		#recoList a:hover {
+		#recommandList a:hover {
 			border-bottom: 1px solid #009688;
 		}
-		#recoList a img {
+		#recommandList a img {
 			width: 150px;
 			height: 150px;
 			border-radius: 10px;
 			float: left;
 		}
-		#recoList a div {
+		#recommandList a div {
 			float: left;
 			margin-left: 20px;
 		}
-		#recoList a div h3 {
+		#recommandList a div h3 {
 			font-size: 1.2rem;
 			font-weight: bold;
 		}
@@ -201,6 +205,10 @@
 		#mainList {
 			clear: both;
 			margin-top: 100px;
+		}
+		#mainList h3 {
+			font-size: 1.2rem;
+			font-weight: bold;
 		}
 		#mainList a{
 			display: block;
@@ -268,7 +276,9 @@
 			</select>
 		</div>
 		
+		<c:if test="${not empty recoList}">
 		<div id="recommandList">
+		<h3>추천 업체</h3>
 			<c:forEach items="${recoList}" var="recoCom">
 				<a href="ServiceAllShow.do?companycode=${recoCom.company.comCode}">
 					<img src="${recoCom.company.comImg}">
@@ -284,8 +294,10 @@
 				</a>
 			</c:forEach>
 		</div>
+		</c:if>
 
 		<div id="mainList">
+		<h3>업체 리스트</h3>
 			<c:forEach items="${list}" var="review">
 				<a href="ServiceAllShow.do?companycode=${review.company.comCode}">
 					<img src="${review.company.comImg}">

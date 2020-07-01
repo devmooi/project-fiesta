@@ -13,6 +13,7 @@ import com.fiesta.model.FiestaDaoImpl;
 import com.fiesta.model.dao.CompanyDaoImpl;
 import com.fiesta.model.dao.ReviewDaoImpl;
 import com.fiesta.model.vo.Company;
+import com.fiesta.model.vo.Customer;
 import com.fiesta.model.vo.Review;
 
 public class ShowAllComanyController implements Controller{
@@ -27,21 +28,28 @@ public class ShowAllComanyController implements Controller{
 		
 		// 전체 업체 출력
 		list = CompanyDaoImpl.getInstance().showAllCompany();
+		//System.out.println(1);
 		
 		// 추천 업체 출력
-		matrix = ReviewDaoImpl.getInstance().getReviewMatrix();
-		// 세션 완료되면 출력하기 session.getAttribute(Customer).getEmail()
-		recoArr = ReviewDaoImpl.getInstance().getRecoCompany(matrix, "8");
-		for(String code : recoArr) {
-			String[] temp = code.split("-");
-			System.out.println("temp[0]"+temp[0]);
-			recoList.add(ReviewDaoImpl.getInstance().showReview(Integer.parseInt(temp[0])));
+		Customer customer = (Customer) session.getAttribute("customer");
+		String[] temp= {};
+		if(customer!=null) {
+			matrix = ReviewDaoImpl.getInstance().getReviewMatrix();
+			recoArr = ReviewDaoImpl.getInstance().getRecoCompany(matrix, customer.getCustEmail());
+			for(int i=0;i<recoArr.length;i++) {
+				if(recoArr[i]==null) continue;
+				if(recoArr[i].equals("리뷰없음")) {
+					recoList = null;
+					break;
+				}
+				temp = recoArr[i].split("-");
+				recoList.add(ReviewDaoImpl.getInstance().showReview(Integer.parseInt(temp[0])));
+			}
+			//System.out.println(Arrays.toString(recoArr));
+			System.out.println("recoList : "+recoList);
 		}
-		for(int[] temp : matrix) {
-			System.out.println(Arrays.toString(temp));
-		}
-		System.out.println(Arrays.toString(recoArr));
-		System.out.println(recoList);
+		
+		//System.out.println(2);
 		// 전체 업체 바인딩
 		request.setAttribute("list", list);
 		// 추천 업체 바인딩
