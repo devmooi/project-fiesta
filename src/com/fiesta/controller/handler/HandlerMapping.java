@@ -38,18 +38,6 @@ public class HandlerMapping {
 			controller = new QuestionRegisterController();
 			System.out.println("QuestionRegisterController 생성됨");
 			
-		}else if(command.equals("questionAllShow.do")) {
-			controller = new QuestionAllShowController();
-			System.out.println("QuestionAllShowController 생성됨");
-			
-		}else if(command.equals("questionView.do")) {
-			controller = new QuestionViewController();
-			System.out.println("QuestionViewController 생성됨");
-			
-		}else if(command.equals("questionAllShowByCom.do")) {
-			controller = new QuestionAllShowByComController();
-			System.out.println("QuestionAllShowByComController 생성됨");
-			
 		}else if(command.equals("questionDelete.do")) {
 			controller = new QuestionDeleteController();
 			System.out.println("QuestionAllShowByComController 생성됨");
@@ -57,10 +45,6 @@ public class HandlerMapping {
 		}else if(command.equals("answerRegister.do")) {
 			controller = new AnswerRegisterController();
 			System.out.println("AnswerRegisterController 생성됨");
-			
-		}else if(command.equals("answerView.do")) {
-			controller = new AnswerViewController();
-			System.out.println("AnswerViewController 생성됨");
 			
 		}else if(command.equals("answerDelete.do")) {
 			controller = new AnswerDeleteController();
@@ -156,14 +140,43 @@ public class HandlerMapping {
 		}else if(command.equals("customerRequest.do")) {
 			controller = new CustomerRequestController();
 			System.out.println("CustomerRequestController 생성됨");
+			
+		}else if(command.equals("companyMypage.do")) {
+			controller = new CompanyMypageController();
+			System.out.println("CompanyMypageController 생성됨");
+
 		}else if(command.equals("passFind.do")) {
 			controller = new PassFindController();
 			System.out.println("PassFindController 생성됨");
+			
 		}else if(command.equals("reviewDelete.do")) {
 			controller = new DeleteReviewController();
 			System.out.println("DeleteReviewController 생성됨");
+
+		}else if(command.equals("ServiceOrder.do")) {
+			controller = new ServiceOrderController();
+			System.out.println("ServiceOrderController 생성됨");
+			
+		}else if(command.equals("customerOrderFrom.do")) {
+			controller = new CustomerOrderFromController();
+			System.out.println("CustomerOrderFromController 생성됨");
+		
+		}else if(command.equals("orderApprove.do")) {
+			controller = new OrderApproveController();
+			System.out.println("OrderApproveController 생성됨");
+		
+		}else if(command.equals("orderReject.do")) {
+			controller = new OrderRejectController();
+			System.out.println("OrderRejectController 생성됨");
+		
+		}else if(command.equals("orderCancel.do")) {
+			controller = new OrderCancelController();
+			System.out.println("OrderCancelController 생성됨");
 		}
-	
+		
+		
+		
+		
 		return controller;
 	}
 }

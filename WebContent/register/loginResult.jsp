@@ -20,7 +20,7 @@
 			추천서비스
 			${customer.custEmail}
 			${company.comEmail}
-			<a href="companyMypage.jsp">마이페이지 </a>		
+			<a href="companyMypage.do">마이페이지 </a>		
 		</c:otherwise>
 	</c:choose>
 	<a href="customerMypage.do">고객마이페이지 </a>

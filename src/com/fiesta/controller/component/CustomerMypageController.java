@@ -19,14 +19,33 @@ public class CustomerMypageController implements Controller {
 		HttpSession session = request.getSession();
 		Customer customer = (Customer) session.getAttribute("customer"); // eclispe가 시키는대로 casting만 해주면 됐..!
 		String custEmail = customer.getCustEmail();
-		String path = "./register/customerMypage.jsp";
 
 		//주문내역
-		ArrayList<Custorder> orderList = new ArrayList<>();
-		ArrayList<Custorderdetail> orderDetailList = new ArrayList<>();
+		ArrayList<Custorder> custOrderList = CustomerDaoImpl.getInstance().showAllCustOrder(custEmail);
+		ArrayList<Custorder> custOrderDetailList = new ArrayList<>();  //얘는 자세히 보는거
 		
-		orderList = CustomerDaoImpl.getInstance().showAllCustOrder(custEmail);
-		orderDetailList = CustomerDaoImpl.getInstance().showAllCustOrderDetail(custEmail);
+		//주문한 서비스
+		ArrayList<Service> custOrderService = new ArrayList<>();
+				
+		//고객리스트 자세히 보기
+		for(Custorder c : custOrderList) {
+			custOrderDetailList.add(CustomerDaoImpl.getInstance().showCustOrder(c.getOrderCode()));
+			custOrderService.add(CompanyDaoImpl.getInstance().showService(c.getServiceCode()));
+		}
+		
+		//최종주문승인된 서비스
+		ArrayList<Custorderdetail> custOrderFinalDetail = CustomerDaoImpl.getInstance().showAllCustOrderDetail(custEmail);
+		
+		//주문내역바인딩
+		request.setAttribute("custOrderList", custOrderList);
+		request.setAttribute("custOrderDetailList", custOrderDetailList);
+		//주문한 서비스 바인딩
+		request.setAttribute("custOrderService", custOrderService);
+		
+		//최종주문 승인된 것들 바인딩
+		request.setAttribute("custOrderFinalDetail", custOrderFinalDetail);
+		
+		
 		
 		//의뢰내역
 /*		ArrayList<Custrequest> requestList = new ArrayList<>();
@@ -68,8 +87,7 @@ public class CustomerMypageController implements Controller {
 	
 				
 		//주문의뢰내역 바인딩
-		request.setAttribute("orderList", orderList);
-		request.setAttribute("orderDetailList", orderDetailList);
+
 /*		request.setAttribute("requestList", requestList);
 		request.setAttribute("requestDetailList", requestDetailList);		*/
 		

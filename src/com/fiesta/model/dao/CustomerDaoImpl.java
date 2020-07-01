@@ -5,7 +5,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.sql.DataSource;
 
@@ -50,77 +52,99 @@ public class CustomerDaoImpl {
 	
 	//작업 영역
 	//VO 수정으로 인한 변경
+	//고객주문
 	public void insertCustOrder(Custorder custorder) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
-		try {
-			conn = getConnection();
-			String query = "INSERT INTO custorder (order_sysdate, order_revdate, order_place, order_budget, order_require, cust_email, service_code, com_code) VALUES(?,?,?,?,?,?,?,?)";
+		
+		//현재시간 출력
+		SimpleDateFormat format = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
+		Calendar time = Calendar.getInstance();
+		String currTime = format.format(time.getTime());
+		//System.out.println(currTime); 확인용
+		
+		try{
+			conn=  getConnection();
+			String query = "INSERT INTO custorder(order_sysdate, order_revdate, order_place, order_budget, order_require, order_condition, cust_email, service_code, com_code) "
+					+ "VALUES(?,?,?,?,?,?,?,?,?)";
 			ps = conn.prepareStatement(query);
-			System.out.println("ps completed in insertCustorder");
+			System.out.println("PreparedStatement 생성됨...insertCustOrder");
 			
-			ps.setString(1, custorder.getOrderSysdate());
+			ps.setString(1, currTime);
 			ps.setString(2, custorder.getOrderRevdate());
 			ps.setString(3, custorder.getOrderPlace());
 			ps.setString(4, custorder.getOrderBudget());
 			ps.setString(5, custorder.getOrderRequire());
-			ps.setString(6, custorder.getCustEmail());
-			ps.setInt(7, custorder.getServiceCode());
-			ps.setInt(8, custorder.getComCode());
-			System.out.println(ps.executeUpdate()+" row insert success");
-		} finally {
+			ps.setString(6, "주문대기");//condition 상태값 default값이 '주문대기'여야 함.
+			ps.setString(7, custorder.getCustEmail());//세션의 고객아이디 값 가져오기
+			ps.setInt(8, custorder.getServiceCode());
+			ps.setInt(9, custorder.getComCode());//기업코드값 가져오기
+
+			System.out.println(ps.executeUpdate()+" row INSERT OK!!");
+		}finally{
 			closeAll(ps, conn);
 		}		
 	}
 
 	//VO 수정으로 인한 변경
+	//고객이 주문 완료 됐을 때 나오는 의뢰서
 	public void insertCustOrderDetail(Custorderdetail custorderdetail) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
-		try {
-			conn = getConnection();
-			String query = "INSERT INTO custorderdetail (custdetail_totalprice, custdetail_desc, custdetail_completedate, order_code, service_code, com_code, cust_email) VALUES(?,?,?,?,?,?,?)";
+		
+		//현재시간 출력
+		SimpleDateFormat format = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
+		Calendar time = Calendar.getInstance();
+		String currTime = format.format(time.getTime());
+		//System.out.println(currTime); 확인용
+		
+		try{
+			conn=  getConnection();
+			String query = "INSERT INTO custorderdetail(custdetail_totalprice, custdetail_desc, custdetail_completedate, order_code, service_code, com_code, cust_email) "
+					+ "VALUES(?,?,?,?,?,?,?)";
 			ps = conn.prepareStatement(query);
-			System.out.println("ps completed in insertOrderdetail");
+			System.out.println("PreparedStatement 생성됨...insertCustOrderDetail");
 			
 			ps.setInt(1, custorderdetail.getCustdetailTotalprice());
 			ps.setString(2, custorderdetail.getCustdetailDesc());
-			ps.setString(3, custorderdetail.getCustdetailCompletedate());
+			ps.setString(3, currTime);
 			ps.setInt(4, custorderdetail.getOrderCode());
 			ps.setInt(5, custorderdetail.getServiceCode());
 			ps.setInt(6, custorderdetail.getComCode());
 			ps.setString(7, custorderdetail.getCustEmail());
-			System.out.println(ps.executeUpdate()+" row insert success");
-		} finally {
+
+			System.out.println(ps.executeUpdate()+" row INSERT OK!!");
+		}finally{
 			closeAll(ps, conn);
-		}				
+		}		
 	}
 	
 	//VO 수정으로 인한 변경
+	//자기가 쓴 의뢰내역 모두보기
 	public ArrayList<Custorder> showAllCustOrder(String custEmail) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		ArrayList<Custorder> list = new ArrayList<>();
 		try {
-			conn = getConnection();
-			String query = "SELECT order_sysdate, order_revdate, order_place, order_budget, order_require, order_condition "
-						 + "FROM custorder WHERE cust_email=?";
+			conn = getConnection();			
+			String query = "SELECT c.order_code, c.order_sysdate, c.order_condition, c.cust_email, c.service_code, s.service_name "
+					 + "FROM custorder c, service s "
+					 + "WHERE c.service_code = s.service_code and c.cust_email=?";
 			ps = conn.prepareStatement(query);
-			System.out.println("ps completed in showAllCustorder");
+			System.out.println("PreparedStatement 생성됨...showAllCustOrder");
 			
 			ps.setString(1, custEmail);
 			rs = ps.executeQuery();
-			
+
 			while(rs.next()) {
 				list.add(new Custorder(
-									   rs.getString("order_sysdate"),
-									   rs.getString("order_revdate"),
-									   rs.getString("order_place"),
-									   rs.getString("order_budget"),
-									   rs.getString("order_require"),
-									   rs.getString("order_condition")));
-			System.out.println(custEmail+ " showallcustorder success");
+									   rs.getInt("c.order_code"),
+									   rs.getInt("c.service_code"),
+									   rs.getString("s.service_name"),
+									   rs.getString("c.order_sysdate"),
+									   rs.getString("c.order_condition"),
+									   rs.getString("c.cust_email")));
 			}
 		} finally {
 			closeAll(rs, ps, conn);
@@ -128,7 +152,74 @@ public class CustomerDaoImpl {
 		return list;
 	}
 	
+	//고객이 주문한 서비스 자세히 보기
+	public Custorder showCustOrder(int custorderCode) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Custorder custOrder = null;
+		try {
+			conn = getConnection();
+			String query = "SELECT order_code, order_sysdate, order_revdate, order_place, order_budget, order_require, order_condition, cust_email, service_code "
+						 + "FROM custorder WHERE order_code=?";
+			ps = conn.prepareStatement(query);
+			System.out.println("PreparedStatement 생성됨...showCustOrder");
+			
+			ps.setInt(1, custorderCode);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				custOrder = new Custorder(
+									   rs.getInt("order_code"),
+									   rs.getString("order_sysdate"),
+									   rs.getString("order_revdate"),
+									   rs.getString("order_place"),
+									   rs.getString("order_budget"),
+									   rs.getString("order_require"),
+									   rs.getString("order_condition"),
+									   rs.getString("cust_email"),
+									   rs.getInt("service_code"));
+			}
+		} finally {
+			closeAll(rs, ps, conn);
+		}
+		return custOrder;
+	}
 	
+	//회사가 보는 의뢰내역
+	public ArrayList<Custorder> showAllCustOrderByCompany(int comcode) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		ArrayList<Custorder> list = new ArrayList<>();
+		try {
+			conn = getConnection();
+
+			String query = "SELECT c.order_code, c.order_sysdate, c.order_condition, c.cust_email, c.service_code, s.service_name "
+						 + "FROM custorder c, service s "
+						 + "WHERE c.service_code = s.service_code and c.com_code=?";
+			ps = conn.prepareStatement(query);
+			System.out.println("PreparedStatement 생성됨...showAllCustOrderByCompany");
+			
+			ps.setInt(1, comcode);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				list.add(new Custorder(
+									   rs.getInt("c.order_code"),
+									   rs.getInt("c.service_code"),
+									   rs.getString("s.service_name"),
+									   rs.getString("c.order_sysdate"),
+									   rs.getString("c.order_condition"),
+									   rs.getString("c.cust_email")));
+			}
+		} finally {
+			closeAll(rs, ps, conn);
+		}
+		return list;
+	}
+	
+	//승인된 최종내역들 다보기 고객이
 	public ArrayList<Custorderdetail> showAllCustOrderDetail(String custEmail) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -136,19 +227,23 @@ public class CustomerDaoImpl {
 		ArrayList<Custorderdetail> list = new ArrayList<>();
 		try {
 			conn = getConnection();
-			String query = "SELECT custdetail_totalprice, custdetail_desc, custdetail_completedate "
+			String query = "SELECT * "
 							+ "FROM custorderdetail WHERE cust_email=?";
 			ps = conn.prepareStatement(query);
-			System.out.println("ps completed in showAllOrderdetail");
+			System.out.println("PreparedStatement 생성됨...showAllCustOrderDetail");
 			
 			ps.setString(1, custEmail);
 			rs = ps.executeQuery();
 			while(rs.next()) {
 				list.add(new Custorderdetail(
-									   rs.getInt("custdetail_totalprice"),
-									   rs.getString("custdetail_desc"),
-									   rs.getString("custdetail_completedate")));
-			System.out.println(custEmail+ " showallorderdetail success");
+										   rs.getInt("custdetail_code"),
+										   rs.getInt("custdetail_totalprice"),
+										   rs.getString("custdetail_desc"),
+										   rs.getString("custdetail_completedate"),
+										   rs.getInt("order_code"),
+										   rs.getInt("service_code"),
+										   rs.getInt("com_code"),
+										   rs.getString("cust_email")));
 			}
 		} finally {
 			closeAll(rs, ps, conn);
@@ -156,7 +251,62 @@ public class CustomerDaoImpl {
 		return list;
 	}
 	
+	//승인된 최종내역들 다보기 회사가
+	public ArrayList<Custorderdetail> showAllCustOrderDetailByCompany(int comCode) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		ArrayList<Custorderdetail> list = new ArrayList<>();
+		try {
+			conn = getConnection();
+			String query = "SELECT * "
+							+ "FROM custorderdetail WHERE com_code=?";
+			ps = conn.prepareStatement(query);
+			System.out.println("PreparedStatement 생성됨...showAllCustOrderDetailByCompany");
+
+			ps.setInt(1, comCode);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				list.add(new Custorderdetail(
+									   rs.getInt("custdetail_code"),
+									   rs.getInt("custdetail_totalprice"),
+									   rs.getString("custdetail_desc"),
+									   rs.getString("custdetail_completedate"),
+									   rs.getInt("order_code"),
+									   rs.getInt("service_code"),
+									   rs.getInt("com_code"),
+									   rs.getString("cust_email")));
+			}
+		} finally {
+			closeAll(rs, ps, conn);
+		}
+		return list;
+	}
 	
+	//답변상태 바꾸기 답변대기를 답변완료로
+		public void changeOrderCondition(int orderCode, String condition) throws SQLException{
+			Connection conn = null;
+			PreparedStatement ps = null;
+			
+			try{
+				conn=  getConnection();
+				String query = "Update custorder set order_condition=? WHERE order_code=?";
+				ps = conn.prepareStatement(query);
+				System.out.println("PreparedStatement 생성됨...changeOrderCondition");
+				
+				ps.setString(1, condition);
+				ps.setInt(2, orderCode);  
+				
+				// 답변대기를 답변완료로 바꾸기, 이메일로 보내기
+				
+				System.out.println(ps.executeUpdate()+" row update OK!!");
+			}finally{
+				closeAll(ps, conn);
+			}
+		}
+	
+//////////////////////////////////////////////////////////////////
+	//고객요청
 	public void insertCustRequest(Custrequest custrequest) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -267,6 +417,7 @@ public class CustomerDaoImpl {
 		CustomerDaoImpl dao = CustomerDaoImpl.getInstance();
 		//dao.insertCustOrder(new Custorder("1119-02-17","1212","홍천","10000","빨리","encore@gmail.com",1,1));
 		//dao.insertCustRequest(new Custrequest("1119-02-17","1212","홍천","10000","빨리","부가","encore@gmail.com"));
+		//dao.insertCustOrderDetail(new Custorderdetail(1000, "상세", 1, 25, 1, "encore@gmail.com"));
 		//dao.insertCustOrderDetail(new Custorderdetail(1000, "상세", "19191010", 3, 1, 1, "encore@gmail.com"));
 		//dao.insertCustRequestDetail(new Custrequestdetail(1000, "상세", "진행", "19191010", 1, 1));
 		//dao.showAllCustOrder(3);
