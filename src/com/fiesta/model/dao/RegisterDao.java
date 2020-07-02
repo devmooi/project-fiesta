@@ -43,3 +43,5 @@ public interface RegisterDao {
 	public void deleteCompany(String comEmail, String pass) throws SQLException;
 	public boolean comEmailExist(String comEmail) throws SQLException;
 }
+
+

@@ -34,3 +34,6 @@ public interface ReviewDao {
 	public String[] getRecoCompany(int[][] matrix, String who) throws SQLException;
 	
 }
+
+
+

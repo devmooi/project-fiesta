@@ -265,10 +265,10 @@ public class ReviewDaoImpl implements ReviewDao{
 					mat[j][i]=rs.getInt("score");
 				}
 			}
-			//System.out.println("matrix :: ");
-			/*for(int[] arr2 : mat) {
+			System.out.println("matrix :: ");
+			for(int[] arr2 : mat) {
 				System.out.println(java.util.Arrays.toString(arr2));
-			}*/
+			}
 		}finally {
 			closeAll(rs, ps, conn);
 		}
@@ -361,7 +361,7 @@ public class ReviewDaoImpl implements ReviewDao{
 				corr[i] = (float) (Math.round(((covAU[i])/(stdU[custlocation]*stdU[i]))*10000)/10000.0);
 			}
 		}
-		//System.out.println("유사도"+Arrays.toString(corr));
+		System.out.println("유사도"+Arrays.toString(corr));
 		
 		// 모든 서비스에 대한 기대 점수
 		Float[] expscoreArr = new Float[matrix.length];
@@ -384,7 +384,7 @@ public class ReviewDaoImpl implements ReviewDao{
 		}
 		//System.out.println(scoreAndService);
 		Arrays.sort(expscoreArr, Collections.reverseOrder());
-		//System.out.println("기대점수 내림차순: "+Arrays.toString(expscoreArr));
+		System.out.println("기대점수 내림차순: "+Arrays.toString(expscoreArr));
 		String[] rececommandArr = {};
 		String[] temp = {};
 		for(int i=0;i<5;i++) {
@@ -865,9 +865,9 @@ public class ReviewDaoImpl implements ReviewDao{
 		System.out.println("matrix :: ");
 		for(int[] arr : mat) {
 			System.out.println(java.util.Arrays.toString(arr));
-		}
+		}*/
 		// 추천 알고리즘 실행
 		System.out.println(Arrays.toString(dao.getRecoCompany(dao.getReviewMatrix(), "wpdud001@gmail.com")));
-		*/
+		
 	}
 }

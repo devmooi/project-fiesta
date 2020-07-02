@@ -19,3 +19,6 @@ public interface WishDao {
 	public ArrayList<Wish> showAllWish(String custEmail) throws SQLException;
 	
 }
+
+
+
