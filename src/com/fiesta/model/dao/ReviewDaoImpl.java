@@ -376,7 +376,7 @@ public class ReviewDaoImpl implements ReviewDao{
 			expscoreArr[i]=(float) ((float) Math.round((sumRSbyCorr/sumCorr)*10000)/10000.0);
 		}
 		//System.out.println("서비스 어레이 : "+serviceArray);
-		//System.out.println("고객 어레이 : "+custArray);
+		System.out.println("고객 어레이 : "+custArray);
 		//System.out.println("기대점수 : "+Arrays.toString(expscoreArr)+", 개수 : "+expscoreArr.length);
 		HashMap<Float, String> scoreAndService = new HashMap<>();
 		for(int i=0;i<expscoreArr.length;i++) {
@@ -449,21 +449,27 @@ public class ReviewDaoImpl implements ReviewDao{
 					review.setCompany(company);
 					review.setService(service);
 					review.setCustomer(cust);
-					if(answerlist!=null) {
+					System.out.println("answerlist : "+ answerlist.size());
+					if(answerlist.size()>0) {
+						//System.out.println(1);
 						for(Review answer : answerlist) {
 							String[] arr = answer.getReviewCode().split("-");
 							String answerCode = arr[0]+"-"+arr[1]+"-"+arr[2];
-							System.out.println("answerCode : "+answerCode);
-							System.out.println("review : "+rs.getString("r.review_code"));
+							//System.out.println("answerCode : "+answerCode);
+							//System.out.println("review : "+rs.getString("r.review_code"));
 							if(answerCode.equals(rs.getString("r.review_code"))) {
-								System.out.println("찾음");
+								//System.out.println("찾음");
 								review.setAnswerlist(answerlist);
 								list.add(review);
 							}else {
 								list.add(review);
 							}
 						}
+						return list;
 					}
+					//System.out.println(2);
+					list.add(review);
+					//System.out.println("list : "+list);
 				}
 			}
 		}finally {
@@ -496,6 +502,7 @@ public class ReviewDaoImpl implements ReviewDao{
 			rs=ps.executeQuery();
 			
 			answerlist=showAllAnswerByCustomer(email);
+			System.out.println("answerlist : "+ answerlist);
 			while(rs.next()) {
 				if(rs.getString("r.review_code").split("-").length==3) {
 					Customer cust = new Customer();
@@ -514,21 +521,26 @@ public class ReviewDaoImpl implements ReviewDao{
 					review.setCompany(company);
 					review.setService(service);
 					review.setCustomer(cust);
-					if(answerlist!=null) {
+					if(answerlist.size()>0) {
+						//System.out.println(1);
 						for(Review answer : answerlist) {
 							String[] arr = answer.getReviewCode().split("-");
 							String answerCode = arr[0]+"-"+arr[1]+"-"+arr[2];
-							System.out.println("answerCode : "+answerCode);
-							System.out.println("review : "+rs.getString("r.review_code"));
+							//System.out.println("answerCode : "+answerCode);
+							//System.out.println("review : "+rs.getString("r.review_code"));
 							if(answerCode.equals(rs.getString("r.review_code"))) {
-								System.out.println("찾음");
+								//System.out.println("찾음");
 								review.setAnswerlist(answerlist);
 								list.add(review);
 							}else {
 								list.add(review);
 							}
 						}
+						return list;
 					}
+					//System.out.println(2);
+					list.add(review);
+					//System.out.println("list : "+list);
 				}
 			}
 		}finally {
@@ -553,7 +565,7 @@ public class ReviewDaoImpl implements ReviewDao{
 			query.append("FROM review ");
 			query.append("WHERE cust_email = ? ");
 			ps=conn.prepareStatement(query.toString());
-			System.out.println("PreparedStatement....showAllReviewByCustomer");
+			System.out.println("PreparedStatement....showAllAnswerByCustomer");
 			ps.setString(1,email);
 			System.out.println(query);
 			rs=ps.executeQuery();
@@ -592,7 +604,7 @@ public class ReviewDaoImpl implements ReviewDao{
 			query.append("FROM review ");
 			query.append("WHERE com_code = ? ");
 			ps=conn.prepareStatement(query.toString());
-			System.out.println("PreparedStatement....showAllReviewByCustomer");
+			System.out.println("PreparedStatement....showAllAnswerByCompany");
 			ps.setInt(1,comCode);
 			System.out.println(query);
 			rs=ps.executeQuery();
@@ -883,7 +895,7 @@ public class ReviewDaoImpl implements ReviewDao{
 			System.out.println(java.util.Arrays.toString(arr));
 		}*/
 		// 추천 알고리즘 실행
-		System.out.println(Arrays.toString(dao.getRecoCompany(dao.getReviewMatrix(), "wpdud001@gmail.com")));
+		System.out.println(Arrays.toString(dao.getRecoCompany(dao.getReviewMatrix(), "kim@gmail.com")));
 		
 	}
 }

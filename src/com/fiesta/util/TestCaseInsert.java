@@ -40,7 +40,7 @@ public class TestCaseInsert {
 		String[] reviewDescs = {"좋아요","보통이에요","별로에요"};
 		int reviewScore=0;
 		
-		int comCode =1;
+		/*int comCode =1;
 		int cnt=1;
 		for(int i=0;i<10;i++) {
 			//customer 추가... 이메일이 외부키
@@ -91,10 +91,10 @@ public class TestCaseInsert {
 			comCode++;serviceCode++;
 			System.out.println(cnt+"회 ::");
 			cnt++;
-		}
+		}*/
 		
 		//리뷰 단독으로 등록하기... 암호화 때문에 회원가입 후 입력해주기
-/*		int comCode=1;
+		int comCode=1;
 		int serviceCode= 1;
 		int reviewNum=11;
 		String email = "wpdud003@naver.com";//해당하는 이메일 넣기
@@ -109,14 +109,17 @@ public class TestCaseInsert {
 			review.setReviewCode(reviewCode);
 			reviewScore = (int) Math.floor((Math.random()*6));
 			review.setReviewScore(reviewScore);
-			int ranNum = (int) Math.floor((Math.random()*10));
+			int ranNum = (int) Math.floor((Math.random()*3));
 			review.setReviewDesc(reviewDescs[ranNum]);
 			int ranNum2 = (int) Math.floor((Math.random()*3));
 			review.setReviewImg("resource/file_upload/"+images[ranNum2]);
+			review.setCustomer(cust);
+			review.setService(service);
+			review.setCompany(company);
 			
 			dao.insertReview(review);
 			
 			comCode++;serviceCode++;
-		}*/
+		}
 	}
 }
