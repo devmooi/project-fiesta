@@ -38,11 +38,11 @@ public class CustomerRequestController implements Controller {
 			return new ModelAndView("2_requestPlace.jsp");
 		
 		} else if (command.equals("place")) {
-			address = request.getParameter("address");
-			detailAddress = request.getParameter("detailAddress");
+			//address = request.getParameter("address");
+			//detailAddress = request.getParameter("detailAddress");
 
-			session.setAttribute("address", address);
-			session.setAttribute("detailAddress", detailAddress);
+			//session.setAttribute("address", address);
+			//session.setAttribute("detailAddress", detailAddress);
 			
 			System.out.println(session.getAttribute("address"));
 			System.out.println(session.getAttribute("detailAddress"));
@@ -51,11 +51,11 @@ public class CustomerRequestController implements Controller {
 			
 		} else if (command.equals("budget")) {
 			
-			fromBudget = request.getParameter("fromBudget");
-			toBudget = request.getParameter("toBudget");
+			//fromBudget = request.getParameter("fromBudget");
+			//toBudget = request.getParameter("toBudget");
 
-			session.setAttribute("fromBudget", fromBudget);
-			session.setAttribute("toBudget", toBudget);
+			//session.setAttribute("fromBudget", fromBudget);
+			//session.setAttribute("toBudget", toBudget);
 			
 			System.out.println(session.getAttribute("fromBudget"));
 			System.out.println(session.getAttribute("toBudget"));
@@ -64,13 +64,13 @@ public class CustomerRequestController implements Controller {
 			
 		} else if (command.equals("require")){
 		
-			System.out.println("requestFiesta : " + requestFiesta);
-			System.out.println("fromDate : " + fromDate);
-			System.out.println("toDate" + toDate);
-			System.out.println("address" + address);
-			System.out.println("detailAddress" + detailAddress);
-			System.out.println("fromBudget" + fromBudget);
-			System.out.println("toBudget" + toBudget);
+			//System.out.println("requestFiesta : " + requestFiesta);
+			//System.out.println("fromDate : " + fromDate);
+			//System.out.println("toDate" + toDate);
+			//System.out.println("address" + address);
+			//System.out.println("detailAddress" + detailAddress);
+			//System.out.println("fromBudget" + fromBudget);
+			//System.out.println("toBudget" + toBudget);
 			
 			String desc = request.getParameter("desc");
 			
@@ -79,18 +79,18 @@ public class CustomerRequestController implements Controller {
 			
 			Customer customer = (Customer) session.getAttribute("customer");
 			String requestRevdate = "";
-			if(fromDate.equals(toDate)) {
-				requestRevdate = fromDate;
-			} else {
-				requestRevdate = fromDate + " - " + toDate;
-			}
-			String requestPlace = address + " " + detailAddress;
-			String requestBudget = fromBudget + " ~ " + toBudget + " 만원대";
+			//if(fromDate.equals(toDate)) {
+			//	requestRevdate = fromDate;
+			//} else {
+			//	requestRevdate = fromDate + " - " + toDate;
+			//}
+			//String requestPlace = address + " " + detailAddress;
+			//String requestBudget = fromBudget + " ~ " + toBudget + " 만원대";
 			
 			
 			
 			//비즈니스 로직 추가
-			CustomerDaoImpl.getInstance().insertCustRequest(new Custrequest(requestRevdate, requestPlace, requestBudget, desc, requestFiesta), customer.getCustEmail());
+			//CustomerDaoImpl.getInstance().insertCustRequest(new Custrequest(requestRevdate, requestPlace, requestBudget, desc, requestFiesta), customer.getCustEmail());
 		
 			return new ModelAndView("../register/customerMypage.jsp");
 		} 
