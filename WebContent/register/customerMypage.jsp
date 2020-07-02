@@ -386,35 +386,44 @@ function orderCancel(){
 		    
 	<!-- 나의 리뷰 내역 -->	
 		  <div id="reviewTab" class="col s12">
-			  <h6 align="center">나의 리뷰내역</h6>
-			  <br>
-			   <table border="2" width="350" bgcolor="yellow" align="center">
-			   		<thead>
-			   			<tr>
-			   			<!-- 테이블로 되어 있어 리뷰와 답변을 구분하기 힘듦. 원래는 리뷰 밑에 들여써서 답변을 넣으려고 함 -->
-			   				<th>업체명/답변</th><th>만족도</th><th>이미지</th><th>리뷰글/답변글</th><th>삭제하기</th>
-			   			</tr>
-			   		</thead>
-					<c:forEach items="${reviewlist}" var="review">
-						<tr>
-							<td>${review.company.comName}</td>
-							<td>${review.reviewScore}</td>
-							<td><img src="${review.reviewImg}" width="100" height="100"></td>
-							<td>${review.reviewDesc}</td>
-							<td><a href="reviewDelete.do?reviewCode=${review.reviewCode}">삭제</a></td>
-						</tr>
-						<c:forEach items="${review.answerlist}" var="answer">
-						<tr>
-							<td>답변</td>
-							<td></td>
-							<td><img src = "${answer.reviewImg}"></td>
-							<td>${answer.reviewDesc}</td>
-							<td></td>
-						</tr>
+			  <c:if test="${not empty reviewlist}">
+			  		<ul class="collapsible">
+				   		<li>
+				   			<div class="collapsible-header">
+				   				<span class="comName header">업체명</span>
+				   				<span class="comStatus header">만족도</span>
+				   				<span class="comName header">이미지</span>
+				 				<span class="comDesc header">리뷰내용</span>
+				 				<span class="comStatus header">삭제</span>
+				   			</div>
+				   		</li>
+						<c:forEach items="${reviewlist}" var="review">
+							<li>
+								<div class="collapsible-header">
+								<span class="comName">${review.company.comName}</span>
+								<span class="comStatus">${review.reviewScore}</span>
+								<span class="comName"><img src="${review.reviewImg}" width="100" height="100"></span>
+								<span class="comDesc">${review.reviewDesc}</span>
+								<span class="comStatus"><a href="reviewDelete.do?reviewCode=${review.reviewCode}">삭제</a></span>
+								</div>
+							</li>
+								<c:if test="${not empty review.answerlist}">
+								<li>
+								<div class="collapsible-header">
+									<c:forEach items="${review.answerlist}" var="answer">
+										<span class="comName"></span>
+										<span class="comStatus">답변</span>
+										<span class="comName"><img src = "${answer.reviewImg}" width="100" height="100"></span>
+										<span class="comDesc">${answer.reviewDesc}</span>
+										<span class="comStatus"></span>
+									</c:forEach>
+								</div>
+								</li>
+								</c:if>
 						</c:forEach>
-					</c:forEach>
-				</table> 
-		    </div>			  
+					</ul>
+				</c:if>
+		    </div>		  
 		   
     </section>
 

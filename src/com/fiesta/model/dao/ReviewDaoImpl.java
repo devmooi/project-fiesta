@@ -424,12 +424,13 @@ public class ReviewDaoImpl implements ReviewDao{
 			query.append("AND r.com_code = ? ");
 			query.append("ORDER BY review_date DESC ");
 			ps=conn.prepareStatement(query.toString());
-			System.out.println("PreparedStatement....showAllReviewByCustomer");
+			System.out.println("PreparedStatement....showAllReviewByCompany");
 			ps.setInt(1,comCode);
 			System.out.println(query);
 			rs=ps.executeQuery();
 			
 			answerlist=showAllAnswerByCompany(comCode);
+			
 			while(rs.next()) {
 				if(rs.getString("r.review_code").split("-").length==3) {
 					Customer cust = new Customer();
@@ -448,12 +449,19 @@ public class ReviewDaoImpl implements ReviewDao{
 					review.setCompany(company);
 					review.setService(service);
 					review.setCustomer(cust);
-					for(Review answer : answerlist) {
-						if(answer.getCompany().getComCode()==rs.getInt("r.com_code")) {
-							review.setAnswerlist(answerlist);
-							list.add(review);
-						}else {
-							list.add(review);
+					if(answerlist!=null) {
+						for(Review answer : answerlist) {
+							String[] arr = answer.getReviewCode().split("-");
+							String answerCode = arr[0]+"-"+arr[1]+"-"+arr[2];
+							System.out.println("answerCode : "+answerCode);
+							System.out.println("review : "+rs.getString("r.review_code"));
+							if(answerCode.equals(rs.getString("r.review_code"))) {
+								System.out.println("찾음");
+								review.setAnswerlist(answerlist);
+								list.add(review);
+							}else {
+								list.add(review);
+							}
 						}
 					}
 				}
@@ -506,12 +514,19 @@ public class ReviewDaoImpl implements ReviewDao{
 					review.setCompany(company);
 					review.setService(service);
 					review.setCustomer(cust);
-					for(Review answer : answerlist) {
-						if(answer.getCompany().getComCode()==rs.getInt("r.com_code")) {
-							review.setAnswerlist(answerlist);
-							list.add(review);
-						}else {
-							list.add(review);
+					if(answerlist!=null) {
+						for(Review answer : answerlist) {
+							String[] arr = answer.getReviewCode().split("-");
+							String answerCode = arr[0]+"-"+arr[1]+"-"+arr[2];
+							System.out.println("answerCode : "+answerCode);
+							System.out.println("review : "+rs.getString("r.review_code"));
+							if(answerCode.equals(rs.getString("r.review_code"))) {
+								System.out.println("찾음");
+								review.setAnswerlist(answerlist);
+								list.add(review);
+							}else {
+								list.add(review);
+							}
 						}
 					}
 				}
@@ -522,6 +537,7 @@ public class ReviewDaoImpl implements ReviewDao{
 		
 		return list;
 	}
+
 	
 	public ArrayList<Review> showAllAnswerByCustomer(String email) throws SQLException {
 		ArrayList<Review> answerlist = new ArrayList<Review>();
