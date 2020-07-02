@@ -257,10 +257,25 @@
         	position:fixed;
         	width:175px;
         	display:inline-block;
-        	right:0px; /* 창에서 오른쪽 길이 */
-        	top:50%; /* 창에서 위에서 부터의 높이 */
+        	right:20px; /* 창에서 오른쪽 길이 */
+        	top:25%; /* 창에서 위에서 부터의 높이 */
         	background-color: transparent;
         	margin:0;
+        	border: 1px solid #ddd;
+        	padding: 20px;
+        }
+        .todayViewBar h6{
+        	font-weight: bold;
+        	text-align: center;
+        	margin-bottom: 20px;
+        }
+        .todayView {
+        	text-align: center;
+        }
+        .todayView a {
+        	margin-bottom: 10px;
+        	display: block;
+        	color: #009688;
         }
 	</style>
 </head>

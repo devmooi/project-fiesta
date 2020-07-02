@@ -41,21 +41,24 @@ public class CustomerMypageController implements Controller {
 		request.setAttribute("custOrderDetailList", custOrderDetailList);
 		//주문한 서비스 바인딩
 		request.setAttribute("custOrderService", custOrderService);
-		
 		//최종주문 승인된 것들 바인딩
 		request.setAttribute("custOrderFinalDetail", custOrderFinalDetail);
 		
 		
 		
 		//의뢰내역
-		ArrayList<Custrequest> requestList = new ArrayList<>();
-		ArrayList<Custrequestdetail> requestDetailList = new ArrayList<>();
+		ArrayList<Custrequest> custRequestList = CustomerDaoImpl.getInstance().showAllCustRequest(custEmail);
+		ArrayList<Custrequest> custRequestDetailList = new ArrayList<>();
 		
-		requestList = CustomerDaoImpl.getInstance().showAllCustRequest(custEmail);
-		requestDetailList = CustomerDaoImpl.getInstance().showAllCustRequestDetail(custEmail);
+		for(Custrequest c : custRequestList) {
+			custRequestDetailList.add(CustomerDaoImpl.getInstance().showCustRequest(c.getRequestCode()));
+		}
 		
-		request.setAttribute("requestList", requestList);
-		request.setAttribute("requestDetailList", requestDetailList);
+		ArrayList<Custrequestdetail> custRequestFinalDetail = CustomerDaoImpl.getInstance().showAllCustRequestDetail(custEmail);
+		
+		request.setAttribute("custRequestList", custRequestList);
+		request.setAttribute("custRequestDetailList", custRequestDetailList);
+		request.setAttribute("custRequestFinalDetail", custRequestFinalDetail);
 		
 		
 		

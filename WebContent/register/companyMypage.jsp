@@ -26,10 +26,16 @@
 	      	display: none;
 	      	background-color: #CEFBC9;
 	    }
+	    .requestApproveForm {
+	    	display: none;
+	    }
 	    /* 승인된 주문 최종내역 보기 */
 		.orderFinalView{
 			display: none;
 	      	background-color: #CEFBC9;
+		}
+		.requestFinalView {
+			display: none;
 		}
 	</style>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -210,12 +216,69 @@
 					<c:forEach items="${custOrderList}" var="custOrder">
 						<li>
 							<div class="collapsible-header">
-								<span>주문한 서비스 : ${custOrder.serviceName}</span>
-								<span>${custOrder.custEmail}</span>
-								<span>${custOrder.orderSysdate}</span>
-								<span>${custOrder.orderCondition}</span>
+								<span style="font-weight: bold; margin-right: 60px; margin-left: 10px;">${custOrder.serviceName}</span>
+								<span>주문자 : ${custOrder.custEmail}</span>
+								<span style="margin-left: 60px;">주문날짜 : ${custOrder.orderSysdate}</span>
+								<span style="margin-left: 120px;">${custOrder.orderCondition}</span>
 							</div>
 							
+							<style>
+								.orderApprove, .orderRejectForm>input[type=submit] {
+									border: 1px solid orange;
+									background: none;
+									color: orange;
+									padding: 8px;
+									cursor: pointer;
+									border-radius: 5px;
+									margin-top: 10px;
+								}
+								.orderApprove:hover, .orderRejectForm>input[type=submit]:hover {
+									background: orange;
+									color: white;
+									transition-duration: 1.2s;
+								}
+								.orderApproveForm input[type=submit] {
+									border: 1px solid orange;
+									background: none;
+									color: orange;
+									padding: 8px;
+									cursor: pointer;
+									border-radius: 5px;
+									margin-top: 10px;
+								}
+								.orderApproveForm input[type=submit]:hover {
+									background: orange;
+									color: white;
+									transition-duration: 1.2s;
+								}
+								.orderFinalViewBtn {
+									border: 1px solid orange;
+									background: none;
+									color: orange;
+									padding: 8px;
+									cursor: pointer;
+									border-radius: 5px;
+									margin-top: 10px;
+								}
+								.orderFinalViewBtn:hover {
+									background: orange;
+									color: white;
+									transition-duration: 1.2s;
+								}
+								.orderRejectForm {
+									display: inline-block;
+								}
+								.orderApproveForm {
+									background: none;
+								}
+								.orderApproveForm h4 {
+									font-size: 1.2rem;
+									font-weight: bold;
+								}
+								.orderFinalView {
+									background: none;
+								}
+							</style>
 							<!-- 자세히보기 -->
 							<c:forEach items="${custOrderDetailList}"  var="custOrderDetail">
 								<c:if test="${custOrder.orderCode == custOrderDetail.orderCode}" >
@@ -225,17 +288,17 @@
 										<c:forEach items="${custOrderService}"  var="service">
 											<c:if test="${not loop_flag }">
 												<c:if test="${service.serviceCode == custOrderDetail.serviceCode}" >
-						      						<span>서비스 이름 : ${service.serviceName}</span><br>
-						      						<span>서비스 내용 : ${service.serviceDesc}</span><br>
+						      						<p>서비스 이름 : ${service.serviceName}</p>
+						      						<p>서비스 내용 : ${service.serviceDesc}</p>
 						      						<c:set var="loop_flag" value="true" />
 												</c:if>
 											</c:if>
 										</c:forEach>
 										
-										<span>희망일시 : ${custOrderDetail.orderRevdate}</span><br>
-						      			<span>희망장소 : ${custOrderDetail.orderPlace}</span><br>
-						      			<span>예산 : ${custOrderDetail.orderBudget}</span><br>
-						      			<span>부가사항 : ${custOrderDetail.orderRequire}</span><br>
+										<p>희망일시 : ${custOrderDetail.orderRevdate}</p>
+						      			<p>희망장소 : ${custOrderDetail.orderPlace}</p>
+						      			<p>예산 : ${custOrderDetail.orderBudget}</p>
+						      			<p>부가사항 : ${custOrderDetail.orderRequire}</p>
 						      			<!-- 상태는 주문대기, 주문취소, 주문반려, 주문승인완료 가 있다-->
 						      			<!-- 주문 대기 일때는 주문 받기와 거절이 있다  -->
 						      			<c:if test="${custOrder.orderCondition == '주문대기'}">
@@ -244,7 +307,7 @@
 												<h4>주문받기</h4>
 												<form action="orderApprove.do?" name="orderApproveForm" >
 													<input type="hidden" name="orderCode" value="${custOrder.orderCode}">
-													<input type="text" name="serviceCode" value="${custOrder.serviceCode}" readonly="readonly">
+													<input type="hidden" name="serviceCode" value="${custOrder.serviceCode}">
 													<input type="text" name="serviceName" value="${custOrder.serviceName}" readonly="readonly">
 													<input type="text" name="custEmail" value="${custOrder.custEmail}" readonly="readonly">
 													최종금액 : <input type="text" name="totalPrice" required="required"><br><br>
@@ -265,9 +328,9 @@
 											<div class="orderFinalView">
 												<c:forEach items="${custOrderFinalDetail}"  var="finalDetail">
 													<c:if test="${custOrder.orderCode == finalDetail.orderCode}">
-														최종금액 : ${finalDetail.custdetailTotalprice} <br><br>
-														최종요구사항내역 : ${finalDetail.custdetailDesc} <br><br>
-														최종거래완료날짜 : ${finalDetail.custdetailCompletedate} <br><br>
+														<p>최종금액 : ${finalDetail.custdetailTotalprice}</p>
+														<p>최종요구사항내역 : ${finalDetail.custdetailDesc}</p>
+														<p>최종거래완료날짜 : ${finalDetail.custdetailCompletedate}</p>
 													</c:if>
 												</c:forEach>
 											</div>
@@ -281,25 +344,128 @@
 			</c:if>
 		</div>
 		
+		<style>
+			.requestApprove, .requestRejectForm>input[type=submit] {
+				border: 1px solid orange;
+				background: none;
+				color: orange;
+				padding: 8px;
+				cursor: pointer;
+				border-radius: 5px;
+				margin-top: 10px;
+			}
+			.requestApprove:hover, .requestRejectForm>input[type=submit]:hover {
+				background: orange;
+				color: white;
+				transition-duration: 1.2s;
+			}
+			.requestApproveForm input[type=submit] {
+				border: 1px solid orange;
+				background: none;
+				color: orange;
+				padding: 8px;
+				cursor: pointer;
+				border-radius: 5px;
+				margin-top: 10px;
+			}
+			.requestApproveForm input[type=submit]:hover {
+				background: orange;
+				color: white;
+				transition-duration: 1.2s;
+			}
+			.requestFinalViewBtn {
+				border: 1px solid orange;
+				background: none;
+				color: orange;
+				padding: 8px;
+				cursor: pointer;
+				border-radius: 5px;
+				margin-top: 10px;
+			}
+			.requestFinalViewBtn:hover {
+				background: orange;
+				color: white;
+				transition-duration: 1.2s;
+			}
+			.requestRejectForm {
+				display: inline-block;
+			}
+			.requestApproveForm {
+				background: none;
+			}
+			.requestApproveForm h4 {
+				font-size: 1.2rem;
+				font-weight: bold;
+			}
+			.requestFinalView {
+				background: none;
+			}
+		</style>
+		<!-- request!!!! -->
 		<div id="requestTab">
-			<c:if test="${not empty requestList}">
+			<c:if test="${not empty custRequestList}">
 				<ul class="collapsible">
-					<c:forEach items="${requestList}" var="request">
+					<c:forEach items="${custRequestList}" var="custRequest">
 						<li>
 							<div class="collapsible-header">
-								<span>${request.requestSysdate}</span>
-					        	<span>${request.requestRevdate}</span>
-					        	<span>${request.requestPlace}</span>
-					        	<span>${request.requestBudget}</span>
-					        	<span>${request.requestRequire}</span>
-					        	<span>${request.requestFiesta}</span>
+								<span style="width: 30%; margin-left: 10px;">의뢰자 : ${custRequest.custEmail}</span>
+			        			<span>의뢰날짜 : ${custRequest.requestSysdate}</span>
 							</div>
 							
-							<c:forEach items="${requestDetailList}" var="orderDetail">
-						    	<div class="collaps-body orderDetail">
-						        	<h6>의뢰 상세 내용</h6>
-						            <span>${requestDetail.detailDesc}</span>
-					            </div>
+							<!-- 자세히보기 -->	        
+					        <div class="collapsible-body orderdetail">
+				      			<h6>의뢰내용</h6>
+				      			<p>희망일시 : ${custRequest.requestRevdate}</p>
+				      			<p>희망장소 : ${custRequest.requestPlace}</p>
+				      			<p>예산 : ${custRequest.requestBudget}</p>
+				      			<p>부가사항 : ${custRequest.requestRequire}</p>
+				      			
+				      			<!-- 의뢰받기 -->
+				      			<button class = "requestApprove" onclick = "requestApproveFormOpenClose()">의뢰받기</button>&nbsp;&nbsp;&nbsp;
+								<div class = "requestApproveForm">
+									<h4>의뢰받기</h4>
+									<form action="requestApprove.do?" name="requestApproveForm" >
+										<input type="hidden" name="requestCode" value="${custRequest.requestCode}">
+										<input type="text" name="custEmail" value="${custRequest.custEmail}" readonly="readonly">
+										최종금액 : <input type="text" name="totalPrice" required="required"><br><br>
+										최종요구사항내역 : <input type="text" name="finalDesc" required="required"><br><br>
+										<input type="submit" value="의뢰 최종완료">
+									</form>
+								</div>
+								
+								<form action="" class="orderRejectForm" >
+									<input type="hidden" name="orderCode" value="${custOrder.orderCode}">
+									<input align="center" onclick ="orderReject()" type="submit" value="의뢰반려하기 ">
+								</form>
+				      			
+								<!-- 주문 승인완료 일때는 최종거래내역을 볼 수 있다 -->
+								<c:if test="${custOrder.orderCondition == '주문승인완료'}">
+									<button class = "orderFinalViewBtn" onclick = "orderFinalViewOpenClose()">최종내역보기</button>
+									<div class="orderFinalView">
+										<c:forEach items="${custOrderFinalDetail}"  var="finalDetail">
+											<c:if test="${custOrder.orderCode == finalDetail.orderCode}">
+												<p>최종금액 : ${finalDetail.custdetailTotalprice}</p>
+												<p>최종요구사항내역 : ${finalDetail.custdetailDesc}</p>
+												<p>최종거래완료날짜 : ${finalDetail.custdetailCompletedate}</p>
+											</c:if>
+										</c:forEach>
+									</div>
+								</c:if>
+							</div>
+							
+							<!-- 자세히보기 -->
+							<c:forEach items="${custOrderDetailList}"  var="custOrderDetail">
+								<c:if test="${custOrder.orderCode == custOrderDetail.orderCode}" >
+									<div class="collapsible-body orderdetail">
+										
+										
+										<p>희망일시 : ${custOrderDetail.orderRevdate}</p>
+						      			<p>희망장소 : ${custOrderDetail.orderPlace}</p>
+						      			<p>예산 : ${custOrderDetail.orderBudget}</p>
+						      			<p>부가사항 : ${custOrderDetail.orderRequire}</p>
+						      			
+									</div>
+								</c:if>
 							</c:forEach>
 						</li>
 					</c:forEach>

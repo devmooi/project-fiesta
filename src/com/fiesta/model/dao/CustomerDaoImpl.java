@@ -353,7 +353,7 @@ public class CustomerDaoImpl implements CustomerDao {
 		ArrayList<Custrequest> list = new ArrayList<>();
 		try {
 			conn = getConnection();
-			String query = "SELECT request_sysdate, request_revdate, request_place, request_budget, request_require, "
+			String query = "SELECT request_code, request_sysdate, request_revdate, request_place, request_budget, request_require, "
 					+ "comCategory_code, comCategory_desc from custrequest as cu, comcategory as co "
 					+ "WHERE cu.request_fiesta = co.comCategory_code AND cust_email=?";
 			ps = conn.prepareStatement(query);
@@ -366,20 +366,47 @@ public class CustomerDaoImpl implements CustomerDao {
 				Custrequest custrequest = new Custrequest();
 				custrequest.setComcategory(new Comcategory(rs.getInt("comCategory_code"), rs.getString("comCategory_desc")));
 				custrequest.setCustEmail(custEmail);
+				custrequest.setRequestCode(rs.getInt("request_code"));
 				custrequest.setRequestBudget(rs.getString("request_budget"));
 				custrequest.setRequestPlace(rs.getString("request_place"));
 				custrequest.setRequestRequire(rs.getString("request_require"));
 				custrequest.setRequestRevdate(rs.getString("request_revdate"));
 				custrequest.setRequestSysdate(rs.getString("request_sysdate"));
 				list.add(custrequest);
-				/*list.add(new Custrequest(
-									   rs.getString("request_sysdate"),
-									   rs.getString("request_revdate"),
-									   rs.getString("request_place"),
-									   rs.getString("request_budget"),
-									   rs.getString("request_require"),
-									   rs.getString("request_fiesta")));*/
 			System.out.println(custEmail+ " showallcustrequest success");
+			}
+		} finally {
+			closeAll(rs, ps, conn);
+		}
+		return list;
+	}
+	
+	//회사가 볼때는 업체 카테고리에 해당하는 걸 가져오기
+	public ArrayList<Custrequest> showAllCustRequestByCompany(String comCategoryCode) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		ArrayList<Custrequest> list = new ArrayList<>();
+		try {
+			conn = getConnection();
+			String query = "SELECT * FROM custrequest WHERE request_fiesta=?";
+			ps = conn.prepareStatement(query);
+			System.out.println("ps completed in showAllCustrequest");
+			
+			ps.setString(1, comCategoryCode);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				Custrequest custrequest = new Custrequest();
+				custrequest.setCustEmail(rs.getString("cust_email"));
+				custrequest.setRequestCode(rs.getInt("request_code"));
+				custrequest.setRequestBudget(rs.getString("request_budget"));
+				custrequest.setRequestPlace(rs.getString("request_place"));
+				custrequest.setRequestRequire(rs.getString("request_require"));
+				custrequest.setRequestRevdate(rs.getString("request_revdate"));
+				custrequest.setRequestSysdate(rs.getString("request_sysdate"));
+				list.add(custrequest);
+			System.out.println(" showallcustrequest success");
 			}
 		} finally {
 			closeAll(rs, ps, conn);
@@ -417,6 +444,64 @@ public class CustomerDaoImpl implements CustomerDao {
 			return list;
 		}
 	
+
+	
+	public Custrequest showCustRequest(int requestCode) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Custrequest custRequest = null;
+
+		try {
+			conn = getConnection();
+			String query = "SELECT request_code, request_sysdate, request_revdate, request_place, request_budget, request_require, request_fiesta, cust_email "
+						 + "FROM custrequest WHERE request_code=?";
+			ps = conn.prepareStatement(query);
+			System.out.println("PreparedStatement 생성됨...showCustOrder");
+			
+			ps.setInt(1, requestCode);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				custRequest = new Custrequest(rs.getInt("request_code"),
+											rs.getString("request_sysdate"),
+											rs.getString("request_revdate"),
+											rs.getString("request_place"),
+											rs.getString("request_budget"),
+											rs.getString("request_require"),
+											rs.getString("request_fiesta"),
+											rs.getString("cust_email"));
+			}
+		} finally {
+			closeAll(rs, ps, conn);
+		}
+		return custRequest;
+	}
+	
+	//이부분도 추가! 잘 확인하기
+	public ArrayList<Custrequestdetail> showAllCustRequestDetailByCompany(int companycode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	//이부분도 추가! 잘 확인하기 .. 여긴 그냥 삭제하면 됨~~ 회사가 걸린 것도 없고 그냥 고객이 취소하는 거라
+	public void changeRequestCondition(int requestCode) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		try{
+			conn=  getConnection();
+			String query = "DELETE FROM custrequest WHERE request_code=?";
+			ps = conn.prepareStatement(query);
+			System.out.println("PreparedStatement 생성됨...changeOrderCondition");
+			
+			ps.setInt(1, requestCode);
+			System.out.println(ps.executeUpdate()+" row update OK!!");
+		}finally{
+			closeAll(ps, conn);
+		}
+		
+	}
 	
 	//단위테스트
 	public static void main(String[] args) throws SQLException {
@@ -435,4 +520,8 @@ public class CustomerDaoImpl implements CustomerDao {
 		
 		
 	}
+	
+	
+	
+	
 }

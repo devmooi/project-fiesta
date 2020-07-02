@@ -13,6 +13,8 @@ import com.fiesta.model.dao.CustomerDaoImpl;
 import com.fiesta.model.vo.Company;
 import com.fiesta.model.vo.Custorder;
 import com.fiesta.model.vo.Custorderdetail;
+import com.fiesta.model.vo.Custrequest;
+import com.fiesta.model.vo.Custrequestdetail;
 import com.fiesta.model.vo.Question;
 import com.fiesta.model.vo.Service;
 
@@ -50,6 +52,21 @@ public class CompanyMypageController implements Controller {
 		
 		//최종주문 승인된 것들 바인딩
 		request.setAttribute("custOrderFinalDetail", custOrderFinalDetail);
+		
+		////////////////////////////////////////////////////////////////////////////
+		//의뢰내역
+		ArrayList<Custrequest> custRequestList = CustomerDaoImpl.getInstance().showAllCustRequestByCompany(Integer.toString(company.getComCategoryCode()));
+		ArrayList<Custrequest> custRequestDetailList = new ArrayList<>();
+		
+		for(Custrequest c : custRequestList) {
+			custRequestDetailList.add(CustomerDaoImpl.getInstance().showCustRequest(c.getRequestCode()));
+		}
+		
+		ArrayList<Custrequestdetail> custRequestFinalDetail = CustomerDaoImpl.getInstance().showAllCustRequestDetailByCompany(companycode);
+		
+		request.setAttribute("custRequestList", custRequestList);
+		request.setAttribute("custRequestDetailList", custRequestDetailList);
+		request.setAttribute("custRequestFinalDetail", custRequestFinalDetail);
 		
 		
 		String path = "register/companyMypage.jsp";

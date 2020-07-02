@@ -92,7 +92,7 @@ public class CustomerOrderFromController implements Controller {
 			request.setAttribute("custorder", custorder);
 			request.setAttribute("service", service);
 			
-			return new ModelAndView("register/customerMypage.jsp");
+			return new ModelAndView("index.jsp");
 
 		} 
 		return null;

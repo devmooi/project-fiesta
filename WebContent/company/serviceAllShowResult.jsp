@@ -226,7 +226,7 @@
     		font-weight: bold;
     		margin-top: 80px;
     	}
-    	#serviceList a {
+    	#serviceList .serviceOrder {
     		display: flex;
     		align-items: center;
     		color: black;
@@ -234,7 +234,7 @@
     		border: 2px solid #ddd;
     		padding: 10px;
     	}
-    	#serviceList a:hover {
+    	#serviceList .serviceOrder:hover {
     		border: 2px solid #009688;
     		transition-duration: 1.5s;
     	}
@@ -287,10 +287,25 @@
         	position:fixed;
         	width:175px;
         	display:inline-block;
-        	right:0px; /* 창에서 오른쪽 길이 */
-        	top:50%; /* 창에서 위에서 부터의 높이 */
+        	right:20px; /* 창에서 오른쪽 길이 */
+        	top:25%; /* 창에서 위에서 부터의 높이 */
         	background-color: transparent;
         	margin:0;
+        	border: 1px solid #ddd;
+        	padding: 20px;
+        }
+        .todayViewBar h6{
+        	font-weight: bold;
+        	text-align: center;
+        	margin-bottom: 20px;
+        }
+        .todayView {
+        	text-align: center;
+        }
+        .todayView a {
+        	margin-bottom: 10px;
+        	display: block;
+        	color: #009688;
         }
     </style>
 </head>
@@ -309,7 +324,9 @@
 		<div id="companyInfo">
 			<input type="hidden" class="comImg" value="${companyInfo.comImg}">
 			<input type="hidden" class="companycode" value="${companycode}">
-			<img src="${companyInfo.comImg}">
+			<c:if test="${not empty companyInfo.comImg}">
+				<img src="${companyInfo.comImg}">
+			</c:if>
 			<div>
 				<h2 class="comName">${companyInfo.comName}</h2>
 				<p>${companyInfo.comDesc}</p>
@@ -330,13 +347,12 @@
 			<h3>제공 서비스</h3>
 			<!-- 서비스 목록 -->
 			<c:forEach items="${serviceList}" var="service">
-				<a href="ServiceOrder.do?companycode=${companyInfo.comCode}&serviceCode=${service.serviceCode}">
+				<a class="serviceOrder" href="ServiceOrder.do?companycode=${companyInfo.comCode}&serviceCode=${service.serviceCode}">
 					<img src= "${service.serviceImg}" width=100 height=100>
 					<h4>${service.serviceName}</h4>
 					<p>${service.serviceDesc}</p>
 					<span>${service.serviceTag}</span>
-					<span><a href="ServiceDelete.do?serviceCode=${service.serviceCode}">삭제</a></span><!-- 이거는 업체가 로그인했을때만 보일 것 -->
-					<span><a href="ServiceOrder.do?companycode=${companycode}&serviceCode=${service.serviceCode}">주문</a></span>
+					<%-- <a href="ServiceDelete.do?serviceCode=${service.serviceCode}">삭제</a> --%><!-- 이거는 업체가 로그인했을때만 보일 것 -->
 				</a>
 			</c:forEach>
 			<c:if test="${not empty company}">
@@ -641,17 +657,20 @@
 					</c:forEach>
 					(${review.countDesc}개)
 				</p>
-				<!-- 여기부터 출력이 되지 않음 -->
+
 				<c:forEach items="${reviewlist2}" var="review">
 					<form id="answerfrm" action="ShowReview.do" method="post">
 					<input type="hidden" name="reviewCode" value="${review.reviewCode}">
-					<div id="reviewContent">
-					<span>이름 : ${review.customer.custName}, </span><span>만족도 : ${review.reviewScore}, </span><span>일시 : ${review.reviewDate}</span><br>
-					<span><img src= "${review.reviewImg}" width=100 height=100></span><br>
-					<span>내용 : ${review.reviewDesc}</span><br>
-					<c:if test="${empty review.answerlist}">
-						<input type="submit" value="답변하기">
-					</c:if>
+					<div id="reviewContent" style="display: flex; align-items: center;">
+						<img src= "${review.reviewImg}" width=100 height=100>
+						<div style="margin-left: 20px;">
+							<p><span style="font-weight: bold; margin-right: 15px;">이름</span> ${review.customer.custName} (${review.reviewScore})</p>
+							<p><span style="font-weight: bold; margin-right: 15px;">일시</span> ${review.reviewDate}</p>
+							<p><span style="font-weight: bold; margin-right: 15px;">내용</span> ${review.reviewDesc}</p>
+							<c:if test="${empty review.answerlist && not empty company}">
+								<input type="submit" value="답변하기">
+							</c:if>
+						</div>
 					</div>
 						<c:forEach items="${review.answerlist}" var="answer">
 						<div id="answerContent">

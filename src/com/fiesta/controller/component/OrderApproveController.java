@@ -2,12 +2,14 @@ package com.fiesta.controller.component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fiesta.controller.Controller;
 import com.fiesta.controller.ModelAndView;
 import com.fiesta.model.dao.CompanyDaoImpl;
 import com.fiesta.model.dao.CustomerDaoImpl;
 import com.fiesta.model.dao.QuestionDaoImpl;
+import com.fiesta.model.vo.Company;
 import com.fiesta.model.vo.Custorderdetail;
 
 public class OrderApproveController implements Controller {
@@ -15,8 +17,10 @@ public class OrderApproveController implements Controller {
 	@Override
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String comEmail = "play@gmail.com";		//세션에서 받아오기
-		int companycode = CompanyDaoImpl.getInstance().lookupCompany(comEmail).getComCode();
+		HttpSession session = request.getSession();
+		Company company = (Company) session.getAttribute("company");
+		String comEmail = company.getComEmail();		//세션에서 받아오기
+		int companycode = company.getComCode();
 
 		int orderCode = Integer.parseInt(request.getParameter("orderCode"));
 
@@ -39,10 +43,10 @@ public class OrderApproveController implements Controller {
 		
 		//이메일보내기
 		
-		response.sendRedirect("companyMypage.do?");
+		//response.sendRedirect("index.jsp");
 
 		//return new ModelAndView(path);
-		return null;
+		return new ModelAndView("index.jsp");
 	}
 
 }

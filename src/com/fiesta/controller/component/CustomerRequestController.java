@@ -79,7 +79,7 @@ public class CustomerRequestController implements Controller {
 			
 			//비즈니스 로직
 			CustomerDaoImpl.getInstance().insertCustRequest(new Custrequest(requestDate, requestAddr, requestBudget, requestRequire, requestFiesta), customer.getCustEmail());
-			return new ModelAndView("../customerMypage.do");
+			return new ModelAndView("../index.jsp");
 		} 
 		return null;
 	}

@@ -172,6 +172,10 @@ public class HandlerMapping {
 		}else if(command.equals("orderCancel.do")) {
 			controller = new OrderCancelController();
 			System.out.println("OrderCancelController 생성됨");
+			
+		}else if(command.equals("requestCancel.do")) {
+			controller = new RequestCancelController();
+			System.out.println("RequestCancelController 생성됨");
 		}
 		
 		

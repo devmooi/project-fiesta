@@ -83,6 +83,19 @@ function orderCancel(){
 	}); // ajax
 }
 
+function requestCancel(){
+	alert($('input[name=requestCode]').val());
+	$.ajax({
+		type:'post',
+		url:'requestCancel.do',
+		data:$('.requestCancelForm').serialize(),
+		
+		success:function(result) {
+				alert("의뢰를 취소하였습니다");
+		}
+	}); // ajax
+}
+
 </script>
 <style type="text/css">
     	.qdetail{
@@ -167,11 +180,44 @@ function orderCancel(){
 			    <c:forEach items="${custOrderList}" var="custOrder">
 			      <li>
 			        <div class="collapsible-header">
-				        <span>${custOrder.serviceCode}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-				        <span>${custOrder.serviceName}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-			        	<span>${custOrder.orderSysdate}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-			        	<span>${custOrder.orderCondition}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+				        <span style="font-weight: bold; margin-right: 60px; margin-left: 10px;">${custOrder.serviceName}</span>
+			        	<span style="margin-left: 60px;">${custOrder.orderSysdate}</span>
+			        	<span style="margin-left: 120px;">${custOrder.orderCondition}</span>
 			        </div>
+			        
+			        <style>
+			        	.orderFinalViewBtn {
+							border: 1px solid orange;
+							background: none;
+							color: orange;
+							padding: 8px;
+							cursor: pointer;
+							border-radius: 5px;
+							margin-top: 10px;
+						}
+						.orderFinalViewBtn:hover {
+							background: orange;
+							color: white;
+							transition-duration: 1.2s;
+						}
+						.orderFinalView {
+							background: none;
+						}
+						.orderCancelForm>input[type=submit] {
+							border: 1px solid orange;
+							background: none;
+							color: orange;
+							padding: 8px;
+							cursor: pointer;
+							border-radius: 5px;
+							margin-top: 10px;
+						}
+						.orderCancelForm>input[type=submit]:hover {
+							background: orange;
+							color: white;
+							transition-duration: 1.2s;
+						}
+			        </style>
 			       	
 			       	<!-- 자세히보기 -->	        
 			        <c:forEach items="${custOrderDetailList}"  var="custOrderDetail">
@@ -182,20 +228,16 @@ function orderCancel(){
 				      			<c:forEach items="${custOrderService}"  var="service">
 				      				<c:if test="${not loop_flag }">
 						      			<c:if test="${service.serviceCode == custOrderDetail.serviceCode}" >
-						      				<span>서비스 코드 : ${service.serviceCode}</span><br>
-							      			<span>서비스 이름 : ${service.serviceName}</span><br>
-							      			<span><c:if test="${not empty service.serviceImg}">
-												<img src= "../resource/file_upload/${service.serviceImg}" width=100 height=100>
-												</c:if></span>
-							      			<span>서비스 내용 : ${service.serviceDesc}</span><br>
+							      			<p>서비스 이름 : ${service.serviceName}</p>
+							      			<p>서비스 내용 : ${service.serviceDesc}</p>
 							      			<c:set var="loop_flag" value="true" />
 						      		</c:if>
 					      			</c:if>
 					      		</c:forEach>
-				      			<span>희망일시 : ${custOrderDetail.orderRevdate}</span><br>
-				      			<span>희망장소 : ${custOrderDetail.orderPlace}</span><br>
-				      			<span>예산 : ${custOrderDetail.orderBudget}</span><br>
-				      			<span>부가사항 : ${custOrderDetail.orderRequire}</span><br>
+				      			<p>희망일시 : ${custOrderDetail.orderRevdate}</p>
+				      			<p>희망장소 : ${custOrderDetail.orderPlace}</p>
+				      			<p>예산 : ${custOrderDetail.orderBudget}</p>
+				      			<p>부가사항 : ${custOrderDetail.orderRequire}</p>
 				      			<!-- 상태는 주문대기, 주문취소, 주문반려, 주문승인완료 가 있다-->
 				      			<!-- 주문 대기 일때는 주문 취소를 할 수 있다  -->
 								<c:if test="${custOrder.orderCondition == '주문대기'}">
@@ -210,9 +252,9 @@ function orderCancel(){
 									<div class="orderFinalView">
 										<c:forEach items="${custOrderFinalDetail}"  var="finalDetail">
 											<c:if test="${custOrder.orderCode == finalDetail.orderCode}">
-												최종금액 : ${finalDetail.custdetailTotalprice} <br><br>
-												최종요구사항내역 : ${finalDetail.custdetailDesc} <br><br>
-												최종거래완료날짜 : ${finalDetail.custdetailCompletedate} <br><br>
+												<p>최종금액 : ${finalDetail.custdetailTotalprice}</p>
+												<p>최종요구사항내역 : ${finalDetail.custdetailDesc}</p>
+												<p>최종거래완료날짜 : ${finalDetail.custdetailCompletedate}</p>
 											</c:if>
 										</c:forEach>
 									</div>
@@ -225,8 +267,84 @@ function orderCancel(){
 		      </ul> 	
 	      </c:if>
 	    </div>
+	    
+	    <!-- request!! -->
+	    <style>
+        	.requestFinalViewBtn {
+				border: 1px solid orange;
+				background: none;
+				color: orange;
+				padding: 8px;
+				cursor: pointer;
+				border-radius: 5px;
+				margin-top: 10px;
+			}
+			.requestFinalViewBtn:hover {
+				background: orange;
+				color: white;
+				transition-duration: 1.2s;
+			}
+			.requestFinalView {
+				background: none;
+			}
+			.requestCancleForm>input[type=submit] {
+				border: 1px solid orange;
+				background: none;
+				color: orange;
+				padding: 8px;
+				cursor: pointer;
+				border-radius: 5px;
+				margin-top: 10px;
+			}
+			.requestCancleForm>input[type=submit]:hover {
+				background: orange;
+				color: white;
+				transition-duration: 1.2s;
+			}
+        </style>
+		<div id="requestTab">
+			<c:if test="${not empty custRequestList}">
+			    <ul class="collapsible">
+			    <c:forEach items="${custRequestList}" var="custRequest">
+			      <li>
+			        <div class="collapsible-header">
+				        <span style="font-weight: bold; width: 15%; margin-left: 10px;">${custRequest.comcategory.comCategoryDesc}</span>
+			        	<span>${custRequest.requestSysdate}</span>
+			        </div>
 
-	<style>
+			       	<!-- 자세히보기 -->	        
+			        <div class="collapsible-body orderdetail">
+		      			<h6>의뢰내용</h6>
+		      			<p>희망일시 : ${custRequest.requestRevdate}</p>
+		      			<p>희망장소 : ${custRequest.requestPlace}</p>
+		      			<p>예산 : ${custRequest.requestBudget}</p>
+		      			<p>부가사항 : ${custRequest.requestRequire}</p>
+		      			<!-- 의뢰 취소를 할 수 있다  -->
+		      			<form class="requestCancleForm">
+		      				<input type="hidden" name="requestCode" value="${custRequest.requestCode}">
+		      				<input align="center" onclick="requestCancel()" type="submit" value="의뢰취소하기">
+		      			</form>
+
+						<!-- 의뢰 승인완료 일때는 최종거래내역을 볼 수 있다 -->
+						<%-- <c:if test="${custOrder.orderCondition == '주문승인완료'}">
+							<button class = "orderFinalViewBtn" onclick = "orderFinalViewOpenClose()">최종내역보기</button>
+							<div class="orderFinalView">
+								<c:forEach items="${custOrderFinalDetail}"  var="finalDetail">
+									<c:if test="${custOrder.orderCode == finalDetail.orderCode}">
+										<p>최종금액 : ${finalDetail.custdetailTotalprice}</p>
+										<p>최종요구사항내역 : ${finalDetail.custdetailDesc}</p>
+										<p>최종거래완료날짜 : ${finalDetail.custdetailCompletedate}</p>
+									</c:if>
+								</c:forEach>
+							</div>
+						</c:if> --%>
+					</div>
+		          </li>
+		        </c:forEach>
+		      </ul> 	
+	      </c:if>
+		</div>
+	<%-- <style>
 		#requestTab .collapsible-header {
 			display: block;
 		}
@@ -258,7 +376,7 @@ function orderCancel(){
 		        </c:forEach>
 		      </ul> 	
 	  	</c:if>
-	</div>
+	</div> --%>
 	    
 	    <style>
 	    	.collapsible-header {
