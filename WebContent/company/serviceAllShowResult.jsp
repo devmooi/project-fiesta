@@ -19,6 +19,9 @@
 			$('.collapsible').collapsible();
 			$('select').formSelect();
 			
+			//오늘본거 함수
+			todatview();
+			
 			$(".popCloseBtn").click(function(event){
 	            $(".PopupDiv").css("display","none"); //팝업창 display none
 	        });
@@ -33,7 +36,29 @@
 					return false;
 				}
 			});//submit
+			var data = $(".comName").text() +','+ $(".companycode").val();
+			localStorage.setItem($(".comImg").val(), data);
+			//localStorage.setItem('test', 1);
 		});//ready
+		
+		//오늘 본거 함수
+		function todatview(){
+    		var html='';
+    		var count=0;
+    		var idx = localStorage.length;
+    		for(var i=idx-1; i>=0; i--){
+    			var key = localStorage.key(i);
+    			if(key=='length') break;
+    			var datas = localStorage.getItem(key).split(',');
+    			//var data = localStorage.getItem(key);
+    			//<a href="ServiceAllShow.do?companycode=${recoCom.company.comCode}">
+    			html = '<a href="ServiceAllShow.do?companycode='+datas[1]+'"><img width=50 height=50 src="'+key+'"><br>'+datas[0]+'<br></a>';
+    			$('.todayView').append(html);
+    			//alert(key);
+    			count++;
+    			if(count==3) break;
+    		}
+		}
 		
 		//찜하기
 		function registerWish(){
@@ -256,16 +281,37 @@
     	.adetail{
     		background-color: #D4F4FA;
     	}
+    	
+    	/* 오늘 본거 바 */
+    	.todayViewBar { 
+        	position:fixed;
+        	width:175px;
+        	display:inline-block;
+        	right:0px; /* 창에서 오른쪽 길이 */
+        	top:50%; /* 창에서 위에서 부터의 높이 */
+        	background-color: transparent;
+        	margin:0;
+        }
     </style>
 </head>
 <body>
 	<jsp:include page = "../header.jsp" />
 	
 	<section>
+	<!-- 오늘 본거 바 -->
+		<div class="todayViewBar">
+   			<h6>오늘 본거</h6>
+   			<div class="todayView">
+   			
+   			</div>
+   		</div>
+   		
 		<div id="companyInfo">
+			<input type="hidden" class="comImg" value="${companyInfo.comImg}">
+			<input type="hidden" class="companycode" value="${companycode}">
 			<img src="${companyInfo.comImg}">
 			<div>
-				<h2>${companyInfo.comName}</h2>
+				<h2 class="comName">${companyInfo.comName}</h2>
 				<p>${companyInfo.comDesc}</p>
 				<span>조회수 : ${companyInfo.comCount}</span>
 				<c:if test="${!empty customer}">
@@ -289,6 +335,8 @@
 					<h4>${service.serviceName}</h4>
 					<p>${service.serviceDesc}</p>
 					<span>${service.serviceTag}</span>
+					<span><a href="ServiceDelete.do?serviceCode=${service.serviceCode}">삭제</a></span><!-- 이거는 업체가 로그인했을때만 보일 것 -->
+					<span><a href="ServiceOrder.do?companycode=${companycode}&serviceCode=${service.serviceCode}">주문</a></span>
 				</a>
 			</c:forEach>
 			<c:if test="${not empty company}">
