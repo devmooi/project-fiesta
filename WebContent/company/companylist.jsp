@@ -100,7 +100,25 @@
 		}
 		$(document).ready(function(){
 			$('select').formSelect();
+			todatview();
 		});
+		function todatview(){
+    		var html='';
+    		var count=0;
+    		var idx = localStorage.length;
+    		for(var i=idx-1; i>=0; i--){
+    			var key = localStorage.key(i);
+    			if(key=='length') break;
+    			var datas = localStorage.getItem(key).split(',');
+    			//var data = localStorage.getItem(key);
+    			//<a href="ServiceAllShow.do?companycode=${recoCom.company.comCode}">
+    			html = '<a href="ServiceAllShow.do?companycode='+datas[1]+'"><img width=50 height=50 src="'+key+'"><br>'+datas[0]+'<br></a>';
+    			$('.todayView').append(html);
+    			//alert(key);
+    			count++;
+    			if(count==3) break;
+    		}
+		}
 		
 	});//ready
 	</script>
@@ -235,6 +253,15 @@
 			font-size: 1.2rem;
 			font-weight: bold;
 		}
+		.todayViewBar { 
+        	position:fixed;
+        	width:175px;
+        	display:inline-block;
+        	right:0px; /* 창에서 오른쪽 길이 */
+        	top:50%; /* 창에서 위에서 부터의 높이 */
+        	background-color: transparent;
+        	margin:0;
+        }
 	</style>
 </head>
 <body>
@@ -243,6 +270,12 @@
     
 	<!-- 항상 section에서 시작 -->
 	<section>
+    	<div class="todayViewBar">
+   			<h6>오늘 본거</h6>
+   			<div class="todayView">
+   			
+   			</div>
+   		</div>
 		<h2>업체 찾기</h2>
 		<div id="categoryList">
 			<button value="0" name="showAll">전체</button>
