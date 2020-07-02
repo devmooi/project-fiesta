@@ -1,11 +1,91 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
+	section {
+		width: 2500px;
+		margin: auto;
+	}
+	
+	section h2 {
+		font-size: 2rem;
+		margin: 0;
+		padding: 0;
+		font-weight: bold;
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
+	
+	section h4 {
+		font-size: 1.2rem;
+		margin: 0;
+		padding: 0;
+		font-weight: bold;
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
+	
+	#backgroundImg {
+	    background-image: url('../resource/img/customerRequest${requestFiesta}.png');
+        background-size: contain;
+        position: relative;
+		min-height:20vh;
+	}
+	
+	#blank {
+		min-height:15vh;
+	}
+	
+	#inputFrm {
+ 		width: 550px;
+		min-height:20vh;
+		margin-top: 40px;
+		margin-left: auto;
+  		margin-right: auto;
+	}
+	
+	#inputFrm button {
+		background: transparent;
+		border: 1px solid #009688;
+		margin: 3px;
+		font-weight: bold;
+		cursor: pointer;
+		padding: 8px 15px;
+		color: #009688;
+		border-radius: 5px;
+	}
+	
+	#inputFrm button:hover {
+		color: white;
+		background: #009688;
+		border: 1px solid #009688;
+	}
+	
+	progress {
+		width: 550px;
+		margin: auto;
+	}
+	
+	 progress {
+  	    appearance: none;
+    	-moz-appearance: none;
+    	-webkit-appearance: none;
+	}
+	
+	progress::-webkit-progress-value {
+    	background: #009688;
+	}
+	
+	progress::-webkit-progress-bar {
+    	background: lightgray;
+	}
+	
+	
 /*datepicer 버튼 롤오버 시 손가락 모양 표시*/
 .ui-datepicker-trigger{cursor: pointer;}
 /*datepicer input 롤오버 시 손가락 모양 표시*/
@@ -16,9 +96,6 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script>
 $(function() {
-   //오늘 날짜를 출력
-   $("#today").text(new Date().toLocaleDateString());
-
    //시작일.
    $('#fromDate').datepicker({
 				showOn: "both",                     // 달력을 표시할 타이밍 (both: focus or button)
@@ -65,37 +142,36 @@ $(function() {
                      $("#fromDate").datepicker( "option", "maxDate", selectedDate );
                 }                
      });
-	
-		/* $('#requestBtn').click(function() {
-			$.ajax({
-				type:'post',
-				url:'customerRequest.do',
-				
-				success:function(result) {
-					$('#requestView').html(result);
-				}
-				
-			}); // ajax
-		}); // click */
 });
 </script>
 </head>
 <body>
-		<%-- <input type="image" src="../resource/img/header_+${requestFiesta}+.jpg"> --%>
-		
-		<progress value="25" max="100"></progress><br>
-		1. 원하는 날짜를 알려주세요.
-		오늘 날짜 : <span id="today"></span><br>
-		예약 예정일 <br>
+<jsp:include page = "../header.jsp" />
+ <section>
+	<div id="backgroundImg">
+	
+	</div>
+	<div id="inputFrm">
+	  <progress value="25" max="100"></progress><br>
+		<h2>1. 원하는 날짜를 알려주세요.</h2>
+		<br><br>
+		<h4>예약 예정일</h4> 
+		<br>
         <form action="customerRequest.do" id="dateFrm">
-        <input type="hidden" name="command" value="date">
-        <input type="hidden" name="requestFiesta" value="${requestFiesta}">
-          <label for="fromDate">FROM</label>
-          <input type="text" name="fromDate" id="fromDate">
-          &nbsp;&nbsp;&nbsp;
-          <label for="toDate">TO</label>
-          <input type="text" name="toDate" id="toDate"><br>
-          <input type="submit" id="requestBtn" value="다음">
+          <input type="hidden" name="command" value="date">
+          <input type="hidden" name="requestFiesta" value="${requestFiesta}">
+            <label for="fromDate">FROM</label>
+            <input type="text" name="fromDate" id="fromDate">
+            <label for="toDate">TO</label>
+            <input type="text" name="toDate" id="toDate"><br>
+         
+          <button type="submit" name="nextBtn" id="nextBtn">다음</button>
         </form>
+    </div>
+	<div id="blank">
+	
+	</div>
+</section>
+<c:import url="http://localhost:8888/Fiesta/footer.jsp" charEncoding="UTF-8"></c:import>
 </body>
 </html>

@@ -1,10 +1,101 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+
+	section {
+		width: 2500px;
+		margin: auto;
+	}
+	
+	section h2 {
+		font-size: 2rem;
+		margin: 0;
+		padding: 0;
+		font-weight: bold;
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
+	
+	#backgroundImg {
+	    background-image: url('../resource/img/customerRequest${requestFiesta}.png');
+        background-size: contain;
+        position: relative;
+		min-height:20vh;
+	}
+	
+	#blank {
+		min-height:15vh;
+	}
+	
+	#inputFrm {
+		width: 550px;
+		min-height:20vh;
+		margin-top: 40px;
+		margin-left: auto;
+  		margin-right: auto;
+	}
+	
+	#addressItem {
+		background: transparent;
+		border: 1px solid #009688;
+		margin: 3px;
+		font-weight: bold;
+		cursor: pointer;
+		padding: 8px 15px;
+		color: #009688;
+		border-radius: 5px;
+	}
+	
+	#addressItem:hover {
+		color: white;
+		background: #009688;
+		border: 1px solid #009688;
+	}
+	
+	#inputFrm button {
+		background: transparent;
+		border: 1px solid #009688;
+		margin: 3px;
+		font-weight: bold;
+		cursor: pointer;
+		padding: 8px 15px;
+		color: #009688;
+		border-radius: 5px;
+	}
+	
+	#inputFrm button:hover {
+		color: white;
+		background: #009688;
+		border: 1px solid #009688;
+	}
+	
+	progress {
+		width: 550px;
+		margin: auto;
+	}
+	
+	 progress {
+  	    appearance: none;
+    	-moz-appearance: none;
+    	-webkit-appearance: none;
+	}
+	
+	progress::-webkit-progress-value {
+    	background: #009688;
+	}
+	
+	progress::-webkit-progress-bar {
+    	background: lightgray;
+	}
+	
+	
+</style>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 	function execDaumPostcode() {
@@ -56,18 +147,34 @@
 </script>
 </head>
 <body>
-
-	<progress value="50" max="100"></progress><br>
-	2. 어느 지역인가요?
-    <form action="customerRequest.do" id="placeFrm">
-    <input type="hidden" name="command" value="place">
-    <input type="hidden" name="requestFiesta" value="${requestFiesta}">
+<!-- header import -->
+<jsp:include page = "../header.jsp" />
+<!-- 항상 section에서 시작 -->
+<section>
+	<div id="backgroundImg">
+	  <img alt="카테고리 대표사진" src="../resource/img/customerRequest${requestFiesta}.png">
+	</div>
+	<div id="inputFrm">
+	  <progress value="50" max="100"></progress><br>
+	  <h2>2. 어느 지역인가요?</h2>
+      <form action="customerRequest.do" id="placeFrm">
+        <input type="hidden" name="command" value="place">
+        <input type="hidden" name="requestFiesta" value="${requestFiesta}">
        	<input type="text" id="postcode" name="postcode" placeholder="우편번호">
 		<input id="addressItem" type="button" onclick="execDaumPostcode()" value="주소검색">
 		<input name="addr" type="text" id="address" placeholder="주소">
 		<input name="addr" type="text" id="detailAddress" placeholder="상세주소">
 		<input type="text" id="extraAddress" placeholder="참고항목">
-	    <button><a href="1_requestRevdate.jsp">이전</a></button><input type="submit" value="다음">
+		
+	    <button name="lastBtn" id="lastBtn"><a href="1_requestRevdate.jsp">이전</a></button>
+	    <button type="submit" name="nextBtn" id="nextBtn">다음</button>
     </form>
+    </div>
+	<div id="blank">
+	
+	</div>
+</section>
+<!-- footer import -->
+<c:import url="http://localhost:8888/Fiesta/footer.jsp" charEncoding="UTF-8"></c:import>
 </body>
 </html>
