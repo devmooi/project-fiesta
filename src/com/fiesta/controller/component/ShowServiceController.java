@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fiesta.controller.Controller;
 import com.fiesta.controller.ModelAndView;
+import com.fiesta.model.dao.CompanyDaoImpl;
 import com.fiesta.model.dao.ReviewDaoImpl;
 import com.fiesta.model.vo.Service;
 
@@ -17,7 +18,7 @@ public class ShowServiceController implements Controller {
 		int companycode = Integer.parseInt(request.getParameter("companycode"));
 		ArrayList<Service> list = new ArrayList<>();
 		
-		list = ReviewDaoImpl.getInstance().showService(companycode);
+		list = CompanyDaoImpl.getInstance().showAllServiceByCompany(companycode);
 		
 		request.setAttribute("list", list);
 		

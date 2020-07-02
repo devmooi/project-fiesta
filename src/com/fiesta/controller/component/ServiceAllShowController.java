@@ -66,8 +66,7 @@ public class ServiceAllShowController implements Controller {
 		
 		//리뷰 출력
 		ArrayList<Review> reviewlist2 = ReviewDaoImpl.getInstance().showAllReviewByCompany(companycode);
-		request.setAttribute("reviewlist2", reviewlist2);
-		request.setAttribute("companycode", companycode);
+		
 		
 		//리뷰수와 평점 출력
 		Review review = ReviewDaoImpl.getInstance().showReview(companycode);
@@ -94,6 +93,8 @@ public class ServiceAllShowController implements Controller {
 		request.setAttribute("answerList", answerList);
 		
 		//리뷰 바인딩
+		request.setAttribute("reviewlist2", reviewlist2);
+		request.setAttribute("companycode", companycode);
 		request.setAttribute("review", review);
 		request.setAttribute("reviewSrcList", reviewSrcList);
 				

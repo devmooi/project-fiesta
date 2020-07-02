@@ -17,7 +17,7 @@ import com.fiesta.model.vo.Question;
 import com.fiesta.model.vo.Wish;
 import com.fiesta.util.ServerInfo;
 
-public class WishDaoImpl {
+public class WishDaoImpl implements WishDao {
 	private DataSource ds;
 	
 	private static WishDaoImpl dao = new WishDaoImpl();

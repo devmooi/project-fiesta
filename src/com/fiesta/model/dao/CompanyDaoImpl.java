@@ -15,7 +15,7 @@ import com.fiesta.model.vo.Review;
 import com.fiesta.model.vo.Service;
 import com.fiesta.util.ServerInfo;
 
-public class CompanyDaoImpl {
+public class CompanyDaoImpl implements CompanyDao {
 	private DataSource ds;
 	
 	private static CompanyDaoImpl dao = new CompanyDaoImpl();
@@ -668,6 +668,35 @@ public class CompanyDaoImpl {
 			closeAll(rs, ps, conn);
 		}
 		return service;
+	}
+	
+	public ArrayList<Service> showAllServiceByCompany(int companycode) throws SQLException{
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		ArrayList<Service> list = new ArrayList<Service>();
+		
+		try {
+			conn=getConnection();
+			StringBuffer query = new StringBuffer();
+			query.append("SELECT c.com_code, c.com_name, s.service_code, s.service_name ");
+			query.append("FROM company c, service s ");
+			query.append("WHERE c.com_code = s.com_code ");
+			query.append("AND c.com_code = ? ");
+			ps=conn.prepareStatement(query.toString());
+			ps.setInt(1, companycode);
+			//System.out.println(query);
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				list.add(new Service(rs.getInt("s.service_code"),
+									rs.getString("s.service_name"),
+						new Company(rs.getInt("c.com_code"),
+								rs.getString("c.com_name"))));
+			}
+		}finally {
+			closeAll(rs, ps, conn);
+		}
+		return list;
 	}
 	
 	public void plusCount(int comCode) throws SQLException{

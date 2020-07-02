@@ -20,7 +20,7 @@ import com.fiesta.model.vo.Customer;
 import com.fiesta.util.AES256Util;
 import com.fiesta.util.ServerInfo;
 
-public class RegisterDaoImpl {
+public class RegisterDaoImpl implements RegisterDao {
 	private DataSource ds;
 	
 	private static RegisterDaoImpl dao = new RegisterDaoImpl();

@@ -595,8 +595,25 @@
 				</p>
 				<!-- 여기부터 출력이 되지 않음 -->
 				<c:forEach items="${reviewlist2}" var="review">
-					${review.reviewCode}
-				</c:forEach>
+					<form id="answerfrm" action="ShowReview.do" method="post">
+					<input type="hidden" name="reviewCode" value="${review.reviewCode}">
+					<div id="reviewContent">
+					<span>이름 : ${review.customer.custName}, </span><span>만족도 : ${review.reviewScore}, </span><span>일시 : ${review.reviewDate}</span><br>
+					<span><img src= "${review.reviewImg}" width=100 height=100></span><br>
+					<span>내용 : ${review.reviewDesc}</span><br>
+					<input type="submit" value="답변하기">
+					</div>
+						<c:forEach items="${review.answerlist}" var="answer">
+						<div id="answerContent">
+							<p>답변</p>
+							<span><img src="${answer.reviewImg}" width="100" height="100"></span>
+							<span>답변 내용 : ${answer.reviewDesc}</span>
+						</div>
+						</c:forEach>
+					<hr>
+					<br>
+					</form>
+					</c:forEach>
 			</div>
 		 </div>
 		 
