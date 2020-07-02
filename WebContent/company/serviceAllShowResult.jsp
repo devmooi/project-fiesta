@@ -649,7 +649,9 @@
 					<span>이름 : ${review.customer.custName}, </span><span>만족도 : ${review.reviewScore}, </span><span>일시 : ${review.reviewDate}</span><br>
 					<span><img src= "${review.reviewImg}" width=100 height=100></span><br>
 					<span>내용 : ${review.reviewDesc}</span><br>
-					<input type="submit" value="답변하기">
+					<c:if test="${empty review.answerlist}">
+						<input type="submit" value="답변하기">
+					</c:if>
 					</div>
 						<c:forEach items="${review.answerlist}" var="answer">
 						<div id="answerContent">

@@ -66,11 +66,13 @@ public class ServiceAllShowController implements Controller {
 		
 		//리뷰 출력
 		ArrayList<Review> reviewlist2 = ReviewDaoImpl.getInstance().showAllReviewByCompany(companycode);
+		System.out.println("reviewlist : "+reviewlist2);
 		
 		
 		//리뷰수와 평점 출력
 		Review review = ReviewDaoImpl.getInstance().showReview(companycode);
-		float avg = review.getAvgReviewScore();
+		float avg = (float) (Math.round(review.getAvgReviewScore()*100)/100.0);
+		review.setAvgReviewScore(avg);
 		ArrayList<String> reviewSrcList = new ArrayList<>();
 		while(avg>0) {
 			reviewSrcList.add("resource/img/star.png");
