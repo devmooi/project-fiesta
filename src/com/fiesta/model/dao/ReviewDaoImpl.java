@@ -19,7 +19,7 @@ import com.fiesta.model.vo.Review;
 import com.fiesta.model.vo.Service;
 import com.fiesta.util.ServerInfo;
 
-public class ReviewDaoImpl {
+public class ReviewDaoImpl implements ReviewDao{
 	private DataSource ds;
 	
 	private static ReviewDaoImpl dao = new ReviewDaoImpl();
@@ -265,10 +265,10 @@ public class ReviewDaoImpl {
 					mat[j][i]=rs.getInt("score");
 				}
 			}
-			//System.out.println("matrix :: ");
-			/*for(int[] arr2 : mat) {
+			System.out.println("matrix :: ");
+			for(int[] arr2 : mat) {
 				System.out.println(java.util.Arrays.toString(arr2));
-			}*/
+			}
 		}finally {
 			closeAll(rs, ps, conn);
 		}
@@ -361,7 +361,7 @@ public class ReviewDaoImpl {
 				corr[i] = (float) (Math.round(((covAU[i])/(stdU[custlocation]*stdU[i]))*10000)/10000.0);
 			}
 		}
-		//System.out.println("유사도"+Arrays.toString(corr));
+		System.out.println("유사도"+Arrays.toString(corr));
 		
 		// 모든 서비스에 대한 기대 점수
 		Float[] expscoreArr = new Float[matrix.length];
@@ -384,7 +384,7 @@ public class ReviewDaoImpl {
 		}
 		//System.out.println(scoreAndService);
 		Arrays.sort(expscoreArr, Collections.reverseOrder());
-		//System.out.println("기대점수 내림차순: "+Arrays.toString(expscoreArr));
+		System.out.println("기대점수 내림차순: "+Arrays.toString(expscoreArr));
 		String[] rececommandArr = {};
 		String[] temp = {};
 		for(int i=0;i<5;i++) {
@@ -728,35 +728,6 @@ public class ReviewDaoImpl {
 		return review;
 	}
 	
-	public ArrayList<Service> showService(int companycode) throws SQLException{
-		Connection conn = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		ArrayList<Service> list = new ArrayList<Service>();
-		
-		try {
-			conn=getConnection();
-			StringBuffer query = new StringBuffer();
-			query.append("SELECT c.com_code, c.com_name, s.service_code, s.service_name ");
-			query.append("FROM company c, service s ");
-			query.append("WHERE c.com_code = s.com_code ");
-			query.append("AND c.com_code = ? ");
-			ps=conn.prepareStatement(query.toString());
-			ps.setInt(1, companycode);
-			//System.out.println(query);
-			rs=ps.executeQuery();
-			while(rs.next()) {
-				list.add(new Service(rs.getInt("s.service_code"),
-									rs.getString("s.service_name"),
-						new Company(rs.getInt("c.com_code"),
-								rs.getString("c.com_name"))));
-			}
-		}finally {
-			closeAll(rs, ps, conn);
-		}
-		return list;
-	}
-	
 	//단위테스트
 	public static void main(String[] args) throws SQLException {
 		ReviewDaoImpl dao = ReviewDaoImpl.getInstance();
@@ -894,9 +865,9 @@ public class ReviewDaoImpl {
 		System.out.println("matrix :: ");
 		for(int[] arr : mat) {
 			System.out.println(java.util.Arrays.toString(arr));
-		}
+		}*/
 		// 추천 알고리즘 실행
 		System.out.println(Arrays.toString(dao.getRecoCompany(dao.getReviewMatrix(), "wpdud001@gmail.com")));
-		*/
+		
 	}
 }

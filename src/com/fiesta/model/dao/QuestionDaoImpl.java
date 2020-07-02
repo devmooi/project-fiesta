@@ -16,7 +16,7 @@ import com.fiesta.model.vo.Company;
 import com.fiesta.model.vo.Question;
 import com.fiesta.util.ServerInfo;
 
-public class QuestionDaoImpl {
+public class QuestionDaoImpl implements QuestionDao{
 	private DataSource ds;
 	
 	private static QuestionDaoImpl dao = new QuestionDaoImpl();

@@ -17,7 +17,7 @@ import com.fiesta.model.vo.Custrequest;
 import com.fiesta.model.vo.Custrequestdetail;
 import com.fiesta.util.ServerInfo;
 
-public class CustomerDaoImpl {
+public class CustomerDaoImpl implements CustomerDao {
 	private DataSource ds;
 	
 	private static CustomerDaoImpl dao = new CustomerDaoImpl();
