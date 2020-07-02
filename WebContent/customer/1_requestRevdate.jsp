@@ -77,7 +77,8 @@ var optionsFrom = {
 		const setMM = ell.getDate() + 1;
 		const setM = new Date(ell.setDate(setMM));
 		setMinTo(setM);
-	}
+	},
+	format: "yyyy/mm/dd"
 };
 
 
@@ -86,7 +87,8 @@ var optionsTo = {
 	i18n: inter_es,
 	minDate: new Date(minDateTo),
 	defaultDate: new Date(nextWeekTo),
-	autoClose: true
+	autoClose: true,
+	format: "yyyy/mm/dd"
 };
 
 

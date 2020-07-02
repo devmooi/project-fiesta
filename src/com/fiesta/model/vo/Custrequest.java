@@ -9,6 +9,7 @@ public class Custrequest {
 	String requestRequire;
 	String requestFiesta;
 	String custEmail;
+	Comcategory comcategory;
 	
 	public Custrequest() {}
 		
@@ -104,6 +105,16 @@ public class Custrequest {
 		this.custEmail = custEmail;
 	}
 	
+	
+	
+	public Comcategory getComcategory() {
+		return comcategory;
+	}
+
+	public void setComcategory(Comcategory comcategory) {
+		this.comcategory = comcategory;
+	}
+
 	@Override
 	public String toString() {
 		return "Request [requestCode=" + requestCode + ", requestSysdate=" + requestSysdate + ", requestRevdate="

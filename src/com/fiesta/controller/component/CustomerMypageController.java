@@ -48,11 +48,16 @@ public class CustomerMypageController implements Controller {
 		
 		
 		//의뢰내역
-/*		ArrayList<Custrequest> requestList = new ArrayList<>();
+		ArrayList<Custrequest> requestList = new ArrayList<>();
 		ArrayList<Custrequestdetail> requestDetailList = new ArrayList<>();
 		
 		requestList = CustomerDaoImpl.getInstance().showAllCustRequest(custEmail);
-		requestDetailList = CustomerDaoImpl.getInstance().showAllCustRequestDetail(custEmail);*/
+		requestDetailList = CustomerDaoImpl.getInstance().showAllCustRequestDetail(custEmail);
+		
+		request.setAttribute("requestList", requestList);
+		request.setAttribute("requestDetailList", requestDetailList);
+		
+		
 		
 		//문의답변내역
 		ArrayList<Question> questionList = QuestionDaoImpl.getInstance().showAllQuestion(custEmail);
@@ -87,12 +92,6 @@ public class CustomerMypageController implements Controller {
 			review.setCompany(company);
 		}
 		System.out.println("reviewlist : "+reviewlist);
-	
-				
-		//주문의뢰내역 바인딩
-
-/*		request.setAttribute("requestList", requestList);
-		request.setAttribute("requestDetailList", requestDetailList);		*/
 		
 		//문의답변 바인딩
 		request.setAttribute("questionList", questionList);

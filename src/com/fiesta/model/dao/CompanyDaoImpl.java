@@ -50,6 +50,27 @@ public class CompanyDaoImpl implements CompanyDao {
 	
 	//작업 영역
 	//메인에서 사용한 DAO
+	public Comcategory lookComcategory(int comCategoryCode) throws SQLException {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Comcategory comcategory = null;
+		
+		try {
+			conn = getConnection();
+			String query = "SELECT * FROM comcategory WHERE comCategory_code=?";
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, comCategoryCode);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				comcategory = new Comcategory(rs.getInt("comCategory_code"), rs.getString("comCategory_desc"));
+			}
+		} finally {
+			closeAll(rs, ps, conn);
+		}
+		
+		return comcategory;
+	}
 	public ArrayList<Comcategory> showAllComcategory() throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;

@@ -226,6 +226,15 @@ function orderCancel(){
 	      </c:if>
 	    </div>
 
+	<style>
+		#requestTab .collapsible-header {
+			display: block;
+		}
+		#requestTab .collapsible-header h3 {
+			font-size: 1.2rem;
+			font-weight: bold;
+		}
+	</style>
 	  <!-- 의뢰내역 -->	
 	  <div id="requestTab">
 	  	<c:if test="${not empty requestList}">
@@ -233,12 +242,12 @@ function orderCancel(){
 			    <c:forEach items="${requestList}" var="request">
 			      <li>
 			        <div class="collapsible-header">
-			        	<span>${request.requestSysdate}</span>
-			        	<span>${request.requestRevdate}</span>
-			        	<span>${request.requestPlace}</span>
-			        	<span>${request.requestBudget}</span>
-			        	<span>${request.requestRequire}</span>
-			        	<span>${request.requestFiesta}</span>
+			        	<h3>신청한 분류 : ${request.comcategory.comCategoryDesc}</h3>
+			        	<p>의뢰 일시 : ${request.requestSysdate}</p>
+			        	<p>희망 일시 : ${request.requestRevdate}</p>
+			        	<p>희망 장소 : ${request.requestPlace}</p>
+			        	<p>예산 : ${request.requestBudget}</p>
+			        	<p>희망 사항 : ${request.requestRequire}</p>
 			        </div>	
 			      <c:forEach items="${requestDetailList}" var="orderDetail">
 			        <div class="collaps-body orderDetail">

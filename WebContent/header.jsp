@@ -100,7 +100,7 @@
         			<li><a href="http://localhost:8888/Fiesta/logout.do">로그아웃</a></li>
         		</c:when>
         		<c:when test="${!empty company}">
-        			<li><a href="http://localhost:8888/Fiesta/register/companyMypage.jsp">업체 정보</a></li>
+        			<li><a href="companyMypage.do">업체 정보</a></li>
         			<li><a href="http://localhost:8888/Fiesta/logout.do">로그아웃</a></li>
         		</c:when>
         		<c:otherwise>

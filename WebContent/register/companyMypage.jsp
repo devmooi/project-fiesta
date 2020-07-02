@@ -167,7 +167,7 @@
 	
 	<section>
 		<div id="companyInfo">
-			<img src="../${company.comImg}">
+			<img src="${company.comImg}">
 			<div>
 				<h2>${company.comName}</h2>
 				<p>${company.comDesc}</p>
@@ -210,8 +210,7 @@
 					<c:forEach items="${custOrderList}" var="custOrder">
 						<li>
 							<div class="collapsible-header">
-								<span>${custOrder.serviceCode}</span>
-								<span>${custOrder.serviceName}</span>
+								<span>주문한 서비스 : ${custOrder.serviceName}</span>
 								<span>${custOrder.custEmail}</span>
 								<span>${custOrder.orderSysdate}</span>
 								<span>${custOrder.orderCondition}</span>
@@ -226,13 +225,7 @@
 										<c:forEach items="${custOrderService}"  var="service">
 											<c:if test="${not loop_flag }">
 												<c:if test="${service.serviceCode == custOrderDetail.serviceCode}" >
-													<span>서비스 코드 : ${service.serviceCode}</span><br>
 						      						<span>서비스 이름 : ${service.serviceName}</span><br>
-						      						<span>
-						      							<c:if test="${not empty service.serviceImg}">
-															<img src= "../resource/file_upload/${service.serviceImg}" width=100 height=100>
-														</c:if>
-													</span>
 						      						<span>서비스 내용 : ${service.serviceDesc}</span><br>
 						      						<c:set var="loop_flag" value="true" />
 												</c:if>
@@ -314,5 +307,7 @@
 			</c:if>
 		</div>
 	</section>
+	
+	<jsp:include page = "../footer.jsp" />
 </body>
 </html>

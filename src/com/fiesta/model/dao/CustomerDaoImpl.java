@@ -11,6 +11,7 @@ import java.util.Calendar;
 
 import javax.sql.DataSource;
 
+import com.fiesta.model.vo.Comcategory;
 import com.fiesta.model.vo.Custorder;
 import com.fiesta.model.vo.Custorderdetail;
 import com.fiesta.model.vo.Custrequest;
@@ -352,8 +353,9 @@ public class CustomerDaoImpl implements CustomerDao {
 		ArrayList<Custrequest> list = new ArrayList<>();
 		try {
 			conn = getConnection();
-			String query = "SELECT request_sysdate, request_revdate, request_place, request_budget, request_require, request_fiesta "
-					+ "FROM custrequest WHERE cust_email=?";
+			String query = "SELECT request_sysdate, request_revdate, request_place, request_budget, request_require, "
+					+ "comCategory_code, comCategory_desc from custrequest as cu, comcategory as co "
+					+ "WHERE cu.request_fiesta = co.comCategory_code AND cust_email=?";
 			ps = conn.prepareStatement(query);
 			System.out.println("ps completed in showAllCustrequest");
 			
@@ -361,13 +363,22 @@ public class CustomerDaoImpl implements CustomerDao {
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				list.add(new Custrequest(
+				Custrequest custrequest = new Custrequest();
+				custrequest.setComcategory(new Comcategory(rs.getInt("comCategory_code"), rs.getString("comCategory_desc")));
+				custrequest.setCustEmail(custEmail);
+				custrequest.setRequestBudget(rs.getString("request_budget"));
+				custrequest.setRequestPlace(rs.getString("request_place"));
+				custrequest.setRequestRequire(rs.getString("request_require"));
+				custrequest.setRequestRevdate(rs.getString("request_revdate"));
+				custrequest.setRequestSysdate(rs.getString("request_sysdate"));
+				list.add(custrequest);
+				/*list.add(new Custrequest(
 									   rs.getString("request_sysdate"),
 									   rs.getString("request_revdate"),
 									   rs.getString("request_place"),
 									   rs.getString("request_budget"),
 									   rs.getString("request_require"),
-									   rs.getString("request_fiesta")));
+									   rs.getString("request_fiesta")));*/
 			System.out.println(custEmail+ " showallcustrequest success");
 			}
 		} finally {

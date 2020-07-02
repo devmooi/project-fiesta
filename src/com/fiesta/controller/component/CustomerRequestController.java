@@ -1,5 +1,7 @@
 package com.fiesta.controller.component;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -77,7 +79,7 @@ public class CustomerRequestController implements Controller {
 			
 			//비즈니스 로직
 			CustomerDaoImpl.getInstance().insertCustRequest(new Custrequest(requestDate, requestAddr, requestBudget, requestRequire, requestFiesta), customer.getCustEmail());
-			return new ModelAndView("../register/customerMypage.jsp");
+			return new ModelAndView("../customerMypage.do");
 		} 
 		return null;
 	}
