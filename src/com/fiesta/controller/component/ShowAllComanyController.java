@@ -36,15 +36,19 @@ public class ShowAllComanyController implements Controller{
 		if(customer!=null) {
 			matrix = ReviewDaoImpl.getInstance().getReviewMatrix();
 			recoArr = ReviewDaoImpl.getInstance().getRecoCompany(matrix, customer.getCustEmail());
-			for(int i=0;i<recoArr.length;i++) {
-				if(recoArr[i]==null) continue;
-				if(recoArr[i].equals("리뷰없음")) {
-					recoList = null;
-					break;
+			if(recoArr!=null) {
+				for(int i=0;i<recoArr.length;i++) {
+					if(recoArr[i]==null) continue;
+					if(recoArr[i].equals("리뷰없음")) {
+						recoList = null;
+						break;
+					} else {
+						temp = recoArr[i].split("-");
+						recoList.add(ReviewDaoImpl.getInstance().showReview(Integer.parseInt(temp[0])));
+					}
 				}
-				temp = recoArr[i].split("-");
-				recoList.add(ReviewDaoImpl.getInstance().showReview(Integer.parseInt(temp[0])));
 			}
+
 			//System.out.println(Arrays.toString(recoArr));
 			System.out.println("recoList : "+recoList);
 		}

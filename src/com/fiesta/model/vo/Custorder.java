@@ -15,7 +15,7 @@ public class Custorder {
 	String serviceName;
 	
 	public Custorder() {}
-
+	
 	public Custorder(String orderSysdate, String orderRevdate, String orderPlace, String orderBudget,
 			String orderRequire, String orderCondition) {
 		this.orderSysdate = orderSysdate;
@@ -26,6 +26,18 @@ public class Custorder {
 		this.orderCondition = orderCondition;
 	}
 	
+	public Custorder(String orderRevdate, String orderPlace, String orderBudget, String orderRequire, String custEmail,
+			int serviceCode, int comCode) {
+		super();
+		this.orderRevdate = orderRevdate;
+		this.orderPlace = orderPlace;
+		this.orderBudget = orderBudget;
+		this.orderRequire = orderRequire;
+		this.custEmail = custEmail;
+		this.serviceCode = serviceCode;
+		this.comCode = comCode;
+	}
+
 	public Custorder(String orderSysdate, String orderRevdate, String orderPlace, String orderBudget,
 			String orderRequire, String custEmail, int serviceCode, int comCode) {
 		this.orderSysdate = orderSysdate;

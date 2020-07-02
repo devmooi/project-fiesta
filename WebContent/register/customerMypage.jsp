@@ -140,7 +140,7 @@ function orderCancel(){
       
 	<section>
 		<h2>개인 정보 수정</h2> 
-	    <form action="updafteCustomer.do" id="customerUpdateFrm">
+	    <form action="updateCustomer.do" id="customerUpdateFrm">
 			이름  <input disabled type="text" name="custName" id="custName" value="${customer.custName}" placeholder="${customer.custName}">
 			이메일  <input disabled type="text" name="custEmail" id="custEmail" value="${customer.custEmail}" placeholder="${customer.custEmail}">
 			비밀번호  <input type="password" name="custPass" id="custPass" value="${customer.custPass}" placeholder="${customer.custPass}">

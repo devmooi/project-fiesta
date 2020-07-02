@@ -21,15 +21,13 @@ public class ServiceOrderController implements Controller {
 		
 		Service service = CompanyDaoImpl.getInstance().showService(serviceCode);
 		
-		String path = "customerOrder/customerOrderForm.jsp";
-		
 		request.setAttribute("companycode", companycode);
 		request.setAttribute("serviceCode", serviceCode);
 		request.setAttribute("service", service);
 
 		//response.sendRedirect("ServiceAllShow.do?companycode="+companycode);
 
-		return new ModelAndView(path);
+		return new ModelAndView("customer/1_requestRevdate.jsp");
 		//return null;
 	}
 

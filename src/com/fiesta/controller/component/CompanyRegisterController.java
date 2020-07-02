@@ -82,6 +82,8 @@ public class CompanyRegisterController implements Controller {
 		AES256Util aes256 = new AES256Util(key);
 		
 		pass = aes256.encrypt(pass);
+		
+		
 		System.out.println("Encode PWD : " + pass);
 				
 		

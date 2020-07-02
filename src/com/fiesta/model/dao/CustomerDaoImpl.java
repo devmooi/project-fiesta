@@ -57,28 +57,21 @@ public class CustomerDaoImpl {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		
-		//현재시간 출력
-		SimpleDateFormat format = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
-		Calendar time = Calendar.getInstance();
-		String currTime = format.format(time.getTime());
-		//System.out.println(currTime); 확인용
-		
 		try{
 			conn=  getConnection();
-			String query = "INSERT INTO custorder(order_sysdate, order_revdate, order_place, order_budget, order_require, order_condition, cust_email, service_code, com_code) "
-					+ "VALUES(?,?,?,?,?,?,?,?,?)";
+			String query = "INSERT INTO custorder(order_sysdate, order_revdate, order_place, order_budget, order_require, cust_email, service_code, com_code) "
+							+ "VALUES(sysdate(), ?, ?, ?, ?, ?, ?, ?)";
 			ps = conn.prepareStatement(query);
 			System.out.println("PreparedStatement 생성됨...insertCustOrder");
 			
-			ps.setString(1, currTime);
-			ps.setString(2, custorder.getOrderRevdate());
-			ps.setString(3, custorder.getOrderPlace());
-			ps.setString(4, custorder.getOrderBudget());
-			ps.setString(5, custorder.getOrderRequire());
-			ps.setString(6, "주문대기");//condition 상태값 default값이 '주문대기'여야 함.
-			ps.setString(7, custorder.getCustEmail());//세션의 고객아이디 값 가져오기
-			ps.setInt(8, custorder.getServiceCode());
-			ps.setInt(9, custorder.getComCode());//기업코드값 가져오기
+			//예약날짜, 예약장소, 예산, 요구사항, 고객이메일, 서비스코드, 컴코드
+			ps.setString(1, custorder.getOrderRevdate());
+			ps.setString(2, custorder.getOrderPlace());
+			ps.setString(3, custorder.getOrderBudget());
+			ps.setString(4, custorder.getOrderRequire());
+			ps.setString(5, custorder.getCustEmail());//세션의 고객아이디 값 가져오기
+			ps.setInt(6, custorder.getServiceCode());
+			ps.setInt(7, custorder.getComCode());//기업코드값 가져오기
 
 			System.out.println(ps.executeUpdate()+" row INSERT OK!!");
 		}finally{

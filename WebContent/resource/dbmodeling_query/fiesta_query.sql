@@ -63,7 +63,7 @@ CREATE TABLE custorder(
     order_place VARCHAR(45) NOT NULL,
     order_budget VARCHAR(45),
     order_require VARCHAR(45),
-    order_condition VARCHAR(45),
+    order_condition VARCHAR(45) DEFAULT '주문대기',
     cust_email VARCHAR(45) NOT NULL,
     service_code INT NOT NULL,
     com_code INT NOT NULL

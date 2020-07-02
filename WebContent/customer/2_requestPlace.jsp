@@ -22,7 +22,7 @@
 	section .blackBox {
 		background: black;
         opacity: 50%;
-        min-height:56vh;
+        min-height:57vh;
         position: absolute;
         top: 0;
         left: 0;
@@ -164,18 +164,40 @@
 	<div id="inputFrm">
 	  <progress value="50" max="100"></progress><br>
 	  <h2>2. 어느 지역인가요?</h2>
-      <form action="customerRequest.do" id="placeFrm">
-        <input type="hidden" name="command" value="place">
-        <input type="hidden" name="requestFiesta" value="${requestFiesta}">
-       	<input type="text" id="postcode" name="postcode" placeholder="우편번호" style="display: none;">
-		<input id="addressItem" type="button" onclick="execDaumPostcode()" value="주소검색">
-		<input name="addr" type="text" id="address" placeholder="주소">
-		<input name="addr" type="text" id="detailAddress" placeholder="상세주소">
-		<input type="text" id="extraAddress" placeholder="참고항목" style="display: none;">
-		
-	    <button id="lastBtn" onClick="history.go(-1)">이전</button>
-	    <button type="submit" id="nextBtn">다음</button>
-    </form>
+	  <c:if test="${not empty requestFiesta}">
+	      <form action="customerRequest.do" id="placeFrm">
+	        <input type="hidden" name="command" value="place">
+	        <input type="hidden" name="requestFiesta" value="${requestFiesta}">
+	       	<input type="text" id="postcode" name="postcode" placeholder="우편번호" style="display: none;">
+			<input id="addressItem" type="button" onclick="execDaumPostcode()" value="주소검색">
+			<input name="addr" type="text" id="address" placeholder="주소">
+			<input name="addr" type="text" id="detailAddress" placeholder="상세주소">
+			<input type="text" id="extraAddress" placeholder="참고항목" style="display: none;">
+			
+		    <button id="lastBtn" onClick="history.go(-1)">이전</button>
+		    <button type="submit" id="nextBtn">다음</button>
+	      </form>
+    </c:if>
+    <c:if test="${not empty companycode}">
+       	<style>
+       		section .backgroundBox {
+				background-image: url('../Fiesta/resource/img/customerRequest.jpg');
+			}
+       	</style>
+        <form action="customerOrderFrom.do" id="placeFrm">
+	        <input type="hidden" name="command" value="place">
+	        <input type="hidden" name="companycode" value="${companycode}">
+            <input type="hidden" name="serviceCode" value="${serviceCode}">
+	       	<input type="text" id="postcode" name="postcode" placeholder="우편번호" style="display: none;">
+			<input id="addressItem" type="button" onclick="execDaumPostcode()" value="주소검색">
+			<input name="addr" type="text" id="address" placeholder="주소">
+			<input name="addr" type="text" id="detailAddress" placeholder="상세주소">
+			<input type="text" id="extraAddress" placeholder="참고항목" style="display: none;">
+			
+		    <button id="lastBtn" onClick="history.go(-1)">이전</button>
+		    <button type="submit" id="nextBtn">다음</button>
+	      </form>
+	</c:if>
     </div>
 </section>
 </body>

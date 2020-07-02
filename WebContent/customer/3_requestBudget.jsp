@@ -23,7 +23,7 @@
 	section .blackBox {
 		background: black;
         opacity: 50%;
-        min-height:56vh;
+        min-height:57vh;
         position: absolute;
         top: 0;
         left: 0;
@@ -107,19 +107,42 @@
 	  <progress value="75" max="100"></progress><br>
 	  <!-- 업체와 직접 상담 or 직접 입력 (가격대 또는 가격) -->
 	  <h2>3. 대략적인 예산을 공유해주세요.</h2>
-	  <form action="customerRequest.do" id="budgetFrm">
-	    <input type="hidden" name="command" value="budget">
-        <input type="hidden" name="requestFiesta" value="${requestFiesta}">
-		<br><br>
-		<div>
-			<input type="text" name="fromBudget" id="fromBudget" placeholder="숫자만 입력가능">
-			<span>~</span>
-			<input type="text" name="toBudget" id="toBudget" placeholder="숫자만 입력가능">
-			<span>만원대</span>
-		</div>
-	    <button id="lastBtn" onClick="history.go(-1)">이전</button>
-	    <button type="submit" id="nextBtn">다음</button>
-      </form>
+	  <c:if test="${not empty requestFiesta}">
+		  <form action="customerRequest.do" id="budgetFrm">
+		    <input type="hidden" name="command" value="budget">
+	        <input type="hidden" name="requestFiesta" value="${requestFiesta}">
+			<br><br>
+			<div>
+				<input type="text" name="fromBudget" id="fromBudget" placeholder="숫자만 입력가능">
+				<span>~</span>
+				<input type="text" name="toBudget" id="toBudget" placeholder="숫자만 입력가능">
+				<span>만원대</span>
+			</div>
+		    <button id="lastBtn" onClick="history.go(-1)">이전</button>
+		    <button type="submit" id="nextBtn">다음</button>
+	      </form>
+      </c:if>
+      <c:if test="${not empty companycode}">
+      	<style>
+       		section .backgroundBox {
+				background-image: url('../Fiesta/resource/img/customerRequest.jpg');
+			}
+       	</style>
+      	<form action="customerOrderFrom.do" id="budgetFrm">
+		    <input type="hidden" name="command" value="budget">
+	        <input type="hidden" name="companycode" value="${companycode}">
+            <input type="hidden" name="serviceCode" value="${serviceCode}">
+			<br><br>
+			<div>
+				<input type="text" name="fromBudget" id="fromBudget" placeholder="숫자만 입력가능">
+				<span>~</span>
+				<input type="text" name="toBudget" id="toBudget" placeholder="숫자만 입력가능">
+				<span>만원대</span>
+			</div>
+		    <button id="lastBtn" onClick="history.go(-1)">이전</button>
+		    <button type="submit" id="nextBtn">다음</button>
+	      </form>
+      </c:if>
     </div>
 </section>
 </body>

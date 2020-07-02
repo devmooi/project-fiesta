@@ -23,7 +23,7 @@
 	section .blackBox {
 		background: black;
         opacity: 50%;
-        min-height:56vh;
+        min-height:57vh;
         position: absolute;
         top: 0;
         left: 0;
@@ -107,15 +107,34 @@
 	  <progress value="100" max="100"></progress><br>
 	  <!-- 최종적으로 session에 담긴 attribute랑 여기에 넣은 값들을 같이 보내기 -->
 	  <h2>4. 관련 문의 및 희망 사항을 알려주세요.</h2>
-	  <form action="customerRequest.do" id="requireFrm">
-		<input type="hidden" name="command" value="require">
-	    <input type="hidden" name="requestFiesta" value="${requestFiesta}">
-	    <br><br>
-	    <textarea id="desc" name="desc" placeholder="ex.이전에 진행했던 행사가 담긴 사진이나 동영상을 보고 싶어요."></textarea>
-	    
-	    <button id="lastBtn" onClick="history.go(-1)">이전</button>
-	    <button type="submit" name="nextBtn" id="nextBtn">의뢰하기</button>
-    	</form>
+	  <c:if test="${not empty requestFiesta}">
+		  <form action="customerRequest.do" id="requireFrm">
+			<input type="hidden" name="command" value="require">
+		    <input type="hidden" name="requestFiesta" value="${requestFiesta}">
+		    <br><br>
+		    <textarea id="desc" name="desc" placeholder="ex.이전에 진행했던 행사가 담긴 사진이나 동영상을 보고 싶어요."></textarea>
+		    
+		    <button id="lastBtn" onClick="history.go(-1)">이전</button>
+		    <button type="submit" id="nextBtn">의뢰하기</button>
+	    	</form>
+	    </c:if>
+	    <c:if test="${not empty companycode}">
+	    	<style>
+	       		section .backgroundBox {
+					background-image: url('../Fiesta/resource/img/customerRequest.jpg');
+				}
+	       	</style>
+	    	<form action="customerOrderFrom.do" id="requireFrm">
+				<input type="hidden" name="command" value="require">
+			    <input type="hidden" name="companycode" value="${companycode}">
+            	<input type="hidden" name="serviceCode" value="${serviceCode}">
+			    <br><br>
+			    <textarea id="desc" name="desc" placeholder="ex.이전에 진행했던 행사가 담긴 사진이나 동영상을 보고 싶어요."></textarea>
+			    
+			    <button id="lastBtn" onClick="history.go(-1)">이전</button>
+			    <button type="submit" id="nextBtn">의뢰하기</button>
+	    	</form>
+	    </c:if>
     </div>
 </section>
 </body>

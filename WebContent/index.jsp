@@ -199,6 +199,10 @@
     </section>
 
 	<!-- footer import -->
+	<jsp:include page = "footer.jsp" />
+	
+	
+	
     <c:import url="footer.jsp" charEncoding="UTF-8"></c:import>
 </body>
 </html> 

@@ -284,7 +284,7 @@
 			<h3>제공 서비스</h3>
 			<!-- 서비스 목록 -->
 			<c:forEach items="${serviceList}" var="service">
-				<a href="#">
+				<a href="ServiceOrder.do?companycode=${companyInfo.comCode}&serviceCode=${service.serviceCode}">
 					<img src= "${service.serviceImg}" width=100 height=100>
 					<h4>${service.serviceName}</h4>
 					<p>${service.serviceDesc}</p>
