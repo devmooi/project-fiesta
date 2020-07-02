@@ -5,13 +5,30 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Fiesta - 날짜 선택</title>
+<link href="../resource/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
 <style>
 	section {
-		width: 2500px;
-		margin: auto;
+		min-height: 100vh;
+		position: relative;
 	}
-	
+	section .backgroundBox {
+		background-image: url('../resource/img/customerRequest${requestFiesta}.jpg');
+        height: 100%;
+        min-height:45vh;
+        background-size: cover;
+        background-position: center;
+	}
+	section .blackBox {
+		background: black;
+        opacity: 50%;
+        min-height:56vh;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+	}
+
 	section h2 {
 		font-size: 2rem;
 		margin: 0;
@@ -30,26 +47,17 @@
 		margin-bottom: 20px;
 	}
 	
-	#backgroundImg {
-	    background-image: url('../resource/img/customerRequest${requestFiesta}.png');
-        background-size: contain;
-        position: relative;
-		min-height:20vh;
-	}
-	
-	#blank {
-		min-height:15vh;
-	}
-	
 	#inputFrm {
- 		width: 550px;
-		min-height:20vh;
-		margin-top: 40px;
-		margin-left: auto;
-  		margin-right: auto;
+		position: absolute;
+		z-index:99;
+		top: 27vh;
+		right: 20vh;
+		background: white;
+		border: 1px solid #ddd;
+		padding: 30px;
 	}
 	
-	#inputFrm button {
+	#inputFrm #nextBtn {
 		background: transparent;
 		border: 1px solid #009688;
 		margin: 3px;
@@ -60,7 +68,7 @@
 		border-radius: 5px;
 	}
 	
-	#inputFrm button:hover {
+	#inputFrm #nextBtn:hover {
 		color: white;
 		background: #009688;
 		border: 1px solid #009688;
@@ -87,9 +95,9 @@
 	
 	
 /*datepicer 버튼 롤오버 시 손가락 모양 표시*/
-.ui-datepicker-trigger{cursor: pointer;}
+/* .ui-datepicker-trigger{cursor: pointer;} */
 /*datepicer input 롤오버 시 손가락 모양 표시*/
-.hasDatepicker{cursor: pointer;}
+/* .hasDatepicker{cursor: pointer;} */
 </style>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -148,10 +156,9 @@ $(function() {
 <body>
 <jsp:include page = "../header.jsp" />
  <section>
-	<div id="backgroundImg">
-	
-	</div>
-	<div id="inputFrm">
+ 	<div class="backgroundBox"></div>
+ 	<div class="blackBox"></div>
+ 	<div id="inputFrm">
 	  <progress value="25" max="100"></progress><br>
 		<h2>1. 원하는 날짜를 알려주세요.</h2>
 		<br><br>
@@ -165,13 +172,9 @@ $(function() {
             <label for="toDate">TO</label>
             <input type="text" name="toDate" id="toDate"><br>
          
-          <button type="submit" name="nextBtn" id="nextBtn">다음</button>
+          <button type="submit" id="nextBtn">다음</button>
         </form>
     </div>
-	<div id="blank">
-	
-	</div>
 </section>
-<c:import url="http://localhost:8888/Fiesta/footer.jsp" charEncoding="UTF-8"></c:import>
 </body>
 </html>

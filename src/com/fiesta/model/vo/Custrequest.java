@@ -11,7 +11,17 @@ public class Custrequest {
 	String custEmail;
 	
 	public Custrequest() {}
-	
+		
+	public Custrequest(String requestRevdate, String requestPlace, String requestBudget, String requestRequire,
+			String requestFiesta) {
+		super();
+		this.requestRevdate = requestRevdate;
+		this.requestPlace = requestPlace;
+		this.requestBudget = requestBudget;
+		this.requestRequire = requestRequire;
+		this.requestFiesta = requestFiesta;
+	}
+
 	public Custrequest(String requestSysdate, String requestRevdate, String requestPlace,
 			String requestBudget, String requestRequire, String requestFiesta) {
 		this.requestSysdate = requestSysdate;

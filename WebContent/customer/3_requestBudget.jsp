@@ -5,12 +5,29 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Fiesta - 예산 선택</title>
+<link href="../resource/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
 <style>
 
 	section {
-		width: 2500px;
-		margin: auto;
+		min-height: 100vh;
+		position: relative;
+	}
+	section .backgroundBox {
+		background-image: url('../resource/img/customerRequest${requestFiesta}.jpg');
+        height: 100%;
+        min-height:45vh;
+        background-size: cover;
+        background-position: center;
+	}
+	section .blackBox {
+		background: black;
+        opacity: 50%;
+        min-height:56vh;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
 	}
 	
 	section h2 {
@@ -22,23 +39,15 @@
 		margin-bottom: 20px;
 	}
 	
-	#backgroundImg {
-	    background-image: url('../resource/img/customerRequest${requestFiesta}.png');
-        background-size: contain;
-        position: relative;
-		min-height:20vh;
-	}
-	
-	#blank {
-		min-height:15vh;
-	}
-	
 	#inputFrm {
-		width: 550px;
-		min-height:20vh;
-		margin-top: 40px;
-		margin-left: auto;
-  		margin-right: auto;
+		position: absolute;
+		z-index:99;
+		top: 27vh;
+		right: 20vh;
+		background: white;
+		border: 1px solid #ddd;
+		padding: 30px;
+		width: 612px;
 	}
 		
 	#inputFrm button {
@@ -76,7 +85,15 @@
 	progress::-webkit-progress-bar {
     	background: lightgray;
 	}
-	
+	input[type=text] {
+		width: 150px !important;
+	}
+	span {
+		font-weight: bold;
+		font-size: 1.2rem;
+		margin-left: 10px;
+		margin-right: 10px;
+	}
 </style>
 </head>
 <body>
@@ -84,9 +101,8 @@
 <jsp:include page = "../header.jsp" />
 <!-- 항상 section에서 시작 -->
 <section>
-	<div id="backgroundImg">
-	  <img alt="카테고리 대표사진" src="../resource/img/customerRequest${requestFiesta}.png">
-	</div>
+	<div class="backgroundBox"></div>
+ 	<div class="blackBox"></div>
 	<div id="inputFrm">
 	  <progress value="75" max="100"></progress><br>
 	  <!-- 업체와 직접 상담 or 직접 입력 (가격대 또는 가격) -->
@@ -95,18 +111,16 @@
 	    <input type="hidden" name="command" value="budget">
         <input type="hidden" name="requestFiesta" value="${requestFiesta}">
 		<br><br>
-		<input type="text" name="fromBudget" id="fromBudget" placeholder="숫자만 입력해주세요.">
-		<input type="text" name="toBudget" id="toBudget" placeholder="숫자만 입력해주세요.">
-		
-	    <button name="lastBtn" id="lastBtn"><a href="2_requestPlace.jsp">이전</a></button>
-	    <button type="submit" name="nextBtn" id="nextBtn">다음</button>
+		<div>
+			<input type="text" name="fromBudget" id="fromBudget" placeholder="숫자만 입력가능">
+			<span>~</span>
+			<input type="text" name="toBudget" id="toBudget" placeholder="숫자만 입력가능">
+			<span>만원대</span>
+		</div>
+	    <button id="lastBtn" onClick="history.go(-1)">이전</button>
+	    <button type="submit" id="nextBtn">다음</button>
       </form>
     </div>
-	<div id="blank">
-	
-	</div>
 </section>
-<!-- footer import -->
-<c:import url="http://localhost:8888/Fiesta/footer.jsp" charEncoding="UTF-8"></c:import>
 </body>
 </html>

@@ -307,22 +307,24 @@ public class CustomerDaoImpl {
 	
 //////////////////////////////////////////////////////////////////
 	//고객요청
-	public void insertCustRequest(Custrequest custrequest) throws SQLException {
+	public void insertCustRequest(Custrequest custrequest, String custEmail) throws SQLException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try {
 			conn = getConnection();
-			String query = "INSERT INTO custrequest (request_sysdate, request_revdate, request_place, request_budget, request_require, request_fiesta, cust_email) VALUES(?,?,?,?,?,?,?)";
+			String query = "INSERT INTO custrequest (request_sysdate, request_revdate, request_place, request_budget, request_require, request_fiesta, cust_email) " 
+			                + "VALUES(sysdate(), ?, ?, ?, ?, ?, ?)";
+			//예약날짜, 예약장소, 예산, 요구사항, 카테고리, 고객이메일
+			
 			ps = conn.prepareStatement(query);
 			System.out.println("ps completed in insertCustrequest");
 			
-			ps.setString(1, custrequest.getRequestSysdate());
-			ps.setString(2, custrequest.getRequestRevdate());
-			ps.setString(3, custrequest.getRequestPlace());
-			ps.setString(4, custrequest.getRequestBudget());
-			ps.setString(5, custrequest.getRequestRequire());
-			ps.setString(6, custrequest.getRequestFiesta());
-			ps.setString(7, custrequest.getCustEmail());
+			ps.setString(1, custrequest.getRequestRevdate());
+			ps.setString(2, custrequest.getRequestPlace());
+			ps.setString(3, custrequest.getRequestBudget());
+			ps.setString(4, custrequest.getRequestRequire());
+			ps.setString(5, custrequest.getRequestFiesta());
+			ps.setString(6, custEmail);
 			System.out.println(ps.executeUpdate()+" row insert success");
 		} finally {
 			closeAll(ps, conn);

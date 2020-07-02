@@ -5,40 +5,48 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Fiesta - 장소 선택</title>
+<link href="../resource/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
 <style>
-
 	section {
-		width: 2500px;
-		margin: auto;
+		min-height: 100vh;
+		position: relative;
 	}
-	
+	section .backgroundBox {
+		background-image: url('../resource/img/customerRequest${requestFiesta}.jpg');
+        height: 100%;
+        min-height:45vh;
+        background-size: cover;
+        background-position: center;
+	}
+	section .blackBox {
+		background: black;
+        opacity: 50%;
+        min-height:56vh;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+	}
+
 	section h2 {
 		font-size: 2rem;
 		margin: 0;
 		padding: 0;
 		font-weight: bold;
 		margin-top: 20px;
-		margin-bottom: 20px;
-	}
-	
-	#backgroundImg {
-	    background-image: url('../resource/img/customerRequest${requestFiesta}.png');
-        background-size: contain;
-        position: relative;
-		min-height:20vh;
-	}
-	
-	#blank {
-		min-height:15vh;
+		margin-bottom: 80px;
 	}
 	
 	#inputFrm {
-		width: 550px;
-		min-height:20vh;
-		margin-top: 40px;
-		margin-left: auto;
-  		margin-right: auto;
+		position: absolute;
+		z-index:99;
+		top: 27vh;
+		right: 20vh;
+		background: white;
+		border: 1px solid #ddd;
+		padding: 30px;
+		width: 612px;
 	}
 	
 	#addressItem {
@@ -151,30 +159,24 @@
 <jsp:include page = "../header.jsp" />
 <!-- 항상 section에서 시작 -->
 <section>
-	<div id="backgroundImg">
-	  <img alt="카테고리 대표사진" src="../resource/img/customerRequest${requestFiesta}.png">
-	</div>
+	<div class="backgroundBox"></div>
+ 	<div class="blackBox"></div>
 	<div id="inputFrm">
 	  <progress value="50" max="100"></progress><br>
 	  <h2>2. 어느 지역인가요?</h2>
       <form action="customerRequest.do" id="placeFrm">
         <input type="hidden" name="command" value="place">
         <input type="hidden" name="requestFiesta" value="${requestFiesta}">
-       	<input type="text" id="postcode" name="postcode" placeholder="우편번호">
+       	<input type="text" id="postcode" name="postcode" placeholder="우편번호" style="display: none;">
 		<input id="addressItem" type="button" onclick="execDaumPostcode()" value="주소검색">
 		<input name="addr" type="text" id="address" placeholder="주소">
 		<input name="addr" type="text" id="detailAddress" placeholder="상세주소">
-		<input type="text" id="extraAddress" placeholder="참고항목">
+		<input type="text" id="extraAddress" placeholder="참고항목" style="display: none;">
 		
-	    <button name="lastBtn" id="lastBtn"><a href="1_requestRevdate.jsp">이전</a></button>
-	    <button type="submit" name="nextBtn" id="nextBtn">다음</button>
+	    <button id="lastBtn" onClick="history.go(-1)">이전</button>
+	    <button type="submit" id="nextBtn">다음</button>
     </form>
     </div>
-	<div id="blank">
-	
-	</div>
 </section>
-<!-- footer import -->
-<c:import url="http://localhost:8888/Fiesta/footer.jsp" charEncoding="UTF-8"></c:import>
 </body>
 </html>
